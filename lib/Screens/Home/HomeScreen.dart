@@ -8,6 +8,7 @@ import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:Reward/constants.dart';
+import 'package:flutter_appavailability/flutter_appavailability.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -437,7 +438,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     radius: 25,
                                     child: GestureDetector(
                                       onTap: (){
-                                        launch(('https://line.me/R/'));
+                                        AppAvailability.launchApp("jp.naver.line.android");
+                                        //launch(('https://play.google.com/store/apps/details?id=jp.naver.line.android'));
                                       },
                                     ),
                                   ),
