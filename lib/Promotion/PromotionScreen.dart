@@ -160,7 +160,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                     height: 100,
                                     width: double.infinity,
                                     child: campaign[index]['pic'] != null ? 
-                                    Image.network(picUrlimages+campaign[index]['pic'], fit: BoxFit.fill,) :
+                                    Image.network(campaign[index]['pic'], fit: BoxFit.fill,) :
                                     Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
                                   ),
                                   SizedBox(height: 5,),

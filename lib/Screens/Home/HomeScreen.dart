@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var token = convert.jsonDecode(tokenString);
     // var member_id = tokenpre['member_id'];
     // var token = tokenpre['token'];
-    //print(token['token']);
+    print(token['token']);
     setState(() {
       isLoading = true;
     });

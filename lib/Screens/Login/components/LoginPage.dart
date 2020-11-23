@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 200.0,),
+              SizedBox(height: 10.0,),
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
@@ -226,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                                           "Login", 
                                           style: TextStyle(
                                             color: Colors.white, 
-                                            fontSize: 18, 
+                                            fontSize: 20, 
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),

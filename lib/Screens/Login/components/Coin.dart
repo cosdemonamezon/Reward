@@ -84,7 +84,7 @@ class _CoinState extends State<Coin> {
                         children: [
                           Positioned.fill(
                             child: coin[index]['pic'] != null ?
-                            Image.network(picUrlimages+coin[index]['pic'], fit: BoxFit.fill,)
+                            Image.network(coin[index]['pic'], fit: BoxFit.fill,)
                             : Ink.image(
                               image: NetworkImage('https://picsum.photos/400/200'),
                               fit: BoxFit.cover

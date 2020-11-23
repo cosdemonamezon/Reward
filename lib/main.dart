@@ -1,4 +1,5 @@
 import 'package:Reward/Promotion/PromotionScreen.dart';
+import 'package:Reward/Reward/components/Detail_Reward.dart';
 import 'package:Reward/Screens/Home/HomeScreen.dart';
 import 'package:Reward/Screens/Home/components/Points.dart';
 import 'package:Reward/Screens/Login/LoginScreen.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/point': (context) =>  Points(),
         '/login': (context) => LoginPage(),
         '/coin': (context) => Coin(),
+        '/detailreward': (context) => DetailReward(),
       }
     );
   }

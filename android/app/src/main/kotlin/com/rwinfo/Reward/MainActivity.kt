@@ -1,4 +1,4 @@
-package com.example.Reward
+package com.rwinfo.Reward
 
 import io.flutter.embedding.android.FlutterActivity
 

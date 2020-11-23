@@ -46,12 +46,11 @@ class _HelpadviceState extends State<Helpadvice> {
     if (response.statusCode == 200){
       final Map<String, dynamic> helpdata = convert.jsonDecode(response.body);
       if(helpdata['code'] == "200"){
-        print(helpdata['massage']);
+        //print(helpdata['massage']);
         setState((){
           help = helpdata['data'];
-          print("รอบแรก");
-          print(help[0]['description']);
-          
+          // print("รอบแรก");
+          // print(help[0]['description']);
         });
       }
       else {
@@ -93,7 +92,7 @@ class _HelpadviceState extends State<Helpadvice> {
                         children: [
                           Positioned.fill(
                             child: help[index]['pic'] != null ?
-                            Image.network(picUrlimages+help[index]['pic'], fit: BoxFit.fill,)
+                            Image.network(help[index]['pic'], fit: BoxFit.fill,)
                             : Ink.image(image: NetworkImage('https://picsum.photos/400/200'), fit: BoxFit.cover),
                           ),
                           Positioned(

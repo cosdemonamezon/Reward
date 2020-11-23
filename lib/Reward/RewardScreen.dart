@@ -1,3 +1,4 @@
+import 'package:Reward/Reward/components/Detail_Reward.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -283,8 +284,19 @@ _getReject() async {
                             padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
                             child: GestureDetector(
                               onTap: (){
-                                var url = reward[index]['url'];
-                                launch((url));
+                                // var url = reward[index]['url'];
+                                // launch((url));
+                                Navigator.pushNamed(context, '/detailreward', arguments: {
+                                  'id': reward[index]['id'],
+                                  'title': reward[index]['title'],
+                                  'description': reward[index]['description'],
+                                  'url': reward[index]['url'],
+                                  'pic': reward[index]['pic'],
+                                  'point': reward[index]['point'],
+                                  'transfer_status': reward[index]['transfer_status'],
+                                  'group_status': reward[index]['group_status'],
+                                  'qty_status': reward[index]['qty_status']
+                                });
                               },
                               child: Card(
                                 elevation: 10.0,
@@ -298,7 +310,7 @@ _getReject() async {
                                       height: 100,
                                       width: double.infinity,
                                       child: reward[index]['pic'] != null ?
-                                      Image.network(picUrlimages+reward[index]['pic'], fit: BoxFit.fill,) :
+                                      Image.network(reward[index]['pic'], fit: BoxFit.fill,) :
                                       Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
                                     ),
                                     //Image.network(picUrlimages+reward[index]['pic'], fit: BoxFit.cover,),
@@ -426,7 +438,7 @@ _getReject() async {
                                     height: 80,
                                     width: 80,
                                     child: transreward[index]['pic'] != null ?
-                                      Image.network(picUrlimages+transreward[index]['pic'], fit: BoxFit.fill,) :
+                                      Image.network(transreward[index]['pic'], fit: BoxFit.fill,) :
                                       Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
                                   ),
                                   Padding(
