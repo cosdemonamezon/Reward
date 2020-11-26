@@ -21,7 +21,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
   List<dynamic> transreward = [];
   String picUrlimages = "http://103.74.253.96/reward-api/public/images/reward/";
   String btn1 = 'Approved';
-  String btn2 = 'Hide';
+  String btn2 = 'Hide For Review';
   String btn3 = 'Reject';
 
   @override
@@ -107,7 +107,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
         print(transrewarddata['massage']);
         setState((){
           transreward = transrewarddata['data'];
-          print(transreward);
+          //print(transreward);
         });
       }else {
         setState(() {
@@ -149,7 +149,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
         //print(transrewarddata['massage']);
         setState((){
           transreward = transrewarddata['data'];
-          print(transreward);
+          //print(transreward);
           
           //initState();
         });
@@ -191,7 +191,7 @@ _getReject() async {
         //print(transrewarddata['massage']);
         setState((){
           transreward = transrewarddata['data'];
-          print(transreward);
+          //print(transreward);
           
           //initState();
         });
@@ -204,6 +204,47 @@ _getReject() async {
         print('error from backend ${response.statusCode}');
       }
   }
+}
+
+_getHideForReview() async{
+  prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+  
+  setState(() {
+    isLoading = true;
+  });
+  var url = 'http://103.74.253.96/reward-api/public/api/getlogTransRewardMember';
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type':'application/json',
+        'token': token['token']
+      },
+      body: convert.jsonEncode({
+        'member_id': token['member_id'],
+        'reward_status': btn2
+      })
+    );
+    if (response.statusCode == 200){
+      final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
+      if(transrewarddata['code'] == "200"){
+        //print(transrewarddata['massage']);
+        setState((){
+          transreward = transrewarddata['data'];
+          //print(transreward);
+          
+          //initState();
+        });
+        //initState();
+        //print("ได้ข้อมูลนะ");
+      }else {
+        setState(() {
+          isLoading = false;
+        });
+        print('error from backend ${response.statusCode}');
+      }
+    }
 }
 
   @override
@@ -384,6 +425,7 @@ _getReject() async {
                       GestureDetector(
                         onTap: (){
                           //_getlogTransRewardMember();
+                          _getHideForReview();
                         },
                         child: Container(
                           height: 50.0,
@@ -479,7 +521,29 @@ _getReject() async {
                               subtitle: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(transreward[index]['appove_status'], style: TextStyle(fontSize: 12.0)),
+                                  transreward[index]['appove_status'] == "Approved" ?
+                                  Chip(
+                                    backgroundColor: Colors.greenAccent,
+                                    label: Text(
+                                      transreward[index]['appove_status'], 
+                                      style: TextStyle(fontSize: 12.0)
+                                    ),
+                                  )
+                                  : transreward[index]['appove_status'] == "Reject" ? 
+                                  Chip(
+                                    backgroundColor: Colors.redAccent,
+                                    label: Text(
+                                      transreward[index]['appove_status'], 
+                                      style: TextStyle(fontSize: 12.0)
+                                    ),
+                                  )
+                                  : Chip(
+                                    backgroundColor: Colors.orangeAccent,
+                                    label: Text(
+                                      transreward[index]['appove_status'], 
+                                      style: TextStyle(fontSize: 12.0)
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

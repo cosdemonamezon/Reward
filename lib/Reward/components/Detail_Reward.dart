@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,7 +12,20 @@ class _DetailRewardState extends State<DetailReward> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
-    print(data);
+    bool pointStatus = true;
+
+    if (data['transfer_status'] == true && data['group_status'] == true && data['qty_status'] == true) {
+      setState(() {
+        pointStatus = true;
+        //pointStatus = false;
+      });
+    } else {
+      setState(() {
+        pointStatus = false;
+        // pointStatus = true;
+      });
+    }
+    //print(data);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -49,6 +60,7 @@ class _DetailRewardState extends State<DetailReward> {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   "${data['description']}",
+                  textAlign: TextAlign.justify,
                   style: TextStyle(fontSize: 15.0,),
                 ),
               ),
@@ -64,7 +76,8 @@ class _DetailRewardState extends State<DetailReward> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
+                      child: pointStatus == true ?
+                      Container(
                         child: FlatButton(
                           onPressed: () {},
                           child: Text(
@@ -86,15 +99,46 @@ class _DetailRewardState extends State<DetailReward> {
                             end: Alignment.bottomRight,
                           ),
                         ),
+                      )
+                      : Container(
+                        child: FlatButton(
+                          onPressed: null,
+                          child: Text(
+                            "คะแนนไม่พอ", 
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          gradient: LinearGradient(
+                            colors: [                            
+                              Colors.grey[50],
+                              Colors.redAccent,
+                              Colors.redAccent, 
+                              Colors.redAccent,
+                              Colors.grey[50],
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Text("แต้มไม่พอ"),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(5.0),
+              //   child: pointStatus == true 
+              //   ? SizedBox(height: 5.0,)
+              //   : Text(
+              //     "แต้มไม่พอ",
+              //     style: TextStyle(
+              //       color: Colors.red,
+              //       fontWeight: FontWeight.bold
+              //     ),
+              //   ),
+              // ),
               GestureDetector(
                 onTap: (){
                   var url = data['url'];

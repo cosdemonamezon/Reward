@@ -48,14 +48,25 @@ class _PointsState extends State<Points> {
         setState((){
           point = pointdata['data'];
           
-          print(point[3]['date']);
-          print(point[3]['data'][1]['deposit_point']);
-          //print(point[0]['data'][0]['deposit_point']);
-          // print(point[1]['data'][0]['deposit_point']);
+          // print(point);
           // print(point[0]['date']);
+          // print(point[0]['data'][0]['deposit_by']);
           // print(point[1]['date']);
+          // print(point[1]['data'][0]['deposit_by']);
           // print(point[2]['date']);
+          // print(point[2]['data'][0]['deposit_by']);
           // print(point[3]['date']);
+          // print(point[3]['data'][0]['deposit_by']);
+          // print(point[4]['date']);
+          // print(point[4]['data'][0]['deposit_by']);
+          // print(point[5]['date']);
+          // print(point[5]['data'][0]['deposit_by']);
+          // print(point[5]['data'][1]['deposit_by']);
+          // print(point[5]['data'][2]['deposit_by']);
+          // print(point[5]['data'][3]['deposit_by']);
+          // print(point[5]['data'][4]['deposit_by']);
+          
+          
         });
       }
       else {
@@ -96,31 +107,40 @@ class _PointsState extends State<Points> {
               ],
             ),
             SizedBox(height: 15,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "ข้อมูล ณ เวลา 06:04",
-                  style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     Text(
+            //       "ข้อมูล ณ เวลา 06:04",
+            //       style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
-      body: Container(
-        height: double.infinity,
-        child: ListView.separated(
-          itemBuilder: (BuildContext context, int index){
-            return Container(
-              child: Column(
+      //SingleChildScrollView
+      body: SafeArea(
+        top: true,
+        bottom: true,
+        left: false,
+        right: true,
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: point.length,
+            itemBuilder: (BuildContext context, int index){
+              print(point.length);
+              return Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20,),
-                        child: Text(point[index]['date']),
+                        child: Text(
+                          point[index]['date'],
+                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
+                        ),
                       ),
                     ],
                   ),
@@ -132,23 +152,41 @@ class _PointsState extends State<Points> {
                           shrinkWrap: true,
                           itemCount: point[index]['data'].length,
                           itemBuilder: (BuildContext context, int index1){
+                              // return Text(point[index]['data'][index1]['deposit_point'].toString());
                             return Card(
                               child: ListTile(
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("เติมเงินรับฟรี", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                     Text(
-                                      point[index]['data'][index1]['deposit_point'].toString(), 
-                                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                      point[index]['data'][index1]['deposit_by'], 
+                                      style: TextStyle(fontSize: 14.0,)
                                     ),
-                                    //Text("???", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                    SizedBox(height: 7.0,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Point",
+                                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold)
+                                        ),
+                                        SizedBox(width: 5.0,),
+                                        Text(
+                                          point[index]['data'][index1]['deposit_point'].toString(), 
+                                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(width: 5.0,),
+                                        Icon(Icons.star_border_purple500_sharp),
+                                      ],
+                                    ),
                                   ],
                                 ),
                                 subtitle: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text("21:54 น.", style: TextStyle(fontSize: 10.0)),
+                                    Text(point[index]['data'][index1]['date'], style: TextStyle(fontSize: 10.0)),
+                                    SizedBox(width: 5.0,),
+                                    Text(point[index]['data'][index1]['createdTime'], style: TextStyle(fontSize: 10.0)),
                                   ],
                                 ),
                               ),
@@ -159,13 +197,12 @@ class _PointsState extends State<Points> {
                     ),
                   ),
                 ],
-              ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) => Divider(), 
-          itemCount: point.length
-          //itemCount: point.length.compareTo(0)
-        ),
+              );
+            },
+            // separatorBuilder: (BuildContext context, int index) => Divider(), 
+            // itemCount: point.length
+            //itemCount: point.length.compareTo(0)
+          ),
       ),
     );
   }
