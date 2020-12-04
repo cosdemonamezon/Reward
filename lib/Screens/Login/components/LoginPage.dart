@@ -72,6 +72,9 @@ class _LoginPageState extends State<LoginPage> {
         //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
       }
       else{
+        setState(() {
+          isLoading = false;
+        });
         var feedback = convert.jsonDecode(response.body);
         Flushbar(
           title: '${feedback['massage']}',
@@ -85,6 +88,9 @@ class _LoginPageState extends State<LoginPage> {
           duration: Duration(seconds: 3),
           leftBarIndicatorColor: Colors.blue[300],
         )..show(context);
+        // Future.delayed(Duration(seconds: 3), () {
+        //   Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
+        // });
       }
       
       
@@ -222,7 +228,11 @@ class _LoginPageState extends State<LoginPage> {
                                         color: Colors.orange[900],
                                       ),
                                       child: Center(
-                                        child:  Text(
+                                        child: isLoading == true ?
+                                        CircularProgressIndicator(
+                                          //backgroundColor: Colors.blueAccent,
+                                        )
+                                        : Text(
                                           "Login", 
                                           style: TextStyle(
                                             color: Colors.white, 

@@ -32,7 +32,7 @@ dependencies:
   url_launcher: ^5.7.6
   get_it: ^5.0.1
   flutter_form_builder: ^3.14.1
-  pull_to_refresh: ^1.6.2
+  pull_to_refresh: ^1.6.3
   flushbar: ^1.10.4
   shared_preferences: ^0.5.12+2
   http: ^0.12.2
@@ -73,10 +73,9 @@ flutter:
     - assets/images/124.JPG
     - assets/images/gold.JPG
     - assets/images/cradit.JPG
-    - assets/images/pichome.JPG
     - assets/images/img_2.jpg
     - assets/images/qr.png
-    - assets/icons/1.png
+    # - assets/icons/1.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

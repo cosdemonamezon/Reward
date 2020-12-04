@@ -2,6 +2,7 @@ import 'package:Reward/Promotion/PromotionScreen.dart';
 import 'package:Reward/Reward/components/Detail_Reward.dart';
 import 'package:Reward/Screens/Home/HomeScreen.dart';
 import 'package:Reward/Screens/Home/components/Points.dart';
+import 'package:Reward/Screens/Home/components/Profilesettings.dart';
 import 'package:Reward/Screens/Login/LoginScreen.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/LoginPage.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Reward/Reward/RewardScreen.dart';
+import 'package:flutter/services.dart';
+import 'package:Reward/Screens/Home/components/Getreward.dart';
 
 String token;
 
@@ -24,6 +27,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -44,6 +51,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/coin': (context) => Coin(),
         '/detailreward': (context) => DetailReward(),
+        '/getreward': (context) => GetReward(),
+        '/profilesetting': (context) => Profilesettings(),
       }
     );
   }

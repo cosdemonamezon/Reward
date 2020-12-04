@@ -1,6 +1,7 @@
 import 'package:Reward/Screens/Home/HomeScreen.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class Profilesettings extends StatefulWidget {
   Profilesettings({Key key}) : super(key: key);
@@ -10,6 +11,7 @@ class Profilesettings extends StatefulWidget {
 }
 
 class _ProfilesettingsState extends State<Profilesettings> {
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool active = false;
 
   @override
@@ -26,6 +28,8 @@ class _ProfilesettingsState extends State<Profilesettings> {
 
   @override
   Widget build(BuildContext context) {
+    Map data = ModalRoute.of(context).settings.arguments;
+    print(data);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -206,122 +210,129 @@ class _ProfilesettingsState extends State<Profilesettings> {
                       padding: EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [BoxShadow(
-                                color: Color.fromRGBO(255, 95, 27, .3),
-                                blurRadius: 20,
-                                offset: Offset(0, 10),
-                              )],
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: "Name th",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                          FormBuilder(
+                            key: _fbKey,
+                            initialValue: {
+                              'address': data['member_address']
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [BoxShadow(
+                                  color: Color.fromRGBO(255, 95, 27, .3),
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10),
+                                )],
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: "Name th",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: "Name en",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: "Name en",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: "Email Address",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: "Email Address",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    maxLines: 5,
-                                    autofocus: false,
-                                    decoration: InputDecoration(
-                                      hintText: "Address",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: FormBuilderTextField(
+                                      attribute: 'address',
+                                      maxLines: 5,
+                                      autofocus: false,
+                                      decoration: InputDecoration(                                        
+                                        hintText: "Address",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                
-                                SizedBox(height: 25.0,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        height: 50.0,
-                                        width: 100,
-                                        margin: EdgeInsets.symmetric(horizontal: 40),
-                                        decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(50),
-                                          color: Colors.orange[900],
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "ยกเลิก"
+                                  
+                                  SizedBox(height: 25.0,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          height: 50.0,
+                                          width: 100,
+                                          margin: EdgeInsets.symmetric(horizontal: 40),
+                                          decoration: BoxDecoration(
+                                             borderRadius: BorderRadius.circular(50),
+                                            color: Colors.orange[900],
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "ยกเลิก"
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        //_getActive();
-                                        setState(() {
-                                          active = false;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 50.0,
-                                        width: 100,
-                                        margin: EdgeInsets.symmetric(horizontal: 40),
-                                        decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(50),
-                                          color: Colors.green[400],
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "บันทึก"
+                                      GestureDetector(
+                                        onTap: (){
+                                          //_getActive();
+                                          setState(() {
+                                            active = false;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 50.0,
+                                          width: 100,
+                                          margin: EdgeInsets.symmetric(horizontal: 40),
+                                          decoration: BoxDecoration(
+                                             borderRadius: BorderRadius.circular(50),
+                                            color: Colors.green[400],
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "บันทึก"
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 15.0,),
-                              ],
+                                    ],
+                                  ),
+                                  SizedBox(height: 15.0,),
+                                ],
+                              ),
                             ),
                           ),
                         ],

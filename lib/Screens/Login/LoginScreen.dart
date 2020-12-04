@@ -23,95 +23,97 @@ class _LoginScreenState extends State<LoginScreen> {
             height: MediaQuery.of(context).size.height,
             color: Color(0xFFF001117).withOpacity(0.7),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            margin: EdgeInsets.only(top: 250, bottom: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                          child: Icon(Icons.people, size: 50,),
-                        ),
-                        Text(
-                          "Login With Facebook",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20.0,
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              margin: EdgeInsets.only(top: 250, bottom: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            child: Icon(Icons.people, size: 50,),
                           ),
-                        ),
-                      ],
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    onPressed: (){}
-                  ),
-                ),
-                SizedBox(height: 15,),
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                          child: Icon(Icons.account_circle, size: 50,),
-                        ),
-                        Text(
-                          "Login With Account",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20.0,
+                          Text(
+                            "Login With Facebook",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20.0,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      onPressed: (){}
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    onPressed: (){
-                      Navigator.pushNamed(context, "/login");
-                    }
                   ),
-                ),
-                SizedBox(height: 20,),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Divider(
-                //     height: 4.0, thickness: 3.0, color: Colors.blueAccent,
-                //     indent: 1.0, endIndent: 1.0,
-                //   ),
-                // ),
-                SizedBox(height: 20,),
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                          child: Icon(Icons.grid_on, size: 50,),
-                        ),
-                        Text(
-                          "Register New Account",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20.0,
+                  SizedBox(height: 15,),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            child: Icon(Icons.account_circle, size: 50,),
                           ),
-                        ),
-                      ],
+                          Text(
+                            "Login With Account",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      onPressed: (){
+                        Navigator.pushNamed(context, "/login");
+                      }
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    onPressed: (){}
                   ),
-                ),
-              ],
+                  SizedBox(height: 20,),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Divider(
+                  //     height: 4.0, thickness: 3.0, color: Colors.blueAccent,
+                  //     indent: 1.0, endIndent: 1.0,
+                  //   ),
+                  // ),
+                  SizedBox(height: 20,),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            child: Icon(Icons.grid_on, size: 50,),
+                          ),
+                          Text(
+                            "Register New Account",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      onPressed: (){}
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
