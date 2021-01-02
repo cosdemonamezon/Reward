@@ -10,11 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter_appavailability/flutter_appavailability.dart';
 import 'package:get_it/get_it.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sweetalert/sweetalert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -34,8 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() { 
     super.initState();
     //_checkLogin();
+    _checkTokenExp();
     _getHomePage();
   }
+
   // _checkLogin() async{
   //   prefs = await SharedPreferences.getInstance();
   //   var tokenString = prefs.getString('token');
@@ -46,12 +52,25 @@ class _HomeScreenState extends State<HomeScreen> {
   //     print(token['token']);
   //   }
   // }
+  _checkTokenExp() async{
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    print(token['token']);
+    // bool isTokenExpired = JwtDecoder.isExpired(token['token']);
+
+    // if (!isTokenExpired) {
+    //   Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+    // } else {
+    // }
+  }
 
   void _onRefresh() async{
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
-    //ทุกครั้งที่รีเฟรชจะเคียร์อาร์เรย์และ set page เป็น 1
+   
+    _checkTokenExp();
     _getHomePage(); //ทุกครั้งที่ทำการรีเฟรช จะดึงข้อมูลใหม่
     _refreshController.refreshCompleted();
   }
@@ -60,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     //items.add((items.length+1).toString());
+    _checkTokenExp();
     _getHomePage();
     //_refreshController.loadComplete();
     _refreshController.loadNoData();
@@ -73,76 +93,82 @@ class _HomeScreenState extends State<HomeScreen> {
     // var member_id = tokenpre['member_id'];
     // var token = tokenpre['token'];
     print(token['token']);
-    setState(() {
-      isLoading = true;
-    });
-    var url = 'http://103.74.253.96/reward-api/public/api/getHome_M';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-        //'token': token['token']
-      })
-    );
-    if (response.statusCode == 200){
-      final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
-      //save to prefs
-      // await prefs.setString('profile', response.body);
-      // var profileString = prefs.getString('profile');
-      if(homedata['code'] == "200"){
-        print(homedata['massage']);
-        setState(() {
-          //data = convert.jsonDecode(profileString);
-          data = homedata['data'];
-          print(data['username']);
-          print(data['count_turn_over']);
-          print(data['member_address']);
-          isLoading = false;
-        });
-        // Flushbar(
-        //   title: '${token['massage']}',
-        //   message: "${token['code']}",
-        //   icon: Icon(
-        //     Icons.info_outline,
-        //     size: 28.0,
-        //     color: Colors.blue[300],
-        //   ),
-        //   duration: Duration(seconds: 3),
-        //   leftBarIndicatorColor: Colors.blue[300],
-        // )..show(context);
-        // Future.delayed(Duration(seconds: 3), () {
-        //   Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-        // });
-        //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-      }
-      else {
-        print(homedata['massage']);
-        // setState(() {
-        //   isLoading = false;
-        // });
-        // //print(response.body);
-        // var feedback = convert.jsonDecode(response.body);
-        // Flushbar(
-        //   title: '${feedback['message']}',
-        //   message: 'เกิดข้อผิดพลาดจากระบบ : ${feedback['status_code']}',
-        //   backgroundColor: Colors.redAccent,
-        //   icon: Icon(
-        //     Icons.error,
-        //     size: 28.0,
-        //     color: Colors.white,
-        //     ),
-        //   duration: Duration(seconds: 3),
-        //   leftBarIndicatorColor: Colors.blue[300],
-        // )..show(context);
-      }
-    }
-    else{
-      print(response.statusCode);
+    bool isTokenExpired = JwtDecoder.isExpired(token['token']);
+
+    if (!isTokenExpired) {
       Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      var url = 'http://103.74.253.96/reward-api/public/api/getHome_M';
+      var response = await http.post(
+        url,
+        headers: {
+          'Content-Type':'application/json',
+          'token': token['token']
+        },
+        body: convert.jsonEncode({
+          'member_id': token['member_id']
+          //'token': token['token']
+        })
+      );
+      if (response.statusCode == 200){
+        final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
+        //save to prefs
+        // await prefs.setString('profile', response.body);
+        // var profileString = prefs.getString('profile');
+        if(homedata['code'] == "200"){
+          print(homedata['massage']);
+          setState(() {
+            //data = convert.jsonDecode(profileString);
+            data = homedata['data'];
+            print(data['username']);
+            print(data['count_turn_over']);
+            //print(data['member_address']);
+            isLoading = false;
+          });
+          // Flushbar(
+          //   title: '${token['massage']}',
+          //   message: "${token['code']}",
+          //   icon: Icon(
+          //     Icons.info_outline,
+          //     size: 28.0,
+          //     color: Colors.blue[300],
+          //   ),
+          //   duration: Duration(seconds: 3),
+          //   leftBarIndicatorColor: Colors.blue[300],
+          // )..show(context);
+          // Future.delayed(Duration(seconds: 3), () {
+          //   Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+          // });
+          //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+        }
+        else {
+          print(homedata['massage']);
+          // setState(() {
+          //   isLoading = false;
+          // });
+          // //print(response.body);
+          // var feedback = convert.jsonDecode(response.body);
+          // Flushbar(
+          //   title: '${feedback['message']}',
+          //   message: 'เกิดข้อผิดพลาดจากระบบ : ${feedback['status_code']}',
+          //   backgroundColor: Colors.redAccent,
+          //   icon: Icon(
+          //     Icons.error,
+          //     size: 28.0,
+          //     color: Colors.white,
+          //     ),
+          //   duration: Duration(seconds: 3),
+          //   leftBarIndicatorColor: Colors.blue[300],
+          // )..show(context);
+        }
+      }
+      else{
+        print(response.statusCode);
+        Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+      }
     }
   }
 
@@ -194,7 +220,13 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: Icon(Icons.settings, size: 35), 
           onPressed: (){
             Navigator.pushNamed(context, '/profilesetting', arguments: {
-              'member_address': data['member_address']
+              'id': data['id'],
+              'member_name_th': data['member_name_th'],
+              'member_name_en': data['member_name_en'],
+              'member_email': data['member_email'],
+              'member_address': data['member_address'],
+              'member_activate': data['member_activate'],
+              'board_phone_1': data['board_phone_1']
             });
           },
         ),
@@ -206,7 +238,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icons.account_circle, size: 35,
               ), 
               onPressed: (){
-                _logout();
+                //_logout();
+                Navigator.pushNamed(context, '/award', arguments: {
+                  'id': data['id'],
+                  'member_link_1': data['member_link_1'],
+                  'member_link_2': data['member_link_2'],
+                  'member_link_3': data['member_link_3'],
+                  'member_link_4': data['member_link_4'],
+                });
               },
             ),
           ),
@@ -257,12 +296,13 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                SizedBox(height: 10,),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Stack(
                         children: [
@@ -273,29 +313,31 @@ class _HomeScreenState extends State<HomeScreen> {
                               boxShadow: [BoxShadow(
                                 color: Color.fromRGBO(255, 95, 27, .3),
                                 blurRadius: 20,
-                                offset: Offset(0, 10),
+                                offset: Offset(0, 8),
                               )],
                             ),
                             child: GestureDetector(
                               onTap: (){
-                                
+                                //Navigator.pushNamed(context, '/status');
                               },
                               child: Container(
-                                padding: EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(4.4),
                                 width: 190,
                                 decoration: BoxDecoration(
                                   border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                 ),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     CircleAvatar(
                                       radius: 20,
                                       backgroundImage: AssetImage("assets/images/gold.JPG"),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: EdgeInsets.symmetric(horizontal: 2.0),
                                       child: Text(
-                                        "Gold Member", style: TextStyle(fontWeight: FontWeight.bold),
+                                        "${data['group_member_name']}", 
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.6),
                                       ),
                                     ),
                                     Icon(Icons.arrow_forward_ios_outlined),
@@ -315,33 +357,35 @@ class _HomeScreenState extends State<HomeScreen> {
                               boxShadow: [BoxShadow(
                                 color: Color.fromRGBO(255, 95, 27, .3),
                                 blurRadius: 20,
-                                offset: Offset(0, 10),
+                                offset: Offset(0, 8),
                               )],
                             ),
                             child: GestureDetector(
                               onTap: (){
-                                Navigator.push(
-                                  context, MaterialPageRoute(
-                                    builder: (context){return Cradit();}
-                                  ),
-                                );
+                                Navigator.pushNamed(context, '/cradit', arguments: {
+                                  'credit': data['credit'], 
+                                  'board_phone_1': data['board_phone_1']                           
+                                });
                               },
                               child: Container(
                                 width: 190,
-                                padding: EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(4.0),
                                 decoration: BoxDecoration(
                                   border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                 ),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     CircleAvatar(
                                       radius: 20,
                                       backgroundImage: AssetImage("assets/images/cradit.JPG"),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                      padding: EdgeInsets.symmetric(horizontal: 8.0),
                                       child: Text(
-                                        "Cradit ${data['member_point']}", style: TextStyle(fontWeight: FontWeight.bold),
+                                        "Cradit ${data['member_point']}", 
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.6),
+                                        
                                       ),
                                     ),
                                     Icon(Icons.arrow_forward_ios_outlined),
@@ -379,7 +423,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: GestureDetector(
                                 onTap: (){  
                                   Navigator.pushNamed(context, '/point', arguments: {
-                                    'member_sum_point': data['member_sum_point']
+                                    'member_sum_point': data['member_sum_point'],
+                                    'board_phone_1': data['board_phone_1']
                                   });
                                 },
                                 child: Container(
@@ -461,7 +506,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                               // Navigator.pushNamed(context, '/getreward', arguments: {
                                               //   'id': data['id']
                                               // });
-                                              _receivePointTurnOver();
+                                              //SweetAlert.show(context, title: "Just show a message");
+                                              SweetAlert.show(context,
+                                                  title: "Just show a message",
+                                                  subtitle: "Sweet alert is pretty",
+                                                  style: SweetAlertStyle.confirm,
+                                                  showCancelButton: true, onPress: (bool isConfirm) {
+                                                if (isConfirm) {
+                                                  SweetAlert.show(context,
+                                                      style: SweetAlertStyle.success, title: "Success");
+                                                      _receivePointTurnOver();
+                                                  // return false to keep dialog
+                                                  return false;
+                                                }
+                                              });
+                                              //_receivePointTurnOver();
                                             },
                                             shape: RoundedRectangleBorder(
                                               borderRadius: new BorderRadius.circular(20.0),
@@ -529,7 +588,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       backgroundImage: AssetImage("assets/images/1.JPG"),
                                       radius: 25,
                                       child: GestureDetector(
-                                         onTap: (){},
+                                         onTap: (){
+                                           Navigator.pushNamed(context, "/transfer", arguments: {
+                                             'id': data['id'],
+                                              'member_id': data['member_id'],
+                                              'username': data['username'],
+                                              'member_name_th': data['member_name_th'],
+                                              'member_point': data['member_point'],
+                                              'group_member_name': data['group_member_name'],
+                                              'board_phone_1': data['board_phone_1']
+                                           });
+                                         },
                                       ),
                                     ),
                                   ),
@@ -606,7 +675,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           //   ),
                                           // );
                                           Navigator.pushNamed(context, '/reward', arguments: {
-                                            'username': data['username']
+                                            'username': data['username'],
+                                            'board_phone_1': data['board_phone_1']
                                           });
                                         },
                                       ),
@@ -628,7 +698,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         //   ),
                                         // );
                                         Navigator.pushNamed(context, '/promotion', arguments: {
-                                          'username': data['username']
+                                          'username': data['username'],
+                                          'board_phone_1': data['board_phone_1']
                                         });
                                       },
                                     ),
@@ -645,11 +716,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       radius: 25,
                                       child: GestureDetector(
                                         onTap: (){
-                                          Navigator.push(
-                                            context, MaterialPageRoute(
-                                              builder: (context){return AwardScreen();}
-                                            ),
-                                          );
+                                          Navigator.pushNamed(context, '/award', arguments: {
+                                            'id': data['id'],
+                                            'member_link_1': data['member_link_1'],
+                                            'member_link_2': data['member_link_2'],
+                                            'member_link_3': data['member_link_3'],
+                                            'member_link_4': data['member_link_4'],
+                                            'board_phone_1': data['board_phone_1']
+                                          });
                                         },
                                       ),
                                     ),
@@ -674,7 +748,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    
                   ],
                 ),
               ],
@@ -709,7 +782,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: (){
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
-                        launch(('tel://${data['member_phone']}'));
+                        launch(('tel://${data['board_phone_1']}'));
                       },
                     ),
                   ),

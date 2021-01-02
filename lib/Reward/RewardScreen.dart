@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:Reward/Screens/Login/components/Coin.dart';
+import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:Reward/constants.dart';
 
 class RewardScreen extends StatefulWidget {
   RewardScreen({Key key}) : super(key: key);
@@ -253,6 +256,15 @@ _getHideForReview() async{
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          },
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         title: Text("Reward"),
         bottom: TabBar(
@@ -262,8 +274,8 @@ _getHideForReview() async{
           indicatorWeight: 5.0,
           indicatorSize: TabBarIndicatorSize.label,
           tabs: [
-          Tab(text: "MEMBER",),
-          Tab(text: "รายละเอียด",),
+          Tab(child: Text("MEMBER"),),
+          Tab(child: Text("รายละเอียด"),),
         ]),
       ),
       body: TabBarView(
@@ -413,7 +425,7 @@ _getHideForReview() async{
                           width: 100,
                           //margin: EdgeInsets.symmetric(horizontal: 40),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(10),
                             color: Colors.green[900],
                           ),
                           child: Center(
@@ -432,7 +444,7 @@ _getHideForReview() async{
                           width: 150,
                           //margin: EdgeInsets.symmetric(horizontal: 40),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(10),
                             color: Colors.yellow[900],
                           ),
                           child: Center(
@@ -450,7 +462,7 @@ _getHideForReview() async{
                           width: 100,
                           //margin: EdgeInsets.symmetric(horizontal: 40),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(10),
                             color: Colors.red[900],
                           ),
                           child: Center(
@@ -556,6 +568,100 @@ _getHideForReview() async{
               ],
             ),
         ],
+      ),
+
+      bottomNavigationBar: Container(
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(30.0),
+          //   topRight: Radius.circular(30.0),
+          // ),
+          color: kNavigationBarColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon1),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        //launch(('tel://${item.mobile_no}'));
+                        //launch(('tel://0922568260'));
+                        launch(('tel://${data['board_phone_1']}'));
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon2),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Helpadvice();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon3),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){},
+                    ),
+                  ),
+                  Text(
+                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon4),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coin();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

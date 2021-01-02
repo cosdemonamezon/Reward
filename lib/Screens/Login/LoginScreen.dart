@@ -2,6 +2,7 @@ import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:Reward/Screens/Login/components/PinCode.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: (){}
                     ),
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(height: 20,),
                   SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 30,),
                   // Padding(
                   //   padding: const EdgeInsets.all(8.0),
                   //   child: Divider(
@@ -93,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: RaisedButton(
                       child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -109,7 +111,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)
                       ),
-                      onPressed: (){}
+                      onPressed: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return PinCode();}
+                          ),
+                        );
+                      }
                     ),
                   ),
                 ],
@@ -141,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        launch(('tel://0922568260'));
+                        //launch(('tel://0922568260'));
                       },
                     ),
                   ),
@@ -157,11 +165,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context, MaterialPageRoute(
+                        //     builder: (context){return Helpadvice();}
+                        //   ),
+                        // );
                       },
                     ),
                   ),

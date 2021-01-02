@@ -2,6 +2,16 @@ import 'package:Reward/Screens/Home/HomeScreen.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sweetalert/sweetalert.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:Reward/Screens/Login/components/Coin.dart';
+import 'package:Reward/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 
 class Profilesettings extends StatefulWidget {
   Profilesettings({Key key}) : super(key: key);
@@ -12,7 +22,12 @@ class Profilesettings extends StatefulWidget {
 
 class _ProfilesettingsState extends State<Profilesettings> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> _fbKey1 = GlobalKey<FormBuilderState>();
   bool active = false;
+  SharedPreferences prefs;
+  bool isLoading = false;
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  
 
   @override
   void initState(){
@@ -24,6 +39,127 @@ class _ProfilesettingsState extends State<Profilesettings> {
     active = true;
     //initState();
   }
+
+  _getComfirmUsername(Map<String, dynamic> values) async{
+    print(values);
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    setState(() {
+      isLoading = true;
+    });
+    var url = 'http://103.74.253.96/reward-api/public/api/getComfirmUsername_M';
+    var response = await http.post(
+      url,
+      headers: {
+        //'Content-Type':'application/json',
+        'token': token['token']
+      },
+      body: ({
+        'username': values['username'],
+        'member_username_game': values['member_username_game'],
+        'board_shot_name': values['board_shot_name'],
+        'member_address': values['member_address'],
+      }) 
+    );
+    if (response.statusCode == 200){
+      final Map<String, dynamic> comfirm = convert.jsonDecode(response.body);
+      if (comfirm['code'] == "200") {
+        print(comfirm['massage']);
+        SweetAlert.show(context,
+          title: "Just show a message",
+          subtitle: "Sweet alert is pretty",
+          style: SweetAlertStyle.confirm,
+          showCancelButton: true, onPress: (bool isConfirm) {
+            if (isConfirm) {
+              SweetAlert.show(context,
+                style: SweetAlertStyle.success, title: "Success");
+                Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+              return false;
+            }
+          });
+      } else {
+      }
+    }else{
+      var comfirm = convert.jsonDecode(response.body);
+      print(comfirm['massage']);
+      print(response.statusCode);
+    }
+  }
+
+  _editMember(Map<String, dynamic> values1) async{
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    //String s = values1['id'];
+    //int id = int.parse(s);
+    print(values1);
+    setState(() {
+      isLoading = true;
+    });
+    var url = 'http://103.74.253.96/reward-api/public/api/edit_Member';
+    var response = await http.post(
+      url,
+      headers: {
+        //'Content-Type':'application/json',
+        'token': token['token']
+      },
+      body: ({
+        'member_id': values1['id'],
+        //'member_id': id,
+        'member_name_th': values1['member_name_th'],
+        'member_name_en': values1['member_name_en'],
+        'member_email': values1['member_email'],
+        'member_address': values1['member_address']
+      }) 
+    );
+
+    if (response.statusCode == 200){
+      final Map<String, dynamic> profile = convert.jsonDecode(response.body);
+      if(profile['code'] == "200"){
+        Flushbar(
+          title: '${profile['massage']}',
+          message: "ขอบคุณ",
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.green[300],
+          ),
+          duration: Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.blue[300],
+        )..show(context);
+        Future.delayed(Duration(seconds: 3), () {
+          //Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+        });
+      }else{
+        Flushbar(
+          title: '${profile['code']}',
+          message: "ไม่สำร็จ ระบบขัดข้อง กรุณาตรวจสอบอีกครั้ง",
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.red[300],
+          ),
+          duration: Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.red[300],
+        )..show(context);
+      }
+    }else{
+      var profile = convert.jsonDecode(response.body);
+      Flushbar(
+        title: '',
+        message: "ไม่สำร็จ มีข้อผิดพลาด",
+        icon: Icon(
+          Icons.info_outline,
+          size: 28.0,
+          color: Colors.red[300],
+        ),
+        duration: Duration(seconds: 3),
+        leftBarIndicatorColor: Colors.red[300],
+      )..show(context);
+    }
+  }
   
 
   @override
@@ -31,6 +167,19 @@ class _ProfilesettingsState extends State<Profilesettings> {
     Map data = ModalRoute.of(context).settings.arguments;
     print(data);
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          },
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        title: Text("Profile"),
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -40,10 +189,10 @@ class _ProfilesettingsState extends State<Profilesettings> {
             height: MediaQuery.of(context).size.height,
             color: Color(0xFFF001117).withOpacity(0.7),
           ),
-          active == false ? Column(
+          data['member_activate'] == "Yes" ? Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 60.0,),
+              SizedBox(height: 20.0,),
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
@@ -61,124 +210,164 @@ class _ProfilesettingsState extends State<Profilesettings> {
                       padding: EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [BoxShadow(
-                                color: Color.fromRGBO(255, 95, 27, .3),
-                                blurRadius: 20,
-                                offset: Offset(0, 10),
-                              )],
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    autofocus: false,
-                                    decoration: InputDecoration(
-                                      hintText: "username",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                          FormBuilder(
+                            key: _fbKey1,
+                            initialValue: {
+                              'id': data['id'].toString(),
+                              'member_name_th': data['member_name_th'],
+                              'member_name_en': data['member_name_en'],
+                              'member_email': data['member_email'],
+                              'member_address': data['member_address']
+                            },
+                            child: isLoading == true ? CircularProgressIndicator(
+                              backgroundColor: Colors.redAccent,
+                              valueColor: AlwaysStoppedAnimation(Colors.green),
+                              strokeWidth: 19,
+                            )
+                            :Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [BoxShadow(
+                                  color: Color.fromRGBO(255, 95, 27, .3),
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10),
+                                )],
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: FormBuilderTextField(
+                                      attribute: 'member_name_th',
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText: "usernameth",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText: 'กรุณากรอก username'),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    autofocus: false,
-                                    decoration: InputDecoration(
-                                      hintText: "username หลังจาก call api เขา",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: FormBuilderTextField(
+                                      attribute: 'member_name_en',
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText: "username",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText: 'กรุณากรอก username'),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    autofocus: false,
-                                    decoration: InputDecoration(
-                                      hintText: "ตัวย่อกระดาน",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: FormBuilderTextField(
+                                      attribute: 'member_email',
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText: "Email address",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText: 'กรุณากรอก email address'),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  ),
-                                  child: TextField(
-                                    maxLines: 5,
-                                    autofocus: false,
-                                    decoration: InputDecoration(
-                                      hintText: "ที่อยู่",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: FormBuilderTextField(
+                                      attribute: 'member_address',
+                                      maxLines: 5,
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText: "address",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText: 'กรุณากรอก ที่อยู่'),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 25.0,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        height: 50.0,
-                                        width: 100,
-                                        margin: EdgeInsets.symmetric(horizontal: 40),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          color: Colors.orange[900],
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "ยกเลิก"
+                                  SizedBox(height: 25.0,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context, '/home', (route) => false
+                                          );
+                                        },
+                                        child: Container(
+                                          height: 50.0,
+                                          width: 100,
+                                          margin: EdgeInsets.symmetric(horizontal: 40),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50),
+                                            color: Colors.orange[900],
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "ยกเลิก"
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        //_getActive();
-                                        setState(() {
-                                          active = true;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 50.0,
-                                        width: 100,
-                                        margin: EdgeInsets.symmetric(horizontal: 40),
-                                        decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(50),
-                                          color: Colors.green[400],
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "บันทึก"
+                                      GestureDetector(
+                                        onTap: (){
+                                          if (_fbKey1.currentState.saveAndValidate()){
+                                            _editMember(_fbKey1.currentState.value);
+                                            // setState((){
+                                            //   isLoading = true;
+                                            // });
+                                          }else {
+                                            setState((){
+                                              //isLoading = true;
+                                            });
+                                          }    
+                                          //_editMember();
+                                        },
+                                        child: Container(
+                                          height: 50.0,
+                                          width: 100,
+                                          margin: EdgeInsets.symmetric(horizontal: 40),
+                                          decoration: BoxDecoration(
+                                             borderRadius: BorderRadius.circular(50),
+                                            color: Colors.green[400],
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "บันทึก"
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 15.0,),
-                              ],
+                                    ],
+                                  ),
+                                  SizedBox(height: 15.0,),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -192,7 +381,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
           : Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 60.0,),
+              SizedBox(height: 20.0,),
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
@@ -213,7 +402,10 @@ class _ProfilesettingsState extends State<Profilesettings> {
                           FormBuilder(
                             key: _fbKey,
                             initialValue: {
-                              'address': data['member_address']
+                              'username': '',
+                              'member_username_game': '',
+                              'board_shot_name': '',
+                              'member_address': data['member_address']
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -232,38 +424,16 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                     decoration: BoxDecoration(
                                       border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                     ),
-                                    child: TextField(
+                                    child: FormBuilderTextField(
+                                      attribute: 'username',
                                       decoration: InputDecoration(
-                                        hintText: "Name th",
+                                        hintText: "Username",
                                         hintStyle: TextStyle(color: Colors.grey),
                                         border: InputBorder.none,
                                       ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                    ),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: "Name en",
-                                        hintStyle: TextStyle(color: Colors.grey),
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                    ),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: "Email Address",
-                                        hintStyle: TextStyle(color: Colors.grey),
-                                        border: InputBorder.none,
-                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText: 'กรุณากรอก username'),
+                                      ],
                                     ),
                                   ),
                                   Container(
@@ -272,11 +442,45 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                       border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                     ),
                                     child: FormBuilderTextField(
-                                      attribute: 'address',
+                                      attribute: 'member_username_game',
+                                      decoration: InputDecoration(
+                                        hintText: "Username Game",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText: 'กรุณากรอก user game'),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: FormBuilderTextField(
+                                      attribute: 'board_shot_name',
+                                      decoration: InputDecoration(
+                                        hintText: "Board",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText: 'กรุณากรอก ตัวย่อกระดาน'),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                    ),
+                                    child: FormBuilderTextField(
+                                      attribute: 'member_address',
                                       maxLines: 5,
                                       autofocus: false,
                                       decoration: InputDecoration(                                        
-                                        hintText: "Address",
+                                        hintText: "ที่อยู่",
                                         hintStyle: TextStyle(color: Colors.grey),
                                         border: InputBorder.none,
                                       ),
@@ -289,7 +493,9 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                     children: [
                                       GestureDetector(
                                         onTap: (){
-                                          Navigator.pop(context);
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context, '/home', (route) => false
+                                          );
                                         },
                                         child: Container(
                                           height: 50.0,
@@ -308,10 +514,20 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                       ),
                                       GestureDetector(
                                         onTap: (){
-                                          //_getActive();
-                                          setState(() {
-                                            active = false;
-                                          });
+                                          // //_getActive();
+                                          // setState(() {
+                                          //   active = false;
+                                          // });
+                                          if (_fbKey.currentState.saveAndValidate()){
+                                            _getComfirmUsername(_fbKey.currentState.value);
+                                            setState((){
+                                              isLoading = true;
+                                            });
+                                          }else {
+                                            setState((){
+                                              //isLoading = true;
+                                            });
+                                          }                                          
                                         },
                                         child: Container(
                                           height: 50.0,
@@ -344,6 +560,100 @@ class _ProfilesettingsState extends State<Profilesettings> {
             ],
           ),
         ],
+      ),
+
+      bottomNavigationBar: Container(
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(30.0),
+          //   topRight: Radius.circular(30.0),
+          // ),
+          color: kNavigationBarColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon1),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        //launch(('tel://${item.mobile_no}'));
+                        //launch(('tel://0922568260'));
+                        launch(('tel://${data['board_phone_1']}'));
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon2),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Helpadvice();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon3),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){},
+                    ),
+                  ),
+                  Text(
+                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon4),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coin();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

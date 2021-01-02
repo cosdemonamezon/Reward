@@ -37,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
     var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
     var response = await http.post(
       url,
-      headers: {'Content-Type':'application/json'},
+      headers: {
+        'Content-Type':'application/json'},
       body: convert.jsonEncode({
         'username': values['username'],
         'password': values['password']

@@ -3,6 +3,10 @@ import 'package:Reward/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
+import 'package:Reward/Screens/Login/components/Coin.dart';
+import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:Reward/constants.dart';
 
 class Points extends StatefulWidget {
   Points({Key key}) : super(key: key);
@@ -87,8 +91,17 @@ class _PointsState extends State<Points> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          },
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+          ),
+        ),
         toolbarHeight: 120,
-        backgroundColor: Colors.grey,
+        //backgroundColor: Colors.grey,
         title: Column(
           children: [
             Row(
@@ -145,7 +158,7 @@ class _PointsState extends State<Points> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
                     child: Column(
                       children: [
                         ListView.builder(
@@ -189,13 +202,19 @@ class _PointsState extends State<Points> {
                                     Text(point[index]['data'][index1]['createdTime'], style: TextStyle(fontSize: 10.0)),
                                   ],
                                 ),
+                                
                               ),
+                              
                             );
+                            
                           }
                         ),
+                        //SizedBox(height: 10.0,),
                       ],
                     ),
+                    
                   ),
+                  //SizedBox(height: 10.0,),
                 ],
               );
             },
@@ -203,6 +222,101 @@ class _PointsState extends State<Points> {
             // itemCount: point.length
             //itemCount: point.length.compareTo(0)
           ),
+        
+      ),
+
+      bottomNavigationBar: Container(
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(30.0),
+          //   topRight: Radius.circular(30.0),
+          // ),
+          color: kNavigationBarColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon1),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        //launch(('tel://${item.mobile_no}'));
+                        //launch(('tel://0922568260'));
+                        launch(('tel://${data['board_phone_1']}'));
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon2),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Helpadvice();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon3),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){},
+                    ),
+                  ),
+                  Text(
+                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon4),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coin();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

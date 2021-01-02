@@ -69,6 +69,15 @@ class _HelpadviceState extends State<Helpadvice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          },
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         title: Text("Help Advice"),
       ),

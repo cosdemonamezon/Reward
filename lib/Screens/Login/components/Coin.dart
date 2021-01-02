@@ -62,6 +62,15 @@ class _CoinState extends State<Coin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          },
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         title: Text("Coin"),
       ),
