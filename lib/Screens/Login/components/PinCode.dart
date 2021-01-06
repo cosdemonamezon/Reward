@@ -16,7 +16,7 @@ class _PinCodeState extends State<PinCode> {
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor: Color(0xFFFFFFFF),
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: Color(0xff050f40),
       appBar: AppBar(
         centerTitle: true,
         title: Text("Pin Code"),
@@ -30,7 +30,7 @@ class _PinCodeState extends State<PinCode> {
               //SizedBox(height: 30.0),
               Text(
                 "Enter pin number",
-                style: TextStyle(fontSize: 20.0, color: Colors.black),
+                style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
               SizedBox(height: 30.0),
               PinCodeTextField(
@@ -49,18 +49,18 @@ class _PinCodeState extends State<PinCode> {
                     borderRadius: BorderRadius.circular(10),
                     fieldHeight: 60,
                     fieldWidth: 50,
-                    inactiveColor: Colors.purple,
-                    activeColor: Colors.orange,
-                    selectedColor: Colors.brown,
+                    inactiveColor: Colors.red,
+                    activeColor: Colors.red,
+                    selectedColor: Colors.blue,
                   ),
-                  backgroundColor: Colors.blue.shade50,
+                  backgroundColor: Color(0xff050f40),
                   enableActiveFill: false,
                   controller: textEditingController,
                   boxShadows: [
                     BoxShadow(
                       offset: Offset(0, 1),
-                      color: Colors.black12,
-                      blurRadius: 10,
+                      color: Colors.white,
+                      blurRadius: 1,
                     )
                   ],
                   onCompleted: (value) {
