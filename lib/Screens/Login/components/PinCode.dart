@@ -9,8 +9,9 @@ class PinCode extends StatefulWidget {
 }
 
 class _PinCodeState extends State<PinCode> {
+  TextEditingController textEditingController = TextEditingController();
   final String requiredNumber = '12345';
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,18 +22,18 @@ class _PinCodeState extends State<PinCode> {
         title: Text("Pin Code"),
       ),
       body: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //SizedBox(height: 30.0),
-                Text(
-                  "Enter pin number", 
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
-                ),
-                SizedBox(height: 30.0),
-                PinCodeTextField(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              //SizedBox(height: 30.0),
+              Text(
+                "Enter pin number",
+                style: TextStyle(fontSize: 20.0, color: Colors.black),
+              ),
+              SizedBox(height: 30.0),
+              PinCodeTextField(
                   autoFocus: true,
                   keyboardType: TextInputType.number,
                   keyboardAppearance: Brightness.light,
@@ -54,6 +55,7 @@ class _PinCodeState extends State<PinCode> {
                   ),
                   backgroundColor: Colors.blue.shade50,
                   enableActiveFill: false,
+                  controller: textEditingController,
                   boxShadows: [
                     BoxShadow(
                       offset: Offset(0, 1),
@@ -61,18 +63,17 @@ class _PinCodeState extends State<PinCode> {
                       blurRadius: 10,
                     )
                   ],
-                  onCompleted: (value){
-                    if(value == requiredNumber){
-                      print('valid pin');
+                  onCompleted: (value) {
+                    if (value == requiredNumber) {
+                      Navigator.pushNamed(context, "/login");
                     } else {
-                      print('invalid pin');
+                      textEditingController.clear();
                     }
-                  }
-                ),
-              ],
-            ),
+                  }),
+            ],
           ),
         ),
+      ),
     );
   }
 }
