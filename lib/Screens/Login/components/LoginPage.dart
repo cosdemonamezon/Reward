@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _initPrefs();
   }
@@ -35,16 +35,11 @@ class _LoginPageState extends State<LoginPage> {
       isLoading = true;
     });
     var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json'},
-      body: convert.jsonEncode({
-        'username': values['username'],
-        'password': values['password']
-      })
-    );
-    if (response.statusCode == 200){
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode(
+            {'username': values['username'], 'password': values['password']}));
+    if (response.statusCode == 200) {
       var token = convert.jsonDecode(response.body);
       //save to prefs
       await prefs.setString('token', response.body);
@@ -53,9 +48,8 @@ class _LoginPageState extends State<LoginPage> {
       // print(token1);
       //get profile
 
-      
       //print(token);
-      if(token['code'] == "200"){
+      if (token['code'] == "200") {
         Flushbar(
           title: '${token['massage']}',
           message: "${token['code']}",
@@ -68,11 +62,11 @@ class _LoginPageState extends State<LoginPage> {
           leftBarIndicatorColor: Colors.blue[300],
         )..show(context);
         Future.delayed(Duration(seconds: 3), () {
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/home', (Route<dynamic> route) => false);
         });
         //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-      }
-      else{
+      } else {
         setState(() {
           isLoading = false;
         });
@@ -85,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
             Icons.error,
             size: 28.0,
             color: Colors.white,
-            ),
+          ),
           duration: Duration(seconds: 3),
           leftBarIndicatorColor: Colors.blue[300],
         )..show(context);
@@ -93,10 +87,7 @@ class _LoginPageState extends State<LoginPage> {
         //   Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
         // });
       }
-      
-      
-    }
-    else {
+    } else {
       // setState(() {
       //   isLoading = false;
       // });
@@ -110,39 +101,37 @@ class _LoginPageState extends State<LoginPage> {
           Icons.error,
           size: 28.0,
           color: Colors.white,
-          ),
+        ),
         duration: Duration(seconds: 3),
         leftBarIndicatorColor: Colors.blue[300],
       )..show(context);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset("assets/images/home.jpg", fit: BoxFit.cover,),
+          Image.asset(
+            "assets/images/home.jpg",
+            fit: BoxFit.cover,
+          ),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Color(0xFFF001117).withOpacity(0.7),
+            color: Color(0xFFF001117).withOpacity(0),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 60.0,),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("Login", style: TextStyle(color: kTextColor, fontSize: 40.0),),
-                  ],
-                ),
+              SizedBox(
+                height: 465.0,
               ),
-              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 0.0,
+              ),
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
@@ -158,35 +147,42 @@ class _LoginPageState extends State<LoginPage> {
                                 'username': '',
                                 'password': '',
                               },
-                              
                               child: Column(
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [BoxShadow(
-                                        color: Color.fromRGBO(255, 95, 27, .3),
-                                        blurRadius: 20,
-                                        offset: Offset(0, 10),
-                                      )],
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color:
+                                              Color.fromRGBO(255, 95, 27, .3),
+                                          blurRadius: 20,
+                                          offset: Offset(0, 10),
+                                        )
+                                      ],
                                     ),
                                     child: Column(
                                       children: [
                                         Container(
                                           padding: EdgeInsets.all(10.0),
                                           decoration: BoxDecoration(
-                                            border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Colors.grey[200])),
                                           ),
                                           child: FormBuilderTextField(
                                             attribute: 'username',
                                             decoration: InputDecoration(
                                               hintText: "Username",
-                                              hintStyle: TextStyle(color: Colors.grey),
+                                              hintStyle:
+                                                  TextStyle(color: Colors.grey),
                                               border: InputBorder.none,
                                             ),
                                             validators: [
-                                              FormBuilderValidators.required(errorText: 'กรุณากรอกชื่อผู้ใช้')
+                                              FormBuilderValidators.required(
+                                                  errorText:
+                                                      'กรุณากรอกชื่อผู้ใช้')
                                             ],
                                           ),
                                         ),
@@ -200,56 +196,73 @@ class _LoginPageState extends State<LoginPage> {
                                             obscureText: true,
                                             decoration: InputDecoration(
                                               hintText: "Password",
-                                              hintStyle: TextStyle(color: Colors.grey),
+                                              hintStyle:
+                                                  TextStyle(color: Colors.grey),
                                               border: InputBorder.none,
                                             ),
                                             validators: [
-                                              FormBuilderValidators.required(errorText: 'กรอกรหัสผ่าน'),
-                                              FormBuilderValidators.minLength(5, errorText: 'รหัสผ่านของคุณต้องมี 5 ตัวอักกษรขึ้นไป'),
+                                              FormBuilderValidators.required(
+                                                  errorText: 'กรอกรหัสผ่าน'),
+                                              FormBuilderValidators.minLength(5,
+                                                  errorText:
+                                                      'รหัสผ่านของคุณต้องมี 5 ตัวอักกษรขึ้นไป'),
                                             ],
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 25.0,),
+                                  SizedBox(
+                                    height: 25.0,
+                                  ),
                                   GestureDetector(
-                                    onTap: (){
-                                      if (_fbKey.currentState.saveAndValidate()) {
+                                    onTap: () {
+                                      if (_fbKey.currentState
+                                          .saveAndValidate()) {
                                         _login(_fbKey.currentState.value);
                                         //print(_fbKey.currentState.value);
                                       }
-                                      
                                     },
                                     child: Container(
                                       height: 50.0,
-                                      margin: EdgeInsets.symmetric(horizontal: 60),
+                                      // margin:
+                                      //     EdgeInsets.symmetric(horizontal: 60),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.orange[900],
-                                      ),
-                                      child: Center(
-                                        child: isLoading == true ?
-                                        CircularProgressIndicator(
-                                          //backgroundColor: Colors.blueAccent,
-                                        )
-                                        : Text(
-                                          "Login", 
-                                          style: TextStyle(
-                                            color: Colors.white, 
-                                            fontSize: 20, 
-                                            fontWeight: FontWeight.bold,
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xff374ABE),
+                                              Color(0xff64B6FF)
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
                                           ),
-                                        ),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Center(
+                                        child: isLoading == true
+                                            ? CircularProgressIndicator(
+                                                //backgroundColor: Colors.blueAccent,
+                                                )
+                                            : Text(
+                                                "Login",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 25.0,),
+                                  SizedBox(
+                                    height: 25.0,
+                                  ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       GestureDetector(
-                                        onTap: (){},
+                                        onTap: () {},
                                         child: Text(
                                           "Lost your password?",
                                           style: TextStyle(
@@ -260,11 +273,11 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ),
                                       GestureDetector(
-                                        onTap: (){
+                                        onTap: () {
                                           Navigator.pop(context);
                                         },
                                         child: Text(
-                                          "Back to page", 
+                                          "Back to page",
                                           style: TextStyle(
                                             color: Colors.grey,
                                             fontWeight: FontWeight.bold,
@@ -277,7 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                             ),
-                          ), 
+                          ),
                         ],
                       ),
                     ),

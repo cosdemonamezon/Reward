@@ -19,42 +19,44 @@ import 'package:Reward/Screens/Home/components/TransferPoints.dart';
 import 'package:Reward/Award/AwardScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-
 String token;
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   token = prefs.getString('token');
   runApp(MyApp());
 
-  OneSignal.shared.init(
-    "cc3885db-be23-4b3e-ab93-5c49b16e1a82",
-    iOSSettings: {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.inAppLaunchUrl: false
-    }
-  );
-  OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
-  OneSignal.shared.setNotificationReceivedHandler((OSNotification notification) {
+  OneSignal.shared.init("cc3885db-be23-4b3e-ab93-5c49b16e1a82", iOSSettings: {
+    OSiOSSettings.autoPrompt: false,
+    OSiOSSettings.inAppLaunchUrl: false
+  });
+  OneSignal.shared
+      .setInFocusDisplayType(OSNotificationDisplayType.notification);
+  OneSignal.shared
+      .setNotificationReceivedHandler((OSNotification notification) {
     // will be called whenever a notification is received
   });
 
-  OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
+  OneSignal.shared
+      .setInFocusDisplayType(OSNotificationDisplayType.notification);
   // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
+  await OneSignal.shared
+      .promptUserForPushNotificationPermission(fallbackToSettings: true);
 
-  
-  OneSignal.shared.setNotificationReceivedHandler((OSNotification notification) {
+  OneSignal.shared
+      .setNotificationReceivedHandler((OSNotification notification) {
     // will be called whenever a notification is received
   });
 
-  OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-  // will be called whenever a notification is opened/button pressed.
-    navigatorKey.currentState.pushNamed(result.notification.payload.additionalData['page']);
+  OneSignal.shared
+      .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    // will be called whenever a notification is opened/button pressed.
+    navigatorKey.currentState
+        .pushNamed(result.notification.payload.additionalData['page']);
   });
-  
+
   var status = await OneSignal.shared.getPermissionSubscriptionState();
   String playerId = status.subscriptionStatus.userId;
   print(playerId);
@@ -64,7 +66,7 @@ void main() async{
   //   heading: "Test Notification",
   //   buttons: [
   //     OSActionButton(text: "test1", id: "id1"),
-      
+
   //   ]
   // ));
 }
@@ -78,33 +80,31 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: kThemeColor,
-        scaffoldBackgroundColor: kPrimarybackgroundColor,
-      ),
-      //home: LoginScreen(),
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        //'/': (context) => LoginScreen(),
-        '/': (context) => token == null ? LoginScreen() : HomeScreen(),
-        '/loginScreen': (context) => LoginScreen(),
-        '/home': (context) =>  HomeScreen(),
-        '/reward': (context) =>  RewardScreen(),
-        '/promotion': (context) => PromotionScreen(),
-        '/point': (context) =>  Points(),
-        '/login': (context) => LoginPage(),
-        '/coin': (context) => Coin(),
-        '/detailreward': (context) => DetailReward(),
-        '/getreward': (context) => GetReward(),
-        '/profilesetting': (context) => Profilesettings(),
-        '/status': (context) => StatusReward(),
-        '/transfer': (context) => TransferPoints(),
-        '/award': (context) => AwardScreen(),
-        '/cradit': (context) => Cradit(),
-      }
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primaryColor: kThemeColor,
+          scaffoldBackgroundColor: kPrimarybackgroundColor,
+        ),
+        //home: LoginScreen(),
+        initialRoute: '/',
+        routes: <String, WidgetBuilder>{
+          //'/': (context) => LoginScreen(),
+          '/': (context) => token == null ? LoginScreen() : HomeScreen(),
+          '/loginScreen': (context) => LoginScreen(),
+          '/home': (context) => HomeScreen(),
+          '/reward': (context) => RewardScreen(),
+          '/promotion': (context) => PromotionScreen(),
+          '/point': (context) => Points(),
+          '/login': (context) => LoginPage(),
+          '/coin': (context) => Coin(),
+          '/detailreward': (context) => DetailReward(),
+          '/getreward': (context) => GetReward(),
+          '/profilesetting': (context) => Profilesettings(),
+          '/status': (context) => StatusReward(),
+          '/transfer': (context) => TransferPoints(),
+          '/award': (context) => AwardScreen(),
+          '/cradit': (context) => Cradit(),
+        });
   }
 }
-

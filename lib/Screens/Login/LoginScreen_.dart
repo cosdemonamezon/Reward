@@ -25,12 +25,12 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Color(0xFFF001117).withOpacity(0),
+            color: Color(0xFFF001117).withOpacity(0.7),
           ),
           SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
-              margin: EdgeInsets.only(top: 410, bottom: 30),
+              margin: EdgeInsets.only(top: 250, bottom: 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,42 +38,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: Icon(
+                                Icons.people,
+                                size: 50,
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 35),
-                                child: Icon(Icons.people,
-                                    size: 35, color: Colors.white),
+                            Text(
+                              "Login With Facebook",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
                               ),
-                              Text(
-                                "Login With Facebook",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        onPressed: () {}),
                   ),
                   SizedBox(
                     height: 20,
@@ -81,44 +67,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/login");
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff9425b2), Color(0xffb350f1)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: Icon(
+                                Icons.account_circle,
+                                size: 50,
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 35),
-                                child: Icon(Icons.account_circle,
-                                    size: 35, color: Colors.white),
+                            Text(
+                              "Login With Account",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
                               ),
-                              Text(
-                                "Login With Account",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/login");
+                        }),
                   ),
                   SizedBox(
                     height: 30,
@@ -136,42 +108,36 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
+                        child: Row(
+                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: Icon(
+                                Icons.grid_on,
+                                size: 50,
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 35),
-                                child: Icon(Icons.grid_on,
-                                    size: 35, color: Colors.white),
+                            Text(
+                              "Register New Account",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
                               ),
-                              Text(
-                                "Register New Account",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return PinCode();
+                            }),
+                          );
+                        }),
                   ),
                 ],
               ),
