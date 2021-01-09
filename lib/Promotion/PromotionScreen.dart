@@ -34,7 +34,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-    var url = 'http://103.74.253.96/reward-api/public/api/getBannerM';
+    var url = pathAPI +'api/getBannerM';
     var response = await http.post(
       url,
       headers: {
@@ -70,7 +70,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/getCampaignMember';
+    var url = pathAPI +'api/getCampaignMember';
     var response = await http.post(
       url,
       headers: {

@@ -1,11 +1,6 @@
-import 'package:Reward/Award/AwardScreen.dart';
-import 'package:Reward/Screens/Home/components/Cradit.dart';
 import 'package:Reward/Screens/Home/components/DetailCalen.dart';
-import 'package:Reward/Screens/Home/components/Profilesettings.dart';
-import 'package:Reward/Screens/Home/components/StatusReward.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter_appavailability/flutter_appavailability.dart';
@@ -19,6 +14,7 @@ import 'package:pattern_formatter/pattern_formatter.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -42,16 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _getHomePage();
   }
 
-  // _checkLogin() async{
-  //   prefs = await SharedPreferences.getInstance();
-  //   var tokenString = prefs.getString('token');
-  //   var token = convert.jsonDecode(tokenString);
-  //   if (token['token'] == null) {
-  //     Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-  //   } else {
-  //     print(token['token']);
-  //   }
-  // }
+  
   _checkTokenExp() async{
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
@@ -101,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         isLoading = true;
       });
-      var url = 'http://103.74.253.96/reward-api/public/api/getHome_M';
+      var url = pathAPI + 'api/getHome_M';
       var response = await http.post(
         url,
         headers: {
@@ -176,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-    var url = 'http://103.74.253.96/reward-api/public/api/receivePointTurnOver';
+    var url = pathAPI + 'api/receivePointTurnOver';
     var response = await http.post(
       url,
       headers: {
@@ -192,7 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
       if(receivePoint['code'] == "200"){
         print(receivePoint['massage']);
         //initState();
-        _getHomePage();
+        //_getHomePage();
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
       }
       else
       {
@@ -203,11 +191,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _logout() async{
-    prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-    Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-  }
+  // _logout() async{
+  //   prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('token');
+  //   Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -413,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Stack(
                           children: [
                             data['count_turn_over_circle'] == null ?
-                            Image.network("http://103.74.253.96/reward-api/public/images/28/blue/0.png", fit: BoxFit.cover,
+                            Image.network(pathAPI +"images/28/blue/0.png", fit: BoxFit.cover,
                             )
                             : Image.network(data['count_turn_over_circle'], fit: BoxFit.cover,),
                             Positioned(
@@ -423,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: GestureDetector(
                                 onTap: (){  
                                   Navigator.pushNamed(context, '/point', arguments: {
-                                    'member_sum_point': data['member_sum_point'],
+                                    'member_point': data['member_point'],
                                     'board_phone_1': data['board_phone_1']
                                   });
                                 },
@@ -496,49 +484,74 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 10.0,),
+                                      //SizedBox(height: 10.0,),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           data['btn_receive_reward7day'] == true ?
-                                          RaisedButton(
-                                            onPressed: (){
-                                              // Navigator.pushNamed(context, '/getreward', arguments: {
-                                              //   'id': data['id']
-                                              // });
-                                              //SweetAlert.show(context, title: "Just show a message");
-                                              SweetAlert.show(context,
-                                                  title: "Just show a message",
-                                                  subtitle: "Sweet alert is pretty",
-                                                  style: SweetAlertStyle.confirm,
-                                                  showCancelButton: true, onPress: (bool isConfirm) {
-                                                if (isConfirm) {
-                                                  SweetAlert.show(context,
-                                                      style: SweetAlertStyle.success, title: "Success");
-                                                      _receivePointTurnOver();
-                                                  // return false to keep dialog
-                                                  return false;
-                                                }
-                                              });
-                                              //_receivePointTurnOver();
-                                            },
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: new BorderRadius.circular(20.0),
-                                              side: BorderSide(color: Colors.blueAccent),
-                                            ),
-                                            elevation: 10.0,
-                                            colorBrightness: Brightness.light,
-                                            color: Colors.greenAccent,
-                                            textColor: Colors.black,
-                                            splashColor: Colors.yellowAccent,
-                                            animationDuration: Duration(seconds: 2),
+                                          TextButton(
                                             child: Text(
                                               "กดรับรางวัล",
                                               style: TextStyle(
-                                                fontWeight: FontWeight.bold, fontSize: 20,
+                                                fontWeight: FontWeight.bold, fontSize: 25, 
+                                                color: Colors.lightBlue[900],
                                               ),
                                             ),
-                                          ) 
+                                            onPressed: () {
+                                              Alert(
+                                                context: context,
+                                                type: AlertType.success,
+                                                title: "รับรางวัลสำเร็จ",
+                                                buttons: [
+                                                  DialogButton(
+                                                    child: Text(
+                                                      "ตกลง",
+                                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                                    ),
+                                                    onPressed: (){
+                                                      _receivePointTurnOver();
+                                                      //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+                                                    },
+                                                  )
+                                                ]
+                                              ).show();
+                                            },
+                                          )
+                                          // RaisedButton(
+                                          //   onPressed: (){
+                                              
+                                          //     SweetAlert.show(context,
+                                          //         title: "Just show a message",
+                                          //         subtitle: "Sweet alert is pretty",
+                                          //         style: SweetAlertStyle.confirm,
+                                          //         showCancelButton: true, onPress: (bool isConfirm) {
+                                          //       if (isConfirm) {
+                                          //         SweetAlert.show(context,
+                                          //             style: SweetAlertStyle.success, title: "Success");
+                                          //             _receivePointTurnOver();
+                                          //         // return false to keep dialog
+                                          //         return false;
+                                          //       }
+                                          //     });
+                                          //     //_receivePointTurnOver();
+                                          //   },
+                                          //   shape: RoundedRectangleBorder(
+                                          //     borderRadius: new BorderRadius.circular(20.0),
+                                          //     side: BorderSide(color: Colors.blueAccent),
+                                          //   ),
+                                          //   elevation: 10.0,
+                                          //   colorBrightness: Brightness.light,
+                                          //   color: Colors.greenAccent,
+                                          //   textColor: Colors.black,
+                                          //   splashColor: Colors.yellowAccent,
+                                          //   animationDuration: Duration(seconds: 2),
+                                          //   child: Text(
+                                          //     "กดรับรางวัล",
+                                          //     style: TextStyle(
+                                          //       fontWeight: FontWeight.bold, fontSize: 20,
+                                          //     ),
+                                          //   ),
+                                          // ) 
                                           :
                                           data['count_turn_over'] == null ?
                                           Text(

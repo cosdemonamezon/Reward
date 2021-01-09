@@ -12,3 +12,6 @@ String pathicon1 = "assets/images/telephone.png";
 String pathicon2 = "assets/images/info.jpg";
 String pathicon3 = "assets/images/noti.jpg";
 String pathicon4 = "assets/images/star.jpg";
+
+//Path API
+String pathAPI = "http://103.74.253.96/reward-api/public/";

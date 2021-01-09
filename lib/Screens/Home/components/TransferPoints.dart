@@ -4,13 +4,14 @@ import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:sweetalert/sweetalert.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 
 class TransferPoints extends StatefulWidget {
   TransferPoints({Key key}) : super(key: key);
@@ -42,7 +43,7 @@ class _TransferPointsState extends State<TransferPoints> {
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/transferPoint';
+    var url = pathAPI +'api/transferPoint';
     var response = await http.post(
       url,
       headers: {
@@ -60,36 +61,51 @@ class _TransferPointsState extends State<TransferPoints> {
     if (response.statusCode == 200){
       final Map<String, dynamic> point = convert.jsonDecode(response.body);
       if(point['code'] == "200"){
-        //print(point['massage']);
-        // SweetAlert.show(context,
-        //   title: "${point['massage']}",
-        //   subtitle: "",
-        //   style: SweetAlertStyle.confirm,
-        //   showCancelButton: true, onPress: (bool isConfirm) {
-        //     if (isConfirm) {
-        //       SweetAlert.show(context,
-        //         style: SweetAlertStyle.success, title: "ยืนยัน");
-        //         Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-        //       return false;
-        //     }
-        //   });
+        Alert(
+          context: context,
+          type: AlertType.info,
+          title: "ยืนยันโอน Point",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ยกเลิก",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onPressed: () => Navigator.pop(context),
+              color: Color.fromRGBO(0, 179, 134, 1.0),
+            ),
+            DialogButton(
+              child: Text(
+                "ตกลง",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+              },
+              gradient: LinearGradient(colors: [
+                Color.fromRGBO(116, 116, 191, 1.0),
+                Color.fromRGBO(52, 138, 199, 1.0)
+              ]),
+            ),
+          ],
+        ).show();
 
 
-        Flushbar(
-          title: '${point['massage']}',
-          message: "ขอบคุณ",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.green[300],
-          ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.blue[300],
-        )..show(context);
-        Future.delayed(Duration(seconds: 3), () {
-          //Navigator.pop(context);
-          Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-        });
+        // Flushbar(
+        //   title: '${point['massage']}',
+        //   message: "ขอบคุณ",
+        //   icon: Icon(
+        //     Icons.info_outline,
+        //     size: 28.0,
+        //     color: Colors.green[300],
+        //   ),
+        //   duration: Duration(seconds: 3),
+        //   leftBarIndicatorColor: Colors.blue[300],
+        // )..show(context);
+        // Future.delayed(Duration(seconds: 3), () {
+        //   //Navigator.pop(context);
+        //   Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+        // });
       }
       else{
         print(point['massage']);

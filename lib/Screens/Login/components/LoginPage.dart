@@ -34,7 +34,9 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
+    //var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
+    var url = pathAPI +"api/Login_M";
+    print(url);
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json'},
         body: convert.jsonEncode(
@@ -127,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 465.0,
+                height: 460.0,
               ),
               SizedBox(
                 height: 0.0,
@@ -136,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(18),
                       child: Column(
                         children: [
                           Padding(

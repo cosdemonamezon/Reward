@@ -1,4 +1,3 @@
-import 'package:Reward/Reward/components/Detail_Reward.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +21,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
   bool isLoading = false;
   List<dynamic> reward = [];
   List<dynamic> transreward = [];
-  String picUrlimages = "http://103.74.253.96/reward-api/public/images/reward/";
+  String picUrlimages = pathAPI +"images/reward/";
   String btn1 = 'Approved';
   String btn2 = 'Hide For Review';
   String btn3 = 'Reject';
@@ -50,7 +49,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/getRewardMember';
+    var url = pathAPI +'api/getRewardMember';
     var response = await http.post(
       url,
       headers: {
@@ -91,7 +90,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/getlogTransRewardMember';
+    var url = pathAPI +'api/getlogTransRewardMember';
     var response = await http.post(
       url,
       headers: {
@@ -133,7 +132,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/getlogTransRewardMember';
+    var url = pathAPI +'api/getlogTransRewardMember';
     var response = await http.post(
       url,
       headers: {
@@ -176,7 +175,7 @@ _getReject() async {
       isLoading = true;
     });
 
-  var url = 'http://103.74.253.96/reward-api/public/api/getlogTransRewardMember';
+  var url = pathAPI +'api/getlogTransRewardMember';
     var response = await http.post(
       url,
       headers: {
@@ -217,7 +216,7 @@ _getHideForReview() async{
   setState(() {
     isLoading = true;
   });
-  var url = 'http://103.74.253.96/reward-api/public/api/getlogTransRewardMember';
+  var url = pathAPI +'api/getlogTransRewardMember';
     var response = await http.post(
       url,
       headers: {

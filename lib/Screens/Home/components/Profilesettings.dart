@@ -1,4 +1,3 @@
-import 'package:Reward/Screens/Home/HomeScreen.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -9,9 +8,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sweetalert/sweetalert.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Profilesettings extends StatefulWidget {
   Profilesettings({Key key}) : super(key: key);
@@ -48,7 +47,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/getComfirmUsername_M';
+    var url = pathAPI +'api/getComfirmUsername_M';
     var response = await http.post(
       url,
       headers: {
@@ -66,18 +65,34 @@ class _ProfilesettingsState extends State<Profilesettings> {
       final Map<String, dynamic> comfirm = convert.jsonDecode(response.body);
       if (comfirm['code'] == "200") {
         print(comfirm['massage']);
-        SweetAlert.show(context,
-          title: "Just show a message",
-          subtitle: "Sweet alert is pretty",
-          style: SweetAlertStyle.confirm,
-          showCancelButton: true, onPress: (bool isConfirm) {
-            if (isConfirm) {
-              SweetAlert.show(context,
-                style: SweetAlertStyle.success, title: "Success");
-                Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-              return false;
-            }
-          });
+        Alert(
+          context: context,
+          type: AlertType.info,
+          title: "ท่านต้องการยืนยันข้อมูลสามาชิก",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ยกเลิก",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onPressed: () => Navigator.pop(context),
+              color: Color.fromRGBO(0, 179, 134, 1.0),
+            ),
+            DialogButton(
+              child: Text(
+                "ตกลง",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+              },
+              gradient: LinearGradient(colors: [
+                Color.fromRGBO(116, 116, 191, 1.0),
+                Color.fromRGBO(52, 138, 199, 1.0)
+              ]),
+            ),
+          ],
+        ).show();
       } else {
       }
     }else{
@@ -97,7 +112,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/edit_Member';
+    var url = pathAPI +'api/edit_Member';
     var response = await http.post(
       url,
       headers: {
@@ -324,7 +339,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           width: 100,
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(50),
+                                            borderRadius: BorderRadius.circular(10),
                                             color: Colors.orange[900],
                                           ),
                                           child: Center(
@@ -353,7 +368,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           width: 100,
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
-                                             borderRadius: BorderRadius.circular(50),
+                                             borderRadius: BorderRadius.circular(10),
                                             color: Colors.green[400],
                                           ),
                                           child: Center(
@@ -502,7 +517,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           width: 100,
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
-                                             borderRadius: BorderRadius.circular(50),
+                                             borderRadius: BorderRadius.circular(10),
                                             color: Colors.orange[900],
                                           ),
                                           child: Center(
@@ -534,7 +549,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           width: 100,
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
-                                             borderRadius: BorderRadius.circular(50),
+                                             borderRadius: BorderRadius.circular(10),
                                             color: Colors.green[400],
                                           ),
                                           child: Center(

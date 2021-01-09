@@ -32,7 +32,7 @@ class _HelpadviceState extends State<Helpadvice> {
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/getDetailPoint';
+    var url = pathAPI +'api/getDetailPoint';
     var response = await http.get(
       url,
       headers: {

@@ -34,7 +34,7 @@ class _PointsState extends State<Points> {
     setState(() {
       isLoading = true;
     });
-    var url = 'http://103.74.253.96/reward-api/public/api/getPointIncome_M';
+    var url = pathAPI +'api/getPointIncome_M';
     var response = await http.post(
       url,
       headers: {
@@ -113,7 +113,7 @@ class _PointsState extends State<Points> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    "Point ${data['member_sum_point']}", 
+                    "Point ${data['member_point']}", 
                     style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
                   ),
                 ),

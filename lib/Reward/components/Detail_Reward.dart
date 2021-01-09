@@ -63,7 +63,7 @@ class _DetailRewardState extends State<DetailReward> {
                 ),
               ),
               SizedBox(
-                height: 10.0,
+                height: 15.0,
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -102,6 +102,11 @@ class _DetailRewardState extends State<DetailReward> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 gradient: LinearGradient(
+                                  colors: [
+                                    Colors.greenAccent,
+                                    Colors.green,
+                                    Colors.greenAccent
+                                  ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
@@ -119,6 +124,11 @@ class _DetailRewardState extends State<DetailReward> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 gradient: LinearGradient(
+                                  colors: [
+                                    Colors.redAccent,
+                                    Colors.red,
+                                    Colors.redAccent
+                                  ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),

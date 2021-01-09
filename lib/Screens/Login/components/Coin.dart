@@ -1,3 +1,4 @@
+import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +33,7 @@ class _CoinState extends State<Coin> {
       isLoading = true;
     });
 
-    var url = 'http://103.74.253.96/reward-api/public/api/getDetailReward';
+    var url = pathAPI +'api/getDetailReward';
     var response = await http.get(
       url,
       headers: {
