@@ -340,11 +340,19 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(10),
-                                            color: Colors.orange[900],
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color(0xff515151),
+                                                Color(0xffa3a3a3)
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
                                           ),
                                           child: Center(
                                             child: Text(
-                                              "ยกเลิก"
+                                              "ยกเลิก",
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white)
                                             ),
                                           ),
                                         ),
@@ -368,12 +376,20 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           width: 100,
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
-                                             borderRadius: BorderRadius.circular(10),
-                                            color: Colors.green[400],
+                                            borderRadius: BorderRadius.circular(10),
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color(0xff374ABE),
+                                                Color(0xff64B6FF)
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
                                           ),
                                           child: Center(
                                             child: Text(
-                                              "บันทึก"
+                                              "บันทึก",
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -517,12 +533,21 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           width: 100,
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
-                                             borderRadius: BorderRadius.circular(10),
-                                            color: Colors.orange[900],
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color(0xff515151),
+                                                Color(0xffa3a3a3)
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10),
+                                            
                                           ),
                                           child: Center(
                                             child: Text(
-                                              "ยกเลิก"
+                                              "ยกเลิก",
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white)
                                             ),
                                           ),
                                         ),
@@ -549,12 +574,21 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                           width: 100,
                                           margin: EdgeInsets.symmetric(horizontal: 40),
                                           decoration: BoxDecoration(
-                                             borderRadius: BorderRadius.circular(10),
-                                            color: Colors.green[400],
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color(0xff374ABE),
+                                                Color(0xff64B6FF)
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10),
+                                            
                                           ),
                                           child: Center(
                                             child: Text(
-                                              "บันทึก"
+                                              "บันทึก",
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white)
                                             ),
                                           ),
                                         ),

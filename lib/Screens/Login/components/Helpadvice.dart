@@ -120,7 +120,7 @@ class _HelpadviceState extends State<Helpadvice> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,                        
                         children: [
                           Text(
                             help[index]['title'],

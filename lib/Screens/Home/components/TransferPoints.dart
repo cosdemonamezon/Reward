@@ -123,7 +123,8 @@ class _TransferPointsState extends State<TransferPoints> {
     //print(data);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 150,
+        centerTitle: true,
+        //toolbarHeight: 150,
         //backgroundColor: Colors.blue,
         leading: IconButton(
           onPressed: (){
@@ -136,67 +137,7 @@ class _TransferPointsState extends State<TransferPoints> {
         ),
         elevation: 18,
         //centerTitle: true,
-        title: Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("โอน Point"),
-              ],
-            ),
-            Row(
-              children: [
-                Text("จาก :"),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.account_circle, size: 50,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("My Account : ${data['username']}"),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${data['member_id']}",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "${data['member_point']} Point",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "ข้อมูล ณ เวลา 14.00 น.",
-                  style: TextStyle(fontSize: 14.0, color: Colors.white70),
-                ),
-              ],
-            ),
-          ],
-        ),
+        title: Text("โอน Point"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -206,7 +147,7 @@ class _TransferPointsState extends State<TransferPoints> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
                   child: Text(
-                    "ไปยัง: บัญชีสมาชิก", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    "จาก : My Account : ${data['username']}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
                 ),
               ],
@@ -220,7 +161,7 @@ class _TransferPointsState extends State<TransferPoints> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [BoxShadow(
-                        color: Color.fromRGBO(255, 95, 27, .3),
+                        color: Colors.blue[100],
                         blurRadius: 20,
                         offset: Offset(0, 10),
                       )],
@@ -236,20 +177,34 @@ class _TransferPointsState extends State<TransferPoints> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                child: CircleAvatar(
-                                  radius: 22,
-                                  backgroundImage: AssetImage("assets/images/gold.JPG"),
-                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Icon(Icons.account_circle, size: 50,),
                               ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Text(
-                                  //"User Member : ${data['username']}",
-                                  "${data['group_member_name']}  :  ${data['username']}",
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${data['member_id']} : ${data['member_point']} Point",
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                                      ),
+                                    ],
+                                  ),
+                                  
+                                ],
                               ),
+                              // Padding(
+                              //   padding: EdgeInsets.symmetric(horizontal: 5.0),
+                              //   child: Text(
+                              //     //"User Member : ${data['username']}",
+                              //     "${data['group_member_name']}  :  ${data['username']}",
+                              //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                              //   ),
+                              // ),
                             ],
                           ),
                          
@@ -328,25 +283,48 @@ class _TransferPointsState extends State<TransferPoints> {
                   //   ),
                   // ),
                   
-                  SizedBox(height: 80.0,),
+                  SizedBox(height: 50.0,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
                     children: [
-                      TextButton.icon(
-                        label: Text(
-                          "ยกเลิก", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.redAccent),
-                        ),
-                        icon: Icon(Icons.cancel_outlined, size: 50, color: Colors.redAccent,),
-                        onPressed: (){
+                      // TextButton.icon(
+                      //   label: Text(
+                      //     "ยกเลิก", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.redAccent),
+                      //   ),
+                      //   icon: Icon(Icons.cancel_outlined, size: 50, color: Colors.redAccent,),
+                      //   onPressed: (){
+                      //     Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+                      //   },
+                      // ),
+                      GestureDetector(
+                        onTap: (){
                           Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
                         },
-                      ),
-                      TextButton.icon(
-                        label: Text(
-                          "โอน Point", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.green),
+                        child: Container(
+                          height: 50.0,
+                          width: 120.0,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xff515151),
+                                Color(0xffa3a3a3)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                          ),
+                          child: Center(
+                            child: Text(
+                              "ย้อนกลับ", 
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white),
+                            ),
+                          ),
                         ),
-                        icon: Icon(Icons.check_circle_outline, size: 50, color: Colors.green,),
-                        onPressed: (){
+                      ),
+                      GestureDetector(
+                        onTap: (){
                           if (_fbKey.currentState.saveAndValidate()){
                             _transferPoint(_fbKey.currentState.value);
                             setState((){
@@ -354,7 +332,42 @@ class _TransferPointsState extends State<TransferPoints> {
                             });
                           }
                         },
+                        child: Container(
+                          height: 50.0,
+                          width: 120.0,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xff374ABE),
+                                Color(0xff64B6FF)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                          ),
+                          child: Center(
+                            child: Text(
+                              "โอน Point", 
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
+                      // TextButton.icon(
+                      //   label: Text(
+                      //     "โอน Point", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.green),
+                      //   ),
+                      //   icon: Icon(Icons.check_circle_outline, size: 50, color: Colors.green,),
+                      //   onPressed: (){
+                      //     if (_fbKey.currentState.saveAndValidate()){
+                      //       _transferPoint(_fbKey.currentState.value);
+                      //       setState((){
+                      //         isLoading = true;
+                      //       });
+                      //     }
+                      //   },
+                      // ),
                     ],
                   ),
                   // Container(
