@@ -308,6 +308,7 @@ _getHideForReview() async{
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.0),
                               child: CircleAvatar(
+                                backgroundImage: AssetImage("assets/images/gold.JPG"),
                                 radius: 25,
                               ),
                             ),
@@ -428,7 +429,10 @@ _getHideForReview() async{
                             color: Colors.green[900],
                           ),
                           child: Center(
-                            child: Text("Approved"),
+                            child: Text(
+                              "Approved", 
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
@@ -447,7 +451,10 @@ _getHideForReview() async{
                             color: Colors.yellow[900],
                           ),
                           child: Center(
-                            child: Text("Hide For Review"),
+                            child: Text(
+                              "Hide For Review",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
@@ -465,7 +472,10 @@ _getHideForReview() async{
                             color: Colors.red[900],
                           ),
                           child: Center(
-                            child: Text("Reject"),
+                            child: Text(
+                              "Reject",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),

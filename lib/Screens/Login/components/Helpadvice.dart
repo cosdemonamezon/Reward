@@ -102,7 +102,12 @@ class _HelpadviceState extends State<Helpadvice> {
                           Positioned.fill(
                             child: help[index]['pic'] != null ?
                             Image.network(help[index]['pic'], fit: BoxFit.fill,)
-                            : Ink.image(image: NetworkImage('https://picsum.photos/400/200'), fit: BoxFit.cover),
+                            : 
+                            Ink.image(
+                              image: AssetImage("assets/images/p1.jpg"),
+                              fit: BoxFit.cover
+                            ),
+                            // Ink.image(image: NetworkImage('https://picsum.photos/400/200'), fit: BoxFit.cover),
                           ),
                           Positioned(
                             top: 10,

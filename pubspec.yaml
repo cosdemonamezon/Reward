@@ -43,6 +43,7 @@ dependencies:
   pattern_formatter: ^1.0.2
   pin_code_fields: ^6.0.2
   rflutter_alert: ^1.1.0
+  flutter_launcher_icons: ^0.8.1
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,9 @@ flutter:
     - assets/images/cradit.JPG
     - assets/images/img_2.jpg
     - assets/images/qr.png
+    - assets/images/r1.jpg
+    - assets/images/p1.jpg
+    
     # - assets/icons/1.png
   #   - images/a_dot_ham.jpeg
 
