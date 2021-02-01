@@ -11,9 +11,12 @@ class PinCode extends StatefulWidget {
 class _PinCodeState extends State<PinCode> {
   TextEditingController textEditingController = TextEditingController();
   final String requiredNumber = '12345';
+  final String member_phone = '0978869765';
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
+    print(data);
     return Scaffold(
       //backgroundColor: Color(0xFFFFFFFF),
       backgroundColor: Color(0xff050f40),

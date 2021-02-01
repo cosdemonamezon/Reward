@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:Reward/constants.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class RewardScreen extends StatefulWidget {
   RewardScreen({Key key}) : super(key: key);
@@ -25,6 +25,12 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
   String btn1 = 'Approved';
   String btn2 = 'Hide For Review';
   String btn3 = 'Reject';
+  bool abtn1 = true;
+  bool abtn2 = false;
+  bool abtn3 = false;
+  // String member_id = '';
+  // String member_point = '';
+  // String confrim_address_status = 'Yes';
 
   @override
   void initState() {
@@ -79,6 +85,24 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     }else {
       print("error");
       print(response.statusCode);
+      final Map<String, dynamic> rewarddata = convert.jsonDecode(response.body);
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "มีข้อผิดพลาด",
+        desc: rewarddata['massage'],
+        buttons: [
+          DialogButton(
+            child: Text(
+              "ล็อกอินใหม่",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+            },
+          ),
+        ]
+      ).show();
     }
   }
 
@@ -121,6 +145,24 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     else {
       print("error1");
       print(response.statusCode);
+      final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "มีข้อผิดพลาด",
+        desc: transrewarddata['massage'],
+        buttons: [
+          DialogButton(
+            child: Text(
+              "ล็อกอินใหม่",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+            },
+          ),
+        ]
+      ).show();
     }
   }
 
@@ -252,7 +294,7 @@ _getHideForReview() async{
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
-
+    //print(data);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -348,7 +390,9 @@ _getHideForReview() async{
                                   'point': reward[index]['point'],
                                   'transfer_status': reward[index]['transfer_status'],
                                   'group_status': reward[index]['group_status'],
-                                  'qty_status': reward[index]['qty_status']
+                                  'qty_status': reward[index]['qty_status'],
+                                  'member_id': data['member_id'],
+                                  'member_point': data['member_point'],
                                 });
                               },
                               child: Card(
@@ -373,6 +417,7 @@ _getHideForReview() async{
                                       child: Text(
                                         reward[index]['description'],
                                         style: TextStyle(fontSize: 12.0),
+                                        textAlign: TextAlign.justify,
                                       ),
                                     ),
                                     Padding(
@@ -416,11 +461,17 @@ _getHideForReview() async{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                                   
                       GestureDetector(
-                        onTap: (){
+                        onTap: (){                          
+                          setState(() {
+                            abtn1 = true;
+                            abtn2 = false;
+                            abtn3 = false;
+                          });
                           _getApproved();
                         },
-                        child: Container(
+                        child: abtn1 == true ? Container(
                           height: 50.0,
                           width: 100,
                           //margin: EdgeInsets.symmetric(horizontal: 40),
@@ -434,21 +485,41 @@ _getHideForReview() async{
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
                             ),
                           ),
-                        ),
+                        ):
+                        Container(
+                          height: 50.0,
+                          width: 100,
+                          //margin: EdgeInsets.symmetric(horizontal: 40),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Approved", 
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.black),
+                            ),
+                          ),
+                        )
                       ),
 
                       GestureDetector(
                         onTap: (){
                           //_getlogTransRewardMember();
+                          setState(() {
+                            abtn1 = false;
+                            abtn2 = true;
+                            abtn3 = false;
+                          });
                           _getHideForReview();
                         },
-                        child: Container(
+                        child: abtn2 == true ? Container(
                           height: 50.0,
                           width: 150,
                           //margin: EdgeInsets.symmetric(horizontal: 40),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.yellow[900],
+                            color: Colors.green[900],
                           ),
                           child: Center(
                             child: Text(
@@ -456,20 +527,40 @@ _getHideForReview() async{
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
                             ),
                           ),
-                        ),
+                        ):
+                        Container(
+                          height: 50.0,
+                          width: 150,
+                          //margin: EdgeInsets.symmetric(horizontal: 40),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Hide For Review",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.black),
+                            ),
+                          ),
+                        )
                       ),
 
                       GestureDetector(
                         onTap: (){
+                          setState(() {
+                            abtn1 = false;
+                            abtn2 = false;
+                            abtn3 = true;
+                          });
                           _getReject();
                         },
-                        child: Container(
+                        child: abtn3 == true ? Container(
                           height: 50.0,
                           width: 100,
                           //margin: EdgeInsets.symmetric(horizontal: 40),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.red[900],
+                            color: Colors.green[900],
                           ),
                           child: Center(
                             child: Text(
@@ -477,7 +568,22 @@ _getHideForReview() async{
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
                             ),
                           ),
-                        ),
+                        ):
+                        Container(
+                          height: 50.0,
+                          width: 100,
+                          //margin: EdgeInsets.symmetric(horizontal: 40),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Reject",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.black),
+                            ),
+                          ),
+                        )
                       ),
                       
                     ],
@@ -497,43 +603,52 @@ _getHideForReview() async{
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    height: 80,
-                                    width: 80,
-                                    child: transreward[index]['pic'] != null ?
-                                      Image.network(transreward[index]['pic'], fit: BoxFit.fill,) :
-                                      Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 80,
+                                        width: 80,
+                                        child: transreward[index]['pic'] != null ?
+                                          Image.network(transreward[index]['pic'], fit: BoxFit.fill,) :
+                                          Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          transreward[index]['title'], 
-                                          style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
-                                        ),
-                                        Text(
-                                          transreward[index]['description'], 
-                                          style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
-                                        ),
-                                        Row(
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              transreward[index]['point'].toString(),
+                                              transreward[index]['title'], 
                                               style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                              child: Text(
-                                                "Point",
-                                                style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
-                                              ),
+                                            Text(
+                                              transreward[index]['description'].length <= 41 ? transreward[index]['description'] : transreward[index]['description'].substring(0, 41), 
+                                              style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  transreward[index]['point'].toString(),
+                                                  style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                                  child: Text(
+                                                    "Point",
+                                                    style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                   // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                   // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),

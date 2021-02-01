@@ -7,7 +7,6 @@ import 'package:flutter_appavailability/flutter_appavailability.dart';
 import 'package:get_it/get_it.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:sweetalert/sweetalert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
@@ -34,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() { 
     super.initState();
     //_checkLogin();
-    _checkTokenExp();
+    //_checkTokenExp();
     _getHomePage();
   }
 
@@ -57,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
    
-    _checkTokenExp();
+    //_checkTokenExp();
     _getHomePage(); //ทุกครั้งที่ทำการรีเฟรช จะดึงข้อมูลใหม่
     _refreshController.refreshCompleted();
   }
@@ -66,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     //items.add((items.length+1).toString());
-    _checkTokenExp();
+    //_checkTokenExp();
     _getHomePage();
     //_refreshController.loadComplete();
     _refreshController.loadNoData();
@@ -154,7 +153,25 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       else{
         print(response.statusCode);
-        Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+        final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
+        Alert(
+          context: context,
+          type: AlertType.error,
+          title: "มีข้อผิดพลาด",
+          desc: homedata['massage'],
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+              },
+            ),
+          ]
+        ).show();
+        // Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
       }
     }
   }
@@ -227,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ), 
               onPressed: (){
                 //_logout();
-                Navigator.pushNamed(context, '/award', arguments: {
+                Navigator.pushNamed(context, '/share', arguments: {
                   'id': data['id'],
                   'member_link_1': data['member_link_1'],
                   'member_link_2': data['member_link_2'],
@@ -306,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             child: GestureDetector(
                               onTap: (){
-                                //Navigator.pushNamed(context, '/status');
+                                Navigator.pushNamed(context, '/status');
                               },
                               child: Container(
                                 padding: EdgeInsets.all(4.4),
@@ -688,7 +705,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           //   ),
                                           // );
                                           Navigator.pushNamed(context, '/reward', arguments: {
+                                            'member_id': data['id'],
                                             'username': data['username'],
+                                            'member_point': data['member_point'],
                                             'board_phone_1': data['board_phone_1']
                                           });
                                         },

@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Coin extends StatefulWidget {
   Coin({Key key}) : super(key: key);
@@ -56,6 +57,24 @@ class _CoinState extends State<Coin> {
     }
     else{
       print(response.statusCode);
+      final Map<String, dynamic> coindata = convert.jsonDecode(response.body);
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "มีข้อผิดพลาด",
+        desc: coindata['massage'],
+        buttons: [
+          DialogButton(
+            child: Text(
+              "ล็อกอินใหม่",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+            },
+          ),
+        ]
+      ).show();
     }
   }
 

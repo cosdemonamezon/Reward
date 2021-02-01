@@ -19,6 +19,9 @@ class _LoginPageState extends State<LoginPage> {
   bool _autovalidate = false;
   bool isLoading = false;
   SharedPreferences prefs;
+  Map<String, dynamic> data = {};
+  String username = '';
+  String password = '';
 
   _initPrefs() async {
     prefs = await SharedPreferences.getInstance();
@@ -34,6 +37,8 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLoading = true;
     });
+    username = values['username'];
+    password = values['password'];
     //var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
     var url = pathAPI +"api/Login_M";
     print(url);
@@ -68,8 +73,30 @@ class _LoginPageState extends State<LoginPage> {
               context, '/home', (Route<dynamic> route) => false);
         });
         //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+      } else if (token['code'] == "999") {
+        Flushbar(
+          title: '${token['massage']}',
+          message: "${token['code']}",
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.blue[300],
+          ),
+          duration: Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.blue[300],
+        )..show(context);
+        Future.delayed(Duration(seconds: 3), () {
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, '/pincode', (Route<dynamic> route) => false, arguments:{
+          //       'username': data['username'], 'password': data['password'], 
+          //     });
+          Navigator.pushNamed(
+              context, '/pincode', arguments:{
+                'username': username, 'password': password, 
+              });
+        });        
       } else {
-        setState(() {
+          setState(() {
           isLoading = false;
         });
         var feedback = convert.jsonDecode(response.body);
@@ -89,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
         //   Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
         // });
       }
+      
     } else {
       // setState(() {
       //   isLoading = false;

@@ -18,6 +18,8 @@ import 'package:Reward/Screens/Home/components/StatusReward.dart';
 import 'package:Reward/Screens/Home/components/TransferPoints.dart';
 import 'package:Reward/Award/AwardScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'Screens/Login/components/PinCode.dart';
+import 'Screens/Home/components/LinkShare.dart';
 
 String token;
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -105,6 +107,8 @@ class MyApp extends StatelessWidget {
           '/transfer': (context) => TransferPoints(),
           '/award': (context) => AwardScreen(),
           '/cradit': (context) => Cradit(),
+          '/pincode': (context) => PinCode(),
+          '/share': (context) => LinkShare(),
         });
   }
 }

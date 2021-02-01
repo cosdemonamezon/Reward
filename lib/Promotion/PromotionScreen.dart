@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PromotionScreen extends StatefulWidget {
   PromotionScreen({Key key}) : super(key: key);
@@ -99,6 +100,24 @@ class _PromotionScreenState extends State<PromotionScreen> {
     }
     else{
       print(response.statusCode);
+      final Map<String, dynamic> campaigndata = convert.jsonDecode(response.body);
+      Alert(
+          context: context,
+          type: AlertType.error,
+          title: "มีข้อผิดพลาด",
+          desc: campaigndata['massage'],
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+              },
+            ),
+          ]
+        ).show();
     }
   }
 
@@ -214,35 +233,62 @@ class _PromotionScreenState extends State<PromotionScreen> {
                       return Container(
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              var url = campaign[index]['url'];
-                              launch((url));
-                            },
-                            child: Card(
-                              //color: Colors.blue,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //Image.asset("assets/images/124.JPG"),
-                                  Container(
-                                    height: 100,
-                                    width: double.infinity,
-                                    child: campaign[index]['pic'] != null ? 
-                                    Image.network(campaign[index]['pic'], fit: BoxFit.fill,) :
-                                    Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
+                          child: Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: (){
+                                  // if (campaign[index]['status'] == true) {
+                                  //   var url = campaign[index]['url'];
+                                  //   launch((url));
+                                  // } else {
+                                  // }
+                                  var url = campaign[index]['url'];
+                                  print(url);
+                                  launch((url));
+                                  
+                                },
+                                child: Card(
+                                  //color: Colors.blue,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      //Image.asset("assets/images/124.JPG"),
+                                      Container(
+                                        height: 100,
+                                        width: double.infinity,
+                                        child: campaign[index]['pic'] != null ? 
+                                        Image.network(campaign[index]['pic'], fit: BoxFit.fill,) :
+                                        Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 8),
+                                        child: Text(
+                                          campaign[index]['title'],
+                                          style: TextStyle(fontSize: 13.0),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 5,),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8),
-                                    child: Text(
-                                      campaign[index]['title'],
-                                      style: TextStyle(fontSize: 13.0),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                              Container(
+                                child: GestureDetector(
+                                  onTap: (){
+                                    if (campaign[index]['status'] == true) {
+                                      var url = campaign[index]['url'];
+                                      launch((url));
+                                    } else {
+                                    }
+                                    
+                                  },
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                color: campaign[index]['status'] == false ? Color(0xFFF001117).withOpacity(0.4) : Color(0xFFFFFFFFF).withOpacity(0.1),
+                              ),
+                            ],
+                            
                           ),
                         ),
                       );

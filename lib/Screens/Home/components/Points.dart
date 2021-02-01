@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:Reward/constants.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Points extends StatefulWidget {
   Points({Key key}) : super(key: key);
@@ -82,6 +82,24 @@ class _PointsState extends State<Points> {
     }
     else{
       print(response.statusCode);
+      final Map<String, dynamic> pointdata = convert.jsonDecode(response.body);
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "มีข้อผิดพลาด",
+        desc: pointdata['massage'],
+        buttons: [
+          DialogButton(
+            child: Text(
+              "ล็อกอินใหม่",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+            },
+          ),
+        ]
+      ).show();
     }
   }
 
