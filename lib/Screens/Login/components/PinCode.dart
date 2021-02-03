@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+import 'package:Reward/constants.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flushbar/flushbar.dart';
 
 class PinCode extends StatefulWidget {
   PinCode({Key key}) : super(key: key);
@@ -11,12 +17,113 @@ class PinCode extends StatefulWidget {
 class _PinCodeState extends State<PinCode> {
   TextEditingController textEditingController = TextEditingController();
   final String requiredNumber = '12345';
-  final String member_phone = '0978869765';
+  //final String member_phone = '0922568260';
+  //SharedPreferences prefs;
+  bool isLoading = false;
+
+  _createPinMember(String value, Map data) async{
+    print(value);
+    print(data['token']['token']);
+    print(data['token']['member_phone']);
+    setState(() {
+      isLoading = true;
+    });
+    var url = pathAPI +"api/createPinMember";
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'token': data['token']['token'],
+      },
+      body: convert.jsonEncode(
+        {'member_pin': value, 'member_phone': data['token']['member_phone']}
+      )
+    );
+    if (response.statusCode == 200){
+      var token = convert.jsonDecode(response.body);
+      //await prefs.setString('token', response.body);
+      if (token['code'] == "200"){
+        Flushbar(
+          title: '${token['massage']}',
+          message: "${token['code']}",
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.blue[300],
+          ),
+          duration: Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.blue[300],
+        )..show(context);
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/home', (Route<dynamic> route) => false);
+        });
+      }
+      else if (token['code'] == "400") {
+        Alert(
+            context: context,
+            type: AlertType.error,
+            title: "${token['massage']}",
+            desc: "${token['code']}",
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ล็อกอินใหม่",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+                },
+              ),
+            ]
+          ).show();
+      }
+      else if (token['code'] == "500") {
+        Alert(
+            context: context,
+            type: AlertType.error,
+            title: "${token['massage']}",
+            desc: "${token['code']}",
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ล็อกอินใหม่",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+                },
+              ),
+            ]
+          ).show();
+      }
+    }else{
+      print(response.statusCode);
+          
+          Alert(
+            context: context,
+            type: AlertType.error,
+            title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+            desc: response.statusCode.toString(),
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ล็อกอินใหม่",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+                },
+              ),
+            ]
+          ).show();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
-    print(data);
+    Map data = ModalRoute.of(context).settings.arguments;
+    //print(data);
     return Scaffold(
       //backgroundColor: Color(0xFFFFFFFF),
       backgroundColor: Color(0xff050f40),
@@ -67,8 +174,9 @@ class _PinCodeState extends State<PinCode> {
                     )
                   ],
                   onCompleted: (value) {
-                    if (value == requiredNumber) {
-                      Navigator.pushNamed(context, "/login");
+                    if (value.length == 5) {
+                      _createPinMember(value, data);
+                      //Navigator.pushNamed(context, "/login");
                     } else {
                       textEditingController.clear();
                     }

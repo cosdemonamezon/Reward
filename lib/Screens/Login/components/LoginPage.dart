@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -37,6 +38,9 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLoading = true;
     });
+    var status = await OneSignal.shared.getPermissionSubscriptionState();
+    String playerId = status.subscriptionStatus.userId;
+    print(playerId);
     username = values['username'];
     password = values['password'];
     //var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
@@ -45,7 +49,9 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json'},
         body: convert.jsonEncode(
-            {'username': values['username'], 'password': values['password']}));
+            {
+              'username': values['username'], 'password': values['password'], 'member_noti': playerId
+            }));
     if (response.statusCode == 200) {
       var token = convert.jsonDecode(response.body);
       //save to prefs
@@ -92,10 +98,27 @@ class _LoginPageState extends State<LoginPage> {
           //     });
           Navigator.pushNamed(
               context, '/pincode', arguments:{
-                'username': username, 'password': password, 
+                'username': username, 'password': password, 'token': token['data']
               });
         });        
-      } else {
+      } else if (token['code'] == "400") {
+        Flushbar(
+          title: '${token['massage']}',
+          message: "${token['code']}",
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.blue[300],
+          ),
+          duration: Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.blue[300],
+        )..show(context);
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/login', (Route<dynamic> route) => false);
+        });        
+      } 
+      else {
           setState(() {
           isLoading = false;
         });

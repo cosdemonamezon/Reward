@@ -81,98 +81,101 @@ class _HomeScreenState extends State<HomeScreen> {
     print(token['token']);
     bool isTokenExpired = JwtDecoder.isExpired(token['token']);
 
-    if (!isTokenExpired) {
-      Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-    } else {
-      setState(() {
-        isLoading = true;
-      });
-      var url = pathAPI + 'api/getHome_M';
-      var response = await http.post(
-        url,
-        headers: {
-          'Content-Type':'application/json',
-          'token': token['token']
-        },
-        body: convert.jsonEncode({
-          'member_id': token['member_id']
-          //'token': token['token']
-        })
-      );
-      if (response.statusCode == 200){
-        final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
-        //save to prefs
-        // await prefs.setString('profile', response.body);
-        // var profileString = prefs.getString('profile');
-        if(homedata['code'] == "200"){
-          print(homedata['massage']);
-          setState(() {
-            //data = convert.jsonDecode(profileString);
-            data = homedata['data'];
-            print(data['username']);
-            print(data['count_turn_over']);
-            //print(data['member_address']);
-            isLoading = false;
-          });
-          // Flushbar(
-          //   title: '${token['massage']}',
-          //   message: "${token['code']}",
-          //   icon: Icon(
-          //     Icons.info_outline,
-          //     size: 28.0,
-          //     color: Colors.blue[300],
-          //   ),
-          //   duration: Duration(seconds: 3),
-          //   leftBarIndicatorColor: Colors.blue[300],
-          // )..show(context);
-          // Future.delayed(Duration(seconds: 3), () {
-          //   Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-          // });
-          //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-        }
-        else {
-          print(homedata['massage']);
-          // setState(() {
-          //   isLoading = false;
-          // });
-          // //print(response.body);
-          // var feedback = convert.jsonDecode(response.body);
-          // Flushbar(
-          //   title: '${feedback['message']}',
-          //   message: 'เกิดข้อผิดพลาดจากระบบ : ${feedback['status_code']}',
-          //   backgroundColor: Colors.redAccent,
-          //   icon: Icon(
-          //     Icons.error,
-          //     size: 28.0,
-          //     color: Colors.white,
-          //     ),
-          //   duration: Duration(seconds: 3),
-          //   leftBarIndicatorColor: Colors.blue[300],
-          // )..show(context);
-        }
-      }
-      else{
-        print(response.statusCode);
-        final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
-        Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: homedata['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+    try {
+      if (!isTokenExpired) {
+        Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+      } else {
+        setState(() {
+          isLoading = true;
+        });
+        var url = pathAPI + 'api/getHome_M';
+        var response = await http.post(
+          url,
+          headers: {
+            'Content-Type':'application/json',
+            'token': token['token']
+          },
+          body: convert.jsonEncode({
+            'member_id': token['member_id']
+            //'token': token['token']
+          })
+        );
+        if (response.statusCode == 200){
+          final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
+          //save to prefs
+          // await prefs.setString('profile', response.body);
+          // var profileString = prefs.getString('profile');
+          if(homedata['code'] == "200"){
+            print(homedata['massage']);
+            setState(() {
+              //data = convert.jsonDecode(profileString);
+              data = homedata['data'];
+              print(data['username']);
+              print(data['count_turn_over']);
+              //print(data['member_address']);
+              isLoading = false;
+            });
+            // Flushbar(
+            //   title: '${token['massage']}',
+            //   message: "${token['code']}",
+            //   icon: Icon(
+            //     Icons.info_outline,
+            //     size: 28.0,
+            //     color: Colors.blue[300],
+            //   ),
+            //   duration: Duration(seconds: 3),
+            //   leftBarIndicatorColor: Colors.blue[300],
+            // )..show(context);
+            // Future.delayed(Duration(seconds: 3), () {
+            //   Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+            // });
+            //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+          }
+          else {
+            print(homedata['massage']);
+            Alert(
+            context: context,
+            type: AlertType.error,
+            title: "มีข้อผิดพลาด",
+            desc: homedata['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ล็อกอินใหม่",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+                },
               ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
-        // Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+            ]
+          ).show();
+          }
+        }
+        else{
+          print(response.statusCode);
+          
+          Alert(
+            context: context,
+            type: AlertType.error,
+            title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+            desc: response.statusCode.toString(),
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ล็อกอินใหม่",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+                },
+              ),
+            ]
+          ).show();
+          // Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+        }
       }
+    } catch (e) {
     }
   }
 
