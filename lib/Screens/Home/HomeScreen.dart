@@ -491,11 +491,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               left: 3,
                               child: GestureDetector(
                                 onTap: (){
-                                  Navigator.push(
-                                    context, MaterialPageRoute(
-                                      builder: (context){return DetailCalen();}
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context, MaterialPageRoute(
+                                  //     builder: (context){return DetailCalen();}
+                                  //   ),
+                                  // );
                                 },
                                 child: Container(
                                   height: 84,

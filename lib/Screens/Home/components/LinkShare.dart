@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -22,6 +23,7 @@ class _LinkShareState extends State<LinkShare> {
   Map<String, dynamic> data = {};
   Map<String, dynamic> shareLink = {};
   RefreshController _refreshController = RefreshController(initialRefresh: false);
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -101,167 +103,170 @@ class _LinkShareState extends State<LinkShare> {
         centerTitle: true,
         title: Text("แชร์ลิ้ง"),
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          SingleChildScrollView(child: Image.asset("assets/images/home.jpg", fit: BoxFit.cover,)),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Color(0xFFF001117).withOpacity(0.7),
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/home.jpg", ),
+            fit: BoxFit.fill
           ),
-          Column(
-            //mainAxisAlignment: MainAxisAlignment.start,
+        ),
+        child: SingleChildScrollView(
+                  child: Column(
             children: [
-              SizedBox(height: 40.0,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 300,
-                    width: 300,
-                    //color: Colors.blue,
-                    child: shareLink['member_qrcode'] != null ?
-                    Image.network(shareLink['member_qrcode'], fit: BoxFit.fill,) :
-                    Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
-                    
-                  ),
-                ],
+              SizedBox(height: 80.0,),
+              Container(
+                height: 270,
+                width: 270,
+                //color: Colors.blue,
+                child: shareLink['member_qrcode'] != null ?
+                Image.network(shareLink['member_qrcode'], fit: BoxFit.fill,) :
+                Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),  
               ),
+              
               SizedBox(height: 40.0,),
-              Expanded(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Container(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [BoxShadow(
-                                color: Color.fromRGBO(255, 95, 27, .3),
-                                blurRadius: 20,
-                                offset: Offset(0, 10),
-                              )],
-                            ),
-                            child: FormBuilder(
-                              key: _fbKey,
-                              initialValue: {
-                                'link1': data['member_link_1'],
-                                'link2': data['member_link_2'],
-                                'link3': data['member_link_3'],
-                                'link4': data['member_link_4']
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [BoxShadow(
+                            color: Color.fromRGBO(255, 95, 27, .3),
+                            blurRadius: 20,
+                            offset: Offset(0, 10),
+                          )],
+                        ),
+                        child: FormBuilder(
+                          key: _fbKey,
+                          initialValue: {
+                            'link1': data['member_link_1'],
+                            'link2': data['member_link_2'],
+                            'link3': data['member_link_3'],
+                            'link4': data['member_link_4']
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                ),
+                                child: FormBuilderTextField(
+                                  //controller: controller,
+                                  cursorColor: Theme.of(context).cursorColor,
+                                  initialValue: "${data['member_link_1']}",
+                                  attribute: 'link1',
+                                  decoration: InputDecoration(
+                                    //hintText: "${data['member_link_1']}",
+                                    enabled: true,
+                                    icon: Icon(Icons.share_sharp),
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF6200EE),
                                     ),
-                                    child: FormBuilderTextField(
-                                      cursorColor: Theme.of(context).cursorColor,
-                                      initialValue: "${data['member_link_1']}",
-                                      attribute: 'link1',
-                                      decoration: InputDecoration(
-                                        enabled: true,
-                                        icon: Icon(Icons.favorite),
-                                        labelStyle: TextStyle(
-                                          color: Color(0xFF6200EE),
-                                        ),
-                                        suffixIcon: IconButton(
-                                          onPressed: (){},
-                                          icon: Icon(Icons.copy),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                    ),
-                                    child: FormBuilderTextField(
-                                      cursorColor: Theme.of(context).cursorColor,
-                                      initialValue: "${data['member_link_2']}",
-                                      attribute: 'link2',
-                                      decoration: InputDecoration(
-                                        enabled: true,
-                                        icon: Icon(Icons.favorite),
-                                        labelStyle: TextStyle(
-                                          color: Color(0xFF6200EE),
-                                        ),
-                                        suffixIcon: IconButton(
-                                          onPressed: (){},
-                                          icon: Icon(Icons.copy),
-                                        ),
-                                      ),
+                                    suffixIcon: IconButton(
+                                      onPressed: () async {
+                                        // setState(() {
+                                        //   controller = data['member_link_1'];
+                                        // });
+                                        await FlutterClipboard.copy(data['member_link_1']);
+                                      },
+                                      icon: Icon(Icons.copy),
                                     ),
                                   ),
-
-                                  Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                    ),
-                                    child: FormBuilderTextField(
-                                      cursorColor: Theme.of(context).cursorColor,
-                                      initialValue: "${data['member_link_3']}",
-                                      attribute: 'link3',
-                                      decoration: InputDecoration(
-                                        enabled: true,
-                                        icon: Icon(Icons.favorite),
-                                        labelStyle: TextStyle(
-                                          color: Color(0xFF6200EE),
-                                        ),
-                                        suffixIcon: IconButton(
-                                          onPressed: (){},
-                                          icon: Icon(Icons.copy),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      //border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                    ),
-                                    child: FormBuilderTextField(
-                                      cursorColor: Theme.of(context).cursorColor,
-                                      initialValue: "${data['member_link_4']}",
-                                      attribute: 'link4',
-                                      decoration: InputDecoration(
-                                        enabled: true,
-                                        icon: Icon(Icons.favorite),
-                                        labelStyle: TextStyle(
-                                          color: Color(0xFF6200EE),
-                                        ),
-                                        suffixIcon: IconButton(
-                                          onPressed: (){},
-                                          icon: Icon(Icons.copy),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  
-                                ],
+                                ),
                               ),
-                            ),
+
+                              Container(
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                ),
+                                child: FormBuilderTextField(
+                                  cursorColor: Theme.of(context).cursorColor,
+                                  initialValue: "${data['member_link_2']}",
+                                  attribute: 'link2',
+                                  decoration: InputDecoration(
+                                    enabled: true,
+                                    icon: Icon(Icons.share_sharp),
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF6200EE),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: ()async{
+                                        await FlutterClipboard.copy(data['member_link_2']);
+                                      },
+                                      icon: Icon(Icons.copy),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                                      
+                              Container(
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                ),
+                                child: FormBuilderTextField(
+                                  cursorColor: Theme.of(context).cursorColor,
+                                  initialValue: "${data['member_link_3']}",
+                                  attribute: 'link3',
+                                  decoration: InputDecoration(
+                                    enabled: true,
+                                    icon: Icon(Icons.share_sharp),
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF6200EE),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: ()async{
+                                        await FlutterClipboard.copy(data['member_link_3']);
+                                      },
+                                      icon: Icon(Icons.copy),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              Container(
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  //border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                ),
+                                child: FormBuilderTextField(
+                                  cursorColor: Theme.of(context).cursorColor,
+                                  initialValue: "${data['member_link_4']}",
+                                  attribute: 'link4',
+                                  decoration: InputDecoration(
+                                    enabled: true,
+                                    icon: Icon(Icons.share_sharp),
+                                    labelStyle: TextStyle(
+                                        color: Color(0xFF6200EE),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: ()async{
+                                        await FlutterClipboard.copy(data['member_link_4']);
+                                      },
+                                      icon: Icon(Icons.copy),
+                                    ),
+                                  ),
+                                ),
+                              ), 
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),
+              SizedBox(height: 80.0,),
             ],
           ),
-        ]
-      ),
+        ),
+      ), 
     );
   }
 }

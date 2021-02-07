@@ -26,13 +26,13 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     _getCashMember_M();
-    //tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
   }
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    //tabController.dispose();
+    tabController.dispose();
   }
 
   _getCashMember_M() async{
@@ -62,7 +62,10 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         });
         print(cradit);
       } else {
-
+        setState(() {
+          isLoading = false;
+        });
+        print('error from backend ${response.statusCode}');
       }
     } else {
     }
@@ -115,114 +118,84 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
             ),
           ],
         ),
-        // bottom: TabBar(
-        //   controller: tabController,
-        //   unselectedLabelColor: Colors.black,
-        //   labelColor: Colors.white,
-        //   indicatorWeight: 5.0,
-        //   indicatorSize: TabBarIndicatorSize.label,
-        //   tabs: [
-        //     Tab(text: "ข้อมูลเครดิต",),
-        //     Tab(text: "รายการ",),
-        //   ],
-        // ),
+        bottom: TabBar(
+          controller: tabController,
+          unselectedLabelColor: Colors.black,
+          labelColor: Colors.white,
+          indicatorWeight: 5.0,
+          indicatorSize: TabBarIndicatorSize.label,
+          tabs: [
+            Tab(text: "ข้อมูลเครดิต",),
+            Tab(text: "รายการ",),
+          ],
+        ),
       ),
-      body: SafeArea(
-        top: true,
-        bottom: true,
-        left: false,
-        right: true,
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: cradit.length,
-            itemBuilder: (BuildContext context, int index){
-              return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                        child: Text(
-                          cradit[index]['date'],
-                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
+      body: TabBarView(
+        controller: tabController,
+        children: [
+          //Tab ที่หนึ่ง
+          Center(
+            child: Text("${cradit[0]['date']}"),
+          ),
+
+          //Tab ที่สอง
+          ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                child: Text(
+                  "รายการล่าสุด",
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20,),
+                child: Text("4 ส.ค. 63"),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+                child: Column(
+                  children: [
+                    Card(
+                      child: ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                            Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("21:54 น.", style: TextStyle(fontSize: 10.0)),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                  
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0),
-                      child: Column(
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            //padding: EdgeInsets.only(left: 40.0, right: 40.0),
-                            itemCount: cradit[index]['data'].length,
-                            itemBuilder: (BuildContext context, int index1){
-                              return Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0,),
-                                child: Card(
-                                  color: Colors.grey[800],
-                                  child: ListTile(
-                                  title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "จำนวนเงิน : ${cradit[index]['data'][index1]['amount'].toString()}",
-                                        style: TextStyle (
-                                          color: Colors.white, fontSize: 14.5
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.0,),
-                                      Text(
-                                        "ชื่อผู้ทำรายการ : ${cradit[index]['data'][index1]['username']}",
-                                        style: TextStyle (
-                                          color: Colors.white, fontSize: 14.5
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.0,),
-                                      Text(
-                                        "ชื่อกระดาน : ${cradit[index]['data'][index1]['board']}",
-                                        style: TextStyle (
-                                          color: Colors.white, fontSize: 14.5
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                    ],
-                                  ),
-                                  subtitle: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "วันที่ทำรายการ ${cradit[index]['data'][index1]['createdDate']}",
-                                            style: TextStyle (
-                                                color: Colors.white, fontSize: 13.5
-                                            ),
-                                          ),
-                                          SizedBox(width: 8,),
-                                          Text(
-                                            "เวลา ${cradit[index]['data'][index1]['createdTime']}",
-                                            style: TextStyle (
-                                                color: Colors.white, fontSize: 12.5
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                ),),
-                              );
-                            },
-                          ),
-                        ],
+                    ),
+                    Card(
+                      child: ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("ฝากเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                            Text("200,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("21:54 น.", style: TextStyle(fontSize: 10.0)),
+                          ],
+                        ),
                       ),
                     ),
-                  
-                ],
-              );
-            }
+                  ],
+                ),
+              ),
+            ],
           ),
-        
-          
+        ],
       ),
 
       bottomNavigationBar: Container(

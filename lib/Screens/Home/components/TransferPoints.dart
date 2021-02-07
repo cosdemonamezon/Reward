@@ -89,31 +89,48 @@ class _TransferPointsState extends State<TransferPoints> {
             ),
           ],
         ).show();
-
-
-        // Flushbar(
-        //   title: '${point['massage']}',
-        //   message: "ขอบคุณ",
-        //   icon: Icon(
-        //     Icons.info_outline,
-        //     size: 28.0,
-        //     color: Colors.green[300],
-        //   ),
-        //   duration: Duration(seconds: 3),
-        //   leftBarIndicatorColor: Colors.blue[300],
-        // )..show(context);
-        // Future.delayed(Duration(seconds: 3), () {
-        //   //Navigator.pop(context);
-        //   Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-        // });
       }
       else{
         print(point['massage']);
+        Alert(
+          context: context,
+          type: AlertType.error,
+          title: point['massage'],
+          desc: "โปรดตรวจสอบหมายเลขโทรศัพท์อีกครั้ง",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "กรอกเบอร์โทรอีกครั้ง",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: (){
+                Navigator.pop(context);
+              },
+            ),
+          ]
+        ).show();
       }
     }else{
       var comfirm = convert.jsonDecode(response.body);
       print(comfirm['massage']);
       print(response.statusCode);
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "มีข้อผิดพลาด",
+        desc: comfirm['massage'],
+        buttons: [
+          DialogButton(
+            child: Text(
+              "ล็อกอินใหม่",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){
+              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+            },
+          ),
+        ]
+      ).show();
     }
   }
 
@@ -184,7 +201,6 @@ class _TransferPointsState extends State<TransferPoints> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -193,21 +209,11 @@ class _TransferPointsState extends State<TransferPoints> {
                                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                                       ),
                                     ],
-                                  ),
-                                  
+                                  ), 
                                 ],
                               ),
-                              // Padding(
-                              //   padding: EdgeInsets.symmetric(horizontal: 5.0),
-                              //   child: Text(
-                              //     //"User Member : ${data['username']}",
-                              //     "${data['group_member_name']}  :  ${data['username']}",
-                              //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                              //   ),
-                              // ),
                             ],
                           ),
-                         
                         ],
                       ),
                     ),
@@ -231,9 +237,9 @@ class _TransferPointsState extends State<TransferPoints> {
                     child: FormBuilderTextField(
                       attribute: 'point',
                       keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        ThousandsFormatter()
-                      ],
+                      // inputFormatters: [
+                      //   ThousandsFormatter()
+                      // ],
                       textAlign: TextAlign.end,
                       decoration: InputDecoration(
                         labelText: 'จำนวน',
@@ -266,37 +272,11 @@ class _TransferPointsState extends State<TransferPoints> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 50.0,),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: 50),
-                  //   child: FormBuilderTextField(
-                  //     attribute: 'note',
-                  //     keyboardType: TextInputType.multiline,
-                  //     textAlign: TextAlign.start,
-                  //     maxLines: 5,
-                  //     decoration: InputDecoration(
-                  //       labelText: 'บันทึกช่วยจำ',
-                  //       enabledBorder: OutlineInputBorder(
-                  //         borderSide: BorderSide(color: Color(0xFF6200EE)),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  
-                  SizedBox(height: 50.0,),
+                  SizedBox(height: 150.0,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     children: [
-                      // TextButton.icon(
-                      //   label: Text(
-                      //     "ยกเลิก", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.redAccent),
-                      //   ),
-                      //   icon: Icon(Icons.cancel_outlined, size: 50, color: Colors.redAccent,),
-                      //   onPressed: (){
-                      //     Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-                      //   },
-                      // ),
                       GestureDetector(
                         onTap: (){
                           Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
@@ -353,57 +333,12 @@ class _TransferPointsState extends State<TransferPoints> {
                             ),
                           ),
                         ),
-                      ),
-                      // TextButton.icon(
-                      //   label: Text(
-                      //     "โอน Point", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.green),
-                      //   ),
-                      //   icon: Icon(Icons.check_circle_outline, size: 50, color: Colors.green,),
-                      //   onPressed: (){
-                      //     if (_fbKey.currentState.saveAndValidate()){
-                      //       _transferPoint(_fbKey.currentState.value);
-                      //       setState((){
-                      //         isLoading = true;
-                      //       });
-                      //     }
-                      //   },
-                      // ),
+                      ), 
                     ],
                   ),
-                  // Container(
-                  //   child: FlatButton(
-                  //     onPressed: () {
-                  //       if (_fbKey.currentState.saveAndValidate()){
-                  //         _transferPoint(_fbKey.currentState.value);
-                  //         setState((){
-                  //           isLoading = true;
-                  //         });
-                  //       }
-                  //     },
-                  //     child: Text(
-                  //       "โอน Point", 
-                  //       style: TextStyle(color: Colors.white, fontSize: 20),
-                  //     ),
-                  //   ),
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(10.0),
-                  //     gradient: LinearGradient(
-                  //       colors: [                            
-                  //         Colors.grey[50],
-                  //         Colors.greenAccent,
-                  //         Colors.greenAccent, 
-                  //         Colors.greenAccent,
-                  //         Colors.grey[50],
-                  //       ],
-                  //       begin: Alignment.topLeft,
-                  //       end: Alignment.bottomRight,
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             ),
-            
           ],
         ),
       ),
