@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:Reward/Screens/Home/components/Getreward.dart';
 import 'package:Reward/Screens/Home/components/StatusReward.dart';
 import 'package:Reward/Screens/Home/components/TransferPoints.dart';
+import 'Screens/Login/components/NotiScreen.dart';
 import 'package:Reward/Award/AwardScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'Screens/Login/components/PinCode.dart';
@@ -109,6 +110,7 @@ class MyApp extends StatelessWidget {
           '/cradit': (context) => Cradit(),
           '/pincode': (context) => PinCode(),
           '/share': (context) => LinkShare(),
+          '/noti': (context) => NotiScreen(),
         });
   }
 }

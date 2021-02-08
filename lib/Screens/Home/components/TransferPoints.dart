@@ -3,7 +3,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flushbar/flushbar.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:Reward/Screens/Login/components/Coin.dart';

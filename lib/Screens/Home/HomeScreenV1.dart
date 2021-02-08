@@ -1,6 +1,5 @@
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:Reward/Screens/Login/components/NotiScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter_appavailability/flutter_appavailability.dart';
@@ -205,9 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final Map<String, dynamic> notinumber = convert.jsonDecode(response.body);
       //print(notinumber);
       if (notinumber['code'] == "200") {
-        setState(() {
-          notidata = notinumber['data'];
-        });
+        notidata = notinumber['data'];
         print(notidata.length);
       } else {
       }
@@ -884,36 +881,12 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage(pathicon3),
-                        radius: 24,
-                        child: GestureDetector(
-                          onTap: (){
-                            Navigator.push(
-                              context, MaterialPageRoute(
-                                builder: (context){return NotiScreen();}
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        right: 5.0,
-                        //top: 2.0,
-                        child: notidata.length == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                            notidata.length.toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      
-                    ],
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon3),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){},
+                    ),
                   ),
                   Text(
                     "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
