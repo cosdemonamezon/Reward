@@ -14,4 +14,8 @@ String pathicon3 = "assets/images/noti.jpg";
 String pathicon4 = "assets/images/star.jpg";
 
 //Path API
-String pathAPI = "http://103.74.253.96/reward-api/public/";
+//String pathAPI = "http://103.74.253.96/reward-api/public/";
+String pathAPI = "https://mzreward.com/reward-api/public/";
+
+//เซ็ทตัวแปร ตรง bottomNavigationBar
+String notinum = "";

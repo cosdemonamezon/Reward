@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //_checkLogin();
     //_checkTokenExp();
     _getHomePage();
-    _getNotiMember();
+   
   }
 
   
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
    
     //_checkTokenExp();
     _getHomePage(); //ทุกครั้งที่ทำการรีเฟรช จะดึงข้อมูลใหม่
-    _getNotiMember();
+   
     _refreshController.refreshCompleted();
   }
   void _onLoading() async{
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //items.add((items.length+1).toString());
     //_checkTokenExp();
     _getHomePage();
-    _getNotiMember();
+    
     //_refreshController.loadComplete();
     _refreshController.loadNoData();
     _refreshController.resetNoData();
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // await prefs.setString('profile', response.body);
           // var profileString = prefs.getString('profile');
           if(homedata['code'] == "200"){
-            //print(homedata['massage']);
+            //print(homedata);
             setState(() {
               //data = convert.jsonDecode(profileString);
               data = homedata['data'];
@@ -183,37 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _getNotiMember()async{
-    prefs = await SharedPreferences.getInstance();
-    var tokenString = prefs.getString('token');
-    var token = convert.jsonDecode(tokenString);
-    //print(token['token']);
-    //print(token['member_id']);
-    var url = pathAPI + 'api/getNotiMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-      })
-    );
-    if (response.statusCode == 200){
-      //print(response.statusCode);
-      final Map<String, dynamic> notinumber = convert.jsonDecode(response.body);
-      //print(notinumber);
-      if (notinumber['code'] == "200") {
-        setState(() {
-          notidata = notinumber['data'];
-        });
-        print(notidata.length);
-      } else {
-      }
-    }
-  }
-
+  
   _receivePointTurnOver() async{
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
@@ -257,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("${data['username']}"),
+        title: data['username'] == null ? Text("กำลังโหลด..") : Text("${data['username']}"),
         //title: Text('55555'),
         leading: IconButton(
           icon: Icon(Icons.settings, size: 35), 
@@ -269,7 +239,8 @@ class _HomeScreenState extends State<HomeScreen> {
               'member_email': data['member_email'],
               'member_address': data['member_address'],
               'member_activate': data['member_activate'],
-              'board_phone_1': data['board_phone_1']
+              'board_phone_1': data['board_phone_1'],
+              'total_noti': data['total_noti'],
             });
           },
         ),
@@ -288,6 +259,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   'member_link_2': data['member_link_2'],
                   'member_link_3': data['member_link_3'],
                   'member_link_4': data['member_link_4'],
+                  'board_phone_1': data['board_phone_1'],
+                  'total_noti': data['total_noti'],
                 });
               },
             ),
@@ -361,7 +334,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             child: GestureDetector(
                               onTap: (){
-                                Navigator.pushNamed(context, '/status');
+                                Navigator.pushNamed(context, '/status', arguments: {
+                                  'board_phone_1': data['board_phone_1'],
+                                  'total_noti': data['total_noti'],
+                                });
                               },
                               child: Container(
                                 padding: EdgeInsets.all(4.4),
@@ -407,7 +383,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: (){
                                 Navigator.pushNamed(context, '/cradit', arguments: {
                                   'credit': data['credit'], 
-                                  'board_phone_1': data['board_phone_1']                           
+                                  'board_phone_1': data['board_phone_1'],
+                                  'total_noti': data['total_noti'],                         
                                 });
                               },
                               child: Container(
@@ -467,7 +444,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onTap: (){  
                                   Navigator.pushNamed(context, '/point', arguments: {
                                     'member_point': data['member_point'],
-                                    'board_phone_1': data['board_phone_1']
+                                    'board_phone_1': data['board_phone_1'],
+                                    'total_noti': data['total_noti'],
                                   });
                                 },
                                 child: Container(
@@ -664,7 +642,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               'member_name_th': data['member_name_th'],
                                               'member_point': data['member_point'],
                                               'group_member_name': data['group_member_name'],
-                                              'board_phone_1': data['board_phone_1']
+                                              'board_phone_1': data['board_phone_1'],
+                                              'total_noti': data['total_noti'],
                                            });
                                          },
                                       ),
@@ -746,7 +725,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             'member_id': data['id'],
                                             'username': data['username'],
                                             'member_point': data['member_point'],
-                                            'board_phone_1': data['board_phone_1']
+                                            'board_phone_1': data['board_phone_1'],
+                                            'total_noti': data['total_noti'],
                                           });
                                         },
                                       ),
@@ -769,7 +749,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         // );
                                         Navigator.pushNamed(context, '/promotion', arguments: {
                                           'username': data['username'],
-                                          'board_phone_1': data['board_phone_1']
+                                          'board_phone_1': data['board_phone_1'],
+                                          'total_noti': data['total_noti'],
                                         });
                                       },
                                     ),
@@ -792,7 +773,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             'member_link_2': data['member_link_2'],
                                             'member_link_3': data['member_link_3'],
                                             'member_link_4': data['member_link_4'],
-                                            'board_phone_1': data['board_phone_1']
+                                            'board_phone_1': data['board_phone_1'],
+                                            'total_noti': data['total_noti']
                                           });
                                         },
                                       ),
@@ -891,23 +873,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
-                            Navigator.push(
-                              context, MaterialPageRoute(
-                                builder: (context){return NotiScreen();}
-                              ),
-                            );
+                            Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data['member_point'],
+                              'board_phone_1': data['board_phone_1'],
+                              'total_noti': data['total_noti'],
+                            });
                           },
                         ),
                       ),
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: notidata.length == 0 ? SizedBox(height: 2.0,)
+                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
                         :CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                            notidata.length.toString(),
+                           data['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),

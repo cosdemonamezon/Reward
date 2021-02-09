@@ -4,6 +4,9 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:Reward/Screens/Login/components/Coin.dart';
 
 
 class StatusReward extends StatefulWidget {
@@ -84,6 +87,7 @@ class _StatusRewardState extends State<StatusReward> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data2 = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -173,6 +177,123 @@ class _StatusRewardState extends State<StatusReward> {
           },
           separatorBuilder: (BuildContext context, int index) => Divider(),
           itemCount: data.length
+        ),
+      ),
+
+      bottomNavigationBar: Container(
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(30.0),
+          //   topRight: Radius.circular(30.0),
+          // ),
+          color: kNavigationBarColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon1),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        //launch(('tel://${item.mobile_no}'));
+                        //launch(('tel://0922568260'));
+                        launch(('tel://${data2['board_phone_1']}'));
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon2),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Helpadvice();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage(pathicon3),
+                        radius: 24,
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, "/noti", arguments: {
+                              'total_noti': data2['total_noti'],
+                            });
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        right: 5.0,
+                        //top: 2.0,
+                        child: data2['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :data2['total_noti'] == 0 ? SizedBox(height: 2.0,)
+                        :CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 10,
+                          child: Text(
+                            data2['total_noti'].toString(),
+                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      
+                    ],
+                  ),
+                  Text(
+                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon4),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coin();}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

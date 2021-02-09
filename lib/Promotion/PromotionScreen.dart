@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class PromotionScreen extends StatefulWidget {
   PromotionScreen({Key key}) : super(key: key);
@@ -144,36 +145,33 @@ class _PromotionScreenState extends State<PromotionScreen> {
         width: double.infinity,
         child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
+              Container(
+                width: double.infinity,
+                height: 170,
+                child: Swiper(
                   itemCount: banner.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      width: double.infinity,
-                      height: 170,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: banner[index]['banner_pic'] != null ?
-                            Image.network(banner[index]['banner_pic'], fit: BoxFit.fill,)
-                            : Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
-                          ),
-                          Positioned(
-                            top: 30,
-                            left: 10,
-                            child: Text(
-                              banner[index]['banner_name'],
-                              style: TextStyle(
-                                color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 20.0
-                              ),
+                  pagination: SwiperPagination(),
+                  itemBuilder: (context, index){
+                    return Stack(
+                      children: [
+                        Positioned.fill(
+                          child: banner[index]['banner_pic'] != null ?
+                          Image.network(banner[index]['banner_pic'], fit: BoxFit.fill,)
+                          : Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
+                        ),
+                        Positioned(
+                          top: 30,
+                          left: 10,
+                          child: Text(
+                            banner[index]['banner_name'],
+                            style: TextStyle(
+                              color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 20.0
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
-                  }
+                  } 
                 ),
               ),
               SizedBox(height: 10.0,),
@@ -357,12 +355,35 @@ class _PromotionScreenState extends State<PromotionScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(pathicon3),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: (){},
-                    ),
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage(pathicon3),
+                        radius: 24,
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, "/noti", arguments: {
+                              'total_noti': data['total_noti'],
+                            });
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        right: 5.0,
+                        //top: 2.0,
+                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
+                        :CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 10,
+                          child: Text(
+                            data['total_noti'].toString(),
+                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      
+                    ],
                   ),
                   Text(
                     "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),

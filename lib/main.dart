@@ -7,6 +7,7 @@ import 'package:Reward/Screens/Home/components/Cradit.dart';
 import 'package:Reward/Screens/Login/LoginScreen.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/LoginPage.dart';
+import 'Screens/Login/components/DetailNoti.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -16,8 +17,10 @@ import 'package:flutter/services.dart';
 import 'package:Reward/Screens/Home/components/Getreward.dart';
 import 'package:Reward/Screens/Home/components/StatusReward.dart';
 import 'package:Reward/Screens/Home/components/TransferPoints.dart';
+
 import 'Screens/Login/components/NotiScreen.dart';
 import 'package:Reward/Award/AwardScreen.dart';
+import 'package:Reward/Award/WebViewAward.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'Screens/Login/components/PinCode.dart';
 import 'Screens/Home/components/LinkShare.dart';
@@ -111,6 +114,8 @@ class MyApp extends StatelessWidget {
           '/pincode': (context) => PinCode(),
           '/share': (context) => LinkShare(),
           '/noti': (context) => NotiScreen(),
+          '/notidetail': (context) => DetailNoti(),
+          '/webview': (context) => WebViewAward(),
         });
   }
 }

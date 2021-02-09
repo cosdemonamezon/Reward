@@ -45,6 +45,8 @@ dependencies:
   rflutter_alert: ^1.1.0
   flutter_launcher_icons: ^0.8.1
   clipboard: ^0.1.2+8
+  flutter_swiper: ^1.1.6
+  webview_flutter: ^1.0.7
 
 dev_dependencies:
   flutter_test:

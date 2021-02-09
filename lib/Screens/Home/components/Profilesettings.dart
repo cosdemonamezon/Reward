@@ -668,12 +668,34 @@ class _ProfilesettingsState extends State<Profilesettings> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(pathicon3),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: (){},
-                    ),
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage(pathicon3),
+                        radius: 24,
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, "/noti", arguments: {
+                              'total_noti': data['total_noti'],
+                            });
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        right: 5.0,
+                        //top: 2.0,
+                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 10,
+                          child: Text(
+                            data['total_noti'].toString(),
+                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      
+                    ],
                   ),
                   Text(
                     "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),

@@ -20,6 +20,7 @@ class _NotiScreenState extends State<NotiScreen> {
   bool isLoading = false;
   Map<String, dynamic> data = {};
   List<dynamic> notidata = [];
+  Map<String, dynamic> readnotidata = {};
   
   @override
   void initState() {
@@ -64,7 +65,7 @@ class _NotiScreenState extends State<NotiScreen> {
           context: context,
           type: AlertType.error,
           title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-          desc: response.statusCode.toString(),
+          //desc: response.statusCode.toString(),
           buttons: [
             DialogButton(
               child: Text(
@@ -78,11 +79,98 @@ class _NotiScreenState extends State<NotiScreen> {
           ]
         ).show();
       }
+    }else{
+      Alert(
+          context: context,
+          type: AlertType.error,
+          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+          //desc: response.statusCode.toString(),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+              },
+            ),
+          ]
+        ).show();
+    }
+  }
+
+  _readNotiMember(var id)async{
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    print(id);
+    setState(() {
+      isLoading = true;
+    });
+    var url = pathAPI + 'api/readNotiMember';
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type':'application/json',
+        'token': token['token']
+      },
+      body: convert.jsonEncode({
+        'member_id': token['member_id'],
+        'noti_log_id': id
+      })
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> notiread = convert.jsonDecode(response.body);
+      if (notiread['code'] == "200") {
+        print(notiread);
+        setState(() {
+          //readnotidata = notiread['data'];
+        });
+      } else {
+        Alert(
+          context: context,
+          type: AlertType.error,
+          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+          //desc: response.statusCode.toString(),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+              },
+            ),
+          ]
+        ).show();
+      }
+    } else {
+      Alert(
+          context: context,
+          type: AlertType.error,
+          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+          //desc: response.statusCode.toString(),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+              },
+            ),
+          ]
+        ).show();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Map data = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -108,26 +196,59 @@ class _NotiScreenState extends State<NotiScreen> {
               child: GestureDetector(
                 onTap: (){
                   var url = notidata[index]['url'];
-                  if (url != null) {
-                    launch((url));
+                  var noti_log_id = notidata[index]['id'];
+                  if (notidata[index]['noti_type']=="News") {
+                    //launch((url));
+                    _readNotiMember(noti_log_id);
+                    Navigator.pushNamed(context, "/notidetail", arguments: {
+                      'member_point': data['member_point'],
+                      'board_phone_1': data['board_phone_1'],
+                      'total_noti': data['total_noti'],
+                      'title': notidata[index]['title'],
+                      'description': notidata[index]['description'],
+                      'pic': notidata[index]['pic'],
+                      'created_at': notidata[index]['created_at'],
+                      'url': notidata[index]['url'],
+                    });
                   } else {
-                    print("ไม่มีลิ้ง");
+                    //print("ไม่มีลิ้ง");
+                    _readNotiMember(noti_log_id);
+                    Navigator.pushNamed(context, "/point", arguments: {
+                      'member_point': data['member_point'],
+                      'board_phone_1': data['board_phone_1'],
+                      'total_noti': data['total_noti'],
+                    });
                   }
                   //launch((url));
                 },
                 child: Card(
+                  color: notidata[index]["noti_log_read"] == 0 ? Colors.blue[50]
+                  :Colors.white,
                   elevation: 8.0,
                   child: ListTile(
-                    leading: Icon(Icons.notifications_active),
+                    leading: notidata[index]["pic"] == null ? Icon(Icons.notifications_active, size: 40,)
+                    : Container(
+                      width: 70.0,
+                      height: 50.0,
+                      child: Image.network(notidata[index]['pic'], fit: BoxFit.fill,)
+                    ),
                     title: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Text(
+                      child: notidata[index]['title'].length >= 30 ?
+                      Text(
+                        "${notidata[index]['title'].substring(0, 30)} ...", style: TextStyle(fontWeight: FontWeight.w400)
+                      )
+                      :Text(
                         notidata[index]['title'], style: TextStyle(fontWeight: FontWeight.w400)
                       ),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Text(
+                      child: notidata[index]['description'].length >= 50 ?
+                      Text(
+                        "${notidata[index]['description'].substring(0, 50)} ...", style: TextStyle(fontWeight: FontWeight.w400)
+                      )
+                      :Text(
                         notidata[index]['description'], style: TextStyle(fontWeight: FontWeight.w400)
                       ),
                     ),
@@ -204,23 +325,22 @@ class _NotiScreenState extends State<NotiScreen> {
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
-                            Navigator.push(
-                              context, MaterialPageRoute(
-                                builder: (context){return NotiScreen();}
-                              ),
-                            );
+                            Navigator.pushNamed(context, "/noti", arguments: {
+                              'total_noti': data['total_noti'],
+                            });
                           },
                         ),
                       ),
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: notidata.length == 0 ? SizedBox(height: 2.0,)
+                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
                         :CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                            notidata.length.toString(),
+                            data['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
