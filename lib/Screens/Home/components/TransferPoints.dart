@@ -53,7 +53,7 @@ class _TransferPointsState extends State<TransferPoints> {
         'member_id': values['id'],
         'phone_des': values['phone_des'],
         'point': values['point'],
-        //'note': values['note'],
+        'note': values['note'],
           //'token': token['token']
       })
     );
@@ -220,14 +220,14 @@ class _TransferPointsState extends State<TransferPoints> {
                 ]
               ),
             ),
-            SizedBox(height: 20.0,),
+            SizedBox(height: 15.0,),
             FormBuilder(
               key: _fbKey,
               initialValue: {
                 'id': data['id'].toString(),
                 'phone_des': '',
                 'point': '',
-                //'note': '',
+                'note': '',
               },
               child: Column(
                 children: [
@@ -252,7 +252,7 @@ class _TransferPointsState extends State<TransferPoints> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 25.0,),
+                  SizedBox(height: 20.0,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: FormBuilderTextField(
@@ -271,7 +271,30 @@ class _TransferPointsState extends State<TransferPoints> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 150.0,),
+                  SizedBox(height: 20.0,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: FormBuilderTextField(
+                      maxLines: 3,
+                      attribute: 'note',
+                      keyboardType: TextInputType.name,
+                      // inputFormatters: [
+                      //   ThousandsFormatter()
+                      // ],
+                      textAlign: TextAlign.end,
+                      decoration: InputDecoration(
+                        labelText: 'โน๊ต',
+                        //hintText: 'ใส่ Point ที่ต้องการโอน',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF6200EE)),
+                        ),
+                      ),
+                      // validators: [
+                      //   FormBuilderValidators.required(errorText: 'กรุณาระบุแต้มที่จะโอน'),
+                      // ],
+                    ),
+                  ),
+                  SizedBox(height: 100.0,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -383,11 +406,11 @@ class _TransferPointsState extends State<TransferPoints> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),
@@ -407,6 +430,8 @@ class _TransferPointsState extends State<TransferPoints> {
                         child: GestureDetector(
                           onTap: (){
                             Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data['member_point'],
+                              'board_phone_1': data['board_phone_1'],
                               'total_noti': data['total_noti'],
                             });
                           },
@@ -421,7 +446,7 @@ class _TransferPointsState extends State<TransferPoints> {
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                            data['total_noti'].toString(),
+                           data['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -441,11 +466,11 @@ class _TransferPointsState extends State<TransferPoints> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coin();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),

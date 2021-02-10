@@ -302,11 +302,11 @@ class _NotiScreenState extends State<NotiScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),
@@ -326,6 +326,8 @@ class _NotiScreenState extends State<NotiScreen> {
                         child: GestureDetector(
                           onTap: (){
                             Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data['member_point'],
+                              'board_phone_1': data['board_phone_1'],
                               'total_noti': data['total_noti'],
                             });
                           },
@@ -340,7 +342,7 @@ class _NotiScreenState extends State<NotiScreen> {
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                            data['total_noti'].toString(),
+                           data['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -360,11 +362,11 @@ class _NotiScreenState extends State<NotiScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coin();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),

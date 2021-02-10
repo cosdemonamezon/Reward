@@ -110,45 +110,45 @@ class _StatusRewardState extends State<StatusReward> {
             return Column(
               children: [
                 Card(
-                  color: Colors.grey[800],
+                  //color: Colors.grey[800],
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: 50.0,
-                                height: 50.0,
-                                decoration: new BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage("assets/images/gold.JPG")
-                                    )
-                                )
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(8.0),
+                            //   child: Container(
+                            //     width: 50.0,
+                            //     height: 50.0,
+                            //     decoration: new BoxDecoration(
+                            //         shape: BoxShape.circle,
+                            //         image: new DecorationImage(
+                            //             fit: BoxFit.cover,
+                            //             image: AssetImage("assets/images/gold.JPG")
+                            //         )
+                            //     )
+                            //   ),
+                            // ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Member ID : ${data[index]['member_id']}',
                                   style: TextStyle (
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 13.5
                                   ),
                                 ),
                                 Text('Old Group : ${data[index]['old_group']}',
                                   style: TextStyle (
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 13.5
                                   ),
                                 ),
                                 Text('Update By : ${data[index]['updated_by']}',
                                   style: TextStyle (
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 13.5
                                   ),
                                 ),
@@ -161,7 +161,7 @@ class _StatusRewardState extends State<StatusReward> {
                           children: [
                             Text('${data[index]['date']}',
                               style: TextStyle (
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 11.5
                               ),
                             ),
@@ -221,11 +221,11 @@ class _StatusRewardState extends State<StatusReward> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data2['member_point'],
+                          'board_phone_1': data2['board_phone_1'],
+                          'total_noti': data2['total_noti'],
+                        });
                       },
                     ),
                   ),
@@ -245,6 +245,8 @@ class _StatusRewardState extends State<StatusReward> {
                         child: GestureDetector(
                           onTap: (){
                             Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data2['member_point'],
+                              'board_phone_1': data2['board_phone_1'],
                               'total_noti': data2['total_noti'],
                             });
                           },
@@ -259,7 +261,7 @@ class _StatusRewardState extends State<StatusReward> {
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                            data2['total_noti'].toString(),
+                           data2['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -279,11 +281,11 @@ class _StatusRewardState extends State<StatusReward> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coin();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data2['member_point'],
+                          'board_phone_1': data2['board_phone_1'],
+                          'total_noti': data2['total_noti'],
+                        });
                       },
                     ),
                   ),

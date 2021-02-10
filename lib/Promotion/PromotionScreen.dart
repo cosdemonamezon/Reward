@@ -24,12 +24,14 @@ class _PromotionScreenState extends State<PromotionScreen> {
   String picUrlimages = "http://103.74.253.96/reward-api/public/images/campaign/";
   String type1 = "News";
   String type2 = "Promotion";
+  final scrollController = ScrollController(initialScrollOffset: 0);
 
   @override
   void initState() { 
     super.initState();
-    _getCampaignMember();
     _getBannerM();
+    _getCampaignMember();
+    
   }
 
   _getBannerM() async{
@@ -148,30 +150,37 @@ class _PromotionScreenState extends State<PromotionScreen> {
               Container(
                 width: double.infinity,
                 height: 170,
-                child: Swiper(
-                  itemCount: banner.length,
-                  pagination: SwiperPagination(),
-                  itemBuilder: (context, index){
-                    return Stack(
-                      children: [
-                        Positioned.fill(
-                          child: banner[index]['banner_pic'] != null ?
-                          Image.network(banner[index]['banner_pic'], fit: BoxFit.fill,)
-                          : Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
-                        ),
-                        Positioned(
-                          top: 30,
-                          left: 10,
-                          child: Text(
-                            banner[index]['banner_name'],
-                            style: TextStyle(
-                              color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 20.0
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  } 
+                child: Expanded(
+                  child: Swiper(                    
+                    itemBuilder: (context, index){
+                      return Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            child: banner[index]['banner_pic'] != null ?
+                            Image.network(banner[index]['banner_pic'], fit: BoxFit.cover,)
+                            : Image.network('https://picsum.photos/400/200', fit: BoxFit.cover,),
+                          ),                         
+                          
+                          // Positioned(
+                          //   top: 30,
+                          //   left: 10,
+                          //   child: Text(
+                          //     banner[index]['banner_name'],
+                          //     style: TextStyle(
+                          //       color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 20.0
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      );
+                    },                   
+                    autoplay: true,
+                    itemCount: banner.length,
+                    pagination: SwiperPagination(),
+                    controller: SwiperController(),
+                    physics: NeverScrollableScrollPhysics(),
+                  ),
                 ),
               ),
               SizedBox(height: 10.0,),

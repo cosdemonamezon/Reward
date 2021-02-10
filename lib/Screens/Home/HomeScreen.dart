@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
             context: context,
             type: AlertType.error,
             title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-            desc: response.statusCode.toString(),
+            //desc: response.statusCode.toString(),
             buttons: [
               DialogButton(
                 child: Text(
@@ -850,11 +850,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),
@@ -910,11 +910,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coin();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),

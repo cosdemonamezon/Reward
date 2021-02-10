@@ -7,7 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/constants.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -359,11 +359,11 @@ class _AwardScreenState extends State<AwardScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),
@@ -383,6 +383,8 @@ class _AwardScreenState extends State<AwardScreen> {
                         child: GestureDetector(
                           onTap: (){
                             Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data['member_point'],
+                              'board_phone_1': data['board_phone_1'],
                               'total_noti': data['total_noti'],
                             });
                           },
@@ -397,7 +399,7 @@ class _AwardScreenState extends State<AwardScreen> {
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                            data['total_noti'].toString(),
+                           data['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -417,11 +419,11 @@ class _AwardScreenState extends State<AwardScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coin();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),

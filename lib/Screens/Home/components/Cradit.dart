@@ -1,5 +1,6 @@
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
@@ -7,6 +8,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:ui';
 
 class Cradit extends StatefulWidget {
   Cradit({Key key}) : super(key: key);
@@ -20,6 +22,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
   bool isLoading = false;
   List<dynamic> cradit = [];
   SharedPreferences prefs;
+  String title = "มีข้อผิดพลาดจากระบบ";
 
   @override
   void initState() {
@@ -60,11 +63,39 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         setState(() {
           cradit = craditdata['data'];
         });
-        print(cradit);
+        //print(cradit);
       } else {
-
+        // setState(() {
+        //   isLoading = false;
+        // });
+        // print('error from backend ${response.statusCode}');
+        
+        showDialog(
+          context: context,
+          builder: (context) => dialog1(
+            title, context
+            // context: context,
+            // title: 'Logout',
+            // content: 'Are you sure you want to exit!!!',
+            // action1: 'cancel',
+            // action2: 'yes',
+            // div: false,
+            // txtAlign: 2,
+            // radius: 0.0,
+            // boxColor: Colors.green,
+            // btnTxtColor: Colors.white,
+            // txtColor: Colors.white,
+          ),
+        );
       }
+      
     } else {
+      showDialog(
+        context: context,
+        builder: (context) => dialog1(
+          title, context
+        ),
+      ); 
     }
   }
 
@@ -163,7 +194,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                               return Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10.0,),
                                 child: Card(
-                                  color: Colors.grey[800],
+                                  //color: Colors.grey[800],
                                   child: ListTile(
                                   title: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,21 +202,21 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                                       Text(
                                         "จำนวนเงิน : ${cradit[index]['data'][index1]['amount'].toString()}",
                                         style: TextStyle (
-                                          color: Colors.white, fontSize: 14.5
+                                          color: Colors.black, fontSize: 14.5
                                         ),
                                       ),
                                       SizedBox(height: 5.0,),
                                       Text(
                                         "ชื่อผู้ทำรายการ : ${cradit[index]['data'][index1]['username']}",
                                         style: TextStyle (
-                                          color: Colors.white, fontSize: 14.5
+                                          color: Colors.black, fontSize: 14.5
                                         ),
                                       ),
                                       SizedBox(height: 5.0,),
                                       Text(
                                         "ชื่อกระดาน : ${cradit[index]['data'][index1]['board']}",
                                         style: TextStyle (
-                                          color: Colors.white, fontSize: 14.5
+                                          color: Colors.black, fontSize: 14.5
                                         ),
                                       ),
                                       SizedBox(height: 10.0,),
@@ -197,14 +228,14 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                                           Text(
                                             "วันที่ทำรายการ ${cradit[index]['data'][index1]['createdDate']}",
                                             style: TextStyle (
-                                                color: Colors.white, fontSize: 13.5
+                                                color: Colors.black, fontSize: 13.5
                                             ),
                                           ),
                                           SizedBox(width: 8,),
                                           Text(
                                             "เวลา ${cradit[index]['data'][index1]['createdTime']}",
                                             style: TextStyle (
-                                                color: Colors.white, fontSize: 12.5
+                                                color: Colors.black, fontSize: 12.5
                                             ),
                                           ),
                                         ],
@@ -263,11 +294,11 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),
@@ -287,6 +318,8 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                         child: GestureDetector(
                           onTap: (){
                             Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data['member_point'],
+                              'board_phone_1': data['board_phone_1'],
                               'total_noti': data['total_noti'],
                             });
                           },
@@ -301,7 +334,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                            data['total_noti'].toString(),
+                           data['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -321,11 +354,11 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coin();}
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),

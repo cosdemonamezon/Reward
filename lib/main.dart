@@ -6,6 +6,7 @@ import 'package:Reward/Screens/Home/components/Profilesettings.dart';
 import 'package:Reward/Screens/Home/components/Cradit.dart';
 import 'package:Reward/Screens/Login/LoginScreen.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
+import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:Reward/Screens/Login/components/LoginPage.dart';
 import 'Screens/Login/components/DetailNoti.dart';
 import 'package:Reward/constants.dart';
@@ -115,7 +116,7 @@ class MyApp extends StatelessWidget {
           '/share': (context) => LinkShare(),
           '/noti': (context) => NotiScreen(),
           '/notidetail': (context) => DetailNoti(),
-          '/webview': (context) => WebViewAward(),
+          '/help': (context) => Helpadvice(),
         });
   }
 }
