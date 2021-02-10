@@ -18,8 +18,17 @@ class _PinCodeState extends State<PinCode> {
   TextEditingController textEditingController = TextEditingController();
   final String requiredNumber = '12345';
   //final String member_phone = '0922568260';
-  //SharedPreferences prefs;
+  SharedPreferences prefs;
   bool isLoading = false;
+
+  _initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+  @override
+  void initState() {
+    super.initState();
+    _initPrefs();
+  }
 
   _createPinMember(String value, Map data) async{
     print(value);
@@ -41,6 +50,7 @@ class _PinCodeState extends State<PinCode> {
     );
     if (response.statusCode == 200){
       var token = convert.jsonDecode(response.body);
+      await prefs.setString('token', response.body);
       //await prefs.setString('token', response.body);
       if (token['code'] == "200"){
         Flushbar(
