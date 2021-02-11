@@ -103,13 +103,14 @@ class _StatusRewardState extends State<StatusReward> {
         title: Text("Status Group Reward"),
       ),
       body: Container(
-        child: ListView.separated(
+        child: ListView.builder(
           shrinkWrap: true,
-          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+          padding: EdgeInsets.only(left: 10.0, right: 10.0),
           itemBuilder: (BuildContext context, int index){
             return Column(
               children: [
                 Card(
+                  elevation: 8.0,
                   //color: Colors.grey[800],
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -174,8 +175,7 @@ class _StatusRewardState extends State<StatusReward> {
                 ),
               ],
             );
-          },
-          separatorBuilder: (BuildContext context, int index) => Divider(),
+          },          
           itemCount: data.length
         ),
       ),

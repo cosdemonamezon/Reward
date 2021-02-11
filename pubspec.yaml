@@ -47,6 +47,7 @@ dependencies:
   clipboard: ^0.1.2+8
   flutter_swiper: ^1.1.6
   webview_flutter: ^1.0.7
+  carousel_slider: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +89,8 @@ flutter:
     - assets/images/r1.jpg
     - assets/images/p1.jpg
     - assets/images/nopic.png
+    - assets/images/denied.png
+    - assets/images/success.png
     - assets/images/model.jpeg
     
     # - assets/icons/1.png

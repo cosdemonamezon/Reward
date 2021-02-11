@@ -17,7 +17,7 @@ class _WebViewAwardState extends State<WebViewAward> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("WebView"),
+        title: Text(data['title']),
       ),
       body: WebView(
         gestureNavigationEnabled: true,

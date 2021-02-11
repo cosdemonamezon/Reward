@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/PinCode.dart';
 
+import 'dart:convert';
+
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
 

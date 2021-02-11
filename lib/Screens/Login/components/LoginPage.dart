@@ -44,14 +44,15 @@ class _LoginPageState extends State<LoginPage> {
     username = values['username'];
     password = values['password'];
     //var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
-    var url = pathAPI +"api/Login_M";
+    var url = pathAPI + "api/Login_M";
     print(url);
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json'},
-        body: convert.jsonEncode(
-            {
-              'username': values['username'], 'password': values['password'], 'member_noti': playerId
-            }));
+        body: convert.jsonEncode({
+          'username': values['username'],
+          'password': values['password'],
+          'member_noti': playerId
+        }));
     if (response.statusCode == 200) {
       var token = convert.jsonDecode(response.body);
       //save to prefs
@@ -94,13 +95,14 @@ class _LoginPageState extends State<LoginPage> {
         Future.delayed(Duration(seconds: 3), () {
           // Navigator.pushNamedAndRemoveUntil(
           //     context, '/pincode', (Route<dynamic> route) => false, arguments:{
-          //       'username': data['username'], 'password': data['password'], 
+          //       'username': data['username'], 'password': data['password'],
           //     });
-          Navigator.pushNamed(
-              context, '/pincode', arguments:{
-                'username': username, 'password': password, 'token': token['data']
-              });
-        });        
+          Navigator.pushNamed(context, '/pincode', arguments: {
+            'username': username,
+            'password': password,
+            'token': token['data']
+          });
+        });
       } else if (token['code'] == "400") {
         Flushbar(
           title: '${token['massage']}',
@@ -116,10 +118,9 @@ class _LoginPageState extends State<LoginPage> {
         Future.delayed(Duration(seconds: 3), () {
           Navigator.pushNamedAndRemoveUntil(
               context, '/login', (Route<dynamic> route) => false);
-        });        
-      } 
-      else {
-          setState(() {
+        });
+      } else {
+        setState(() {
           isLoading = false;
         });
         var feedback = convert.jsonDecode(response.body);
@@ -139,7 +140,6 @@ class _LoginPageState extends State<LoginPage> {
         //   Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
         // });
       }
-      
     } else {
       // setState(() {
       //   isLoading = false;
@@ -256,9 +256,9 @@ class _LoginPageState extends State<LoginPage> {
                                             validators: [
                                               FormBuilderValidators.required(
                                                   errorText: 'กรอกรหัสผ่าน'),
-                                              FormBuilderValidators.minLength(5,
+                                              FormBuilderValidators.minLength(6,
                                                   errorText:
-                                                      'รหัสผ่านของคุณต้องมี 5 ตัวอักกษรขึ้นไป'),
+                                                      'รหัสผ่านของคุณต้องมี 6 ตัวอักกษรขึ้นไป'),
                                             ],
                                           ),
                                         ),

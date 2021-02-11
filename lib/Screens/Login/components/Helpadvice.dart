@@ -108,8 +108,12 @@ class _HelpadviceState extends State<Helpadvice> {
             child: Card(
               child: InkWell(
                 onTap: (){
-                  var url = help[index]['url'];
-                  launch((url));
+                  Navigator.pushNamed(context, '/webview', arguments: {                    
+                    'title': help[index]['title'],
+                    'url': help[index]['url']
+                  });
+                  // var url = help[index]['url'];
+                  // launch((url));
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

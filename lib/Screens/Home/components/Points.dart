@@ -118,37 +118,42 @@ class _PointsState extends State<Points> {
             color: Colors.white,
           ),
         ),
-        toolbarHeight: 120,
-        //backgroundColor: Colors.grey,
-        title: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 1),
-                  child: Icon(Icons.account_circle, size: 50,),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    "Point ${data['member_point']}", 
-                    style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 15,),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     Text(
-            //       "ข้อมูล ณ เวลา 06:04",
-            //       style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
-            //     ),
-            //   ],
-            // ),
-          ],
+        centerTitle: true,
+        title: Text(
+          "Point ${data['member_point']}", 
+          style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
         ),
+        //toolbarHeight: 120,
+        //backgroundColor: Colors.grey,
+        // title: Column(
+        //   children: [
+        //     Row(
+        //       children: [
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 1),
+        //           child: Icon(Icons.account_circle, size: 50,),
+        //         ),
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 10),
+        //           child: Text(
+        //             "Point ${data['member_point']}", 
+        //             style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //     SizedBox(height: 15,),
+        //     // Row(
+        //     //   mainAxisAlignment: MainAxisAlignment.end,
+        //     //   children: [
+        //     //     Text(
+        //     //       "ข้อมูล ณ เวลา 06:04",
+        //     //       style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
+        //     //     ),
+        //     //   ],
+        //     // ),
+        //   ],
+        // ),
       ),
       //SingleChildScrollView
       body: SafeArea(
@@ -167,7 +172,7 @@ class _PointsState extends State<Points> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20,),
+                        padding: EdgeInsets.symmetric(horizontal: 30,),
                         child: Text(
                           point[index]['date'],
                           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
@@ -176,7 +181,7 @@ class _PointsState extends State<Points> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 45.0),
                     child: Column(
                       children: [
                         ListView.builder(

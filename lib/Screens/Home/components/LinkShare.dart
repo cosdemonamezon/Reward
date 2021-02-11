@@ -27,6 +27,7 @@ class _LinkShareState extends State<LinkShare> {
   Map<String, dynamic> shareLink = {};
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   TextEditingController controller = TextEditingController();
+  bool i1 = false; bool i2 = false; bool i3 = false; bool i4 = false;
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _LinkShareState extends State<LinkShare> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> shareLinkdata = convert.jsonDecode(response.body);
       if (shareLinkdata['code'] == "200") {
-        print(shareLinkdata['massage']);
+        //print(shareLinkdata['massage']);
         setState((){
           shareLink = shareLinkdata['data'];
           //print(shareLink);
@@ -64,27 +65,39 @@ class _LinkShareState extends State<LinkShare> {
         setState(() {
           isLoading = false;
         });
-        print('error from backend ${response.statusCode}');
+       showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          shareLinkdata['massage'], picDenied, context,
+         ),
+      ); 
       }
     } else {
-      final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
-      Alert(
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
         context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: homedata['massage'],
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-              onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
-          ),
-        ]
-      ).show();
+        builder: (context) => dialogDenied(
+          title, picDenied, context,
+         ),
+      ); 
+      // final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
+      // Alert(
+      //   context: context,
+      //   type: AlertType.error,
+      //   title: "มีข้อผิดพลาด",
+      //   desc: homedata['massage'],
+      //   buttons: [
+      //     DialogButton(
+      //       child: Text(
+      //         "ล็อกอินใหม่",
+      //         style: TextStyle(color: Colors.white, fontSize: 20),
+      //       ),
+      //         onPressed: (){
+      //         Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+      //       },
+      //     ),
+      //   ]
+      // ).show();
     }
   }
 
@@ -123,8 +136,9 @@ class _LinkShareState extends State<LinkShare> {
                 width: 270,
                 //color: Colors.blue,
                 child: shareLink['member_qrcode'] != null ?
-                Image.network(shareLink['member_qrcode'], fit: BoxFit.fill,) :
-                Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),  
+                Image.network(shareLink['member_qrcode'], fit: BoxFit.fill,) 
+                :
+                Image.asset('assets/images/nopic.png', fit: BoxFit.fill,),  
               ),
               
               SizedBox(height: 15.0,),
@@ -153,109 +167,187 @@ class _LinkShareState extends State<LinkShare> {
                           },
                           child: Column(
                             children: [
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  //controller: controller,
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_1']}",
-                                  attribute: 'link1',
-                                  decoration: InputDecoration(
-                                    //hintText: "${data['member_link_1']}",
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF6200EE),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    width: 320,
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      //border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                     ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () async {
-                                        // setState(() {
-                                        //   controller = data['member_link_1'];
-                                        // });
-                                        await FlutterClipboard.copy(data['member_link_1']);
-                                      },
-                                      icon: Icon(Icons.copy),
+                                    child: FormBuilderTextField(
+                                      enabled: false,
+                                      readOnly: true,
+                                      enableInteractiveSelection: false,
+                                      //controller: controller,
+                                      cursorColor: Theme.of(context).cursorColor,
+                                      initialValue: "${data['member_link_1']}",
+                                      attribute: 'link1',
+                                      decoration: InputDecoration(
+                                        //hintText: "${data['member_link_1']}",
+                                        enabled: true,
+                                        icon: Icon(Icons.share_sharp),
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFF6200EE),
+                                        ),
+                                        // suffixIcon: IconButton(
+                                        //   onPressed: () async {
+                                        //     // setState(() {
+                                        //     //   controller = data['member_link_1'];
+                                        //     // });
+                                        //     await FlutterClipboard.copy(data['member_link_1']);
+                                        //   },
+                                        //   icon: Icon(Icons.copy),
+                                        // ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  IconButton(
+                                    onPressed: ()async{
+                                      setState(() {
+                                        i1 = true;
+                                        i2 = false;
+                                        i3 = false;
+                                        i4 = false;
+                                      });
+                                      await FlutterClipboard.copy(data['member_link_1']);
+                                    },
+                                    icon: i1 == true ? Icon(Icons.copy, color: Colors.blue,)
+                                    :Icon(Icons.copy),
+                                  ),
+                                ],
                               ),
 
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_2']}",
-                                  attribute: 'link2',
-                                  decoration: InputDecoration(
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF6200EE),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    width: 320,
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      //border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                     ),
-                                    suffixIcon: IconButton(
-                                      onPressed: ()async{
-                                        await FlutterClipboard.copy(data['member_link_2']);
-                                      },
-                                      icon: Icon(Icons.copy),
+                                    child: FormBuilderTextField(
+                                      enabled: false,
+                                      readOnly: true,
+                                      enableInteractiveSelection: false,
+                                      cursorColor: Theme.of(context).cursorColor,
+                                      initialValue: "${data['member_link_2']}",
+                                      attribute: 'link2',
+                                      decoration: InputDecoration(
+                                        enabled: true,
+                                        icon: Icon(Icons.share_sharp),
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFF6200EE),
+                                        ),
+                                        
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  IconButton(
+                                    onPressed: ()async{
+                                      setState(() {
+                                        i1 = false;
+                                        i2 = true;
+                                        i3 = false;
+                                        i4 = false;
+                                      });
+                                      await FlutterClipboard.copy(data['member_link_2']);
+                                    },
+                                    icon: i2 == true ? Icon(Icons.copy, color: Colors.blue,)
+                                    :Icon(Icons.copy),
+                                  ),
+                                ],
                               ),
                                       
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_3']}",
-                                  attribute: 'link3',
-                                  decoration: InputDecoration(
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF6200EE),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    width: 320,
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      //border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                     ),
-                                    suffixIcon: IconButton(
-                                      onPressed: ()async{
-                                        await FlutterClipboard.copy(data['member_link_3']);
-                                      },
-                                      icon: Icon(Icons.copy),
+                                    child: FormBuilderTextField(
+                                      enabled: false,
+                                      readOnly: true,
+                                      enableInteractiveSelection: false,
+                                      cursorColor: Theme.of(context).cursorColor,
+                                      initialValue: "${data['member_link_3']}",
+                                      attribute: 'link3',
+                                      decoration: InputDecoration(
+                                        enabled: true,
+                                        icon: Icon(Icons.share_sharp),
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFF6200EE),
+                                        ),
+                                        // suffixIcon: IconButton(
+                                        //   onPressed: ()async{
+                                        //     await FlutterClipboard.copy(data['member_link_3']);
+                                        //   },
+                                        //   icon: Icon(Icons.copy),
+                                        // ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  IconButton(
+                                    onPressed: ()async{
+                                      setState(() {
+                                        i1 = false;
+                                        i2 = false;
+                                        i3 = true;
+                                        i4 = false;
+                                      });
+                                      await FlutterClipboard.copy(data['member_link_3']);
+                                    },
+                                    icon: i3 == true ? Icon(Icons.copy, color: Colors.blue,)
+                                    :Icon(Icons.copy),
+                                  ),
+                                ],
                               ),
 
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  //border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_4']}",
-                                  attribute: 'link4',
-                                  decoration: InputDecoration(
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                        color: Color(0xFF6200EE),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    width: 320,
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      //border: Border(bottom: BorderSide(color: Colors.grey[200])),
                                     ),
-                                    suffixIcon: IconButton(
-                                      onPressed: ()async{
-                                        await FlutterClipboard.copy(data['member_link_4']);
-                                      },
-                                      icon: Icon(Icons.copy),
+                                    child: FormBuilderTextField(
+                                      enabled: false,
+                                      readOnly: true,
+                                      enableInteractiveSelection: false,
+                                      cursorColor: Theme.of(context).cursorColor,
+                                      initialValue: "${data['member_link_4']}",
+                                      attribute: 'link4',
+                                      decoration: InputDecoration(
+                                        enabled: true,
+                                        icon: Icon(Icons.share_sharp),
+                                        labelStyle: TextStyle(
+                                            color: Color(0xFF6200EE),
+                                        ),
+                                        
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  IconButton(
+                                    onPressed: ()async{
+                                      setState(() {
+                                        i1 = false;
+                                        i2 = false;
+                                        i3 = false;
+                                        i4 = true;
+                                      });
+                                      await FlutterClipboard.copy(data['member_link_4']);
+                                    },
+                                    icon: i4 == true ? Icon(Icons.copy, color: Colors.blue,)
+                                    :Icon(Icons.copy),
+                                  ),
+                                ],
                               ), 
                             ],
                           ),

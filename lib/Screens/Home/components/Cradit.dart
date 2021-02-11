@@ -114,38 +114,43 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
             color: Colors.white,
           ),
         ),
-        toolbarHeight: 120,
+        //toolbarHeight: 120,
         //backgroundColor: Colors.grey,
-        title: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 1),
-                  child: Icon(Icons.account_circle, size: 38,),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3),
-                  child: Text(
-                    "ยอดเครดิต ${data['credit']}", 
-                    style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 8,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "ข้อมูล ณ เวลา 06:04",
-                  style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
-                ),
-              ],
-            ),
-          ],
+        centerTitle: true,
+        title: Text(
+          "ยอดเครดิต ${data['credit']}", 
+          style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
         ),
+        // title: Column(
+        //   children: [
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         // Padding(
+        //         //   padding: EdgeInsets.symmetric(horizontal: 1),
+        //         //   child: Icon(Icons.account_circle, size: 38,),
+        //         // ),
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 3),
+        //           child: Text(
+        //             "ยอดเครดิต ${data['credit']}", 
+        //             style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //     // SizedBox(height: 8,),
+        //     // Row(
+        //     //   mainAxisAlignment: MainAxisAlignment.end,
+        //     //   children: [
+        //     //     Text(
+        //     //       "ข้อมูล ณ เวลา 06:04",
+        //     //       style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
+        //     //     ),
+        //     //   ],
+        //     // ),
+        //   ],
+        // ),
         // bottom: TabBar(
         //   controller: tabController,
         //   unselectedLabelColor: Colors.black,

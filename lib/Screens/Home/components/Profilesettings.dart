@@ -64,7 +64,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
     if (response.statusCode == 200){
       final Map<String, dynamic> comfirm = convert.jsonDecode(response.body);
       if (comfirm['code'] == "200") {
-        print(comfirm['massage']);
+        //print(comfirm['massage']);
         Alert(
           context: context,
           type: AlertType.info,
@@ -108,7 +108,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
     var token = convert.jsonDecode(tokenString);
     //String s = values1['id'];
     //int id = int.parse(s);
-    print(values1);
+    //print(values1);
     setState(() {
       isLoading = true;
     });
@@ -180,7 +180,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context).settings.arguments;
-    print(data);
+    //print(data);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -198,7 +198,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset("assets/images/home.jpg", fit: BoxFit.cover,),
+          //Image.asset("assets/images/home.jpg", fit: BoxFit.cover,),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -213,7 +213,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Profile Setting", style: TextStyle(color: kTextColor, fontSize: 40.0),),
+                    Text("Profile Setting", style: TextStyle(color: Colors.black, fontSize: 40.0),),
                   ],
                 ),
               ),
@@ -246,7 +246,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                 boxShadow: [BoxShadow(
                                   color: Color.fromRGBO(255, 95, 27, .3),
                                   blurRadius: 20,
-                                  offset: Offset(0, 10),
+                                  offset: Offset(0, 1),
                                 )],
                               ),
                               child: Column(
@@ -254,7 +254,10 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                   Container(
                                     padding: EdgeInsets.all(10.0),
                                     decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                      border: Border(
+                                        bottom: BorderSide(color: Colors.grey[200]),
+                                        //top: BorderSide(color: Colors.grey[200]),
+                                      ),
                                     ),
                                     child: FormBuilderTextField(
                                       attribute: 'member_name_th',

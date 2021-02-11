@@ -18,12 +18,14 @@ class _PinCodeState extends State<PinCode> {
   TextEditingController textEditingController = TextEditingController();
   final String requiredNumber = '12345';
   //final String member_phone = '0922568260';
-  SharedPreferences prefs;
+  //SharedPreferences prefs;
   bool isLoading = false;
-
+  SharedPreferences prefs;
   _initPrefs() async {
     prefs = await SharedPreferences.getInstance();
   }
+
+  
   @override
   void initState() {
     super.initState();
@@ -37,18 +39,17 @@ class _PinCodeState extends State<PinCode> {
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +"api/createPinMember";
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'token': data['token']['token'],
-      },
-      body: convert.jsonEncode(
-        {'member_pin': value, 'member_phone': data['token']['member_phone']}
-      )
-    );
-    if (response.statusCode == 200){
+    var url = pathAPI + "api/createPinMember";
+    var response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'token': data['token']['token'],
+        },
+        body: convert.jsonEncode({
+          'member_pin': value,
+          'member_phone': data['token']['member_phone']
+        }));
+    if (response.statusCode == 200) {
       var token = convert.jsonDecode(response.body);
       await prefs.setString('token', response.body);
       //await prefs.setString('token', response.body);
@@ -63,13 +64,12 @@ class _PinCodeState extends State<PinCode> {
           ),
           duration: Duration(seconds: 3),
           leftBarIndicatorColor: Colors.blue[300],
-        )..show(context);
+        ).show(context);
         Future.delayed(Duration(seconds: 3), () {
           Navigator.pushNamedAndRemoveUntil(
               context, '/home', (Route<dynamic> route) => false);
         });
-      }
-      else if (token['code'] == "400") {
+      } else if (token['code'] == "400") {
         Alert(
             context: context,
             type: AlertType.error,
@@ -81,14 +81,13 @@ class _PinCodeState extends State<PinCode> {
                   "ล็อกอินใหม่",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-                onPressed: (){
-                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/loginScreen', (Route<dynamic> route) => false);
                 },
               ),
-            ]
-          ).show();
-      }
-      else if (token['code'] == "500") {
+            ]).show();
+      } else if (token['code'] == "500") {
         Alert(
             context: context,
             type: AlertType.error,
@@ -100,33 +99,33 @@ class _PinCodeState extends State<PinCode> {
                   "ล็อกอินใหม่",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-                onPressed: (){
-                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/loginScreen', (Route<dynamic> route) => false);
                 },
               ),
-            ]
-          ).show();
+            ]).show();
       }
-    }else{
+    } else {
       print(response.statusCode);
-          
-          Alert(
-            context: context,
-            type: AlertType.error,
-            title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-            desc: response.statusCode.toString(),
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "ล็อกอินใหม่",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: (){
-                  Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-                },
+
+      Alert(
+          context: context,
+          type: AlertType.error,
+          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+          desc: response.statusCode.toString(),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-            ]
-          ).show();
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/loginScreen', (Route<dynamic> route) => false);
+              },
+            ),
+          ]).show();
     }
   }
 

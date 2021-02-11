@@ -309,7 +309,7 @@ class _AwardScreenState extends State<AwardScreen> {
               ),
               child: Center(
                 child: Text(
-                  "แชร์ลิ้ง", 
+                  "facebook", 
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white),
                 ),
               ),
