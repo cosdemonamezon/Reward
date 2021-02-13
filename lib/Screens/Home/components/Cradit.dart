@@ -102,7 +102,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
-    print(data);
+    //print(data);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -114,38 +114,43 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
             color: Colors.white,
           ),
         ),
-        toolbarHeight: 120,
+        //toolbarHeight: 120,
         //backgroundColor: Colors.grey,
-        title: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 1),
-                  child: Icon(Icons.account_circle, size: 38,),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3),
-                  child: Text(
-                    "ยอดเครดิต ${data['credit']}", 
-                    style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 8,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "ข้อมูล ณ เวลา 06:04",
-                  style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
-                ),
-              ],
-            ),
-          ],
+        centerTitle: true,
+        title: Text(
+          "ยอดเครดิต ${data['credit']}", 
+          style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
         ),
+        // title: Column(
+        //   children: [
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         // Padding(
+        //         //   padding: EdgeInsets.symmetric(horizontal: 1),
+        //         //   child: Icon(Icons.account_circle, size: 38,),
+        //         // ),
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 3),
+        //           child: Text(
+        //             "ยอดเครดิต ${data['credit']}", 
+        //             style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //     // SizedBox(height: 8,),
+        //     // Row(
+        //     //   mainAxisAlignment: MainAxisAlignment.end,
+        //     //   children: [
+        //     //     Text(
+        //     //       "ข้อมูล ณ เวลา 06:04",
+        //     //       style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
+        //     //     ),
+        //     //   ],
+        //     // ),
+        //   ],
+        // ),
         // bottom: TabBar(
         //   controller: tabController,
         //   unselectedLabelColor: Colors.black,
@@ -158,7 +163,13 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         //   ],
         // ),
       ),
-      body: SafeArea(
+      body: cradit == null ?
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+        ),
+      )
+      :SafeArea(
         top: true,
         bottom: true,
         left: false,
@@ -187,6 +198,8 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                       child: Column(
                         children: [
                           ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            physics: const ClampingScrollPhysics(),
                             shrinkWrap: true,
                             //padding: EdgeInsets.only(left: 40.0, right: 40.0),
                             itemCount: cradit[index]['data'].length,
@@ -272,10 +285,17 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -290,10 +310,17 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -313,10 +340,17 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -350,10 +384,17 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],

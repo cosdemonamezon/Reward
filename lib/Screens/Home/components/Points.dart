@@ -118,40 +118,51 @@ class _PointsState extends State<Points> {
             color: Colors.white,
           ),
         ),
-        toolbarHeight: 120,
-        //backgroundColor: Colors.grey,
-        title: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 1),
-                  child: Icon(Icons.account_circle, size: 50,),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    "Point ${data['member_point']}", 
-                    style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 15,),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     Text(
-            //       "ข้อมูล ณ เวลา 06:04",
-            //       style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
-            //     ),
-            //   ],
-            // ),
-          ],
+        centerTitle: true,
+        title: Text(
+          "Point ${data['member_point']}", 
+          style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
         ),
+        //toolbarHeight: 120,
+        //backgroundColor: Colors.grey,
+        // title: Column(
+        //   children: [
+        //     Row(
+        //       children: [
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 1),
+        //           child: Icon(Icons.account_circle, size: 50,),
+        //         ),
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 10),
+        //           child: Text(
+        //             "Point ${data['member_point']}", 
+        //             style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //     SizedBox(height: 15,),
+        //     // Row(
+        //     //   mainAxisAlignment: MainAxisAlignment.end,
+        //     //   children: [
+        //     //     Text(
+        //     //       "ข้อมูล ณ เวลา 06:04",
+        //     //       style: TextStyle(color: kTextColor, fontSize: 12.0, fontWeight: FontWeight.bold)
+        //     //     ),
+        //     //   ],
+        //     // ),
+        //   ],
+        // ),
       ),
       //SingleChildScrollView
-      body: SafeArea(
+      body: point == null ?
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+        ),
+      )
+      :SafeArea(
         top: true,
         bottom: true,
         left: false,
@@ -167,7 +178,7 @@ class _PointsState extends State<Points> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20,),
+                        padding: EdgeInsets.symmetric(horizontal: 30,),
                         child: Text(
                           point[index]['date'],
                           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
@@ -176,10 +187,12 @@ class _PointsState extends State<Points> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 45.0),
                     child: Column(
                       children: [
                         ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const ClampingScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: point[index]['data'].length,
                           itemBuilder: (BuildContext context, int index1){
@@ -262,10 +275,17 @@ class _PointsState extends State<Points> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -280,10 +300,17 @@ class _PointsState extends State<Points> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -303,10 +330,17 @@ class _PointsState extends State<Points> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -340,10 +374,17 @@ class _PointsState extends State<Points> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],

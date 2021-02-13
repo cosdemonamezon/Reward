@@ -27,6 +27,7 @@ class _LinkShareState extends State<LinkShare> {
   Map<String, dynamic> shareLink = {};
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   TextEditingController controller = TextEditingController();
+  bool i1 = false; bool i2 = false; bool i3 = false; bool i4 = false;
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _LinkShareState extends State<LinkShare> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> shareLinkdata = convert.jsonDecode(response.body);
       if (shareLinkdata['code'] == "200") {
-        print(shareLinkdata['massage']);
+        //print(shareLinkdata['massage']);
         setState((){
           shareLink = shareLinkdata['data'];
           //print(shareLink);
@@ -64,27 +65,39 @@ class _LinkShareState extends State<LinkShare> {
         setState(() {
           isLoading = false;
         });
-        print('error from backend ${response.statusCode}');
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            shareLinkdata['massage'], picDenied, context,
+          ),
+        ); 
       }
     } else {
-      final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
-      Alert(
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
         context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: homedata['massage'],
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-              onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
-          ),
-        ]
-      ).show();
+        builder: (context) => dialogDenied(
+          title, picDenied, context,
+         ),
+      ); 
+      // final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
+      // Alert(
+      //   context: context,
+      //   type: AlertType.error,
+      //   title: "มีข้อผิดพลาด",
+      //   desc: homedata['massage'],
+      //   buttons: [
+      //     DialogButton(
+      //       child: Text(
+      //         "ล็อกอินใหม่",
+      //         style: TextStyle(color: Colors.white, fontSize: 20),
+      //       ),
+      //         onPressed: (){
+      //         Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+      //       },
+      //     ),
+      //   ]
+      // ).show();
     }
   }
 
@@ -106,16 +119,21 @@ class _LinkShareState extends State<LinkShare> {
         centerTitle: true,
         title: Text("แชร์ลิ้ง"),
       ),
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/home.jpg", ),
-            fit: BoxFit.fill
-          ),
+      body: shareLink == null ? 
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
         ),
-        child: SingleChildScrollView(
-                  child: Column(
+      )
+      :Container(
+        width: double.infinity,
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(
+        //     // image: AssetImage("assets/images/home.jpg", ),
+        //     // fit: BoxFit.fill
+        //   ),
+        // ),
+        child: Column(
             children: [
               SizedBox(height: 42.0,),
               Container(
@@ -123,151 +141,204 @@ class _LinkShareState extends State<LinkShare> {
                 width: 270,
                 //color: Colors.blue,
                 child: shareLink['member_qrcode'] != null ?
-                Image.network(shareLink['member_qrcode'], fit: BoxFit.fill,) :
-                Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),  
+                Image.network(shareLink['member_qrcode'], fit: BoxFit.fill,) 
+                :
+                Image.asset('assets/images/nopic.png', fit: BoxFit.fill,),  
               ),
               
               SizedBox(height: 15.0,),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [BoxShadow(
-                            color: Color.fromRGBO(255, 95, 27, .3),
-                            blurRadius: 20,
-                            offset: Offset(0, 10),
-                          )],
-                        ),
-                        child: FormBuilder(
-                          key: _fbKey,
-                          initialValue: {
-                            'link1': data['member_link_1'],
-                            'link2': data['member_link_2'],
-                            'link3': data['member_link_3'],
-                            'link4': data['member_link_4']
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  //controller: controller,
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_1']}",
-                                  attribute: 'link1',
-                                  decoration: InputDecoration(
-                                    //hintText: "${data['member_link_1']}",
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF6200EE),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () async {
-                                        // setState(() {
-                                        //   controller = data['member_link_1'];
-                                        // });
-                                        await FlutterClipboard.copy(data['member_link_1']);
-                                      },
-                                      icon: Icon(Icons.copy),
-                                    ),
-                                  ),
-                                ),
-                              ),
 
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_2']}",
-                                  attribute: 'link2',
-                                  decoration: InputDecoration(
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF6200EE),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: ()async{
-                                        await FlutterClipboard.copy(data['member_link_2']);
-                                      },
-                                      icon: Icon(Icons.copy),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                                      
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_3']}",
-                                  attribute: 'link3',
-                                  decoration: InputDecoration(
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF6200EE),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: ()async{
-                                        await FlutterClipboard.copy(data['member_link_3']);
-                                      },
-                                      icon: Icon(Icons.copy),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              Container(
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  //border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                ),
-                                child: FormBuilderTextField(
-                                  cursorColor: Theme.of(context).cursorColor,
-                                  initialValue: "${data['member_link_4']}",
-                                  attribute: 'link4',
-                                  decoration: InputDecoration(
-                                    enabled: true,
-                                    icon: Icon(Icons.share_sharp),
-                                    labelStyle: TextStyle(
-                                        color: Color(0xFF6200EE),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: ()async{
-                                        await FlutterClipboard.copy(data['member_link_4']);
-                                      },
-                                      icon: Icon(Icons.copy),
-                                    ),
-                                  ),
-                                ),
-                              ), 
-                            ],
-                          ),
+              RaisedButton(
+                onPressed: () async{
+                  setState(() {
+                    i1 = true;
+                    i2 = false;
+                    i3 = false;
+                    i4 = false;                    
+                  });
+                  //launch("https://www.facebook.com/sharer.php?u="+data['member_link_1']);
+                  await FlutterClipboard.copy(data['member_link_1']);
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: i1 == true ? LinearGradient(
+                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    )
+                    :LinearGradient(
+                      colors: [Color(0xff616161), Color(0xff757575)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                  child: Container(
+                    constraints:
+                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [                        
+                        Text(
+                          "Share With Local Link",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.white),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: 80.0,),
+              SizedBox(height: 15.0,),
+
+              RaisedButton(
+                onPressed: () async{
+                  setState(() {
+                    i1 = false;
+                    i2 = true;
+                    i3 = false;
+                    i4 = false;                    
+                  });
+                  launch("https://www.facebook.com/sharer.php?u="+data['member_link_2']);
+                  await FlutterClipboard.copy(data['member_link_2']);
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: i2 == true ? LinearGradient(
+                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    )
+                    :LinearGradient(
+                      colors: [Color(0xff616161), Color(0xff757575)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                  child: Container(
+                    constraints:
+                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [                        
+                        Text(
+                          "Share With Facebook",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15.0,),
+
+              RaisedButton(
+                onPressed: () async{
+                  setState(() {
+                    i1 = false;
+                    i2 = false;
+                    i3 = true;
+                    i4 = false;                    
+                  });
+                  launch("https://www.youtube.com/");
+                  await FlutterClipboard.copy(data['member_link_3']);
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: i3 == true ? LinearGradient(
+                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    )
+                    :LinearGradient(
+                      colors: [Color(0xff616161), Color(0xff757575)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                  child: Container(
+                    constraints:
+                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [                        
+                        Text(
+                          "Share With Youtube",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15.0,),
+
+              RaisedButton(
+                onPressed: () async{
+                  setState(() {
+                    i1 = false;
+                    i2 = false;
+                    i3 = false;
+                    i4 = true;                    
+                  });
+                  launch("https://social-plugins.line.me/lineit/share?url="+data['member_link_4']); 
+                  await FlutterClipboard.copy(data['member_link_4']);
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: i4 == true ? LinearGradient(
+                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    )
+                    :LinearGradient(
+                      colors: [Color(0xff616161), Color(0xff757575)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                  child: Container(
+                    constraints:
+                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [                        
+                        Text(
+                          "Share With Line",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
-          ),
         ),
       ), 
 
@@ -290,10 +361,17 @@ class _LinkShareState extends State<LinkShare> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -308,10 +386,17 @@ class _LinkShareState extends State<LinkShare> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -331,10 +416,17 @@ class _LinkShareState extends State<LinkShare> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -368,10 +460,17 @@ class _LinkShareState extends State<LinkShare> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],

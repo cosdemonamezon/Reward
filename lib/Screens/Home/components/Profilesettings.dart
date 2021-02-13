@@ -64,7 +64,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
     if (response.statusCode == 200){
       final Map<String, dynamic> comfirm = convert.jsonDecode(response.body);
       if (comfirm['code'] == "200") {
-        print(comfirm['massage']);
+        //print(comfirm['massage']);
         Alert(
           context: context,
           type: AlertType.info,
@@ -108,7 +108,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
     var token = convert.jsonDecode(tokenString);
     //String s = values1['id'];
     //int id = int.parse(s);
-    print(values1);
+    //print(values1);
     setState(() {
       isLoading = true;
     });
@@ -147,32 +147,38 @@ class _ProfilesettingsState extends State<Profilesettings> {
           //Navigator.pop(context);
           Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
         });
-      }else{
-        Flushbar(
-          title: '${profile['code']}',
-          message: "ไม่สำร็จ ระบบขัดข้อง กรุณาตรวจสอบอีกครั้ง",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.red[300],
+      }else if(profile['code'] == "400"){
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            errorProfile, picDenied, context,
           ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.red[300],
-        )..show(context);
+        ); 
+        
+      }else if (profile['code'] == "500") {
+        showDialog(
+          context: context,
+          builder: (context) => errordialog(
+            profile['massage'], checkData,picDenied, context,
+          ),
+        ); 
+      }else{
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            headtitle, picDenied, context,
+          ),
+        ); 
       }
+
     }else{
-      var profile = convert.jsonDecode(response.body);
-      Flushbar(
-        title: '',
-        message: "ไม่สำร็จ มีข้อผิดพลาด",
-        icon: Icon(
-          Icons.info_outline,
-          size: 28.0,
-          color: Colors.red[300],
+      
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          headtitle, picDenied, context,
         ),
-        duration: Duration(seconds: 3),
-        leftBarIndicatorColor: Colors.red[300],
-      )..show(context);
+      ); 
     }
   }
   
@@ -180,7 +186,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context).settings.arguments;
-    print(data);
+    //print(data);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -195,29 +201,35 @@ class _ProfilesettingsState extends State<Profilesettings> {
         centerTitle: true,
         title: Text("Profile"),
       ),
-      body: Stack(
+      body: data == null ? 
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+        ),
+      )
+      :Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset("assets/images/home.jpg", fit: BoxFit.cover,),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Color(0xFFF001117).withOpacity(0.7),
-          ),
+          //Image.asset("assets/images/home.jpg", fit: BoxFit.cover,),
+          // Container(
+          //   width: MediaQuery.of(context).size.width,
+          //   height: MediaQuery.of(context).size.height,
+          //   color: Color(0xFFF001117).withOpacity(0.7),
+          // ),
           data['member_activate'] == "Yes" ? Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20.0,),
+              SizedBox(height: 15.0,),
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Profile Setting", style: TextStyle(color: kTextColor, fontSize: 40.0),),
+                    Text("Profile Setting", style: TextStyle(color: Colors.black, fontSize: 40.0),),
                   ],
                 ),
               ),
-              SizedBox(height: 15.0,),
+              SizedBox(height: 10.0,),
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(
@@ -246,7 +258,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                 boxShadow: [BoxShadow(
                                   color: Color.fromRGBO(255, 95, 27, .3),
                                   blurRadius: 20,
-                                  offset: Offset(0, 10),
+                                  offset: Offset(0, 1),
                                 )],
                               ),
                               child: Column(
@@ -254,7 +266,10 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                   Container(
                                     padding: EdgeInsets.all(10.0),
                                     decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                      border: Border(
+                                        bottom: BorderSide(color: Colors.grey[200]),
+                                        //top: BorderSide(color: Colors.grey[200]),
+                                      ),
                                     ),
                                     child: FormBuilderTextField(
                                       attribute: 'member_name_th',
@@ -630,10 +645,17 @@ class _ProfilesettingsState extends State<Profilesettings> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -648,10 +670,17 @@ class _ProfilesettingsState extends State<Profilesettings> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -671,10 +700,17 @@ class _ProfilesettingsState extends State<Profilesettings> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -708,10 +744,17 @@ class _ProfilesettingsState extends State<Profilesettings> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
