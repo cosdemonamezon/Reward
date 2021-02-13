@@ -92,6 +92,10 @@ flutter:
     - assets/images/denied.png
     - assets/images/success.png
     - assets/images/wanning.png
+    - assets/images/share1.png
+    - assets/images/share2.png
+    - assets/images/share3.png
+    - assets/images/share4.png
     - assets/images/model.jpeg
     
     # - assets/icons/1.png

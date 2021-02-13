@@ -65,11 +65,10 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         });
         //print(cradit);
       } else {
-        // setState(() {
-        //   isLoading = false;
-        // });
-        // print('error from backend ${response.statusCode}');
-        
+        setState(() {
+          isLoading = false;
+        });
+          
         showDialog(
           context: context,
           builder: (context) => dialog1(
@@ -184,7 +183,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         child: Text(
                           cradit[index]['date'],
                           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
@@ -194,7 +193,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                   ),
                   
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0),
+                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
                       child: Column(
                         children: [
                           ListView.builder(

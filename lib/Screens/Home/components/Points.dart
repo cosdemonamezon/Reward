@@ -48,58 +48,42 @@ class _PointsState extends State<Points> {
     if (response.statusCode == 200){
       final Map<String, dynamic> pointdata = convert.jsonDecode(response.body);
       if(pointdata['code'] == "200"){
-        print(pointdata['massage']);
+        //print(pointdata['massage']);
         setState((){
-          point = pointdata['data'];
-          
-          // print(point);
-          // print(point[0]['date']);
-          // print(point[0]['data'][0]['deposit_by']);
-          // print(point[1]['date']);
-          // print(point[1]['data'][0]['deposit_by']);
-          // print(point[2]['date']);
-          // print(point[2]['data'][0]['deposit_by']);
-          // print(point[3]['date']);
-          // print(point[3]['data'][0]['deposit_by']);
-          // print(point[4]['date']);
-          // print(point[4]['data'][0]['deposit_by']);
-          // print(point[5]['date']);
-          // print(point[5]['data'][0]['deposit_by']);
-          // print(point[5]['data'][1]['deposit_by']);
-          // print(point[5]['data'][2]['deposit_by']);
-          // print(point[5]['data'][3]['deposit_by']);
-          // print(point[5]['data'][4]['deposit_by']);
-          
+          point = pointdata['data'];   
           
         });
       }
-      else {
+      else if (pointdata['code'] == "400") {
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            pointdata['massage'], picDenied, context,
+          ),
+        ); 
+      }
+      else
+      {
         setState(() {
           isLoading = false;
         });
-        print('error from backend ${response.statusCode}');
+        String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
       }
     }
     else{
-      print(response.statusCode);
-      final Map<String, dynamic> pointdata = convert.jsonDecode(response.body);
-      Alert(
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
         context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: pointdata['massage'],
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
-          ),
-        ]
-      ).show();
+        builder: (context) => dialogDenied(
+          title, picDenied, context,
+        ),
+      ); 
     }
   }
 
@@ -178,7 +162,7 @@ class _PointsState extends State<Points> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30,),
+                        padding: EdgeInsets.symmetric(horizontal: 20,),
                         child: Text(
                           point[index]['date'],
                           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
@@ -187,7 +171,7 @@ class _PointsState extends State<Points> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 45.0),
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 22.0),
                     child: Column(
                       children: [
                         ListView.builder(
