@@ -47,7 +47,6 @@ class _PinCodeState extends State<PinCode> {
     prefs = await SharedPreferences.getInstance();
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -55,13 +54,8 @@ class _PinCodeState extends State<PinCode> {
     initPlatformState();
   }
 
-<<<<<<< HEAD
   _createPinMember(String value, Map data) async {
     print(_platformVersion);
-=======
-  _createPinMember(String value, Map data) async{
-    print(value);
->>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
     print(data['token']['token']);
     print(data['token']['member_phone']);
     setState(() {
@@ -82,7 +76,7 @@ class _PinCodeState extends State<PinCode> {
       var token = convert.jsonDecode(response.body);
       await prefs.setString('token', response.body);
       //await prefs.setString('token', response.body);
-      if (token['code'] == "200"){
+      if (token['code'] == "200") {
         Flushbar(
           title: '${token['massage']}',
           message: "${token['code']}",

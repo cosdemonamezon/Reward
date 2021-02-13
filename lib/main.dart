@@ -118,11 +118,7 @@ class MyApp extends StatelessWidget {
           '/noti': (context) => NotiScreen(),
           '/notidetail': (context) => DetailNoti(),
           '/help': (context) => Helpadvice(),
-<<<<<<< HEAD
           '/authenpincode': (context) => PinAuthen(),
-=======
-          '/webview': (context) => WebViewAward(),
->>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
         });
   }
 }

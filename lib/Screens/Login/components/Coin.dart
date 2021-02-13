@@ -93,7 +93,6 @@ class _CoinState extends State<Coin> {
         centerTitle: true,
         title: Text("Coin"),
       ),
-<<<<<<< HEAD
       body: ListView.separated(
           itemBuilder: (BuildContext context, int index) {
             return Padding(
@@ -135,55 +134,6 @@ class _CoinState extends State<Coin> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 25.0,
                                 ),
-=======
-      body: coin == null ?
-      Center(
-        child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
-        ),
-      )
-      :ListView.separated(
-        itemBuilder: (BuildContext context, int index){
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-            child: Card(
-              child: InkWell(
-                onTap: (){
-                  Navigator.pushNamed(context, '/webview', arguments: {                    
-                    'title': coin[index]['title'],
-                    'url': coin[index]['url']
-                  });
-                  // var url = coin[index]['url'];
-                  // launch((url));
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 200.0,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: coin[index]['pic'] != null ?
-                            Image.network(coin[index]['pic'], fit: BoxFit.fill,)
-                            :
-                            Ink.image(
-                              image: AssetImage("assets/images/r1.jpg"),
-                              fit: BoxFit.cover
-                            ), 
-                            // Ink.image(
-                            //   image: NetworkImage('https://picsum.photos/400/200'),
-                            //   fit: BoxFit.cover
-                            // ),
-                          ),
-                          Positioned(
-                            top: 10.0,
-                            left: 15.0,
-                            child: Text(
-                              coin[index]['No'].toString(),
-                              style: TextStyle(
-                                color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 25.0,
->>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                               ),
                             ),
                           ],
@@ -242,17 +192,7 @@ class _CoinState extends State<Coin> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-<<<<<<< HEAD
                       onTap: () {
-=======
-                      onTap: (){
-                        setState(() {
-                          nbtn1 = true;
-                          nbtn2 = false;
-                          nbtn3 = false;
-                          nbtn4 = false;
-                        });
->>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -273,17 +213,7 @@ class _CoinState extends State<Coin> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-<<<<<<< HEAD
                       onTap: () {
-=======
-                      onTap: (){
-                        setState(() {
-                          nbtn1 = false;
-                          nbtn2 = true;
-                          nbtn3 = false;
-                          nbtn4 = false;
-                        });
->>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -305,21 +235,12 @@ class _CoinState extends State<Coin> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-<<<<<<< HEAD
                           onTap: () {
-=======
-                          onTap: (){
-                            setState(() {
-                              nbtn1 = false;
-                              nbtn2 = false;
-                              nbtn3 = true;
-                              nbtn4 = false;
-                            });
->>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -366,17 +287,7 @@ class _CoinState extends State<Coin> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-<<<<<<< HEAD
                       onTap: () {
-=======
-                      onTap: (){
-                        setState(() {
-                          nbtn1 = false;
-                          nbtn2 = false;
-                          nbtn3 = false;
-                          nbtn4 = true;
-                        });
->>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
