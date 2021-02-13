@@ -94,7 +94,9 @@ class _LoginPageState extends State<LoginPage> {
         ).show(context);
         Future.delayed(Duration(seconds: 3), () {
           Navigator.pushNamed(context, '/pincode', arguments: {
-            'status': 0,
+            'username': username,
+            'password': password,
+            'token': token['data']
           });
         });
       } else if (token['code'] == "400") {
