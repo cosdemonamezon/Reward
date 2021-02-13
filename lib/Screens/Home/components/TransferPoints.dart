@@ -27,6 +27,7 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
   List<dynamic> logpoint = [];
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   TabController tabController;
+  bool success = false;
 
   @override
   void initState() {
@@ -100,34 +101,40 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
     if (response.statusCode == 200){
       final Map<String, dynamic> point = convert.jsonDecode(response.body);
       if(point['code'] == "200"){
-        Alert(
+         showDialog(
           context: context,
-          type: AlertType.info,
-          title: "ยืนยันโอน Point",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ยกเลิก",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              onPressed: () => Navigator.pop(context),
-              color: Color.fromRGBO(0, 179, 134, 1.0),
-            ),
-            DialogButton(
-              child: Text(
-                "ตกลง",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-              gradient: LinearGradient(colors: [
-                Color.fromRGBO(116, 116, 191, 1.0),
-                Color.fromRGBO(52, 138, 199, 1.0)
-              ]),
-            ),
-          ],
-        ).show();
+          builder: (context) => successdialog(
+            point['massage'], picSuccess, context,
+          ),
+         ); 
+        // Alert(
+        //   context: context,
+        //   type: AlertType.info,
+        //   title: "ยืนยันโอน Point",
+        //   buttons: [
+        //     DialogButton(
+        //       child: Text(
+        //         "ยกเลิก",
+        //         style: TextStyle(color: Colors.white, fontSize: 18),
+        //       ),
+        //       onPressed: () => Navigator.pop(context),
+        //       color: Color.fromRGBO(0, 179, 134, 1.0),
+        //     ),
+        //     DialogButton(
+        //       child: Text(
+        //         "ตกลง",
+        //         style: TextStyle(color: Colors.white, fontSize: 18),
+        //       ),
+        //       onPressed: (){
+        //         Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+        //       },
+        //       gradient: LinearGradient(colors: [
+        //         Color.fromRGBO(116, 116, 191, 1.0),
+        //         Color.fromRGBO(52, 138, 199, 1.0)
+        //       ]),
+        //     ),
+        //   ],
+        // ).show();
       }
       else{
         //print(point['massage']);
@@ -159,23 +166,30 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
       var comfirm = convert.jsonDecode(response.body);
       print(comfirm['massage']);
       print(response.statusCode);
-      Alert(
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
         context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: comfirm['massage'],
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
-          ),
-        ]
-      ).show();
+        builder: (context) => dialogDenied(
+          title, picDenied, context,
+         ),
+      ); 
+      // Alert(
+      //   context: context,
+      //   type: AlertType.error,
+      //   title: "มีข้อผิดพลาด",
+      //   desc: comfirm['massage'],
+      //   buttons: [
+      //     DialogButton(
+      //       child: Text(
+      //         "ล็อกอินใหม่",
+      //         style: TextStyle(color: Colors.white, fontSize: 20),
+      //       ),
+      //       onPressed: (){
+      //         Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
+      //       },
+      //     ),
+      //   ]
+      // ).show();
     }
   }
 
@@ -385,12 +399,25 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
                             ),
                           ),
                           GestureDetector(
-                            onTap: (){
+                            onTap: (){                              
                               if (_fbKey.currentState.saveAndValidate()){
-                                _transferPoint(_fbKey.currentState.value);
-                                setState((){
-                                  isLoading = true;
-                                });
+                                showDialog(                                
+                                context: context,
+                                builder: (context) => alertConfrim(
+                                  confrimpoint, picWanning, context,
+                                ),
+                              ); 
+                              // if (success == true) {
+                              //   _transferPoint(_fbKey.currentState.value);
+                              //   setState((){
+                              //     isLoading = true;
+                              //   });
+                              // } else {
+                              // }
+                                // _transferPoint(_fbKey.currentState.value);
+                                // setState((){
+                                //   isLoading = true;
+                                // });
                               }
                             },
                             child: Container(
@@ -439,45 +466,65 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
                     child: ListTile(
                       title: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("โอน Point"),
-                              Text(logpoint[index]['amount'].toString()+" Point"),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("โอน Point", style: TextStyle(fontWeight: FontWeight.bold)),
+                                Text(
+                                  logpoint[index]['amount'].toString()+" Point", 
+                                  style: TextStyle(fontWeight: FontWeight.bold)
+                                ),
+                              ],
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(logpoint[index]['createdTime']),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(logpoint[index]['createdTime'],style: TextStyle(fontSize: 13)),
+                              ],
+                            ),
                           ),
+                          SizedBox(height: 5,),
                           Divider(height: 2, thickness: 3,),
+                          SizedBox(height: 5,),
                         ],
                       ),
                       subtitle: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("ชื่อบัญชี :"),
-                              Text(logpoint[index]['username_des']),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("ชื่อบัญชี :", ),
+                                Text(logpoint[index]['username_des'], style: TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("เบอร์โทร :"),
-                              Text(logpoint[index]['phone_des']),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("เบอร์โทร :"),
+                                Text(logpoint[index]['phone_des'], style: TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text("โน๊ต : " + logpoint[index]['note']),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("โน๊ต : " + logpoint[index]['note']),
+                              ],
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -615,6 +662,98 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  alertConfrim (String title, String img, context,){
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Constants.padding),
+      ),
+      elevation: 4,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+              left: Constants.padding,top: Constants.avatarRadius
+              + Constants.padding, right: Constants.padding,bottom: Constants.padding
+            ),
+            margin: EdgeInsets.only(top: Constants.avatarRadius),
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(Constants.padding),
+              boxShadow: [
+                BoxShadow(color: Colors.black,offset: Offset(0,10),
+                blurRadius: 10
+              ),]
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+                SizedBox(height: 22,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFFD50000),
+                        child: Text('ยกเลิก', style: TextStyle(color: Colors.white, fontSize: 20)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: (){
+                          setState(() {
+                            success = true;
+                          });
+                          if (success == true) {
+                            _transferPoint(_fbKey.currentState.value);
+                            setState((){
+                              isLoading = true;
+                            });
+                          } else {
+                          }
+                          //Navigator.pushNamed(context, '/transfer', (Route<dynamic> route) => false);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFF01579B),
+                        child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            left: Constants.padding,
+            right: Constants.padding,
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: Constants.avatarRadius,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                child: Image.asset(img)
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

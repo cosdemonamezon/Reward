@@ -25,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   SharedPreferences prefs;
   bool isLoading = false;
+  bool loadSuccess = false;
   Map<String, dynamic> data = {};
   List<dynamic> notidata = [];
   RefreshController _refreshController =
@@ -117,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // print(data['username']);
               // print(data['count_turn_over']);
               //print(data['member_address']);
+              loadSuccess = true;
               isLoading = false;
             });
             // Flushbar(
@@ -218,16 +220,18 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: IconButton(
           icon: Icon(Icons.settings, size: 35),
           onPressed: () {
-            Navigator.pushNamed(context, '/profilesetting', arguments: {
-              'id': data['id'],
-              'member_name_th': data['member_name_th'],
-              'member_name_en': data['member_name_en'],
-              'member_email': data['member_email'],
-              'member_address': data['member_address'],
-              'member_activate': data['member_activate'],
-              'board_phone_1': data['board_phone_1'],
-              'total_noti': data['total_noti'],
-            });
+            if (loadSuccess == true) {
+              Navigator.pushNamed(context, '/profilesetting', arguments: {
+                'id': data['id'],
+                'member_name_th': data['member_name_th'],
+                'member_name_en': data['member_name_en'],
+                'member_email': data['member_email'],
+                'member_address': data['member_address'],
+                'member_activate': data['member_activate'],
+                'board_phone_1': data['board_phone_1'],
+                'total_noti': data['total_noti'],
+              });
+            }   
           },
         ),
         actions: [
@@ -240,15 +244,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               onPressed: () {
                 //_logout();
-                Navigator.pushNamed(context, '/share', arguments: {
-                  'id': data['id'],
-                  'member_link_1': data['member_link_1'],
-                  'member_link_2': data['member_link_2'],
-                  'member_link_3': data['member_link_3'],
-                  'member_link_4': data['member_link_4'],
-                  'board_phone_1': data['board_phone_1'],
-                  'total_noti': data['total_noti'],
-                });
+                if (loadSuccess == true) {
+                  Navigator.pushNamed(context, '/share', arguments: {
+                    'id': data['id'],
+                    'member_link_1': data['member_link_1'],
+                    'member_link_2': data['member_link_2'],
+                    'member_link_3': data['member_link_3'],
+                    'member_link_4': data['member_link_4'],
+                    'board_phone_1': data['board_phone_1'],
+                    'total_noti': data['total_noti'],
+                  });
+                }
               },
             ),
           ),
@@ -727,196 +733,166 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text("โอนPoint"),
                                       ],
                                     ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "assets/images/2.JPG"),
-                                            radius: 25,
-                                            child: GestureDetector(
-                                              onTap: () {},
-                                            ),
-                                          ),
-                                        ),
-                                        Text("เติมเครดิต"),
-                                      ],
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10),
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage("assets/images/2.JPG"),
+                                      radius: 25,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          launch(data['board_url_deposit']);
+                                        },
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "assets/images/3.JPG"),
-                                            radius: 25,
-                                            child: GestureDetector(
-                                              onTap: () {},
-                                            ),
-                                          ),
-                                        ),
-                                        Text("ถอนเครดิต"),
-                                      ],
+                                  ),
+                                  Text("เติมเครดิต"),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10),
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage("assets/images/3.JPG"),
+                                      radius: 25,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          launch(data['board_url_withdraw']);
+                                        },
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8),
-                                          child: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "assets/images/4.JPG"),
-                                            radius: 25,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                AppAvailability.launchApp(
-                                                    "jp.naver.line.android");
-                                                //launch(('https://play.google.com/store/apps/details?id=jp.naver.line.android'));
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Text("Line"),
-                                      ],
+                                  ),
+                                  Text("ถอนเครดิต"),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8),
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage("assets/images/4.JPG"),
+                                      radius: 25,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          AppAvailability.launchApp("jp.naver.line.android");
+                                          //launch(('https://play.google.com/store/apps/details?id=jp.naver.line.android'));
+                                        },
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 7),
-                                          child: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "assets/images/5.JPG"),
-                                            radius: 25,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                // Navigator.push(
-                                                //   context, MaterialPageRoute(
-                                                //     builder: (context){return RewardScreen();}
-                                                //   ),
-                                                // );
-                                                Navigator.pushNamed(
-                                                    context, '/reward',
-                                                    arguments: {
-                                                      'member_id': data['id'],
-                                                      'username':
-                                                          data['username'],
-                                                      'member_point':
-                                                          data['member_point'],
-                                                      'board_phone_1':
-                                                          data['board_phone_1'],
-                                                      'total_noti':
-                                                          data['total_noti'],
-                                                    });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Text("รีวอร์ด"),
-                                      ],
+                                  ),
+                                  Text("Line"),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 7),
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                        "assets/images/5.JPG"),
+                                      radius: 25,
+                                      child: GestureDetector(
+                                        onTap: () {         
+                                          Navigator.pushNamed(
+                                            context, '/reward',
+                                            arguments: {
+                                            'member_id': data['id'],
+                                            'username': data['username'],
+                                            'member_point': data['member_point'],
+                                            'board_phone_1': data['board_phone_1'],
+                                            'total_noti': data['total_noti'],
+                                          });
+                                        },
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage:
-                                              AssetImage("assets/images/6.JPG"),
-                                          radius: 25,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              // Navigator.push(
-                                              //   context, MaterialPageRoute(
-                                              //     builder: (context){return PromotionScreen();}
-                                              //   ),
-                                              // );
-                                              Navigator.pushNamed(
-                                                  context, '/promotion',
-                                                  arguments: {
-                                                    'username':
-                                                        data['username'],
-                                                    'board_phone_1':
-                                                        data['board_phone_1'],
-                                                    'total_noti':
-                                                        data['total_noti'],
-                                                  });
-                                            },
-                                          ),
-                                        ),
-                                        Text("โปร/แคมเปญ"),
-                                      ],
+                                  ),
+                                  Text("รีวอร์ด"),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage:
+                                    AssetImage("assets/images/6.JPG"),
+                                    radius: 25,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        
+                                        Navigator.pushNamed(
+                                          context, '/promotion',
+                                          arguments: {
+                                          'username': data['username'],
+                                          'board_phone_1': data['board_phone_1'],
+                                          'total_noti': data['total_noti'],
+                                        });
+                                      },
                                     ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 14),
-                                          child: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "assets/images/7.JPG"),
-                                            radius: 25,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                Navigator.pushNamed(
-                                                    context, '/award',
-                                                    arguments: {
-                                                      'id': data['id'],
-                                                      'member_link_1':
-                                                          data['member_link_1'],
-                                                      'member_link_2':
-                                                          data['member_link_2'],
-                                                      'member_link_3':
-                                                          data['member_link_3'],
-                                                      'member_link_4':
-                                                          data['member_link_4'],
-                                                      'board_phone_1':
-                                                          data['board_phone_1'],
-                                                      'total_noti':
-                                                          data['total_noti']
-                                                    });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Text("รางวัล"),
-                                      ],
+                                  ),
+                                  Text("โปร/แคมเปญ"),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 14),
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                        "assets/images/7.JPG"),
+                                      radius: 25,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context, '/award',
+                                            arguments: {
+                                            'id': data['id'],
+                                            'member_link_1': data['member_link_1'],
+                                            'member_link_2': data['member_link_2'],
+                                            'member_link_3': data['member_link_3'],
+                                            'member_link_4': data['member_link_4'],
+                                            'board_phone_1': data['board_phone_1'],
+                                            'total_noti':  data['total_noti']
+                                          });
+                                        },
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage:
-                                              AssetImage("assets/images/8.JPG"),
-                                          radius: 25,
-                                          child: GestureDetector(
-                                            onTap: () {},
-                                          ),
-                                        ),
-                                        Text("บริการ/เกม"),
-                                      ],
+                                  ),
+                                  Text("รางวัล"),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage:
+                                    AssetImage("assets/images/8.JPG"),
+                                    radius: 25,
+                                    child: GestureDetector(
+                                      onTap: () {},
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                  Text("บริการ/เกม"),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
+              ],
             ),
+          ),
+        ),
+      ),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -943,7 +919,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
-                        launch(('tel://${data['board_phone_1']}'));
+                        if (loadSuccess == true) {
+                          launch(('tel://${data['board_phone_1']}'));
+                        }                        
                       },
                     ),
                   ),
@@ -961,11 +939,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/help", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
+                        if (loadSuccess == true) {
+                          Navigator.pushNamed(context, "/help", arguments: {
+                            'member_point': data['member_point'],
+                            'board_phone_1': data['board_phone_1'],
+                            'total_noti': data['total_noti'],
+                          });
+                        }                        
                       },
                     ),
                   ),
@@ -986,11 +966,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         radius: 24,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, "/noti", arguments: {
-                              'member_point': data['member_point'],
-                              'board_phone_1': data['board_phone_1'],
-                              'total_noti': data['total_noti'],
-                            });
+                            if (loadSuccess == true) {
+                              Navigator.pushNamed(context, "/noti", arguments: {
+                                'member_point': data['member_point'],
+                                'board_phone_1': data['board_phone_1'],
+                                'total_noti': data['total_noti'],
+                              });
+                            }                            
                           },
                         ),
                       ),
@@ -998,23 +980,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         right: 5.0,
                         //top: 2.0,
                         child: data['total_noti'] == null
-                            ? SizedBox(
-                                height: 2.0,
-                              )
-                            : data['total_noti'] == 0
-                                ? SizedBox(
-                                    height: 2.0,
-                                  )
-                                : CircleAvatar(
-                                    backgroundColor: Colors.red,
-                                    radius: 10,
-                                    child: Text(
-                                      data['total_noti'].toString(),
-                                      style: TextStyle(
-                                          color: kTextColor,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
+                        ? SizedBox( height: 2.0,)
+                        : data['total_noti'] == 0
+                        ? SizedBox(height: 2.0,)
+                        : CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 10,
+                          child: Text(
+                            data['total_noti'].toString(),
+                            style: TextStyle(
+                              color: kTextColor,
+                              fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -1032,11 +1010,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/coin", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
+                        if (loadSuccess == true) {
+                          Navigator.pushNamed(context, "/coin", arguments: {
+                            'member_point': data['member_point'],
+                            'board_phone_1': data['board_phone_1'],
+                            'total_noti': data['total_noti'],
+                          });
+                        }                        
                       },
                     ),
                   ),

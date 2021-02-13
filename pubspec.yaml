@@ -91,6 +91,7 @@ flutter:
     - assets/images/nopic.png
     - assets/images/denied.png
     - assets/images/success.png
+    - assets/images/wanning.png
     - assets/images/model.jpeg
     
     # - assets/icons/1.png

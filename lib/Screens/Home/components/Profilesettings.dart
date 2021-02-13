@@ -147,32 +147,38 @@ class _ProfilesettingsState extends State<Profilesettings> {
           //Navigator.pop(context);
           Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
         });
-      }else{
-        Flushbar(
-          title: '${profile['code']}',
-          message: "ไม่สำร็จ ระบบขัดข้อง กรุณาตรวจสอบอีกครั้ง",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.red[300],
+      }else if(profile['code'] == "400"){
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            errorProfile, picDenied, context,
           ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.red[300],
-        )..show(context);
+        ); 
+        
+      }else if (profile['code'] == "500") {
+        showDialog(
+          context: context,
+          builder: (context) => errordialog(
+            profile['massage'], checkData,picDenied, context,
+          ),
+        ); 
+      }else{
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            headtitle, picDenied, context,
+          ),
+        ); 
       }
+
     }else{
-      var profile = convert.jsonDecode(response.body);
-      Flushbar(
-        title: '',
-        message: "ไม่สำร็จ มีข้อผิดพลาด",
-        icon: Icon(
-          Icons.info_outline,
-          size: 28.0,
-          color: Colors.red[300],
+      
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          headtitle, picDenied, context,
         ),
-        duration: Duration(seconds: 3),
-        leftBarIndicatorColor: Colors.red[300],
-      )..show(context);
+      ); 
     }
   }
   
@@ -195,19 +201,25 @@ class _ProfilesettingsState extends State<Profilesettings> {
         centerTitle: true,
         title: Text("Profile"),
       ),
-      body: Stack(
+      body: data == null ? 
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+      )
+      :Stack(
         fit: StackFit.expand,
         children: [
           //Image.asset("assets/images/home.jpg", fit: BoxFit.cover,),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Color(0xFFF001117).withOpacity(0.7),
-          ),
+          // Container(
+          //   width: MediaQuery.of(context).size.width,
+          //   height: MediaQuery.of(context).size.height,
+          //   color: Color(0xFFF001117).withOpacity(0.7),
+          // ),
           data['member_activate'] == "Yes" ? Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20.0,),
+              SizedBox(height: 15.0,),
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
@@ -217,7 +229,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                   ],
                 ),
               ),
-              SizedBox(height: 15.0,),
+              SizedBox(height: 10.0,),
               Expanded(
                 child: Container(
                   child: SingleChildScrollView(

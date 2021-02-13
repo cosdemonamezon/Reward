@@ -23,8 +23,12 @@ String notinum = "";
 //ใช้กับ custom_dialog
 String picSuccess = "assets/images/success.png";
 String picDenied = "assets/images/denied.png";
-String headtitle = "มีข้อผิดพลาด";
+String picWanning = "assets/images/wanning.png";
+String headtitle = "มีข้อผิดพลาดในระบบ";
 String errPhone = "โปรดตรวจสอบหมายเลขโทรศัพท์อีกครั้ง";
+String confrimpoint = "ยืนยันโอน Point";
+String errorProfile ="ไม่สำร็จ เกิดข้อผิดพลาดในระบบ";
+String checkData = "กรุณาตรวจสอบข้อมูลอีกครั้ง";
 class Constants{
   Constants._();
   static const double padding =20;
@@ -101,7 +105,7 @@ dialogDenied (String title, String img, context) {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
     ),
-    elevation: 4,
+    elevation: 20,
     backgroundColor: Colors.transparent,
     child: Stack(
       children: [
@@ -186,7 +190,7 @@ errordialog (String title, String subtitle, String img, context)  {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              Text(title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
               SizedBox(height: 15,),
               Text(subtitle,style: TextStyle(fontSize: 16),textAlign: TextAlign.center,),
               SizedBox(height: 22,),
@@ -286,6 +290,10 @@ successdialog(String title, String img, context){
     ),
   );
 }
+
+
+  
+
 
 
 
