@@ -185,7 +185,13 @@ class _NotiScreenState extends State<NotiScreen> {
         centerTitle: true,
         title: Text("Notification Log"),
       ),
-      body: Container(
+      body: notidata == null ?
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+        ),
+      )
+      :Container(
         width: double.infinity,
         child: ListView.builder(
           shrinkWrap: true,
@@ -210,14 +216,24 @@ class _NotiScreenState extends State<NotiScreen> {
                       'created_at': notidata[index]['created_at'],
                       'url': notidata[index]['url'],
                     });
-                  } else {
-                    //print("ไม่มีลิ้ง");
-                    _readNotiMember(noti_log_id);
-                    Navigator.pushNamed(context, "/point", arguments: {
+                  } else if (notidata[index]['noti_type']=="Point") {
+                     _readNotiMember(noti_log_id);
+                      Navigator.pushNamed(context, "/point", arguments: {
                       'member_point': data['member_point'],
                       'board_phone_1': data['board_phone_1'],
                       'total_noti': data['total_noti'],
                     });
+                  }
+                  else if (notidata[index]['noti_type']=="Reward") {
+                    Navigator.pushNamed(context, "/reward", arguments: {
+                      'member_point': data['member_point'],
+                      'board_phone_1': data['board_phone_1'],
+                      'total_noti': data['total_noti'],
+                    });
+                  }
+                  else {
+                    //print("ไม่มีลิ้ง");
+                   
                   }
                   //launch((url));
                 },
@@ -280,10 +296,17 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -298,10 +321,17 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -321,10 +351,17 @@ class _NotiScreenState extends State<NotiScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -358,10 +395,17 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],

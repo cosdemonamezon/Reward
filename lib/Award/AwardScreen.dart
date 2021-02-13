@@ -235,7 +235,13 @@ class _AwardScreenState extends State<AwardScreen> {
         centerTitle: true,
         title: Text("แชร์ลิ้ง"),
       ),
-      body: Column(
+      body: shareLink == null ?
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+        ),
+      )
+      :Column(
         children: [
           Card(
             child: Column(

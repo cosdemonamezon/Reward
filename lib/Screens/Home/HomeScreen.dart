@@ -1,6 +1,3 @@
-import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:Reward/Screens/Login/components/NotiScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter_appavailability/flutter_appavailability.dart';
@@ -115,9 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               //data = convert.jsonDecode(profileString);
               data = homedata['data'];
-              // print(data['username']);
-              // print(data['count_turn_over']);
-              //print(data['member_address']);
+              nbtn1 = false;
+              nbtn2 = false;
+              nbtn3 = false;
+              nbtn4 = false;
               loadSuccess = true;
               isLoading = false;
             });
@@ -264,6 +262,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
+          : data == null ? 
+          Center(
+            child: Text(
+              "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+            ),
+          )
           : SmartRefresher(
               // enablePullDown: false,
               // enablePullUp: true,
@@ -913,13 +917,20 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
-                        if (loadSuccess == true) {
+                        if (loadSuccess == true) {  
                           launch(('tel://${data['board_phone_1']}'));
                         }                        
                       },
@@ -935,10 +946,17 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         if (loadSuccess == true) {
                           Navigator.pushNamed(context, "/help", arguments: {
                             'member_point': data['member_point'],
@@ -962,10 +980,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: () {
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             if (loadSuccess == true) {
                               Navigator.pushNamed(context, "/noti", arguments: {
                                 'member_point': data['member_point'],
@@ -1006,10 +1031,17 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
                         if (loadSuccess == true) {
                           Navigator.pushNamed(context, "/coin", arguments: {
                             'member_point': data['member_point'],

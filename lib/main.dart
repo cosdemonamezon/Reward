@@ -61,7 +61,7 @@ void main() async {
       .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
     // will be called whenever a notification is opened/button pressed.
     navigatorKey.currentState
-        .pushNamed(result.notification.payload.additionalData['page']);
+        .pushNamed(result.notification.payload.additionalData['/home']);
   });
 
   var status = await OneSignal.shared.getPermissionSubscriptionState();

@@ -119,7 +119,13 @@ class _LinkShareState extends State<LinkShare> {
         centerTitle: true,
         title: Text("แชร์ลิ้ง"),
       ),
-      body: Container(
+      body: shareLink == null ? 
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+        ),
+      )
+      :Container(
         width: double.infinity,
         // decoration: BoxDecoration(
         //   image: DecorationImage(
@@ -150,6 +156,7 @@ class _LinkShareState extends State<LinkShare> {
                     i3 = false;
                     i4 = false;                    
                   });
+                  //launch("https://www.facebook.com/sharer.php?u="+data['member_link_1']);
                   await FlutterClipboard.copy(data['member_link_1']);
                 },
                 shape: RoundedRectangleBorder(
@@ -176,7 +183,7 @@ class _LinkShareState extends State<LinkShare> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [                        
                         Text(
-                          "Share With Facebook",
+                          "Share With Local Link",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
@@ -197,6 +204,7 @@ class _LinkShareState extends State<LinkShare> {
                     i3 = false;
                     i4 = false;                    
                   });
+                  launch("https://www.facebook.com/sharer.php?u="+data['member_link_2']);
                   await FlutterClipboard.copy(data['member_link_2']);
                 },
                 shape: RoundedRectangleBorder(
@@ -223,7 +231,7 @@ class _LinkShareState extends State<LinkShare> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [                        
                         Text(
-                          "Share With Google",
+                          "Share With Facebook",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
@@ -244,6 +252,7 @@ class _LinkShareState extends State<LinkShare> {
                     i3 = true;
                     i4 = false;                    
                   });
+                  launch("https://www.youtube.com/");
                   await FlutterClipboard.copy(data['member_link_3']);
                 },
                 shape: RoundedRectangleBorder(
@@ -270,7 +279,7 @@ class _LinkShareState extends State<LinkShare> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [                        
                         Text(
-                          "Share With Line",
+                          "Share With Youtube",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
@@ -291,6 +300,7 @@ class _LinkShareState extends State<LinkShare> {
                     i3 = false;
                     i4 = true;                    
                   });
+                  launch("https://social-plugins.line.me/lineit/share?url="+data['member_link_4']); 
                   await FlutterClipboard.copy(data['member_link_4']);
                 },
                 shape: RoundedRectangleBorder(
@@ -317,7 +327,7 @@ class _LinkShareState extends State<LinkShare> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [                        
                         Text(
-                          "Share With Facebook",
+                          "Share With Line",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
@@ -351,10 +361,17 @@ class _LinkShareState extends State<LinkShare> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -369,10 +386,17 @@ class _LinkShareState extends State<LinkShare> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -392,10 +416,17 @@ class _LinkShareState extends State<LinkShare> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: (){
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -429,10 +460,17 @@ class _LinkShareState extends State<LinkShare> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],

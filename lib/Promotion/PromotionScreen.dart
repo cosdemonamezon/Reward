@@ -155,7 +155,13 @@ class _PromotionScreenState extends State<PromotionScreen> {
         centerTitle: true,
         title: Text("โปรโมชั่น"),
       ),
-      body: Container(
+      body: campaign == null ?
+      Center(
+        child: Text(
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+        ),
+      )
+      :Container(
         width: double.infinity,
         child: Column(
           children: [
@@ -310,7 +316,6 @@ class _PromotionScreenState extends State<PromotionScreen> {
                               color: campaign[index]['status'] == false ? Color(0xFFF001117).withOpacity(0.4) : Color(0xFFFFFFFFF).withOpacity(0.1),
                             ),
                           ],
-
                         ),
                       ),
                     );
@@ -321,6 +326,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
           ],
         ),
       ),
+
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -332,8 +338,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(
-              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -341,10 +346,17 @@ class _PromotionScreenState extends State<PromotionScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: (){
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -352,32 +364,34 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return Helpadvice();
-                          }),
-                        );
+                      onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -387,11 +401,20 @@ class _PromotionScreenState extends State<PromotionScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: () {
+                          onTap: (){
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data['member_point'],
+                              'board_phone_1': data['board_phone_1'],
                               'total_noti': data['total_noti'],
                             });
                           },
@@ -400,54 +423,49 @@ class _PromotionScreenState extends State<PromotionScreen> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null
-                            ? SizedBox(
-                                height: 2.0,
-                              )
-                            : data['total_noti'] == 0
-                                ? SizedBox(
-                                    height: 2.0,
-                                  )
-                                : CircleAvatar(
-                                    backgroundColor: Colors.red,
-                                    radius: 10,
-                                    child: Text(
-                                      data['total_noti'].toString(),
-                                      style: TextStyle(
-                                          color: kTextColor,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
+                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
+                        :CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 10,
+                          child: Text(
+                           data['total_noti'].toString(),
+                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
+                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               Column(
                 children: [
                   CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return Coin();
-                          }),
-                        );
+                      onTap: (){
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
                       },
                     ),
                   ),
                   Text(
-                    "เหรียญ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

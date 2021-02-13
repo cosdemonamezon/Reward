@@ -19,6 +19,10 @@ String pathAPI = "https://mzreward.com/reward-api/public/";
 
 //เซ็ทตัวแปร ตรง bottomNavigationBar
 String notinum = "";
+bool nbtn1 = false;
+bool nbtn2 = false;
+bool nbtn3 = false;
+bool nbtn4 = false;
 
 //ใช้กับ custom_dialog
 String picSuccess = "assets/images/success.png";
