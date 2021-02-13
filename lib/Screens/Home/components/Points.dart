@@ -191,6 +191,8 @@ class _PointsState extends State<Points> {
                     child: Column(
                       children: [
                         ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const ClampingScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: point[index]['data'].length,
                           itemBuilder: (BuildContext context, int index1){

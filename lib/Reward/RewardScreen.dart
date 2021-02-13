@@ -603,6 +603,8 @@ _getHideForReview() async{
                 ),
 
                 ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: transreward.length,
                   itemBuilder: (BuildContext context, int index){

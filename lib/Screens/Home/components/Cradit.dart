@@ -198,6 +198,8 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                       child: Column(
                         children: [
                           ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            physics: const ClampingScrollPhysics(),
                             shrinkWrap: true,
                             //padding: EdgeInsets.only(left: 40.0, right: 40.0),
                             itemCount: cradit[index]['data'].length,
