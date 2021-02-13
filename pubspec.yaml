@@ -48,10 +48,8 @@ dependencies:
   flutter_swiper: ^1.1.6
   webview_flutter: ^1.0.7
   get_mac: ^0.0.1
-<<<<<<< HEAD
-=======
   carousel_slider: ^3.0.0
->>>>>>> 8e42a4a41a7845ff0eac6ab451a8f431c8884ca6
+
 
 dev_dependencies:
   flutter_test:
