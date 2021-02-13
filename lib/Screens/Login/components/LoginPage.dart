@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
     print(playerId);
     username = values['username'];
     password = values['password'];
-    //var url = 'http://103.74.253.96/reward-api/public/api/Login_M';
+    //var url = 'https://mzreward.com/reward-api/public/api/Login_M';
     var url = pathAPI + "api/Login_M";
     print(url);
     var response = await http.post(url,
@@ -91,16 +91,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
           duration: Duration(seconds: 3),
           leftBarIndicatorColor: Colors.blue[300],
-        )..show(context);
+        ).show(context);
         Future.delayed(Duration(seconds: 3), () {
-          // Navigator.pushNamedAndRemoveUntil(
-          //     context, '/pincode', (Route<dynamic> route) => false, arguments:{
-          //       'username': data['username'], 'password': data['password'],
-          //     });
           Navigator.pushNamed(context, '/pincode', arguments: {
-            'username': username,
-            'password': password,
-            'token': token['data']
+            'status': 0,
           });
         });
       } else if (token['code'] == "400") {
@@ -163,7 +157,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -171,188 +168,263 @@ class _LoginPageState extends State<LoginPage> {
             "assets/images/home.jpg",
             fit: BoxFit.cover,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Color(0xFFF001117).withOpacity(0),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 460.0,
-              ),
-              SizedBox(
-                height: 0.0,
-              ),
-              Expanded(
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(18),
+          SingleChildScrollView(
+            reverse: true, // this is new
+            physics: BouncingScrollPhysics(),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              margin: EdgeInsets.only(top: height * 0.67, bottom: 30),
+              color: Color(0xff070d3f),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: FormBuilder(
+                      key: _fbKey,
+                      initialValue: {
+                        'กรอกชื่อผู้ใช้หรืออีเมล': '',
+                        'กรอกรหัสผ่าน': '',
+                      },
                       child: Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: FormBuilder(
-                              key: _fbKey,
-                              initialValue: {
-                                'username': '',
-                                'password': '',
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color:
-                                              Color.fromRGBO(255, 95, 27, .3),
-                                          blurRadius: 20,
-                                          offset: Offset(0, 10),
-                                        )
-                                      ],
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(255, 95, 27, .3),
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10),
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200])),
+                                  ),
+                                  child: FormBuilderTextField(
+                                    attribute: 'username',
+                                    decoration: InputDecoration(
+                                      hintText: "ชื่อผู้เข้าใช้",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      border: InputBorder.none,
                                     ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    color: Colors.grey[200])),
-                                          ),
-                                          child: FormBuilderTextField(
-                                            attribute: 'username',
-                                            decoration: InputDecoration(
-                                              hintText: "Username",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
-                                              border: InputBorder.none,
-                                            ),
-                                            validators: [
-                                              FormBuilderValidators.required(
-                                                  errorText:
-                                                      'กรุณากรอกชื่อผู้ใช้')
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          // decoration: BoxDecoration(
-                                          //   border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                          // ),
-                                          child: FormBuilderTextField(
-                                            attribute: 'password',
-                                            obscureText: true,
-                                            decoration: InputDecoration(
-                                              hintText: "Password",
-                                              hintStyle:
-                                                  TextStyle(color: Colors.grey),
-                                              border: InputBorder.none,
-                                            ),
-                                            validators: [
-                                              FormBuilderValidators.required(
-                                                  errorText: 'กรอกรหัสผ่าน'),
-                                              FormBuilderValidators.minLength(6,
-                                                  errorText:
-                                                      'รหัสผ่านของคุณต้องมี 6 ตัวอักกษรขึ้นไป'),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 25.0,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (_fbKey.currentState
-                                          .saveAndValidate()) {
-                                        _login(_fbKey.currentState.value);
-                                        //print(_fbKey.currentState.value);
-                                      }
-                                    },
-                                    child: Container(
-                                      height: 50.0,
-                                      // margin:
-                                      //     EdgeInsets.symmetric(horizontal: 60),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Color(0xff374ABE),
-                                              Color(0xff64B6FF)
-                                            ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0)),
-                                      child: Center(
-                                        child: isLoading == true
-                                            ? CircularProgressIndicator(
-                                                //backgroundColor: Colors.blueAccent,
-                                                )
-                                            : Text(
-                                                "Login",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 25.0,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Text(
-                                          "Lost your password?",
-                                          style: TextStyle(
-                                            color: kTextColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Back to page",
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ),
+                                    validators: [
+                                      FormBuilderValidators.required(
+                                          errorText: 'กรุณากรอกชื่อผู้ใช้')
                                     ],
                                   ),
-                                ],
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  // decoration: BoxDecoration(
+                                  //   border: Border(bottom: BorderSide(color: Colors.grey[200])),
+                                  // ),
+                                  child: FormBuilderTextField(
+                                    attribute: 'password',
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      hintText: "รหัสผ่าน",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      border: InputBorder.none,
+                                    ),
+                                    validators: [
+                                      FormBuilderValidators.required(
+                                          errorText: 'กรอกรหัสผ่าน'),
+                                      FormBuilderValidators.minLength(6,
+                                          errorText:
+                                              'รหัสผ่านของคุณต้องมี 6 ตัวอักกษรขึ้นไป'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 25.0,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (_fbKey.currentState.saveAndValidate()) {
+                                _login(_fbKey.currentState.value);
+                                //print(_fbKey.currentState.value);
+                              }
+                            },
+                            child: Container(
+                              height: 50.0,
+                              // margin:
+                              //     EdgeInsets.symmetric(horizontal: 60),
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff374ABE),
+                                      Color(0xff64B6FF)
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Center(
+                                child: isLoading == true
+                                    ? CircularProgressIndicator(
+                                        //backgroundColor: Colors.blueAccent,
+                                        )
+                                    : Text(
+                                        "เข้าสู่ระบบ",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 25.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: Text(
+                                  "ลืมรหัสผ่าน?",
+                                  style: TextStyle(
+                                    color: kTextColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "ย้อนกลับ",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
+                  Padding(
+                      // this is new
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(30.0),
+          //   topRight: Radius.circular(30.0),
+          // ),
+          color: kNavigationBarColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon1),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: () {
+                        //launch(('tel://0922568260'));
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon2),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context, MaterialPageRoute(
+                        //     builder: (context){return Helpadvice();}
+                        //   ),
+                        // );
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon3),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: () {},
+                    ),
+                  ),
+                  Text(
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pathicon4),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: () {},
+                    ),
+                  ),
+                  Text(
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -22,7 +22,12 @@ class _PromotionScreenState extends State<PromotionScreen> {
   bool isLoading = false;
   List<dynamic> campaign = [];
   List<dynamic> banner = [];
+<<<<<<< HEAD
+  String picUrlimages =
+      "https://mzreward.com/reward-api/public/images/campaign/";
+=======
   //String picUrlimages = "http://103.74.253.96/reward-api/public/images/campaign/";
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
   String type1 = "News";
   String type2 = "Promotion";
   final scrollController = ScrollController(initialScrollOffset: 0);
@@ -38,7 +43,10 @@ class _PromotionScreenState extends State<PromotionScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+<<<<<<< HEAD
+=======
 
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
     var url = pathAPI + 'api/getBannerM';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
@@ -46,7 +54,11 @@ class _PromotionScreenState extends State<PromotionScreen> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> bannerType = convert.jsonDecode(response.body);
       if (bannerType['code'] == "200") {
+<<<<<<< HEAD
+        print(bannerType['massage']);
+=======
         //print(bannerType['massage']);
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
         setState(() {
           banner = bannerType['data'];
           // print(banner);
@@ -85,7 +97,11 @@ class _PromotionScreenState extends State<PromotionScreen> {
       final Map<String, dynamic> campaigndata =
           convert.jsonDecode(response.body);
       if (campaigndata['code'] == "200") {
+<<<<<<< HEAD
+        print(campaigndata['massage']);
+=======
         //print(campaigndata['massage']);
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
         setState(() {
           campaign = campaigndata['data'];
           //print(campaign);
@@ -94,6 +110,31 @@ class _PromotionScreenState extends State<PromotionScreen> {
         setState(() {
           isLoading = false;
         });
+<<<<<<< HEAD
+        print('error from backend ${response.statusCode}');
+      }
+    } else {
+      print(response.statusCode);
+      final Map<String, dynamic> campaigndata =
+          convert.jsonDecode(response.body);
+      Alert(
+          context: context,
+          type: AlertType.error,
+          title: "มีข้อผิดพลาด",
+          desc: campaigndata['massage'],
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/loginScreen', (Route<dynamic> route) => false);
+              },
+            ),
+          ]).show();
+=======
         //print('error from backend ${response.statusCode}');
         showDialog(
           context: context,
@@ -133,6 +174,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
       //       ),
       //     ]
       //   ).show();
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
     }
   }
 
@@ -166,6 +208,38 @@ class _PromotionScreenState extends State<PromotionScreen> {
         child: Column(
           children: [
             Container(
+<<<<<<< HEAD
+              width: double.infinity,
+              height: 170,
+              child: Expanded(
+                child: Swiper(
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          child: banner[index]['banner_pic'] != null
+                              ? Image.network(
+                                  banner[index]['banner_pic'],
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  'https://picsum.photos/400/200',
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ],
+                    );
+                  },
+                  autoplay: true,
+                  itemCount: banner.length,
+                  pagination: SwiperPagination(),
+                  controller: SwiperController(),
+                  physics: NeverScrollableScrollPhysics(),
+                ),
+              ),
+            ),
+=======
               child: CarouselSlider.builder(
                   itemCount: banner.length,
                   options: CarouselOptions(
@@ -194,11 +268,61 @@ class _PromotionScreenState extends State<PromotionScreen> {
                   }),
             ),
                        
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
             SizedBox(
               height: 10.0,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.0),
+<<<<<<< HEAD
+              child: Stack(children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(255, 95, 27, .3),
+                        blurRadius: 20,
+                        offset: Offset(0, 10),
+                      )
+                    ],
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border:
+                          Border(bottom: BorderSide(color: Colors.grey[200])),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: CircleAvatar(
+                            radius: 22,
+                            backgroundImage:
+                                AssetImage("assets/images/gold.JPG"),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Text(
+                            "User Member : ${data['username']}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+=======
               child: Stack(
                 children: [
                   Container(
@@ -241,6 +365,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
               ),
             ),
             SizedBox(height: 10.0,),
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
             Expanded(
               //flex: 2,
               child: Container(
@@ -252,6 +377,22 @@ class _PromotionScreenState extends State<PromotionScreen> {
                   children: List.generate(campaign.length, (index) {
                     return Container(
                       child: Padding(
+<<<<<<< HEAD
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 5.0),
+                        child: Stack(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // if (campaign[index]['status'] == true) {
+                                //   var url = campaign[index]['url'];
+                                //   launch((url));
+                                // } else {
+                                // }
+                                var url = campaign[index]['url'];
+                                print(url);
+                                launch((url));
+=======
                         padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
                         child: Stack(
                           children: [
@@ -267,6 +408,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                 // print(url);
                                 // launch((url));
 
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                               },
                               child: Card(
                                 //color: Colors.blue,
@@ -277,6 +419,24 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                     Container(
                                       height: 100,
                                       width: double.infinity,
+<<<<<<< HEAD
+                                      child: campaign[index]['pic'] != null
+                                          ? Image.network(
+                                              campaign[index]['pic'],
+                                              fit: BoxFit.fill,
+                                            )
+                                          : Image.network(
+                                              'https://picsum.photos/400/200',
+                                              fit: BoxFit.fill,
+                                            ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8),
+=======
                                       child: campaign[index]['pic'] != null ?
                                       Image.network(campaign[index]['pic'], fit: BoxFit.fill,) :
                                       Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
@@ -284,6 +444,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                     SizedBox(height: 5,),
                                     Padding(
                                       padding: EdgeInsets.symmetric(horizontal: 8),
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                                       child: Text(
                                         campaign[index]['title'],
                                         style: TextStyle(fontSize: 13.0),
@@ -295,6 +456,13 @@ class _PromotionScreenState extends State<PromotionScreen> {
                             ),
                             Container(
                               child: GestureDetector(
+<<<<<<< HEAD
+                                onTap: () {
+                                  if (campaign[index]['status'] == true) {
+                                    var url = campaign[index]['url'];
+                                    launch((url));
+                                  } else {}
+=======
                                 onTap: (){
                                   if (campaign[index]['status'] == true) {
                                     Navigator.pushNamed(context, '/webview', arguments: {
@@ -309,11 +477,18 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                   } else {
                                   }
 
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                                 },
                               ),
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height,
+<<<<<<< HEAD
+                              color: campaign[index]['status'] == false
+                                  ? Color(0xFFF001117).withOpacity(0.4)
+                                  : Color(0xFFFFFFFFF).withOpacity(0.1),
+=======
                               color: campaign[index]['status'] == false ? Color(0xFFF001117).withOpacity(0.4) : Color(0xFFFFFFFFF).withOpacity(0.1),
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                             ),
                           ],
                         ),
@@ -326,7 +501,6 @@ class _PromotionScreenState extends State<PromotionScreen> {
           ],
         ),
       ),
-
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -338,7 +512,8 @@ class _PromotionScreenState extends State<PromotionScreen> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -350,6 +525,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
+<<<<<<< HEAD
+                      onTap: () {
+=======
                       onTap: (){
                         setState(() {
                           nbtn1 = true;
@@ -357,6 +535,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                           nbtn3 = false;
                           nbtn4 = false;
                         });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -364,7 +543,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -375,6 +556,15 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
+<<<<<<< HEAD
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Helpadvice();
+                          }),
+                        );
+=======
                       onTap: (){
                         setState(() {
                           nbtn1 = false;
@@ -387,11 +577,14 @@ class _PromotionScreenState extends State<PromotionScreen> {
                           'board_phone_1': data['board_phone_1'],
                           'total_noti': data['total_noti'],
                         });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                       },
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -405,6 +598,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
+<<<<<<< HEAD
+                          onTap: () {
+=======
                           onTap: (){
                             setState(() {
                               nbtn1 = false;
@@ -412,6 +608,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                               nbtn3 = true;
                               nbtn4 = false;
                             });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -423,6 +620,26 @@ class _PromotionScreenState extends State<PromotionScreen> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
+<<<<<<< HEAD
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+=======
                         child: data['total_noti'] == null ? SizedBox(height: 2.0,)
                         :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
                         :CircleAvatar(
@@ -433,12 +650,14 @@ class _PromotionScreenState extends State<PromotionScreen> {
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -449,6 +668,15 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
+<<<<<<< HEAD
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Coin();
+                          }),
+                        );
+=======
                       onTap: (){
                         setState(() {
                           nbtn1 = false;
@@ -461,11 +689,14 @@ class _PromotionScreenState extends State<PromotionScreen> {
                           'board_phone_1': data['board_phone_1'],
                           'total_noti': data['total_noti'],
                         });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                       },
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

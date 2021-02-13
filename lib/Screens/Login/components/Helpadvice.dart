@@ -17,15 +17,16 @@ class _HelpadviceState extends State<Helpadvice> {
   bool isLoading = false;
   List<dynamic> help = [];
   SharedPreferences prefs;
-  String picUrlimages = "http://103.74.253.96/reward-api/public/images/detail_point/";
+  String picUrlimages =
+      "https://mzreward.com/reward-api/public/images/detail_point/";
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _getDetailPoint();
   }
 
-  _getDetailPoint() async{
+  _getDetailPoint() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -33,54 +34,49 @@ class _HelpadviceState extends State<Helpadvice> {
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +'api/getDetailPoint';
+    var url = pathAPI + 'api/getDetailPoint';
     var response = await http.get(
       url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
+      headers: {'Content-Type': 'application/json', 'token': token['token']},
       // body: convert.jsonEncode({
       //   'member_id': token['member_id']
       // })
     );
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       final Map<String, dynamic> helpdata = convert.jsonDecode(response.body);
-      if(helpdata['code'] == "200"){
+      if (helpdata['code'] == "200") {
         //print(helpdata['massage']);
-        setState((){
+        setState(() {
           help = helpdata['data'];
           // print("รอบแรก");
           // print(help[0]['description']);
         });
-      }
-      else {
+      } else {
         setState(() {
           isLoading = false;
         });
         print('error from backend ${response.statusCode}');
       }
-    }
-    else{
+    } else {
       print(response.statusCode);
       final Map<String, dynamic> helpdata = convert.jsonDecode(response.body);
       Alert(
-        context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: helpdata['massage'],
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+          context: context,
+          type: AlertType.error,
+          title: "มีข้อผิดพลาด",
+          desc: helpdata['massage'],
+          buttons: [
+            DialogButton(
+              child: Text(
+                "ล็อกอินใหม่",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/loginScreen', (Route<dynamic> route) => false);
+              },
             ),
-            onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
-          ),
-        ]
-      ).show();
+          ]).show();
     }
   }
 
@@ -90,8 +86,9 @@ class _HelpadviceState extends State<Helpadvice> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -101,6 +98,36 @@ class _HelpadviceState extends State<Helpadvice> {
         centerTitle: true,
         title: Text("Help Advice"),
       ),
+<<<<<<< HEAD
+      body: ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+              child: Card(
+                child: InkWell(
+                  onTap: () {
+                    var url = help[index]['url'];
+                    launch((url));
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 200.0,
+                        //color: Colors.redAccent,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: help[index]['pic'] != null
+                                  ? Image.network(
+                                      help[index]['pic'],
+                                      fit: BoxFit.fill,
+                                    )
+                                  : Ink.image(
+                                      image: AssetImage("assets/images/p1.jpg"),
+                                      fit: BoxFit.cover),
+                              // Ink.image(image: NetworkImage('https://picsum.photos/400/200'), fit: BoxFit.cover),
+=======
       body: help == null ?
       Center(
         child: Text(
@@ -136,49 +163,51 @@ class _HelpadviceState extends State<Helpadvice> {
                             Ink.image(
                               image: AssetImage("assets/images/p1.jpg"),
                               fit: BoxFit.cover
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                             ),
-                            // Ink.image(image: NetworkImage('https://picsum.photos/400/200'), fit: BoxFit.cover),
-                          ),
-                          Positioned(
-                            top: 10,
-                            left: 15,
-                            child: Text(
-                              help[index]['No'].toString(),
-                              style: TextStyle(
-                                color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 25.0
+                            Positioned(
+                              top: 10,
+                              left: 15,
+                              child: Text(
+                                help[index]['No'].toString(),
+                                style: TextStyle(
+                                    color: Colors.yellow,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25.0),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,                        
-                        children: [
-                          Text(
-                            help[index]['title'],
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                          SizedBox(height: 10,),
-                          Text(
-                            help[index]['description'],
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              help[index]['title'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15.0),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              help[index]['description'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15.0),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => Divider(),
-        itemCount: help.length
-      ),
-      
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) => Divider(),
+          itemCount: help.length),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -190,7 +219,8 @@ class _HelpadviceState extends State<Helpadvice> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -202,6 +232,9 @@ class _HelpadviceState extends State<Helpadvice> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
+<<<<<<< HEAD
+                      onTap: () {
+=======
                       onTap: (){
                         setState(() {
                           nbtn1 = true;
@@ -209,6 +242,7 @@ class _HelpadviceState extends State<Helpadvice> {
                           nbtn3 = false;
                           nbtn4 = false;
                         });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -216,7 +250,9 @@ class _HelpadviceState extends State<Helpadvice> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -227,6 +263,9 @@ class _HelpadviceState extends State<Helpadvice> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
+<<<<<<< HEAD
+                      onTap: () {
+=======
                       onTap: (){
                         setState(() {
                           nbtn1 = false;
@@ -234,6 +273,7 @@ class _HelpadviceState extends State<Helpadvice> {
                           nbtn3 = false;
                           nbtn4 = false;
                         });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -243,7 +283,9 @@ class _HelpadviceState extends State<Helpadvice> {
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -257,6 +299,9 @@ class _HelpadviceState extends State<Helpadvice> {
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
+<<<<<<< HEAD
+                          onTap: () {
+=======
                           onTap: (){
                             setState(() {
                               nbtn1 = false;
@@ -264,6 +309,7 @@ class _HelpadviceState extends State<Helpadvice> {
                               nbtn3 = true;
                               nbtn4 = false;
                             });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -275,22 +321,31 @@ class _HelpadviceState extends State<Helpadvice> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           data['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -301,6 +356,9 @@ class _HelpadviceState extends State<Helpadvice> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
+<<<<<<< HEAD
+                      onTap: () {
+=======
                       onTap: (){
                         setState(() {
                           nbtn1 = false;
@@ -308,6 +366,7 @@ class _HelpadviceState extends State<Helpadvice> {
                           nbtn3 = false;
                           nbtn4 = true;
                         });
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -317,7 +376,9 @@ class _HelpadviceState extends State<Helpadvice> {
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

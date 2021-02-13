@@ -161,9 +161,19 @@ class _HomeScreenState extends State<HomeScreen> {
             //     ]).show();
           }
         } else {
+<<<<<<< HEAD
+          print(response.statusCode);
+
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/loginScreen', (Route<dynamic> route) => false);
+          return false;
+
+          Alert(
+=======
           //print(response.statusCode);
           String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
           showDialog(
+>>>>>>> a88d87985ec614998aeb1a0230fd0f493a1c636c
               context: context,
               builder: (context) => dialogDenied(
                 title, picDenied, context,
@@ -436,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 90,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

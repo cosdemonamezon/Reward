@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/PinCode.dart';
 
-import 'dart:convert';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+
+import 'package:get_mac/get_mac.dart';
+import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -14,8 +18,198 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String _platformVersion = 'Unknown';
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      platformVersion = await GetMac.macAddress;
+    } on PlatformException {
+      platformVersion = 'Failed to get Device MAC Address.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+
+    var url = pathAPI + 'api/checkMaxAdressMember';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode({
+          'member_max_adress': _platformVersion
+          //'token': token['token']
+        }));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> mac = convert.jsonDecode(response.body);
+      if (mac['code'] == "999") {
+        Navigator.pushNamed(context, '/authenpincode', arguments: {
+          'status': 1,
+        });
+        return false;
+      }
+    } else {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  Widget loginButton() {
+    return Row(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: RaisedButton(
+            onPressed: () {},
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            padding: EdgeInsets.all(0.0),
+            child: Ink(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Container(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
+                    minHeight: 50.0),
+                alignment: Alignment.center,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+                      child: Icon(Icons.people, size: 35, color: Colors.white),
+                    ),
+                    Text(
+                      "Login With Facebook",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: RaisedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, "/login");
+            },
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            padding: EdgeInsets.all(0.0),
+            child: Ink(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xff9425b2), Color(0xffb350f1)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Container(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
+                    minHeight: 50.0),
+                alignment: Alignment.center,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+                      child: Icon(Icons.account_circle,
+                          size: 35, color: Colors.white),
+                    ),
+                    Text(
+                      "Login With Account",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return PinCode();
+                }),
+              );
+            },
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            padding: EdgeInsets.all(0.0),
+            child: Ink(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
+                    minHeight: 50.0),
+                alignment: Alignment.center,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+                      child: Icon(Icons.grid_on, size: 35, color: Colors.white),
+                    ),
+                    Text(
+                      "Register New Account",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -24,17 +218,12 @@ class _LoginScreenState extends State<LoginScreen> {
             "assets/images/home.jpg",
             fit: BoxFit.cover,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Color(0xFFF001117).withOpacity(0),
-          ),
           SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
-              margin: EdgeInsets.only(top: 410, bottom: 30),
+              margin: EdgeInsets.only(top: height * 0.56, bottom: 30),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
@@ -53,8 +242,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                          constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width,
+                              minHeight: 50.0),
                           alignment: Alignment.center,
                           child: Row(
                             children: [
@@ -98,8 +288,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                          constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width,
+                              minHeight: 50.0),
                           alignment: Alignment.center,
                           child: Row(
                             children: [
@@ -125,13 +316,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 30,
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Divider(
-                  //     height: 4.0, thickness: 3.0, color: Colors.blueAccent,
-                  //     indent: 1.0, endIndent: 1.0,
-                  //   ),
-                  // ),
                   SizedBox(
                     height: 20,
                   ),
@@ -156,10 +340,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                             ),
-                            borderRadius: BorderRadius.circular(10.0)),
+                            borderRadius: BorderRadius.circular(10)),
                         child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                          constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width,
+                              minHeight: 50.0),
                           alignment: Alignment.center,
                           child: Row(
                             children: [
