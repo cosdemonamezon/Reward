@@ -9,14 +9,15 @@ import 'package:flushbar/flushbar.dart';
 import 'package:get_mac/get_mac.dart';
 import 'package:flutter/services.dart';
 
-class PinCode extends StatefulWidget {
-  PinCode({Key key}) : super(key: key);
+class PinAuthen extends StatefulWidget {
+  PinAuthen({Key key}) : super(key: key);
 
   @override
-  _PinCodeState createState() => _PinCodeState();
+  _PinAuthenState createState() => _PinAuthenState();
 }
 
-class _PinCodeState extends State<PinCode> {
+class _PinAuthenState extends State<PinAuthen> {
+  final focus = FocusNode();
   String _platformVersion = 'Unknown';
   Future<void> initPlatformState() async {
     String platformVersion;
@@ -54,24 +55,17 @@ class _PinCodeState extends State<PinCode> {
     initPlatformState();
   }
 
-  _createPinMember(String value, Map data) async {
-    print(_platformVersion);
-    print(data['token']['token']);
-    print(data['token']['member_phone']);
+  _authenPinMember(String value, Map data) async {
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI + "api/createPinMember";
+    var url = pathAPI + "api/LoginPin";
     var response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
-          'token': data['token']['token'],
         },
-        body: convert.jsonEncode({
-          'member_pin': value,
-          'member_phone': data['token']['member_phone'],
-          'member_max_adress': _platformVersion
-        }));
+        body: convert.jsonEncode(
+            {'member_pin': value, 'member_max_adress': _platformVersion}));
     if (response.statusCode == 200) {
       var token = convert.jsonDecode(response.body);
       await prefs.setString('token', response.body);
@@ -92,41 +86,33 @@ class _PinCodeState extends State<PinCode> {
               context, '/home', (Route<dynamic> route) => false);
         });
       } else if (token['code'] == "400") {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "${token['massage']}",
-            desc: "${token['code']}",
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "ล็อกอินใหม่",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/loginScreen', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        Flushbar(
+          title: '${token['massage']}',
+          message: "${token['code']}",
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.blue[300],
+          ),
+          duration: Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.blue[300],
+        ).show(context);
+        focus.requestFocus();
+        textEditingController.clear();
       } else if (token['code'] == "500") {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "${token['massage']}",
-            desc: "${token['code']}",
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "ล็อกอินใหม่",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/loginScreen', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        Flushbar(
+          title: '${token['massage']}',
+          message: "${token['code']}",
+          icon: Icon(
+            Icons.info_outline,
+            size: 28.0,
+            color: Colors.blue[300],
+          ),
+          duration: Duration(seconds: 3),
+          leftBarIndicatorColor: Colors.blue[300],
+        ).show(context);
+        focus.requestFocus();
+        textEditingController.clear();
       }
     } else {
       print(response.statusCode);
@@ -160,7 +146,7 @@ class _PinCodeState extends State<PinCode> {
       backgroundColor: Color(0xff050f40),
       appBar: AppBar(
         centerTitle: true,
-        title: Text("ตั้งค่า PIN"),
+        title: Text("ยืนยัน PIN"),
       ),
       body: Center(
         child: Padding(
@@ -170,11 +156,12 @@ class _PinCodeState extends State<PinCode> {
             children: [
               //SizedBox(height: 30.0),
               Text(
-                "กรุณาตั้งค่า PIN ของคุณ",
+                "ระบุ PIN เพื่อยืนยันตัวตนเข้าใช้งาน",
                 style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
               SizedBox(height: 30.0),
               PinCodeTextField(
+                  focusNode: focus,
                   autoFocus: true,
                   keyboardType: TextInputType.number,
                   keyboardAppearance: Brightness.light,
@@ -206,7 +193,7 @@ class _PinCodeState extends State<PinCode> {
                   ],
                   onCompleted: (value) {
                     if (value.length == 5) {
-                      _createPinMember(value, data);
+                      _authenPinMember(value, data);
                       //Navigator.pushNamed(context, "/login");
                     } else {
                       textEditingController.clear();

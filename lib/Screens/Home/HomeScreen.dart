@@ -157,6 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           print(response.statusCode);
 
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/loginScreen', (Route<dynamic> route) => false);
+          return false;
+
           Alert(
               context: context,
               type: AlertType.error,
@@ -431,7 +435,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 90,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

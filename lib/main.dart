@@ -24,6 +24,7 @@ import 'package:Reward/Award/AwardScreen.dart';
 import 'package:Reward/Award/WebViewAward.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'Screens/Login/components/PinCode.dart';
+import 'Screens/Login/components/PinAuthen.dart';
 import 'Screens/Home/components/LinkShare.dart';
 
 String token;
@@ -88,7 +89,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'MZ Reward',
         theme: ThemeData(
           primaryColor: kThemeColor,
           scaffoldBackgroundColor: kPrimarybackgroundColor,
@@ -117,6 +118,7 @@ class MyApp extends StatelessWidget {
           '/noti': (context) => NotiScreen(),
           '/notidetail': (context) => DetailNoti(),
           '/help': (context) => Helpadvice(),
+          '/authenpincode': (context) => PinAuthen(),
         });
   }
 }
