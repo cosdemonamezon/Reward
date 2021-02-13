@@ -169,14 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context, '/loginScreen', (Route<dynamic> route) => false);
           return false;
 
-          Alert(
-            context: context,
-            builder: (context) => dialogDenied(
-              title,
-              picDenied,
-              context,
-            ),
-          );
+       
         }
       }
     } catch (e) {}
