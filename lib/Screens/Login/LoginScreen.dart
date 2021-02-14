@@ -1,12 +1,11 @@
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:Reward/Screens/Login/components/Coinofline.dart';
+import 'package:Reward/Screens/Login/components/Helpofline.dart';
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/PinCode.dart';
-
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-
 import 'package:get_mac/get_mac.dart';
 import 'package:flutter/services.dart';
 
@@ -323,12 +322,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: RaisedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return PinCode();
-                          }),
-                        );
+                        launch(pathRegister);
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
@@ -397,7 +391,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        //launch(('tel://0922568260'));
+                        showDialog(
+                          context: context,
+                          builder: (context) => dialogAlert(
+                            aertLogin, picDenied, context,
+                          ),
+                        ); 
                       },
                     ),
                   ),
@@ -415,11 +414,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context, MaterialPageRoute(
-                        //     builder: (context){return Helpadvice();}
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Helpofline();}
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -437,7 +436,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundImage: AssetImage(pathicon3),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => dialogAlert(
+                            aertLogin, picDenied, context,
+                          ),
+                        ); 
+                      },
                     ),
                   ),
                   Text(
@@ -453,7 +459,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coineofline();}
+                          ),
+                        );
+                      },
                     ),
                   ),
                   Text(

@@ -1,68 +1,59 @@
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:Reward/Screens/Login/components/Coinofline.dart';
+import 'package:Reward/Screens/Login/LoginScreen.dart';
 
-class Coin extends StatefulWidget {
-  Coin({Key key}) : super(key: key);
+class Helpofline extends StatefulWidget {
+  Helpofline({Key key}) : super(key: key);
 
   @override
-  _CoinState createState() => _CoinState();
+  _HelpoflineState createState() => _HelpoflineState();
 }
 
-class _CoinState extends State<Coin> {
+class _HelpoflineState extends State<Helpofline> {
   bool isLoading = false;
-  List<dynamic> coin = [];
-  SharedPreferences prefs;
-  SharedPreferences prefsNoti;
+  List<dynamic> help = [];  
   Map<String, dynamic> numberNoti = {};
   String checkToken = "";
-  //String picUrlimages = "http://103.74.253.96/reward-api/public/images/detail_reward/";
 
   @override
   void initState() { 
     super.initState();
-    _getDetailReward();
+    _getDetailPoint();
   }
 
-  _getDetailReward()async{
-    // prefs = await SharedPreferences.getInstance();
-    // var tokenString = prefs.getString('token');
-    // var token = convert.jsonDecode(tokenString);
-
-    prefsNoti = await SharedPreferences.getInstance();
-    var notiString = prefsNoti.getString('notification');
-    var noti = convert.jsonDecode(notiString);
-    print(noti);
+  _getDetailPoint()async{
     setState(() {
       isLoading = true;
-      numberNoti = noti['data'];
-      //checkToken = token['token'];
+      
     });
-    //print(checkToken);
-
-    var url = pathAPI +'api/getDetailReward';
+    var url = pathAPI +'api/getDetailPoint';
     var response = await http.get(
       url,
       headers: {
         'Content-Type':'application/json',
         //'token': token['token']
       },
+      // body: convert.jsonEncode({
+      //   'member_id': token['member_id']
+      // })
     );
     if (response.statusCode == 200){
-      final Map<String, dynamic> coindata = convert.jsonDecode(response.body);
-      if (coindata['code'] == "200") {
-        setState(() {
-          coin = coindata['data'];
+      final Map<String, dynamic> helpdata = convert.jsonDecode(response.body);
+      if(helpdata['code'] == "200"){
+        //print(helpdata['massage']);
+        setState((){
+          help = helpdata['data'];
           setState(() {
             isLoading = false;
           });
+          // print("รอบแรก");
+          // print(help[0]['description']);
         });
-      }else {
+      }
+      else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
           context: context,
@@ -74,7 +65,7 @@ class _CoinState extends State<Coin> {
     }
     else{
       // print(response.statusCode);
-      // final Map<String, dynamic> coindata = convert.jsonDecode(response.body);
+      // final Map<String, dynamic> helpdata = convert.jsonDecode(response.body);
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
         context: context,
@@ -87,12 +78,15 @@ class _CoinState extends State<Coin> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+            Navigator.push(
+              context, MaterialPageRoute(
+                builder: (context){return LoginScreen();}
+              ),
+            );
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -100,16 +94,16 @@ class _CoinState extends State<Coin> {
           ),
         ),
         centerTitle: true,
-        title: Text("Coin"),
+        title: Text("Help Advice"),
       ),
       body: isLoading == true ? 
       Center(
         child: CircularProgressIndicator(),
       )
-      :coin.length == 0 ?
+      :help.length == 0 ?
       Center(
         child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
         ),
       )
       :ListView.separated(
@@ -120,10 +114,10 @@ class _CoinState extends State<Coin> {
               child: InkWell(
                 onTap: (){
                   Navigator.pushNamed(context, '/webview', arguments: {                    
-                    'title': coin[index]['title'],
-                    'url': coin[index]['url']
+                    'title': help[index]['title'],
+                    'url': help[index]['url']
                   });
-                  // var url = coin[index]['url'];
+                  // var url = help[index]['url'];
                   // launch((url));
                 },
                 child: Column(
@@ -131,28 +125,26 @@ class _CoinState extends State<Coin> {
                   children: [
                     Container(
                       height: 200.0,
+                      //color: Colors.redAccent,
                       child: Stack(
                         children: [
                           Positioned.fill(
-                            child: coin[index]['pic'] != null ?
-                            Image.network(coin[index]['pic'], fit: BoxFit.fill,)
-                            :
+                            child: help[index]['pic'] != null ?
+                            Image.network(help[index]['pic'], fit: BoxFit.fill,)
+                            : 
                             Ink.image(
-                              image: AssetImage("assets/images/r1.jpg"),
+                              image: AssetImage("assets/images/p1.jpg"),
                               fit: BoxFit.cover
-                            ), 
-                            // Ink.image(
-                            //   image: NetworkImage('https://picsum.photos/400/200'),
-                            //   fit: BoxFit.cover
-                            // ),
+                            ),
+                            // Ink.image(image: NetworkImage('https://picsum.photos/400/200'), fit: BoxFit.cover),
                           ),
                           Positioned(
-                            top: 10.0,
-                            left: 15.0,
+                            top: 10,
+                            left: 15,
                             child: Text(
-                              coin[index]['No'].toString(),
+                              help[index]['No'].toString(),
                               style: TextStyle(
-                                color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 25.0,
+                                color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 25.0
                               ),
                             ),
                           ),
@@ -162,15 +154,15 @@ class _CoinState extends State<Coin> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,                        
                         children: [
                           Text(
-                            coin[index]['title'],
+                            help[index]['title'],
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
                           ),
                           SizedBox(height: 10,),
                           Text(
-                            coin[index]['description'],
+                            help[index]['description'],
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
                           ),
                         ],
@@ -183,9 +175,9 @@ class _CoinState extends State<Coin> {
           );
         },
         separatorBuilder: (BuildContext context, int index) => Divider(),
-        itemCount: coin.length
+        itemCount: help.length
       ),
-
+      
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -216,10 +208,12 @@ class _CoinState extends State<Coin> {
                           nbtn3 = false;
                           nbtn4 = false;
                         });
-                        //launch(('tel://${item.mobile_no}'));
-                        //launch(('tel://0922568260'));
-                        launch(('tel://${numberNoti['board_phone_1']}'));  
-                        
+                        showDialog(
+                          context: context,
+                          builder: (context) => dialogAlert(
+                            aertLogin, picDenied, context,
+                          ),
+                        ); 
                       },
                     ),
                   ),
@@ -242,10 +236,9 @@ class _CoinState extends State<Coin> {
                           nbtn3 = false;
                           nbtn4 = false;
                         });
-                        //Navigator.pushNamed(context, "/help",);
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
+                            builder: (context){return Helpofline();}
                           ),
                         );
                       },
@@ -273,7 +266,12 @@ class _CoinState extends State<Coin> {
                               nbtn3 = true;
                               nbtn4 = false;
                             });
-                            Navigator.pushNamed(context, "/noti",);
+                            showDialog(
+                              context: context,
+                              builder: (context) => dialogAlert(
+                                aertLogin, picDenied, context,
+                              ),
+                            ); 
                           },
                         ),
                       ),
@@ -315,14 +313,9 @@ class _CoinState extends State<Coin> {
                         });
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context){return Coin();}
+                            builder: (context){return Coineofline();}
                           ),
                         );
-                        // Navigator.pushNamed(context, "/coin", arguments: {
-                        //   'member_point': data['member_point'],
-                        //   'board_phone_1': data['board_phone_1'],
-                        //   'total_noti': data['total_noti'],
-                        // });
                       },
                     ),
                   ),

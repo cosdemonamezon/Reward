@@ -17,10 +17,12 @@ class NotiScreen extends StatefulWidget {
 
 class _NotiScreenState extends State<NotiScreen> {
   SharedPreferences prefs;
+  SharedPreferences prefsNoti;
   bool isLoading = false;
   Map<String, dynamic> data = {};
   List<dynamic> notidata = [];
   Map<String, dynamic> readnotidata = {};
+  Map<String, dynamic> numberNoti = {};
   
   @override
   void initState() {
@@ -34,10 +36,16 @@ class _NotiScreenState extends State<NotiScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    prefsNoti = await SharedPreferences.getInstance();
+    var notiString = prefsNoti.getString('notification');
+    var noti = convert.jsonDecode(notiString);
+    //print(noti['data']);
     //print(token['token']);
     //print(token['member_id']);
     setState(() {
       isLoading = true;
+      numberNoti = noti['data'];
     });
     var url = pathAPI + 'api/getNotiMember';
     var response = await http.post(
@@ -158,7 +166,7 @@ class _NotiScreenState extends State<NotiScreen> {
       :notidata.length == 0 ?
       Center(
         child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
         ),
       )
       :Container(
@@ -343,13 +351,13 @@ class _NotiScreenState extends State<NotiScreen> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
+                        child: numberNoti['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :numberNoti['total_noti'] == 0 ? SizedBox(height: 2.0,)
                         :CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                           data['total_noti'].toString(),
+                           numberNoti['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -376,11 +384,11 @@ class _NotiScreenState extends State<NotiScreen> {
                           nbtn3 = false;
                           nbtn4 = true;
                         });
-                        Navigator.pushNamed(context, "/coin", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coin();}
+                          ),
+                        );
                       },
                     ),
                   ),

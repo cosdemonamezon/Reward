@@ -17,6 +17,8 @@ class _PointsState extends State<Points> {
   bool isLoading = false;
   List<dynamic> point = [];
   SharedPreferences prefs;
+  SharedPreferences prefsNoti;
+  Map<String, dynamic> numberNoti = {};
 
   @override
   void initState() { 
@@ -29,8 +31,13 @@ class _PointsState extends State<Points> {
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
 
+    prefsNoti = await SharedPreferences.getInstance();
+    var notiString = prefsNoti.getString('notification');
+    var noti = convert.jsonDecode(notiString);
+
     setState(() {
       isLoading = true;
+      numberNoti = noti['data'];
     });
     var url = pathAPI +'api/getPointIncome_M';
     var response = await http.post(
@@ -147,7 +154,10 @@ class _PointsState extends State<Points> {
       :point.length == 0 ?
       Center(
         child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+          "ไม่พบข้อมูล", 
+          style: TextStyle(
+            fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)
+          ),
         ),
       )
       :SafeArea(
@@ -276,7 +286,7 @@ class _PointsState extends State<Points> {
                         });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
-                        launch(('tel://${data['board_phone_1']}'));
+                        launch(('tel://${numberNoti['board_phone_1']}'));
                       },
                     ),
                   ),
@@ -340,13 +350,13 @@ class _PointsState extends State<Points> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
+                        child: numberNoti['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :numberNoti['total_noti'] == 0 ? SizedBox(height: 2.0,)
                         :CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                           data['total_noti'].toString(),
+                           numberNoti['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),

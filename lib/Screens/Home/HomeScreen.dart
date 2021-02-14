@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   SharedPreferences prefs;
+  SharedPreferences prefsNoti;
   bool isLoading = false;
   bool loadSuccess = false;
   Map<String, dynamic> data = {};
@@ -29,12 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
       RefreshController(initialRefresh: false);
   //List<dynamic> data = [];
 
+  _initPrefs() async {
+    prefsNoti = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
     super.initState();
     //_checkLogin();
     //_checkTokenExp();
     _getHomePage();
+    _initPrefs();
   }
 
   _checkTokenExp() async {
@@ -102,16 +108,23 @@ class _HomeScreenState extends State<HomeScreen> {
               //'token': token['token']
             }));
         if (response.statusCode == 200) {
+          var notification = convert.jsonDecode(response.body);
+          await prefsNoti.setString('notification', response.body);
+          print(notification);
           final Map<String, dynamic> homedata =
               convert.jsonDecode(response.body);
+          //var notification = convert.jsonDecode(response.body);
+          //await prefsNoti.setString('notification', response.body);
           //save to prefs
           // await prefs.setString('profile', response.body);
           // var profileString = prefs.getString('profile');
           if (homedata['code'] == "200") {
             //print(homedata);
+            //await prefsNoti.setString('notification', response.body);
             setState(() {
               //data = convert.jsonDecode(profileString);
               data = homedata['data'];
+              
               nbtn1 = false;
               nbtn2 = false;
               nbtn3 = false;
@@ -144,7 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
               ),
             );
-            
           }
         } else {
           print(response.statusCode);
@@ -152,8 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.pushNamedAndRemoveUntil(
               context, '/loginScreen', (Route<dynamic> route) => false);
           return false;
-
-       
         }
       }
     } catch (e) {}
@@ -181,18 +191,22 @@ class _HomeScreenState extends State<HomeScreen> {
         showDialog(
           context: context,
           builder: (context) => errorPopup(
-            receivePoint['massage'], picDenied, context,
+            receivePoint['massage'],
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
-        showDialog(
-          context: context,
-          builder: (context) => dialogDenied(
-            title, picDenied, context,
-          ),
-        ); 
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
@@ -241,6 +255,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (loadSuccess == true) {
                   Navigator.pushNamed(context, '/share', arguments: {
                     'id': data['id'],
+                    'member_name_th': data['member_name_th'],
+                    'member_name_en': data['member_name_en'],
+                    'member_email': data['member_email'],
+                    'member_address': data['member_address'],
+                    'member_activate': data['member_activate'],
                     'member_link_1': data['member_link_1'],
                     'member_link_2': data['member_link_2'],
                     'member_link_3': data['member_link_3'],
@@ -265,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent),
+                        color: Color(0xFF01579B)),
                   ),
                 )
               : SmartRefresher(
@@ -425,7 +444,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 8.0),
                                                   child: Text(
-                                                    "Cradit ${data['member_point']}",
+                                                    "Cradit ",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -748,6 +767,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               'board_phone_1'],
                                                           'total_noti': data[
                                                               'total_noti'],
+                                                          'member_name_en': data['member_name_en'],
+                                                          'member_email': data['member_email'],
+                                                          'member_address': data['member_address'],
+                                                          'member_activate': data['member_activate'],
                                                         });
                                                   },
                                                 ),
@@ -926,7 +949,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   "assets/images/8.JPG"),
                                               radius: 25,
                                               child: GestureDetector(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => dialogAlert(
+                                                      noService,
+                                                      picWanning,
+                                                      context,
+                                                    ),
+                                                  );
+                                                },
                                               ),
                                             ),
                                             Text("บริการ/เกม"),

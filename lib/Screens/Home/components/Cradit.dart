@@ -170,7 +170,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
       :cradit.length == 0 ?
       Center(
         child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
         ),
       )
       :SafeArea(

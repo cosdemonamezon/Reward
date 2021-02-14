@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:Reward/Screens/Login/components/Coin.dart';
 
 class Helpadvice extends StatefulWidget {
   Helpadvice({Key key}) : super(key: key);
@@ -17,6 +18,8 @@ class _HelpadviceState extends State<Helpadvice> {
   bool isLoading = false;
   List<dynamic> help = [];
   SharedPreferences prefs;
+  SharedPreferences prefsNoti;
+  Map<String, dynamic> numberNoti = {};
   //String picUrlimages = "http://103.74.253.96/reward-api/public/images/detail_point/";
 
   @override
@@ -30,15 +33,20 @@ class _HelpadviceState extends State<Helpadvice> {
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
 
+    prefsNoti = await SharedPreferences.getInstance();
+    var notiString = prefsNoti.getString('notification');
+    var noti = convert.jsonDecode(notiString);
+
     setState(() {
       isLoading = true;
+      numberNoti = noti['data'];
     });
     var url = pathAPI +'api/getDetailPoint';
     var response = await http.get(
       url,
       headers: {
         'Content-Type':'application/json',
-        'token': token['token']
+        //'token': token['token']
       },
       // body: convert.jsonEncode({
       //   'member_id': token['member_id']
@@ -104,7 +112,7 @@ class _HelpadviceState extends State<Helpadvice> {
       :help.length == 0 ?
       Center(
         child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
         ),
       )
       :ListView.separated(
@@ -211,7 +219,7 @@ class _HelpadviceState extends State<Helpadvice> {
                         });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
-                        launch(('tel://${data['board_phone_1']}'));
+                        launch(('tel://${numberNoti['board_phone_1']}'));
                       },
                     ),
                   ),
@@ -264,24 +272,20 @@ class _HelpadviceState extends State<Helpadvice> {
                               nbtn3 = true;
                               nbtn4 = false;
                             });
-                            Navigator.pushNamed(context, "/noti", arguments: {
-                              'member_point': data['member_point'],
-                              'board_phone_1': data['board_phone_1'],
-                              'total_noti': data['total_noti'],
-                            });
+                            Navigator.pushNamed(context, "/noti",);
                           },
                         ),
                       ),
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
+                        child: numberNoti['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :numberNoti['total_noti'] == 0 ? SizedBox(height: 2.0,)
                         :CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                           data['total_noti'].toString(),
+                           numberNoti['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -308,11 +312,11 @@ class _HelpadviceState extends State<Helpadvice> {
                           nbtn3 = false;
                           nbtn4 = true;
                         });
-                        Navigator.pushNamed(context, "/coin", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coin();}
+                          ),
+                        );
                       },
                     ),
                   ),

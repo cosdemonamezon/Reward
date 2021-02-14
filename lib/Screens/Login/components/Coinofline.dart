@@ -1,27 +1,22 @@
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:Reward/Screens/Login/components/Helpofline.dart';
+import 'package:Reward/Screens/Login/LoginScreen.dart';
 
-class Coin extends StatefulWidget {
-  Coin({Key key}) : super(key: key);
+class Coineofline extends StatefulWidget {
+  Coineofline({Key key}) : super(key: key);
 
   @override
-  _CoinState createState() => _CoinState();
+  _CoineoflineState createState() => _CoineoflineState();
 }
 
-class _CoinState extends State<Coin> {
+class _CoineoflineState extends State<Coineofline> {
   bool isLoading = false;
-  List<dynamic> coin = [];
-  SharedPreferences prefs;
-  SharedPreferences prefsNoti;
+  List<dynamic> coin = [];  
   Map<String, dynamic> numberNoti = {};
   String checkToken = "";
-  //String picUrlimages = "http://103.74.253.96/reward-api/public/images/detail_reward/";
 
   @override
   void initState() { 
@@ -29,22 +24,10 @@ class _CoinState extends State<Coin> {
     _getDetailReward();
   }
 
-  _getDetailReward()async{
-    // prefs = await SharedPreferences.getInstance();
-    // var tokenString = prefs.getString('token');
-    // var token = convert.jsonDecode(tokenString);
-
-    prefsNoti = await SharedPreferences.getInstance();
-    var notiString = prefsNoti.getString('notification');
-    var noti = convert.jsonDecode(notiString);
-    print(noti);
+  _getDetailReward() async{
     setState(() {
-      isLoading = true;
-      numberNoti = noti['data'];
-      //checkToken = token['token'];
+      isLoading = true;      
     });
-    //print(checkToken);
-
     var url = pathAPI +'api/getDetailReward';
     var response = await http.get(
       url,
@@ -83,16 +66,19 @@ class _CoinState extends State<Coin> {
         ),
       ); 
     }
+  
   }
-
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+            Navigator.push(
+              context, MaterialPageRoute(
+                builder: (context){return LoginScreen();}
+              ),
+            );
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -109,7 +95,7 @@ class _CoinState extends State<Coin> {
       :coin.length == 0 ?
       Center(
         child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
+          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
         ),
       )
       :ListView.separated(
@@ -218,7 +204,12 @@ class _CoinState extends State<Coin> {
                         });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
-                        launch(('tel://${numberNoti['board_phone_1']}'));  
+                        showDialog(
+                          context: context,
+                          builder: (context) => dialogAlert(
+                            aertLogin, picDenied, context,
+                          ),
+                        ); 
                         
                       },
                     ),
@@ -245,7 +236,7 @@ class _CoinState extends State<Coin> {
                         //Navigator.pushNamed(context, "/help",);
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context){return Helpadvice();}
+                            builder: (context){return Helpofline();}
                           ),
                         );
                       },
@@ -273,7 +264,12 @@ class _CoinState extends State<Coin> {
                               nbtn3 = true;
                               nbtn4 = false;
                             });
-                            Navigator.pushNamed(context, "/noti",);
+                            showDialog(
+                              context: context,
+                              builder: (context) => dialogAlert(
+                                aertLogin, picDenied, context,
+                              ),
+                            ); 
                           },
                         ),
                       ),
@@ -315,14 +311,10 @@ class _CoinState extends State<Coin> {
                         });
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context){return Coin();}
+                            builder: (context){return Coineofline();}
                           ),
                         );
-                        // Navigator.pushNamed(context, "/coin", arguments: {
-                        //   'member_point': data['member_point'],
-                        //   'board_phone_1': data['board_phone_1'],
-                        //   'total_noti': data['total_noti'],
-                        // });
+                        
                       },
                     ),
                   ),

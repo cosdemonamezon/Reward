@@ -16,6 +16,7 @@ String pathicon4 = "assets/images/star.jpg";
 //Path API
 //String pathAPI = "http://103.74.253.96/reward-api/public/";
 String pathAPI = "https://mzreward.com/reward-api/public/";
+String pathRegister = "https://mzreward.com/";
 
 //เซ็ทตัวแปร ตรง bottomNavigationBar
 String notinum = "";
@@ -33,6 +34,10 @@ String errPhone = "โปรดตรวจสอบหมายเลขโท�
 String confrimpoint = "ยืนยันโอน Point";
 String errorProfile ="ไม่สำร็จ เกิดข้อผิดพลาดในระบบ";
 String checkData = "กรุณาตรวจสอบข้อมูลอีกครั้ง";
+String aertLogin = "กรุณาล็อกอินก่อน";
+String settitle = "ไม่สามารถทำรายการได้";
+String comfirmUse = "โปรดยืนยัน User Name ก่อนทำรายการ";
+String noService = "ยังไม่เปิดให้บริการ";
 class Constants{
   Constants._();
   static const double padding =20;
@@ -502,6 +507,71 @@ errorPopup(String title, String img, context){
     ),
   );
 }
+
+dialogAlert (String title,String img, context)  {
+  return Dialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(Constants.padding),
+    ),
+    elevation: 4,
+    backgroundColor: Colors.transparent,
+    child: Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.only(
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
+          margin: EdgeInsets.only(top: Constants.avatarRadius),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              SizedBox(height: 15,),              
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  padding: EdgeInsets.all(12),
+                  color: Colors.red,
+                  child: Text('ปิด', style: TextStyle(color: Colors.white, fontSize: 18)),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: Constants.padding,
+          right: Constants.padding,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: Constants.avatarRadius,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(img)
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
 
 
   

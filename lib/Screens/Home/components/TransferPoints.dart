@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
@@ -28,6 +25,8 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   TabController tabController;
   bool success = false;
+  SharedPreferences prefsNoti;
+  Map<String, dynamic> numberNoti = {};
 
   @override
   void initState() {
@@ -47,9 +46,22 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    prefsNoti = await SharedPreferences.getInstance();
+    var notiString = prefsNoti.getString('notification');
+    var noti = convert.jsonDecode(notiString);
     setState(() {
       isLoading = true;
+      numberNoti = noti['data'];
     });
+    if (numberNoti['member_activate']=="No") {
+      showDialog(
+        context: context,
+          builder: (context) => alertConfirmUsername(
+            settitle, comfirmUse, picWanning, context,
+          ),
+        ); 
+    }
     var url = pathAPI +'api/getlogTransPoint';
     var response = await http.post(
       url,
@@ -68,8 +80,23 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
           logpoint = logpointdata['data'];
         });
       } else {
+        showDialog(
+        context: context,
+          builder: (context) => dialogDenied(
+            logpointdata['massage'], picDenied, context,
+          ),
+        ); 
       }
     } else {
+      if (response.statusCode == 400) {
+        final Map<String, dynamic> logpointdata = convert.jsonDecode(response.body);
+        showDialog(
+        context: context,
+          builder: (context) => dialogDenied(
+            logpointdata['massage'], picDenied, context,
+          ),
+        ); 
+      }
     }
   }
 
@@ -180,6 +207,9 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context).settings.arguments;
+    if (data['member_activate'] == "No") {
+      
+    }
     //print(data);
     return Scaffold(
       appBar: AppBar(
@@ -573,7 +603,7 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
                         });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
-                        launch(('tel://${data['board_phone_1']}'));
+                        launch(('tel://${numberNoti['board_phone_1']}'));
                       },
                     ),
                   ),
@@ -637,13 +667,13 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
+                        child: numberNoti['total_noti'] == null ? SizedBox(height: 2.0,)
+                        :numberNoti['total_noti'] == 0 ? SizedBox(height: 2.0,)
                         :CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 10,
                           child: Text(
-                           data['total_noti'].toString(),
+                           numberNoti['total_noti'].toString(),
                             style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -781,4 +811,97 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
       ),
     );
   }
+  alertConfirmUsername(String title, String subtitle, String img, context,){
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Constants.padding),
+      ),
+      elevation: 4,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: [
+          Container(
+              padding: EdgeInsets.only(
+                left: Constants.padding,top: Constants.avatarRadius
+                + Constants.padding, right: Constants.padding,bottom: Constants.padding
+              ),
+              margin: EdgeInsets.only(top: Constants.avatarRadius),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(Constants.padding),
+                boxShadow: [
+                  BoxShadow(color: Colors.black,offset: Offset(0,10),
+                  blurRadius: 10
+                ),]
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+                  SizedBox(height: 20,),
+                  Text(comfirmUse,style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),              
+                  SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          onPressed: (){
+                           Navigator.pushNamed(context, '/profilesetting', arguments: {
+                              'id': data['id'],
+                              'member_name_th': data['member_name_th'],
+                              'member_name_en': data['member_name_en'],
+                              'member_email': data['member_email'],
+                              'member_address': data['member_address'],
+                              'member_activate': data['member_activate'],
+                              'board_phone_1': data['board_phone_1'],
+                              'total_noti': data['total_noti'],
+                            });
+                          },
+                          padding: EdgeInsets.all(12),
+                          color: Color(0xFFD50000),
+                          child: Text('คอนเฟิร์มยูสเซอร์', style: TextStyle(color: Colors.white, fontSize: 16)),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          onPressed: (){
+                          Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+                          },
+                          padding: EdgeInsets.all(12),
+                          color: Color(0xFF01579B),
+                          child: Text('ไปหน้าหลัก', style: TextStyle(color: Colors.white, fontSize: 16)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              left: Constants.padding,
+              right: Constants.padding,
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: Constants.avatarRadius,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                  child: Image.asset(img)
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+  
 }

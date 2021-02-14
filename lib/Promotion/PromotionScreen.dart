@@ -156,7 +156,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.redAccent),
+                    color: Color(0xFF01579B)),
               ),
             )
           : Container(
