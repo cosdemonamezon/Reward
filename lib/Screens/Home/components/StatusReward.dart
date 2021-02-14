@@ -20,6 +20,7 @@ class _StatusRewardState extends State<StatusReward> {
   SharedPreferences prefs;
   bool isLoading = false;
   List<dynamic> data = [];
+  
 
   @override
   void initState() { 
@@ -52,6 +53,9 @@ class _StatusRewardState extends State<StatusReward> {
       if (statusdata['code'] == "200") {
         setState(() {
           data = statusdata['data'];
+          setState(() {
+            isLoading = false;
+          });
         });
         print(data);
       }else {
@@ -102,7 +106,11 @@ class _StatusRewardState extends State<StatusReward> {
         centerTitle: true,
         title: Text("Status Group Reward"),
       ),
-      body: data == null ? 
+      body: isLoading == true ? 
+      Center(
+        child: CircularProgressIndicator(),
+      )
+      :data.length == 0 ? 
       Center(
         child: Text(
           "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),

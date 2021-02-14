@@ -73,36 +73,29 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
         //print(rewarddata['massage']);
         setState((){
           reward = rewarddata['data'];
+          setState(() {
+            isLoading = false;
+          });
           //print(reward);
         });
       }else {
-        setState(() {
-          isLoading = false;
-        });
-        print('error from backend ${response.statusCode}');
+        String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
       }
 
     }else {
-      print("error");
-      print(response.statusCode);
-      final Map<String, dynamic> rewarddata = convert.jsonDecode(response.body);
-      Alert(
-        context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: rewarddata['massage'],
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
           ),
-        ]
-      ).show();
+        ); 
     }
   }
 
@@ -130,39 +123,32 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     if (response.statusCode == 200){
       final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
       if(transrewarddata['code'] == "200"){
-        print(transrewarddata['massage']);
+        //print(transrewarddata['massage']);
         setState((){
           transreward = transrewarddata['data'];
+          setState(() {
+            isLoading = false;
+          });
           //print(transreward);
         });
       }else {
-        setState(() {
-          isLoading = false;
-        });
-        print('error from backend ${response.statusCode}');
+        String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
       }
     }
     else {
-      print("error1");
-      print(response.statusCode);
-      final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
-      Alert(
-        context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: transrewarddata['massage'],
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
           ),
-        ]
-      ).show();
+        ); 
     }
   }
 
@@ -193,18 +179,29 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
         //print(transrewarddata['massage']);
         setState((){
           transreward = transrewarddata['data'];
-          //print(transreward);
-          
-          //initState();
+          setState(() {
+            isLoading = false;
+          });
         });
         //initState();
         //print("ได้ข้อมูลนะ");
       }else {
-        setState(() {
-          isLoading = false;
-        });
-        print('error from backend ${response.statusCode}');
+        String title = "ไม่พบข้อมูล";
+        showDialog(
+          context: context,
+          builder: (context) => errorPopup(
+            title, picDenied, context,
+          ),
+        ); 
       }
+  }else{
+    String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
   }
 }
 
@@ -235,18 +232,29 @@ _getReject() async {
         //print(transrewarddata['massage']);
         setState((){
           transreward = transrewarddata['data'];
-          //print(transreward);
-          
-          //initState();
+         setState(() {
+            isLoading = false;
+          });
         });
         //initState();
         //print("ได้ข้อมูลนะ");
       }else {
-        setState(() {
-          isLoading = false;
-        });
-        print('error from backend ${response.statusCode}');
+        String title = "ไม่พบข้อมูล";
+        showDialog(
+          context: context,
+          builder: (context) => errorPopup(
+            title, picDenied, context,
+          ),
+        ); 
       }
+  } else{
+    String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
   }
 }
 
@@ -276,18 +284,29 @@ _getHideForReview() async{
         //print(transrewarddata['massage']);
         setState((){
           transreward = transrewarddata['data'];
-          //print(transreward);
-          
-          //initState();
+          setState(() {
+            isLoading = false;
+          });
         });
         //initState();
         //print("ได้ข้อมูลนะ");
       }else {
-        setState(() {
-          isLoading = false;
-        });
-        print('error from backend ${response.statusCode}');
+        String title = "ไม่พบข้อมูล";
+        showDialog(
+          context: context,
+          builder: (context) => errorPopup(
+            title, picDenied, context,
+          ),
+        ); 
       }
+    }else{
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
     }
 }
 
@@ -323,7 +342,11 @@ _getHideForReview() async{
         controller: tabController,
         children: [
           //Tab ที่หนึ่ง
-          reward == null ? 
+          isLoading == true? 
+          Center(
+            child: CircularProgressIndicator(),
+          )
+          :reward.length == 0 ? 
           Center(
             child: Text(
               "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
@@ -460,13 +483,7 @@ _getHideForReview() async{
           ),
 
           //tab ที่สอง
-          reward == null ?
-          Center(
-            child: Text(
-              "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
-            ),
-          )
-          :ListView(
+          ListView(
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
@@ -601,7 +618,20 @@ _getHideForReview() async{
                     ],
                   ),
                 ),
-
+                isLoading == true ?
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+                :transreward.length == 0 ?
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 150),
+                    child: Text(
+                      "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
+                    ),
+                  ),
+                )
+                :
                 ListView.builder(
                   scrollDirection: Axis.vertical,
                   physics: const ClampingScrollPhysics(),

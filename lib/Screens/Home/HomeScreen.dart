@@ -144,23 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
               ),
             );
-            // Alert(
-            //     context: context,
-            //     type: AlertType.error,
-            //     title: "มีข้อผิดพลาด",
-            //     desc: homedata['massage'],
-            //     buttons: [
-            //       DialogButton(
-            //         child: Text(
-            //           "ล็อกอินใหม่",
-            //           style: TextStyle(color: Colors.white, fontSize: 20),
-            //         ),
-            //         onPressed: () {
-            //           Navigator.pushNamedAndRemoveUntil(context, '/loginScreen',
-            //               (Route<dynamic> route) => false);
-            //         },
-            //       ),
-            //     ]).show();
+            
           }
         } else {
           print(response.statusCode);
@@ -187,16 +171,28 @@ class _HomeScreenState extends State<HomeScreen> {
       final Map<String, dynamic> receivePoint =
           convert.jsonDecode(response.body);
       if (receivePoint['code'] == "200") {
-        print(receivePoint['massage']);
+        //print(receivePoint['massage']);
         //initState();
         //_getHomePage();
         Navigator.pushNamedAndRemoveUntil(
             context, '/home', (Route<dynamic> route) => false);
       } else {
-        print(receivePoint['massage']);
+        //String title = "ไม่พบข้อมูล";
+        showDialog(
+          context: context,
+          builder: (context) => errorPopup(
+            receivePoint['massage'], picDenied, context,
+          ),
+        ); 
       }
     } else {
-      print(response.statusCode);
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
     }
   }
 

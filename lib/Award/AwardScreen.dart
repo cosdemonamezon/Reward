@@ -6,10 +6,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:Reward/Screens/Login/components/Coin.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 //import 'dart:convert' show utf8, base64;
 import 'dart:convert';
@@ -43,6 +40,9 @@ class _AwardScreenState extends State<AwardScreen> {
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
     var url = pathAPI +'api/getShareLinkReward';
+    setState(() {
+      isLoading = true;
+    });
     var response = await http.post(
       url,
       headers: {
@@ -60,17 +60,36 @@ class _AwardScreenState extends State<AwardScreen> {
         print(shareLinkdata['massage']);
         setState((){
           shareLink = shareLinkdata['data'];
+          setState(() {
+            isLoading = false;
+          });
           //print(shareLink);
           //print(shareLink['pic']);
-        });
+      });
       } else {
         setState(() {
           isLoading = false;
         });
-        print('error from backend ${response.statusCode}');
+        String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
+          context: context,
+          builder: (context) => dialogDenied(
+            title,
+            picDenied,
+            context,
+          ),
+        );
       }
     }else{
-      print(response.statusCode);
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
@@ -117,82 +136,49 @@ class _AwardScreenState extends State<AwardScreen> {
       } 
       else if(sharedata['code'] == "400"){
         //print(sharedata['massage']);
-        Alert(
+        showDialog(
           context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: sharedata['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+          builder: (context) => dialogDenied(
+            sharedata['massage'],
+            picDenied,
+            context,
+          ),
+        );
       }
       else if(sharedata['code'] == "500"){
         //print(sharedata['massage']);
-        Alert(
+        showDialog(
           context: context,
-          type: AlertType.error,
-          title: sharedata['massage'],         
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ตกลง",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+          builder: (context) => dialogHome(
+            sharedata['massage'],
+            picDenied,
+            context,
+          ),
+        );
+        
       }
       else{
         //print(sharedata['massage']);
-        Alert(
+         showDialog(
           context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: sharedata['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+          builder: (context) => dialogDenied(
+            sharedata['massage'],
+            picDenied,
+            context,
+          ),
+        );
+        
       }
     }else {
-      //print(response.statusCode);
-      Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          //desc: sharedata['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
@@ -235,7 +221,11 @@ class _AwardScreenState extends State<AwardScreen> {
         centerTitle: true,
         title: Text("แชร์ลิ้ง"),
       ),
-      body: shareLink == null ?
+      body: isLoading == true ?
+      Center(
+        child: CircularProgressIndicator(),
+      )
+      :shareLink.length == 0 ?
       Center(
         child: Text(
           "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),

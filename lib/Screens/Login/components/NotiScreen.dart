@@ -57,46 +57,29 @@ class _NotiScreenState extends State<NotiScreen> {
       if (notinumber['code'] == "200") {
         setState(() {
           notidata = notinumber['data'];
+          setState(() {
+            isLoading = false;
+          });
         });
         
-        print(notidata.length);
+        //print(notidata.length);
       } else {
-        Alert(
+        String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
           context: context,
-          type: AlertType.error,
-          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-          //desc: response.statusCode.toString(),
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
       }
     }else{
-      Alert(
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
           context: context,
-          type: AlertType.error,
-          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-          //desc: response.statusCode.toString(),
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
     }
   }
 
@@ -104,7 +87,7 @@ class _NotiScreenState extends State<NotiScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-    print(id);
+    //print(id);
     setState(() {
       isLoading = true;
     });
@@ -124,47 +107,30 @@ class _NotiScreenState extends State<NotiScreen> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> notiread = convert.jsonDecode(response.body);
       if (notiread['code'] == "200") {
-        print(notiread);
+        //print(notiread);
         setState(() {
           //readnotidata = notiread['data'];
+          setState(() {
+            isLoading = false;
+          });
         });
       } else {
-        Alert(
+        String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+        showDialog(
           context: context,
-          type: AlertType.error,
-          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-          //desc: response.statusCode.toString(),
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+          builder: (context) => dialogDenied(
+            title, picDenied, context,
+          ),
+        ); 
       }
     } else {
-      Alert(
-          context: context,
-          type: AlertType.error,
-          title: "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
-          //desc: response.statusCode.toString(),
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title, picDenied, context,
+        ),
+      ); 
     }
   }
 
@@ -185,7 +151,11 @@ class _NotiScreenState extends State<NotiScreen> {
         centerTitle: true,
         title: Text("Notification Log"),
       ),
-      body: notidata == null ?
+      body: isLoading == true ? 
+      Center(
+        child: CircularProgressIndicator(),
+      )
+      :notidata.length == 0 ?
       Center(
         child: Text(
           "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),

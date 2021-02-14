@@ -1,9 +1,7 @@
 import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -62,6 +60,9 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         //print(craditdata);
         setState(() {
           cradit = craditdata['data'];
+          setState(() {
+            isLoading = false;
+          });
         });
         //print(cradit);
       } else {
@@ -162,7 +163,11 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         //   ],
         // ),
       ),
-      body: cradit == null ?
+      body: isLoading == true ? 
+      Center(
+        child: CircularProgressIndicator(),
+      )
+      :cradit.length == 0 ?
       Center(
         child: Text(
           "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),

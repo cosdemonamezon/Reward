@@ -40,7 +40,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
   }
 
   _getComfirmUsername(Map<String, dynamic> values) async{
-    print(values);
+    //print(values);
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -65,40 +65,58 @@ class _ProfilesettingsState extends State<Profilesettings> {
       final Map<String, dynamic> comfirm = convert.jsonDecode(response.body);
       if (comfirm['code'] == "200") {
         //print(comfirm['massage']);
-        Alert(
+        showDialog(
           context: context,
-          type: AlertType.info,
-          title: "ท่านต้องการยืนยันข้อมูลสามาชิก",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ยกเลิก",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              onPressed: () => Navigator.pop(context),
-              color: Color.fromRGBO(0, 179, 134, 1.0),
-            ),
-            DialogButton(
-              child: Text(
-                "ตกลง",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-              gradient: LinearGradient(colors: [
-                Color.fromRGBO(116, 116, 191, 1.0),
-                Color.fromRGBO(52, 138, 199, 1.0)
-              ]),
-            ),
-          ],
-        ).show();
+          builder: (context) => dialogConfrim(
+            comfirm['massage'], picWanning, context,
+          ),
+        ); 
+        // Alert(
+        //   context: context,
+        //   type: AlertType.info,
+        //   title: "ท่านต้องการยืนยันข้อมูลสามาชิก",
+        //   buttons: [
+        //     DialogButton(
+        //       child: Text(
+        //         "ยกเลิก",
+        //         style: TextStyle(color: Colors.white, fontSize: 18),
+        //       ),
+        //       onPressed: () => Navigator.pop(context),
+        //       color: Color.fromRGBO(0, 179, 134, 1.0),
+        //     ),
+        //     DialogButton(
+        //       child: Text(
+        //         "ตกลง",
+        //         style: TextStyle(color: Colors.white, fontSize: 18),
+        //       ),
+        //       onPressed: (){
+        //         Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+        //       },
+        //       gradient: LinearGradient(colors: [
+        //         Color.fromRGBO(116, 116, 191, 1.0),
+        //         Color.fromRGBO(52, 138, 199, 1.0)
+        //       ]),
+        //     ),
+        //   ],
+        // ).show();
       } else {
+        showDialog(
+          context: context,
+          builder: (context) => errordialog(
+            comfirm['massage'], checkData, picDenied, context,
+          ),
+        ); 
       }
     }else{
-      var comfirm = convert.jsonDecode(response.body);
-      print(comfirm['massage']);
-      print(response.statusCode);
+      // var comfirm = convert.jsonDecode(response.body);
+      // print(comfirm['massage']);
+      // print(response.statusCode);
+      showDialog(
+        context: context,
+        builder: (context) => errordialog(
+          errorProfile, checkData,picDenied, context,
+        ),
+      ); 
     }
   }
 
@@ -134,7 +152,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
       if(profile['code'] == "200"){
         Flushbar(
           title: '${profile['massage']}',
-          message: "ขอบคุณ",
+          //message: "ขอบคุณ",
           icon: Icon(
             Icons.info_outline,
             size: 28.0,
@@ -201,7 +219,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
         centerTitle: true,
         title: Text("Profile"),
       ),
-      body: data == null ? 
+      body: data.length == 0 ? 
       Center(
         child: Text(
           "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
@@ -433,7 +451,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("ยืนยัน สมาชิก", style: TextStyle(color: kTextColor, fontSize: 40.0),),
+                    Text("ยืนยัน สมาชิก", style: TextStyle(color: Colors.black, fontSize: 40.0),),
                   ],
                 ),
               ),

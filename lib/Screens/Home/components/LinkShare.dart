@@ -64,7 +64,7 @@ class _LinkShareState extends State<LinkShare> {
         });
         showDialog(
           context: context,
-          builder: (context) => dialogDenied(
+          builder: (context) => dialogHome(
             shareLinkdata['massage'],
             picDenied,
             context,
@@ -81,24 +81,7 @@ class _LinkShareState extends State<LinkShare> {
           context,
         ),
       );
-      // final Map<String, dynamic> homedata = convert.jsonDecode(response.body);
-      // Alert(
-      //   context: context,
-      //   type: AlertType.error,
-      //   title: "มีข้อผิดพลาด",
-      //   desc: homedata['massage'],
-      //   buttons: [
-      //     DialogButton(
-      //       child: Text(
-      //         "ล็อกอินใหม่",
-      //         style: TextStyle(color: Colors.white, fontSize: 20),
-      //       ),
-      //         onPressed: (){
-      //         Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-      //       },
-      //     ),
-      //   ]
-      // ).show();
+      
     }
   }
 
@@ -363,9 +346,7 @@ class _LinkShareState extends State<LinkShare> {
                     // ),
                   ),
                 ),
-              ),   
-
-              
+              ),     
             ],
         ),
       ), 

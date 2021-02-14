@@ -173,23 +173,7 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
           title, picDenied, context,
          ),
       ); 
-      // Alert(
-      //   context: context,
-      //   type: AlertType.error,
-      //   title: "มีข้อผิดพลาด",
-      //   desc: comfirm['massage'],
-      //   buttons: [
-      //     DialogButton(
-      //       child: Text(
-      //         "ล็อกอินใหม่",
-      //         style: TextStyle(color: Colors.white, fontSize: 20),
-      //       ),
-      //       onPressed: (){
-      //         Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-      //       },
-      //     ),
-      //   ]
-      // ).show();
+     
     }
   }
 
@@ -458,7 +442,7 @@ class _TransferPointsState extends State<TransferPoints> with SingleTickerProvid
           ),
 
           ///Tab 2
-          logpoint == null ?
+          logpoint.length == 0 ?
           Center(
             child: Text(
               "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),

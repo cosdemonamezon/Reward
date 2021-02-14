@@ -4,8 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Points extends StatefulWidget {
@@ -51,7 +49,9 @@ class _PointsState extends State<Points> {
         //print(pointdata['massage']);
         setState((){
           point = pointdata['data'];   
-          
+          setState(() {
+            isLoading = false;
+          });
         });
       }
       else if (pointdata['code'] == "400") {
@@ -140,7 +140,11 @@ class _PointsState extends State<Points> {
         // ),
       ),
       //SingleChildScrollView
-      body: point == null ?
+      body: isLoading == true ? 
+      Center(
+        child: CircularProgressIndicator(),
+      )
+      :point.length == 0 ?
       Center(
         child: Text(
           "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
