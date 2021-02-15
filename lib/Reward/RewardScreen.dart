@@ -15,13 +15,14 @@ class RewardScreen extends StatefulWidget {
   _RewardScreenState createState() => _RewardScreenState();
 }
 
-class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderStateMixin {
+class _RewardScreenState extends State<RewardScreen>
+    with SingleTickerProviderStateMixin {
   TabController tabController;
   SharedPreferences prefs;
   bool isLoading = false;
   List<dynamic> reward = [];
   List<dynamic> transreward = [];
-  String picUrlimages = pathAPI +"images/reward/";
+  String picUrlimages = pathAPI + "images/reward/";
   String btn1 = 'Approved';
   String btn2 = 'Hide For Review';
   String btn3 = 'Reject';
@@ -40,6 +41,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     _getlogTransRewardMember();
     tabController = TabController(length: 2, vsync: this);
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -47,7 +49,7 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     tabController.dispose();
   }
 
-  _getRewardMember() async{
+  _getRewardMember() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -55,51 +57,47 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +'api/getRewardMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-      })
-    );
+    var url = pathAPI + 'api/getRewardMember';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({'member_id': token['member_id']}));
 
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       final Map<String, dynamic> rewarddata = convert.jsonDecode(response.body);
-      if(rewarddata['code'] == "200"){
+      if (rewarddata['code'] == "200") {
         //print(rewarddata['massage']);
-        setState((){
+        setState(() {
           reward = rewarddata['data'];
           setState(() {
             isLoading = false;
           });
           //print(reward);
         });
-      }else {
+      } else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
           context: context,
           builder: (context) => dialogDenied(
-            title, picDenied, context,
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
-
-    }else {
+    } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
-        showDialog(
-          context: context,
-          builder: (context) => dialogDenied(
-            title, picDenied, context,
-          ),
-        ); 
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
-  _getlogTransRewardMember() async{
+  _getlogTransRewardMember() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -107,52 +105,49 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +'api/getlogTransRewardMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id'],
-        'reward_status': btn1
-      })
-    );
+    var url = pathAPI + 'api/getlogTransRewardMember';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode(
+            {'member_id': token['member_id'], 'reward_status': btn1}));
 
-    if (response.statusCode == 200){
-      final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
-      if(transrewarddata['code'] == "200"){
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> transrewarddata =
+          convert.jsonDecode(response.body);
+      if (transrewarddata['code'] == "200") {
         //print(transrewarddata['massage']);
-        setState((){
+        setState(() {
           transreward = transrewarddata['data'];
           setState(() {
             isLoading = false;
           });
           //print(transreward);
         });
-      }else {
+      } else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
           context: context,
           builder: (context) => dialogDenied(
-            title, picDenied, context,
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
-    }
-    else {
+    } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
-        showDialog(
-          context: context,
-          builder: (context) => dialogDenied(
-            title, picDenied, context,
-          ),
-        ); 
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
-  _getApproved() async{
+  _getApproved() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -160,24 +155,18 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +'api/getlogTransRewardMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id'],
-        'reward_status': btn1
-      })
-    );
+    var url = pathAPI + 'api/getlogTransRewardMember';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode(
+            {'member_id': token['member_id'], 'reward_status': btn1}));
 
-    if (response.statusCode == 200){
-      final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
-      if(transrewarddata['code'] == "200"){
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> transrewarddata =
+          convert.jsonDecode(response.body);
+      if (transrewarddata['code'] == "200") {
         //print(transrewarddata['massage']);
-        setState((){
+        setState(() {
           transreward = transrewarddata['data'];
           setState(() {
             isLoading = false;
@@ -185,104 +174,50 @@ class _RewardScreenState extends State<RewardScreen> with SingleTickerProviderSt
         });
         //initState();
         //print("ได้ข้อมูลนะ");
-      }else {
+      } else {
         String title = "ไม่พบข้อมูล";
         showDialog(
           context: context,
           builder: (context) => errorPopup(
-            title, picDenied, context,
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
-  }else{
-    String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
-        showDialog(
-          context: context,
-          builder: (context) => dialogDenied(
-            title, picDenied, context,
-          ),
-        ); 
+    } else {
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
+    }
   }
-}
 
-_getReject() async {
-  prefs = await SharedPreferences.getInstance();
+  _getReject() async {
+    prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-  
-  setState(() {
+
+    setState(() {
       isLoading = true;
     });
 
-  var url = pathAPI +'api/getlogTransRewardMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id'],
-        'reward_status': btn3
-      })
-    );
-    if (response.statusCode == 200){
-      final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
-      if(transrewarddata['code'] == "200"){
+    var url = pathAPI + 'api/getlogTransRewardMember';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode(
+            {'member_id': token['member_id'], 'reward_status': btn3}));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> transrewarddata =
+          convert.jsonDecode(response.body);
+      if (transrewarddata['code'] == "200") {
         //print(transrewarddata['massage']);
-        setState((){
-          transreward = transrewarddata['data'];
-         setState(() {
-            isLoading = false;
-          });
-        });
-        //initState();
-        //print("ได้ข้อมูลนะ");
-      }else {
-        String title = "ไม่พบข้อมูล";
-        showDialog(
-          context: context,
-          builder: (context) => errorPopup(
-            title, picDenied, context,
-          ),
-        ); 
-      }
-  } else{
-    String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
-        showDialog(
-          context: context,
-          builder: (context) => dialogDenied(
-            title, picDenied, context,
-          ),
-        ); 
-  }
-}
-
-_getHideForReview() async{
-  prefs = await SharedPreferences.getInstance();
-    var tokenString = prefs.getString('token');
-    var token = convert.jsonDecode(tokenString);
-  
-  setState(() {
-    isLoading = true;
-  });
-  var url = pathAPI +'api/getlogTransRewardMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id'],
-        'reward_status': btn2
-      })
-    );
-    if (response.statusCode == 200){
-      final Map<String, dynamic> transrewarddata = convert.jsonDecode(response.body);
-      if(transrewarddata['code'] == "200"){
-        //print(transrewarddata['massage']);
-        setState((){
+        setState(() {
           transreward = transrewarddata['data'];
           setState(() {
             isLoading = false;
@@ -290,25 +225,79 @@ _getHideForReview() async{
         });
         //initState();
         //print("ได้ข้อมูลนะ");
-      }else {
+      } else {
         String title = "ไม่พบข้อมูล";
         showDialog(
           context: context,
           builder: (context) => errorPopup(
-            title, picDenied, context,
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
-    }else{
+    } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
+    }
+  }
+
+  _getHideForReview() async {
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      isLoading = true;
+    });
+    var url = pathAPI + 'api/getlogTransRewardMember';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode(
+            {'member_id': token['member_id'], 'reward_status': btn2}));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> transrewarddata =
+          convert.jsonDecode(response.body);
+      if (transrewarddata['code'] == "200") {
+        //print(transrewarddata['massage']);
+        setState(() {
+          transreward = transrewarddata['data'];
+          setState(() {
+            isLoading = false;
+          });
+        });
+        //initState();
+        //print("ได้ข้อมูลนะ");
+      } else {
+        String title = "ไม่พบข้อมูล";
         showDialog(
           context: context,
-          builder: (context) => dialogDenied(
-            title, picDenied, context,
+          builder: (context) => errorPopup(
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
+      }
+    } else {
+      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
+        context: context,
+        builder: (context) => dialogDenied(
+          title,
+          picDenied,
+          context,
+        ),
+      );
     }
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -317,8 +306,9 @@ _getHideForReview() async{
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -326,173 +316,222 @@ _getHideForReview() async{
           ),
         ),
         centerTitle: true,
-        title: Text("Reward"),
+        title: Text("รีวอร์ด"),
         bottom: TabBar(
-          controller: tabController,
-          unselectedLabelColor: Colors.black,
-          labelColor: Colors.white,
-          indicatorWeight: 5.0,
-          indicatorSize: TabBarIndicatorSize.label,
-          tabs: [
-          Tab(child: Text("MEMBER"),),
-          Tab(child: Text("รายละเอียด"),),
-        ]),
+            controller: tabController,
+            unselectedLabelColor: Colors.white60,
+            labelColor: Colors.white,
+            indicatorWeight: 5.0,
+            indicatorSize: TabBarIndicatorSize.label,
+            tabs: [
+              Tab(
+                child: Text("รายการ"),
+              ),
+              Tab(
+                child: Text("ประวัติ"),
+              ),
+            ]),
       ),
       body: TabBarView(
         controller: tabController,
         children: [
           //Tab ที่หนึ่ง
-          isLoading == true? 
-          Center(
-            child: CircularProgressIndicator(),
-          )
-          :reward.length == 0 ? 
-          Center(
-            child: Text(
-              "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
-            ),
-          )
-          :Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [BoxShadow(
-                          color: Color.fromRGBO(255, 95, 27, .3),
-                          blurRadius: 20,
-                          offset: Offset(0, 10),
-                        )],
+          isLoading == true
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : reward.length == 0
+                  ? Center(
+                      child: Text(
+                        "ไม่พบข้อมูล",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF01579B)),
                       ),
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.0),
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage("assets/images/gold.JPG"),
-                                radius: 25,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              //child: Text("User Member : User XXXX9528"),
-                              child: Text("User Member : ${data['username']}"),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ], 
-                ),
-                Expanded(
-                  //flex: 2,
-                  child: Container(
-                    height: 10,
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      scrollDirection: Axis.vertical,
-                      //mainAxisSpacing: 2,
-                      children: List.generate(reward.length, (index) {
-                        return Container(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
-                            child: GestureDetector(
-                              onTap: (){
-                                // var url = reward[index]['url'];
-                                // launch((url));
-                                Navigator.pushNamed(context, '/detailreward', arguments: {
-                                  'id': reward[index]['id'],
-                                  'title': reward[index]['title'],
-                                  'description': reward[index]['description'],
-                                  'url': reward[index]['url'],
-                                  'pic': reward[index]['pic'],
-                                  'point': reward[index]['point'],
-                                  'transfer_status': reward[index]['transfer_status'],
-                                  'group_status': reward[index]['group_status'],
-                                  'qty_status': reward[index]['qty_status'],
-                                  'member_id': data['member_id'],
-                                  'member_point': data['member_point'],
-                                });
-                              },
-                              child: Card(
-                                elevation: 10.0,
-                                //color: Colors.blue,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    //Image.asset("assets/images/124.JPG"),
-                                    //Ink.image(image: NetworkImage(picUrlimages+reward[index]['pic']), fit: BoxFit.cover),
-                                    Container(
-                                      height: 100,
-                                      width: double.infinity,
-                                      child: reward[index]['pic'] != null ?
-                                      Image.network(reward[index]['pic'], fit: BoxFit.fill,) :
-                                      Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
-                                    ),
-                                    //Image.network(picUrlimages+reward[index]['pic'], fit: BoxFit.cover,),
-                                    SizedBox(height: 2,),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 4),
-                                      child: Text(
-                                        reward[index]['description'],
-                                        style: TextStyle(fontSize: 12.0),
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          // Chip(
-                                          //   backgroundColor: Colors.blueAccent,
-                                          //   elevation: 2.0,
-                                          //   label: Text("point"),
-                                          // ),
-                                          Icon(Icons.star),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(vertical: 3.0),
-                                            child: Text(reward[index]['point'].toString()),
-                                          ),
-                                          Text("P"),
-                                        ],
-                                      ),
-                                    ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(255, 95, 27, .3),
+                                      blurRadius: 20,
+                                      offset: Offset(0, 0.1),
+                                    )
                                   ],
                                 ),
+                                child: Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200])),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                              "assets/images/gold.JPG"),
+                                          radius: 25,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        //child: Text("User Member : User XXXX9528"),
+                                        child: Text(
+                                            "User Member : ${data['username']}"),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            //flex: 2,
+                            child: Container(
+                              height: 10,
+                              child: GridView.count(
+                                crossAxisCount: 2,
+                                scrollDirection: Axis.vertical,
+                                //mainAxisSpacing: 2,
+                                children: List.generate(reward.length, (index) {
+                                  return Container(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 2.0, horizontal: 4.0),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          // var url = reward[index]['url'];
+                                          // launch((url));
+                                          Navigator.pushNamed(
+                                              context, '/detailreward',
+                                              arguments: {
+                                                'id': reward[index]['id'],
+                                                'title': reward[index]['title'],
+                                                'description': reward[index]
+                                                    ['description'],
+                                                'url': reward[index]['url'],
+                                                'pic': reward[index]['pic'],
+                                                'point': reward[index]['point'],
+                                                'transfer_status': reward[index]
+                                                    ['transfer_status'],
+                                                'group_status': reward[index]
+                                                    ['group_status'],
+                                                'qty_status': reward[index]
+                                                    ['qty_status'],
+                                                'member_id': data['member_id'],
+                                                'member_point':
+                                                    data['member_point'],
+                                              });
+                                        },
+                                        child: Card(
+                                          elevation: 10.0,
+                                          //color: Colors.blue,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              //Image.asset("assets/images/124.JPG"),
+                                              //Ink.image(image: NetworkImage(picUrlimages+reward[index]['pic']), fit: BoxFit.cover),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                height: 100,
+                                                width: double.infinity,
+                                                child: reward[index]['pic'] !=
+                                                        null
+                                                    ? Image.network(
+                                                        reward[index]['pic'],
+                                                        fit: BoxFit.fill,
+                                                      )
+                                                    : Image.network(
+                                                        'https://picsum.photos/400/200',
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                              ),
+                                              //Image.network(picUrlimages+reward[index]['pic'], fit: BoxFit.cover,),
+                                              SizedBox(
+                                                height: 2,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 6),
+                                                child: Text(
+                                                  reward[index]['description'],
+                                                  style:
+                                                      TextStyle(fontSize: 12.0),
+                                                  textAlign: TextAlign.justify,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    // Chip(
+                                                    //   backgroundColor: Colors.blueAccent,
+                                                    //   elevation: 2.0,
+                                                    //   label: Text("point"),
+                                                    // ),
+                                                    Icon(Icons.star),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 3.0),
+                                                      child: Text(reward[index]
+                                                              ['point']
+                                                          .toString()),
+                                                    ),
+                                                    Text("P"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
                               ),
                             ),
                           ),
-                        );
-                      }),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
 
           //tab ที่สอง
           ListView(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                                   
-                      GestureDetector(
-                        onTap: (){                          
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
                           setState(() {
                             abtn1 = true;
                             abtn2 = false;
@@ -500,40 +539,45 @@ _getHideForReview() async{
                           });
                           _getApproved();
                         },
-                        child: abtn1 == true ? Container(
-                          height: 50.0,
-                          width: 100,
-                          //margin: EdgeInsets.symmetric(horizontal: 40),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green[900],
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Approved", 
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
-                            ),
-                          ),
-                        ):
-                        Container(
-                          height: 50.0,
-                          width: 100,
-                          //margin: EdgeInsets.symmetric(horizontal: 40),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey[400],
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Approved", 
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.black),
-                            ),
-                          ),
-                        )
-                      ),
-
-                      GestureDetector(
-                        onTap: (){
+                        child: abtn1 == true
+                            ? Container(
+                                height: 50.0,
+                                width: 100,
+                                //margin: EdgeInsets.symmetric(horizontal: 40),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Color(0xFF01579B),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Approved",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.6,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                height: 50.0,
+                                width: 100,
+                                //margin: EdgeInsets.symmetric(horizontal: 40),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.grey[400],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Approved",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.6,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              )),
+                    GestureDetector(
+                        onTap: () {
                           //_getlogTransRewardMember();
                           setState(() {
                             abtn1 = false;
@@ -542,40 +586,45 @@ _getHideForReview() async{
                           });
                           _getHideForReview();
                         },
-                        child: abtn2 == true ? Container(
-                          height: 50.0,
-                          width: 150,
-                          //margin: EdgeInsets.symmetric(horizontal: 40),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green[900],
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Hide For Review",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
-                            ),
-                          ),
-                        ):
-                        Container(
-                          height: 50.0,
-                          width: 150,
-                          //margin: EdgeInsets.symmetric(horizontal: 40),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey[400],
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Hide For Review",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.black),
-                            ),
-                          ),
-                        )
-                      ),
-
-                      GestureDetector(
-                        onTap: (){
+                        child: abtn2 == true
+                            ? Container(
+                                height: 50.0,
+                                width: 150,
+                                //margin: EdgeInsets.symmetric(horizontal: 40),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Color(0xFF01579B),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Hide For Review",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.6,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                height: 50.0,
+                                width: 150,
+                                //margin: EdgeInsets.symmetric(horizontal: 40),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.grey[400],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Hide For Review",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.6,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              )),
+                    GestureDetector(
+                        onTap: () {
                           setState(() {
                             abtn1 = false;
                             abtn2 = false;
@@ -583,161 +632,218 @@ _getHideForReview() async{
                           });
                           _getReject();
                         },
-                        child: abtn3 == true ? Container(
-                          height: 50.0,
-                          width: 100,
-                          //margin: EdgeInsets.symmetric(horizontal: 40),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green[900],
-                          ),
-                          child: Center(
+                        child: abtn3 == true
+                            ? Container(
+                                height: 50.0,
+                                width: 100,
+                                //margin: EdgeInsets.symmetric(horizontal: 40),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(0xFF01579B),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Reject",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.6,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                height: 50.0,
+                                width: 100,
+                                //margin: EdgeInsets.symmetric(horizontal: 40),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.grey[400],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Reject",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.6,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              )),
+                  ],
+                ),
+              ),
+              isLoading == true
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : transreward.length == 0
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 150),
                             child: Text(
-                              "Reject",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.white),
-                            ),
-                          ),
-                        ):
-                        Container(
-                          height: 50.0,
-                          width: 100,
-                          //margin: EdgeInsets.symmetric(horizontal: 40),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey[400],
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Reject",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.6, color: Colors.black),
+                              "ไม่พบข้อมูล",
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF01579B)),
                             ),
                           ),
                         )
-                      ),
-                      
-                    ],
-                  ),
-                ),
-                isLoading == true ?
-                Center(
-                  child: CircularProgressIndicator(),
-                )
-                :transreward.length == 0 ?
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 150),
-                    child: Text(
-                      "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.redAccent),
-                    ),
-                  ),
-                )
-                :
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  physics: const ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: transreward.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-                      child: Column(
-                        children: [
-                          Card(
-                            child: ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                      : ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: transreward.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              child: Column(
                                 children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        height: 80,
-                                        width: 80,
-                                        child: transreward[index]['pic'] != null ?
-                                          Image.network(transreward[index]['pic'], fit: BoxFit.fill,) :
-                                          Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              transreward[index]['title'], 
-                                              style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
-                                            ),
-                                            Text(
-                                              transreward[index]['description'].length <= 41 ? transreward[index]['description'] : transreward[index]['description'].substring(0, 41), 
-                                              style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  transreward[index]['point'].toString(),
-                                                  style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
+                                  Card(
+                                    child: ListTile(
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Container(
+                                                height: 80,
+                                                width: 80,
+                                                child: transreward[index]
+                                                            ['pic'] !=
+                                                        null
+                                                    ? Image.network(
+                                                        transreward[index]
+                                                            ['pic'],
+                                                        fit: BoxFit.fill,
+                                                      )
+                                                    : Image.network(
+                                                        'https://picsum.photos/400/200',
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 5.0,
+                                                    horizontal: 8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        transreward[index]
+                                                            ['title'],
+                                                        style: TextStyle(
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    Text(
+                                                      transreward[index][
+                                                                      'description']
+                                                                  .length <=
+                                                              41
+                                                          ? transreward[index]
+                                                              ['description']
+                                                          : transreward[index][
+                                                                  'description']
+                                                              .substring(0, 41),
+                                                      style: TextStyle(
+                                                          fontSize: 12.0,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                            transreward[index]
+                                                                    ['point']
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      5.0),
+                                                          child: Text("Point",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                                  child: Text(
-                                                    "Point",
-                                                    style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                          // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                          // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                        ],
                                       ),
-                                    ],
+                                      subtitle: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          transreward[index]['appove_status'] ==
+                                                  "Approved"
+                                              ? Chip(
+                                                  backgroundColor:
+                                                      Colors.greenAccent,
+                                                  label: Text(
+                                                      transreward[index]
+                                                          ['appove_status'],
+                                                      style: TextStyle(
+                                                          fontSize: 12.0)),
+                                                )
+                                              : transreward[index]
+                                                          ['appove_status'] ==
+                                                      "Reject"
+                                                  ? Chip(
+                                                      backgroundColor:
+                                                          Colors.redAccent,
+                                                      label: Text(
+                                                          transreward[index]
+                                                              ['appove_status'],
+                                                          style: TextStyle(
+                                                              fontSize: 12.0)),
+                                                    )
+                                                  : Chip(
+                                                      backgroundColor:
+                                                          Colors.orangeAccent,
+                                                      label: Text(
+                                                          transreward[index]
+                                                              ['appove_status'],
+                                                          style: TextStyle(
+                                                              fontSize: 12.0)),
+                                                    ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                                  // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                 ],
                               ),
-                              subtitle: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  transreward[index]['appove_status'] == "Approved" ?
-                                  Chip(
-                                    backgroundColor: Colors.greenAccent,
-                                    label: Text(
-                                      transreward[index]['appove_status'], 
-                                      style: TextStyle(fontSize: 12.0)
-                                    ),
-                                  )
-                                  : transreward[index]['appove_status'] == "Reject" ? 
-                                  Chip(
-                                    backgroundColor: Colors.redAccent,
-                                    label: Text(
-                                      transreward[index]['appove_status'], 
-                                      style: TextStyle(fontSize: 12.0)
-                                    ),
-                                  )
-                                  : Chip(
-                                    backgroundColor: Colors.orangeAccent,
-                                    label: Text(
-                                      transreward[index]['appove_status'], 
-                                      style: TextStyle(fontSize: 12.0)
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                ),
-              ],
-            ),
+                            );
+                          }),
+            ],
+          ),
         ],
       ),
-
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -749,7 +855,8 @@ _getHideForReview() async{
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -761,7 +868,7 @@ _getHideForReview() async{
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = true;
                           nbtn2 = false;
@@ -775,7 +882,9 @@ _getHideForReview() async{
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -786,7 +895,7 @@ _getHideForReview() async{
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = true;
@@ -802,7 +911,9 @@ _getHideForReview() async{
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -812,11 +923,12 @@ _getHideForReview() async{
                   Stack(
                     children: [
                       CircleAvatar(
-                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               nbtn1 = false;
                               nbtn2 = false;
@@ -834,22 +946,31 @@ _getHideForReview() async{
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           data['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -860,7 +981,7 @@ _getHideForReview() async{
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = false;
@@ -876,7 +997,9 @@ _getHideForReview() async{
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
