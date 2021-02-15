@@ -38,6 +38,7 @@ String aertLogin = "กรุณาล็อกอินก่อน";
 String settitle = "ไม่สามารถทำรายการได้";
 String comfirmUse = "โปรดยืนยัน User Name ก่อนทำรายการ";
 String noService = "ยังไม่เปิดให้บริการ";
+String rewardConfirm = "ต้องการรับรางวัลหรือไม่";
 class Constants{
   Constants._();
   static const double padding =20;

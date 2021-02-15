@@ -47,154 +47,91 @@ class _DetailRewardState extends State<DetailReward> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> detailreward =
           convert.jsonDecode(response.body);
-      print(detailreward);
+      //print(detailreward);
       if (detailreward['code'] == "200") {
-        Alert(
-            context: context,
-            type: AlertType.success,
-            title: detailreward['massage'],
-            //desc: detailreward['massage'],
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "ตกลง",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogHome(
+            detailreward['massage'],
+            picSuccess,
+            context,
+          ),
+        );
+        
       } else if (detailreward['code'] == "400") {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "มีข้อผิดพลาด",
-            desc: detailreward['massage'],
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "กลับหน้าหลัก",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogHome(
+            detailreward['massage'],
+            picDenied,
+            context,
+          ),
+        );
       } else if (detailreward['code'] == "500") {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "มีข้อผิดพลาด",
-            desc: detailreward['massage'],
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "กลับหน้าหลัก",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            detailreward['massage'],
+            picDenied,
+            context,
+          ),
+        );
       } else if (detailreward['code'] == "600") {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "มีข้อผิดพลาด",
-            desc: detailreward['massage'],
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "ไปยืนยันที่อยู่",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogHome(
+            detailreward['massage'],
+            picDenied,
+            context,
+          ),
+        );
       } else if (detailreward['code'] == "700") {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "มีข้อผิดพลาด",
-            desc: detailreward['massage'],
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "กลับหน้าหลัก",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            detailreward['massage'],
+            picDenied,
+            context,
+          ),
+        );
       } else if (detailreward['code'] == "800") {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "มีข้อผิดพลาด",
-            desc: detailreward['massage'],
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "กลับหน้าหลัก",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            detailreward['massage'],
+            picDenied,
+            context,
+          ),
+        );
       } else {
-        Alert(
-            context: context,
-            type: AlertType.error,
-            title: "มีข้อผิดพลาด",
-            desc: detailreward['massage'],
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "กลับหน้าหลัก",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (Route<dynamic> route) => false);
-                },
-              ),
-            ]).show();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogDenied(
+            detailreward['massage'],
+            picDenied,
+            context,
+          ),
+        );
       }
     } else {
       final Map<String, dynamic> detailreward =
           convert.jsonDecode(response.body);
-      Alert(
+      showDialog(
+          barrierDismissible: false,
           context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "กลับหน้าหลัก",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]).show();
+          builder: (context) => dialogDenied(
+            detailreward['massage'],
+            picDenied,
+            context,
+          ),
+        );
     }
   }
 

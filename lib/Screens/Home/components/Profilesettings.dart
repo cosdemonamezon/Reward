@@ -64,10 +64,11 @@ class _ProfilesettingsState extends State<Profilesettings> {
       if (comfirm['code'] == "200") {
         //print(comfirm['massage']);
         showDialog(
+          barrierDismissible: false,
           context: context,
-          builder: (context) => dialogConfrim(
+          builder: (context) => dialogHome(
             comfirm['massage'],
-            picWanning,
+            picSuccess,
             context,
           ),
         );
@@ -101,6 +102,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
         // ).show();
       } else {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => errordialog(
             comfirm['massage'],
@@ -115,6 +117,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
       // print(comfirm['massage']);
       // print(response.statusCode);
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => errordialog(
           errorProfile,
@@ -171,6 +174,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
         });
       } else if (profile['code'] == "400") {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             errorProfile,
@@ -180,6 +184,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
         );
       } else if (profile['code'] == "500") {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => errordialog(
             profile['massage'],
@@ -190,6 +195,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
         );
       } else {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             headtitle,
@@ -200,6 +206,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
       }
     } else {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           headtitle,

@@ -63,6 +63,7 @@ class _PointsState extends State<Points> {
       }
       else if (pointdata['code'] == "400") {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             pointdata['massage'], picDenied, context,
@@ -76,6 +77,7 @@ class _PointsState extends State<Points> {
         });
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title, picDenied, context,
@@ -86,6 +88,7 @@ class _PointsState extends State<Points> {
     else{
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title, picDenied, context,

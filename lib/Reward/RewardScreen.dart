@@ -76,6 +76,7 @@ class _RewardScreenState extends State<RewardScreen>
       } else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title,
@@ -87,6 +88,7 @@ class _RewardScreenState extends State<RewardScreen>
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,
@@ -126,6 +128,7 @@ class _RewardScreenState extends State<RewardScreen>
       } else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title,
@@ -137,6 +140,7 @@ class _RewardScreenState extends State<RewardScreen>
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,
@@ -177,6 +181,7 @@ class _RewardScreenState extends State<RewardScreen>
       } else {
         String title = "ไม่พบข้อมูล";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => errorPopup(
             title,
@@ -188,6 +193,7 @@ class _RewardScreenState extends State<RewardScreen>
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,
@@ -228,6 +234,7 @@ class _RewardScreenState extends State<RewardScreen>
       } else {
         String title = "ไม่พบข้อมูล";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => errorPopup(
             title,
@@ -239,6 +246,7 @@ class _RewardScreenState extends State<RewardScreen>
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,
@@ -278,6 +286,7 @@ class _RewardScreenState extends State<RewardScreen>
       } else {
         String title = "ไม่พบข้อมูล";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => errorPopup(
             title,
@@ -289,6 +298,7 @@ class _RewardScreenState extends State<RewardScreen>
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,

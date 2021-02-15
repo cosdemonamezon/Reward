@@ -56,6 +56,7 @@ class _HelpoflineState extends State<Helpofline> {
       else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title, picDenied, context,
@@ -68,6 +69,7 @@ class _HelpoflineState extends State<Helpofline> {
       // final Map<String, dynamic> helpdata = convert.jsonDecode(response.body);
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title, picDenied, context,
@@ -209,6 +211,7 @@ class _HelpoflineState extends State<Helpofline> {
                           nbtn4 = false;
                         });
                         showDialog(
+                          barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
                             aertLogin, picDenied, context,
@@ -267,6 +270,7 @@ class _HelpoflineState extends State<Helpofline> {
                               nbtn4 = false;
                             });
                             showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) => dialogAlert(
                                 aertLogin, picDenied, context,

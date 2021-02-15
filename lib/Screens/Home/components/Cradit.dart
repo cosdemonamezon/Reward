@@ -71,6 +71,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         });
           
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialog1(
             title, context
@@ -91,6 +92,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
       
     } else {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialog1(
           title, context

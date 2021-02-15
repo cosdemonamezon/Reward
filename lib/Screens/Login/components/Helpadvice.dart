@@ -68,6 +68,7 @@ class _HelpadviceState extends State<Helpadvice> {
       else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title, picDenied, context,
@@ -80,6 +81,7 @@ class _HelpadviceState extends State<Helpadvice> {
       // final Map<String, dynamic> helpdata = convert.jsonDecode(response.body);
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title, picDenied, context,
@@ -272,7 +274,11 @@ class _HelpadviceState extends State<Helpadvice> {
                               nbtn3 = true;
                               nbtn4 = false;
                             });
-                            Navigator.pushNamed(context, "/noti",);
+                            Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': numberNoti['member_point'],
+                              'board_phone_1': numberNoti['board_phone_1'],
+                              'total_noti': numberNoti['total_noti'],
+                            });
                           },
                         ),
                       ),

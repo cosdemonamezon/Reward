@@ -150,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
           } else {
             //print(homedata['massage']);
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (context) => dialogDenied(
                 homedata['massage'],
@@ -189,20 +190,41 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         //String title = "ไม่พบข้อมูล";
         showDialog(
+          barrierDismissible: false,
           context: context,
-          builder: (context) => errorPopup(
+          builder: (context) => dialogHome(
             receivePoint['massage'],
             picDenied,
             context,
           ),
         );
       }
-    } else {
-      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+    } else if (response.statusCode == 400) {
+      
+      final Map<String, dynamic> receivePoint =
+          convert.jsonDecode(response.body);
+      // String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
-          title,
+          receivePoint['massage'],
+          picDenied,
+          context,
+        ),
+      );
+    }
+    else
+    {
+      
+      final Map<String, dynamic> receivePoint =
+          convert.jsonDecode(response.body);
+      // String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => dialogDenied(
+          receivePoint['massage'],
           picDenied,
           context,
         ),
@@ -617,30 +639,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               ),
                                                             ),
                                                             onPressed: () {
-                                                              Alert(
-                                                                  context:
-                                                                      context,
-                                                                  type: AlertType
-                                                                      .success,
-                                                                  title:
-                                                                      "รับรางวัลสำเร็จ",
-                                                                  buttons: [
-                                                                    DialogButton(
-                                                                      child:
-                                                                          Text(
-                                                                        "ตกลง",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize: 20),
-                                                                      ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        _receivePointTurnOver();
-                                                                        //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-                                                                      },
-                                                                    )
-                                                                  ]).show();
+                                                              showDialog(
+                                                                barrierDismissible: false,
+                                                                context: context,
+                                                                builder: (context) => confrim(
+                                                                  rewardConfirm,
+                                                                  picWanning,
+                                                                  context,
+                                                                ),
+                                                              );
                                                             },
                                                           )
                                                         // RaisedButton(
@@ -951,6 +958,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               child: GestureDetector(
                                                 onTap: () {
                                                   showDialog(
+                                                    barrierDismissible: false,
                                                     context: context,
                                                     builder: (context) => dialogAlert(
                                                       noService,
@@ -1148,5 +1156,87 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+    
   }
+  confrim(String title, String img, context,){
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Constants.padding),
+        ),
+        elevation: 4,
+        backgroundColor: Colors.transparent,
+        child: Stack(
+          children: [
+            Container(
+                padding: EdgeInsets.only(
+                  left: Constants.padding,top: Constants.avatarRadius
+                  + Constants.padding, right: Constants.padding,bottom: Constants.padding
+                ),
+                margin: EdgeInsets.only(top: Constants.avatarRadius),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Constants.padding),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black,offset: Offset(0,10),
+                    blurRadius: 10
+                  ),]
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+                    SizedBox(height: 22,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
+                            padding: EdgeInsets.all(12),
+                            color: Color(0xFFD50000),
+                            child: Text('ยกเลิก', style: TextStyle(color: Colors.white, fontSize: 20)),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            onPressed: (){
+                              _receivePointTurnOver();
+                            },
+                            padding: EdgeInsets.all(12),
+                            color: Color(0xFF01579B),
+                            child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: Constants.padding,
+                right: Constants.padding,
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: Constants.avatarRadius,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                    child: Image.asset(img)
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
+    }
 }

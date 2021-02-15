@@ -63,7 +63,8 @@ class _LinkShareState extends State<LinkShare> {
           isLoading = false;
         });
         showDialog(
-        context: context,
+          barrierDismissible: false,
+          context: context,
           builder: (context) => alertConfirmUsername(
             shareLinkdata['massage'], comfirmUse, picWanning, context,
           ),
@@ -72,6 +73,7 @@ class _LinkShareState extends State<LinkShare> {
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,
@@ -569,7 +571,7 @@ class _LinkShareState extends State<LinkShare> {
                           },
                           padding: EdgeInsets.all(12),
                           color: Color(0xFFD50000),
-                          child: Text('คอนเฟิร์มยูสเซอร์', style: TextStyle(color: Colors.white, fontSize: 16)),
+                          child: Text('ยืนยันสมาชิก', style: TextStyle(color: Colors.white, fontSize: 16)),
                         ),
                       ),
                       Align(

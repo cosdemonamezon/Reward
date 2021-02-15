@@ -392,6 +392,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: GestureDetector(
                       onTap: () {
                         showDialog(
+                          barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
                             aertLogin, picDenied, context,
@@ -438,6 +439,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: GestureDetector(
                       onTap: () {
                         showDialog(
+                          barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
                             aertLogin, picDenied, context,

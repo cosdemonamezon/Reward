@@ -83,8 +83,9 @@ class _TransferPointsState extends State<TransferPoints>
         });
       } else {
         showDialog(
+          barrierDismissible: false,
           context: context,
-          builder: (context) => dialogDenied(
+          builder: (context) => dialogHome(
             logpointdata['massage'],
             picDenied,
             context,
@@ -96,6 +97,7 @@ class _TransferPointsState extends State<TransferPoints>
         final Map<String, dynamic> logpointdata =
             convert.jsonDecode(response.body);
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             logpointdata['massage'],
@@ -131,6 +133,7 @@ class _TransferPointsState extends State<TransferPoints>
       final Map<String, dynamic> point = convert.jsonDecode(response.body);
       if (point['code'] == "200") {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => successdialog(
             point['massage'],
@@ -169,6 +172,7 @@ class _TransferPointsState extends State<TransferPoints>
       } else {
         //print(point['massage']);
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => errordialog(
             point['massage'],
@@ -201,6 +205,7 @@ class _TransferPointsState extends State<TransferPoints>
       print(response.statusCode);
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,
@@ -995,7 +1000,7 @@ class _TransferPointsState extends State<TransferPoints>
                         },
                         padding: EdgeInsets.all(12),
                         color: Color(0xFFD50000),
-                        child: Text('คอนเฟิร์มยูสเซอร์',
+                        child: Text('ยืนยันสมาชิก',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16)),
                       ),

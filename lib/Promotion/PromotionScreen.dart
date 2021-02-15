@@ -47,19 +47,29 @@ class _PromotionScreenState extends State<PromotionScreen> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> bannerType = convert.jsonDecode(response.body);
       if (bannerType['code'] == "200") {
-        print(bannerType['massage']);
+        //print(bannerType['massage']);
         //print(bannerType['massage']);
         setState(() {
           banner = bannerType['data'];
           // print(banner);
         });
       } else {
-        print('error from backend ${response.statusCode}');
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errordialog(
+            bannerType['massage'],
+            checkData,
+            picDenied,
+            context,
+          ),
+        );
       }
     } else {
       print(response.statusCode);
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,
@@ -87,7 +97,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
       final Map<String, dynamic> campaigndata =
           convert.jsonDecode(response.body);
       if (campaigndata['code'] == "200") {
-        print(campaigndata['massage']);
+        //print(campaigndata['massage']);
         //print(campaigndata['massage']);
         setState(() {
           campaign = campaigndata['data'];
@@ -100,29 +110,31 @@ class _PromotionScreenState extends State<PromotionScreen> {
         setState(() {
           isLoading = false;
         });
-        print('error from backend ${response.statusCode}');
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errordialog(
+            campaigndata['massage'],
+            checkData,
+            picDenied,
+            context,
+          ),
+        );
       }
     } else {
-      print(response.statusCode);
+      //print(response.statusCode);
       final Map<String, dynamic> campaigndata =
           convert.jsonDecode(response.body);
-      Alert(
+     
+        showDialog(
+          barrierDismissible: false,
           context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: campaigndata['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ล็อกอินใหม่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/loginScreen', (Route<dynamic> route) => false);
-              },
-            ),
-          ]).show();
+          builder: (context) => dialogDenied(
+            campaigndata['massage'],
+            picDenied,
+            context,
+          ),
+        );
     }
   }
 

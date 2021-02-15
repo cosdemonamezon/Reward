@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:Reward/Screens/Login/components/Coinofline.dart';
+import 'package:Reward/Screens/Login/components/Helpofline.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -358,7 +360,13 @@ class _LoginPageState extends State<LoginPage> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        //launch(('tel://0922568260'));
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => dialogAlert(
+                            aertLogin, picDenied, context,
+                          ),
+                        ); 
                       },
                     ),
                   ),
@@ -376,11 +384,11 @@ class _LoginPageState extends State<LoginPage> {
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context, MaterialPageRoute(
-                        //     builder: (context){return Helpadvice();}
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Helpofline();}
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -398,7 +406,15 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundImage: AssetImage(pathicon3),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => dialogAlert(
+                            aertLogin, picDenied, context,
+                          ),
+                        ); 
+                      },
                     ),
                   ),
                   Text(
@@ -414,7 +430,13 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            builder: (context){return Coineofline();}
+                          ),
+                        );
+                      },
                     ),
                   ),
                   Text(

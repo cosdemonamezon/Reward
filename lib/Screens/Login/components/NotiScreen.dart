@@ -74,6 +74,7 @@ class _NotiScreenState extends State<NotiScreen> {
       } else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title, picDenied, context,
@@ -81,11 +82,13 @@ class _NotiScreenState extends State<NotiScreen> {
         ); 
       }
     }else{
-      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+      final Map<String, dynamic> notinumber = convert.jsonDecode(response.body);
+      
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
-            title, picDenied, context,
+            notinumber['massage'], picDenied, context,
           ),
         ); 
     }
@@ -125,6 +128,7 @@ class _NotiScreenState extends State<NotiScreen> {
       } else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title, picDenied, context,
@@ -132,13 +136,15 @@ class _NotiScreenState extends State<NotiScreen> {
         ); 
       }
     } else {
-      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
-      showDialog(
-        context: context,
-        builder: (context) => dialogDenied(
-          title, picDenied, context,
-        ),
-      ); 
+      final Map<String, dynamic> notinumber = convert.jsonDecode(response.body);
+      
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogDenied(
+            notinumber['massage'], picDenied, context,
+          ),
+        ); 
     }
   }
 

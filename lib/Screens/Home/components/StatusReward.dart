@@ -62,29 +62,28 @@ class _StatusRewardState extends State<StatusReward> {
         setState(() {
           isLoading = false;
         });
-        print('error from backend ${response.statusCode}');
+       showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogHome(
+            statusdata['massage'],
+            picDenied,
+            context,
+          ),
+        );
       }
     }
     else{
-      print(response.statusCode);
-      //final Map<String, dynamic> coindata = convert.jsonDecode(response.body);
-      Alert(
-        context: context,
-        type: AlertType.error,
-        title: "มีข้อผิดพลาด",
-        desc: response.statusCode.toString(),
-        buttons: [
-          DialogButton(
-            child: Text(
-              "ล็อกอินใหม่",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
-            },
-          ),
-        ]
-      ).show();
+      
+      final Map<String, dynamic> coindata = convert.jsonDecode(response.body);
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogDenied(
+            coindata['massage'],
+            picDenied,
+            context,
+          ));
     }
   }
 

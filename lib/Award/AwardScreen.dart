@@ -72,6 +72,7 @@ class _AwardScreenState extends State<AwardScreen> {
         });
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title,
@@ -83,6 +84,7 @@ class _AwardScreenState extends State<AwardScreen> {
     }else{
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title,

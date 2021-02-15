@@ -48,6 +48,7 @@ class _CoineoflineState extends State<Coineofline> {
       }else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
             title, picDenied, context,
@@ -60,6 +61,7 @@ class _CoineoflineState extends State<Coineofline> {
       // final Map<String, dynamic> coindata = convert.jsonDecode(response.body);
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
           title, picDenied, context,
@@ -205,6 +207,7 @@ class _CoineoflineState extends State<Coineofline> {
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         showDialog(
+                          barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
                             aertLogin, picDenied, context,
@@ -265,6 +268,7 @@ class _CoineoflineState extends State<Coineofline> {
                               nbtn4 = false;
                             });
                             showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (context) => dialogAlert(
                                 aertLogin, picDenied, context,
