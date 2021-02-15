@@ -21,171 +21,163 @@ class _DetailRewardState extends State<DetailReward> {
   bool isLoading = false;
   //List<dynamic> detailreward = [];
 
-  _transferReward(Map<String, dynamic> data)async{
+  _transferReward(Map<String, dynamic> data) async {
     print(data);
     print(data['member_id']);
-    print(data['id']);    
+    print(data['id']);
     print(confrim_address_status);
     print(data['member_point']);
-    
+
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +'api/transferReward';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': data['member_id'],
-        'reward_id': data['id'],
-        'confrim_address_status': confrim_address_status,
-        'member_point': data['member_point']
-      })
-    );
+    var url = pathAPI + 'api/transferReward';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({
+          'member_id': data['member_id'],
+          'reward_id': data['id'],
+          'confrim_address_status': confrim_address_status,
+          'member_point': data['member_point']
+        }));
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> detailreward = convert.jsonDecode(response.body);
+      final Map<String, dynamic> detailreward =
+          convert.jsonDecode(response.body);
       print(detailreward);
       if (detailreward['code'] == "200") {
         Alert(
-          context: context,
-          type: AlertType.success,
-          title: detailreward['massage'],
-          //desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ตกลง",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.success,
+            title: detailreward['massage'],
+            //desc: detailreward['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ตกลง",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+            ]).show();
       } else if (detailreward['code'] == "400") {
         Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "กลับหน้าหลัก",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.error,
+            title: "มีข้อผิดพลาด",
+            desc: detailreward['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "กลับหน้าหลัก",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
-      }
-      else if (detailreward['code']=="500") {
+            ]).show();
+      } else if (detailreward['code'] == "500") {
         Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "กลับหน้าหลัก",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.error,
+            title: "มีข้อผิดพลาด",
+            desc: detailreward['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "กลับหน้าหลัก",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
-      }
-      else if (detailreward['code']=="600") {
+            ]).show();
+      } else if (detailreward['code'] == "600") {
         Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ไปยืนยันที่อยู่",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.error,
+            title: "มีข้อผิดพลาด",
+            desc: detailreward['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ไปยืนยันที่อยู่",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
-      }
-      else if (detailreward['code']=="700") {
+            ]).show();
+      } else if (detailreward['code'] == "700") {
         Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "กลับหน้าหลัก",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.error,
+            title: "มีข้อผิดพลาด",
+            desc: detailreward['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "กลับหน้าหลัก",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
-      }
-      else if (detailreward['code']=="800") {
+            ]).show();
+      } else if (detailreward['code'] == "800") {
         Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "กลับหน้าหลัก",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.error,
+            title: "มีข้อผิดพลาด",
+            desc: detailreward['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "กลับหน้าหลัก",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
-      }
-      else {
+            ]).show();
+      } else {
         Alert(
-          context: context,
-          type: AlertType.error,
-          title: "มีข้อผิดพลาด",
-          desc: detailreward['massage'],
-          buttons: [
-            DialogButton(
-              child: Text(
-                "กลับหน้าหลัก",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.error,
+            title: "มีข้อผิดพลาด",
+            desc: detailreward['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "กลับหน้าหลัก",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
+            ]).show();
       }
     } else {
-      final Map<String, dynamic> detailreward = convert.jsonDecode(response.body);
+      final Map<String, dynamic> detailreward =
+          convert.jsonDecode(response.body);
       Alert(
           context: context,
           type: AlertType.error,
@@ -197,17 +189,112 @@ class _DetailRewardState extends State<DetailReward> {
                 "กลับหน้าหลัก",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-                onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/home', (Route<dynamic> route) => false);
               },
             ),
-          ]
-        ).show();
+          ]).show();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget bottomButton() {
+      return Container(
+        padding: EdgeInsets.only(right: 20, left: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              height: 50,
+              width: 58,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: Colors.black,
+                ),
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                ),
+                onPressed: () {},
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: 50,
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18)),
+                  color: Colors.black,
+                  onPressed: () {},
+                  child: Text(
+                    "Buy  Now".toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget Property(String desc, String point) {
+      return Container(
+        padding: EdgeInsets.only(right: 20, left: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("คะแนนของคุณ"),
+                Text(
+                  "1000",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2F2F3E)),
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Text("คะแนนที่ใช้"),
+                Text(
+                  point,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2F2F3E)),
+                )
+              ],
+            )
+          ],
+        ),
+      );
+    }
+
+    Widget section(String desc, String point) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: Column(
+          children: [SizedBox(height: 10), Property(desc, point)],
+        ),
+      );
+    }
+
+    property(String desc, String point) {}
+
     Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
     //print(data);
     //print(confrim_address_status);
@@ -244,6 +331,25 @@ class _DetailRewardState extends State<DetailReward> {
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 ),
               ),
+              Row(children: <Widget>[
+                Expanded(
+                  child: new Container(
+                      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                Text("รายละเอียด"),
+                Expanded(
+                  child: new Container(
+                      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+              ]),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
@@ -275,18 +381,73 @@ class _DetailRewardState extends State<DetailReward> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "คะแนน ${data['point']} Point",
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
-                ),
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
               ),
+              Row(children: <Widget>[
+                Expanded(
+                  child: new Container(
+                      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+                Text("เงื่อนไข"),
+                Expanded(
+                  child: new Container(
+                      margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                ),
+              ]),
+              section(data['description'], data['point'].toString()),
+
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding:
+                    EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 25),
                 child: Row(
                   children: [
+                    // Expanded(
+                    //   child: SizedBox(
+                    //     height: 50,
+                    //     child: FlatButton(
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(18)),
+                    //       color: Colors.black,
+                    //       onPressed: () {},
+                    //       child: Text(
+                    //         "Buy  Now".toUpperCase(),
+                    //         style: TextStyle(
+                    //           fontSize: 17,
+                    //           fontWeight: FontWeight.bold,
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   height: 50.0,
+                    //   width: 120.0,
+                    //   decoration: BoxDecoration(
+                    //       gradient: LinearGradient(
+                    //         colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                    //         begin: Alignment.topCenter,
+                    //         end: Alignment.bottomCenter,
+                    //       ),
+                    //       borderRadius: BorderRadius.circular(10.0)),
+                    //   child: Center(
+                    //     child: Text(
+                    //       "โอน Point",
+                    //       style: TextStyle(
+                    //           fontWeight: FontWeight.bold,
+                    //           fontSize: 16.0,
+                    //           color: Colors.white),
+                    //     ),
+                    //   ),
+                    // ),
                     Expanded(
                       child: pointStatus == true
                           ? Container(
@@ -301,18 +462,15 @@ class _DetailRewardState extends State<DetailReward> {
                                 ),
                               ),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.greenAccent,
-                                    Colors.green,
-                                    Colors.greenAccent
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                            )
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff374ABE),
+                                      Color(0xff64B6FF)
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0)))
                           : Container(
                               child: FlatButton(
                                 onPressed: null,
@@ -323,18 +481,36 @@ class _DetailRewardState extends State<DetailReward> {
                                 ),
                               ),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.redAccent,
-                                    Colors.red,
-                                    Colors.redAccent
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                            ),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff374ABE),
+                                      Color(0xff64B6FF)
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0))),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      height: 50,
+                      width: 58,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
+                          color: Color(0xff64B6FF),
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.link,
+                          color: Color(0xff64B6FF),
+                        ),
+                        onPressed: () {
+                          var url = data['url'];
+                          launch((url));
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -351,15 +527,178 @@ class _DetailRewardState extends State<DetailReward> {
               //     ),
               //   ),
               // ),
-              GestureDetector(
-                  onTap: () {
-                    var url = data['url'];
-                    launch((url));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text("LINK ==> ${data['url']}"),
-                  )),
+              // GestureDetector(
+              //     onTap: () {
+              //       var url = data['url'];
+              //       launch((url));
+              //     },
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(12.0),
+              //       child: Text("LINK ==> ${data['url']}"),
+              //     )),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(30.0),
+          //   topRight: Radius.circular(30.0),
+          // ),
+          color: kNavigationBarColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
+                    backgroundImage: AssetImage(pathicon1),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
+                        //launch(('tel://${item.mobile_no}'));
+                        //launch(('tel://0922568260'));
+                        launch(('tel://${data['board_phone_1']}'));
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
+                    backgroundImage: AssetImage(pathicon2),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
+                        Navigator.pushNamed(context, "/help", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
+                      },
+                    ),
+                  ),
+                  Text(
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
+                        backgroundImage: AssetImage(pathicon3),
+                        radius: 24,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
+                            Navigator.pushNamed(context, "/noti", arguments: {
+                              'member_point': data['member_point'],
+                              'board_phone_1': data['board_phone_1'],
+                              'total_noti': data['total_noti'],
+                            });
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        right: 5.0,
+                        //top: 2.0,
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
+                    backgroundImage: AssetImage(pathicon4),
+                    radius: 24,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
+                        });
+                        Navigator.pushNamed(context, "/coin", arguments: {
+                          'member_point': data['member_point'],
+                          'board_phone_1': data['board_phone_1'],
+                          'total_noti': data['total_noti'],
+                        });
+                      },
+                    ),
+                  ),
+                  Text(
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
