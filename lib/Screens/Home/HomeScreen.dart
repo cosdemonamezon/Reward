@@ -185,8 +185,17 @@ class _HomeScreenState extends State<HomeScreen> {
         //print(receivePoint['massage']);
         //initState();
         //_getHomePage();
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/home', (Route<dynamic> route) => false);
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => dialogHome(
+            receivePoint['massage'],
+            picSuccess,
+            context,
+          ),
+        );
+        // Navigator.pushNamedAndRemoveUntil(
+        //     context, '/home', (Route<dynamic> route) => false);
       } else {
         //String title = "ไม่พบข้อมูล";
         showDialog(
