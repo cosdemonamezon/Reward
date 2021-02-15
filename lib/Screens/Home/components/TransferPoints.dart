@@ -58,6 +58,7 @@ class _TransferPointsState extends State<TransferPoints>
     });
     if (numberNoti['member_activate'] == "No") {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => alertConfirmUsername(
           settitle,

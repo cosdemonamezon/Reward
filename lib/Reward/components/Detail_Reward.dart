@@ -248,7 +248,7 @@ class _DetailRewardState extends State<DetailReward> {
       );
     }
 
-    Widget Property(String desc, String point) {
+    Widget Property(String member_point, String point) {
       return Container(
         padding: EdgeInsets.only(right: 20, left: 20),
         child: Row(
@@ -259,7 +259,7 @@ class _DetailRewardState extends State<DetailReward> {
               children: <Widget>[
                 Text("คะแนนของคุณ"),
                 Text(
-                  "1000",
+                  member_point,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -402,7 +402,8 @@ class _DetailRewardState extends State<DetailReward> {
                       )),
                 ),
               ]),
-              section(data['description'], data['point'].toString()),
+              section(
+                  data['member_point'].toString(), data['point'].toString()),
 
               Padding(
                 padding:
