@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var token = convert.jsonDecode(tokenString);
     // var member_id = tokenpre['member_id'];
     // var token = tokenpre['token'];
-    //print(token['token']);
+    print(token);
     bool isTokenExpired = JwtDecoder.isExpired(token['token']);
 
     try {
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (response.statusCode == 200) {
           var notification = convert.jsonDecode(response.body);
           await prefsNoti.setString('notification', response.body);
-          print(notification);
+          //print(notification);
           final Map<String, dynamic> homedata =
               convert.jsonDecode(response.body);
           //var notification = convert.jsonDecode(response.body);
@@ -132,21 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
               loadSuccess = true;
               isLoading = false;
             });
-            // Flushbar(
-            //   title: '${token['massage']}',
-            //   message: "${token['code']}",
-            //   icon: Icon(
-            //     Icons.info_outline,
-            //     size: 28.0,
-            //     color: Colors.blue[300],
-            //   ),
-            //   duration: Duration(seconds: 3),
-            //   leftBarIndicatorColor: Colors.blue[300],
-            // )..show(context);
-            // Future.delayed(Duration(seconds: 3), () {
-            //   Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-            // });
-            //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+            
           } else {
             //print(homedata['massage']);
             showDialog(
@@ -160,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         } else {
-          print(response.statusCode);
+          //print(response.statusCode);
 
           Navigator.pushNamedAndRemoveUntil(
               context, '/loginScreen', (Route<dynamic> route) => false);

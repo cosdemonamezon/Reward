@@ -209,6 +209,7 @@ class _NotiScreenState extends State<NotiScreen> {
                     });
                   }
                   else if (notidata[index]['noti_type']=="Reward") {
+                    _readNotiMember(noti_log_id);
                     Navigator.pushNamed(context, "/reward", arguments: {
                       'member_point': data['member_point'],
                       'board_phone_1': data['board_phone_1'],
@@ -216,6 +217,7 @@ class _NotiScreenState extends State<NotiScreen> {
                     });
                   }
                   else if (notidata[index]['noti_type']=="Group") {
+                    _readNotiMember(noti_log_id);
                     Navigator.pushNamed(context, "/status", arguments: {
                       'member_point': data['member_point'],
                       'board_phone_1': data['board_phone_1'],

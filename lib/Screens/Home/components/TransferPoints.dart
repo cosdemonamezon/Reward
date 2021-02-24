@@ -141,35 +141,42 @@ class _TransferPointsState extends State<TransferPoints>
             context,
           ),
         );
-        // Alert(
-        //   context: context,
-        //   type: AlertType.info,
-        //   title: "ยืนยันโอน Point",
-        //   buttons: [
-        //     DialogButton(
-        //       child: Text(
-        //         "ยกเลิก",
-        //         style: TextStyle(color: Colors.white, fontSize: 18),
-        //       ),
-        //       onPressed: () => Navigator.pop(context),
-        //       color: Color.fromRGBO(0, 179, 134, 1.0),
-        //     ),
-        //     DialogButton(
-        //       child: Text(
-        //         "ตกลง",
-        //         style: TextStyle(color: Colors.white, fontSize: 18),
-        //       ),
-        //       onPressed: (){
-        //         Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-        //       },
-        //       gradient: LinearGradient(colors: [
-        //         Color.fromRGBO(116, 116, 191, 1.0),
-        //         Color.fromRGBO(52, 138, 199, 1.0)
-        //       ]),
-        //     ),
-        //   ],
-        // ).show();
-      } else {
+        
+      } 
+      else if (point['code'] == "400") {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            point['massage'],
+            picWanning,
+            context,
+          ),
+        );
+      }
+      else if (point['code'] == "500") {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            point['massage'],
+            picWanning,
+            context,
+          ),
+        );
+      }
+      else if (point['code'] == "600") {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            point['massage'],
+            picWanning,
+            context,
+          ),
+        );
+      }
+      else {
         //print(point['massage']);
         showDialog(
           barrierDismissible: false,

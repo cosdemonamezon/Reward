@@ -199,10 +199,7 @@ class _AwardScreenState extends State<AwardScreen> {
     // });
 
     launch(url1);
-  }
-
-
-  
+  } 
   
 
   @override
@@ -279,40 +276,77 @@ class _AwardScreenState extends State<AwardScreen> {
             ),
           ),
           SizedBox(height: 20,),
-          GestureDetector(
-            onTap: (){
-              int id = shareLink['id'];
-              String board_phone_1 = data['board_phone_1'];
-              int total_noti = data['total_noti'];
-              _getlink(id, total_noti, board_phone_1);
-              // setState(() {
-              //   // var id = shareLink['id'];
-              //   // _shereLinkReward(id);
-              // });            
+
+          RaisedButton(
+                onPressed: () async{
+                      int id = shareLink['id'];
+                      String board_phone_1 = data['board_phone_1'];
+                      int total_noti = data['total_noti'];
+                      _getlink(id, total_noti, board_phone_1);
+                  
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xff616161), Color(0xff757575)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/share2.png"),
+                        fit: BoxFit.cover,
+                      )
+                    ),
+                    constraints:
+                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                    alignment: Alignment.center,
+                    
+                  ),
+                ),
+              ),
+
+
+
+          // GestureDetector(
+          //   onTap: (){
+          //     int id = shareLink['id'];
+          //     String board_phone_1 = data['board_phone_1'];
+          //     int total_noti = data['total_noti'];
+          //     _getlink(id, total_noti, board_phone_1);
+          //     // setState(() {
+          //     //   // var id = shareLink['id'];
+          //     //   // _shereLinkReward(id);
+          //     // });            
                  
-            },
-            child: Container(
-              height: 50.0,
-              width: 140.0,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xff374ABE),
-                    Color(0xff64B6FF)
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                borderRadius: BorderRadius.circular(10.0)
-              ),
-              child: Center(
-                child: Text(
-                  "facebook", 
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white),
-                ),
-              ),
-            ),
-          ),
+          //   },
+          //   child: Container(
+          //     height: 50.0,
+          //     width: 140.0,
+          //     decoration: BoxDecoration(
+          //       gradient: LinearGradient(
+          //         colors: [
+          //           Color(0xff374ABE),
+          //           Color(0xff64B6FF)
+          //         ],
+          //         begin: Alignment.topCenter,
+          //         end: Alignment.bottomCenter,
+          //       ),
+          //       borderRadius: BorderRadius.circular(10.0)
+          //     ),
+          //     child: Center(
+          //       child: Text(
+          //         "facebook", 
+          //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
 

@@ -719,7 +719,7 @@ class _RewardScreenState extends State<RewardScreen>
                                           Column(
                                             children: [
                                               Container(
-                                                height: 80,
+                                                height: 110,
                                                 width: 80,
                                                 child: transreward[index]
                                                             ['pic'] !=
@@ -771,46 +771,56 @@ class _RewardScreenState extends State<RewardScreen>
                                                       textAlign:
                                                           TextAlign.justify,
                                                     ),
+                                                    SizedBox(height: 10,),
                                                     Row(
                                                       children: [
                                                         Text(
-                                                            transreward[index]
-                                                                    ['point']
-                                                                .toString(),
+                                                            "แต้มที่ใช้แลก:   ",
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400)),
+                                                        Text(
+                                                            "${transreward[index]['point'].toString()}  แต้ม",
                                                             style: TextStyle(
                                                                 fontSize: 12.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold)),
-                                                        Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      5.0),
-                                                          child: Text("Point",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                        ),
+                                                        
                                                       ],
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                                          // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      subtitle: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          transreward[index]['appove_status'] ==
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                            "แลกเมื่อ:   ",
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400)),
+                                                        Text(
+                                                            "${transreward[index]['date_start']}",
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        
+                                                      ],
+                                                    ),
+
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                            "สถานะ:   ",
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400)),
+                                                        transreward[index]['appove_status'] ==
                                                   "Approved"
                                               ? Chip(
                                                   backgroundColor:
@@ -842,8 +852,19 @@ class _RewardScreenState extends State<RewardScreen>
                                                           style: TextStyle(
                                                               fontSize: 12.0)),
                                                     ),
+                                                        
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                          // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                         ],
                                       ),
+                                      
                                     ),
                                   ),
                                 ],

@@ -72,35 +72,31 @@ class _ProfilesettingsState extends State<Profilesettings> {
             context,
           ),
         );
-        // Alert(
-        //   context: context,
-        //   type: AlertType.info,
-        //   title: "ท่านต้องการยืนยันข้อมูลสามาชิก",
-        //   buttons: [
-        //     DialogButton(
-        //       child: Text(
-        //         "ยกเลิก",
-        //         style: TextStyle(color: Colors.white, fontSize: 18),
-        //       ),
-        //       onPressed: () => Navigator.pop(context),
-        //       color: Color.fromRGBO(0, 179, 134, 1.0),
-        //     ),
-        //     DialogButton(
-        //       child: Text(
-        //         "ตกลง",
-        //         style: TextStyle(color: Colors.white, fontSize: 18),
-        //       ),
-        //       onPressed: (){
-        //         Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-        //       },
-        //       gradient: LinearGradient(colors: [
-        //         Color.fromRGBO(116, 116, 191, 1.0),
-        //         Color.fromRGBO(52, 138, 199, 1.0)
-        //       ]),
-        //     ),
-        //   ],
-        // ).show();
-      } else {
+       
+      } 
+      else if (comfirm['code'] == "400") {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            comfirm['massage'],
+            picWanning,
+            context,
+          ),
+        );
+      }
+      else if (comfirm['code'] == "500") {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errorPopup(
+            comfirm['massage'],
+            picWanning,
+            context,
+          ),
+        );
+      }
+      else {
         showDialog(
           barrierDismissible: false,
           context: context,
