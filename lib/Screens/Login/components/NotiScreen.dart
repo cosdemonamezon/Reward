@@ -215,6 +215,13 @@ class _NotiScreenState extends State<NotiScreen> {
                       'total_noti': data['total_noti'],
                     });
                   }
+                  else if (notidata[index]['noti_type']=="Group") {
+                    Navigator.pushNamed(context, "/status", arguments: {
+                      'member_point': data['member_point'],
+                      'board_phone_1': data['board_phone_1'],
+                      'total_noti': data['total_noti'],
+                    });
+                  }
                   else {
                     //print("ไม่มีลิ้ง");
                    

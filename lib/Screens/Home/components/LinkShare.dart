@@ -170,18 +170,7 @@ class _LinkShareState extends State<LinkShare> {
                     constraints:
                     BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
                     alignment: Alignment.center,
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [                        
-                    //     Text(
-                    //       "Share With Local Link",
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 20.0,
-                    //         color: Colors.white),
-                    //     ),
-                    //   ],
-                    // ),
+                    
                   ),
                 ),
               ),
