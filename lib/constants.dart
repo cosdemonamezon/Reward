@@ -1,4 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
+
+SharedPreferences prefs;
+_getColor() async{
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    print(token);
+    // return
+}
+
+Future<String> token() async {
+  prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    return token.color;
+}
+
+// Future<int> token() async {
+//   prefs = await SharedPreferences.getInstance();
+//   var tokenString = prefs.getString('token');
+//   var token = convert.jsonDecode(tokenString);
+//   return 1;
+// }
+
+// Color _getColorByEvent(String event) {
+//   prefs = SharedPreferences.getInstance() as SharedPreferences;
+//   var tokenString = prefs.getString('token');
+//   var token = convert.jsonDecode(tokenString);
+//   return Color(token['color_1']);
+// }
+
+// Color _getColorByEvent(String event) {
+//   if (event == "Approved") return Colors.green;
+//   if (event == "Rejected") return Colors.red;
+//   return Colors.blue;
+// }
+
 
 const kPrimaryColor = Color(0xFF6F35A5);
 const kPrimaryLightColor = Color(0xFFF1E6FF);
@@ -39,6 +78,9 @@ String settitle = "ไม่สามารถทำรายการได้"
 String comfirmUse = "โปรดยืนยัน User Name ก่อนทำรายการ";
 String noService = "ยังไม่เปิดให้บริการ";
 String rewardConfirm = "ต้องการรับรางวัลหรือไม่";
+String dateexp = "หมดโปรโมชั่นการแชร์";
+String sharestatus = "คุณได้แชร์ไปแล้ว";
+String statusdateexp = "หมดโปรโมชั่น และ คุณได้แชร์ไปแล้ว";
 class Constants{
   Constants._();
   static const double padding =20;

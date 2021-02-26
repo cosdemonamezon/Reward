@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //_checkLogin();
     //_checkTokenExp();
     _getHomePage();
-    _initPrefs();
+    _initPrefs();    
   }
 
   _checkTokenExp() async {
@@ -461,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 8.0),
                                                   child: Text(
-                                                    "Cradit ",
+                                                    "Credit ",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -571,14 +571,45 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 5.0),
                                                   child: Center(
-                                                    child: Text(
+                                                    child: data['member_point'].toString().length == 6 ? Text(
+                                                      NumberFormat("#,###").format(data['member_point']),
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 46,
+                                                        color: Colors.black,
+                                                      )                                                      
+                                                    )
+                                                    : data['member_point'].toString().length == 7 ? Text(
+                                                      NumberFormat("#,###").format(data['member_point']),
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 44,
+                                                        color: Colors.black,
+                                                      )                                                      
+                                                    )
+                                                    : data['member_point'].toString().length == 8 ? Text(
+                                                      NumberFormat("#,###").format(data['member_point']),
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 42,
+                                                        color: Colors.black,
+                                                      )                                                      
+                                                    )
+                                                    : data['member_point'].toString().length == 9 ? Text(
+                                                      NumberFormat("#,###").format(data['member_point']),
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 40,
+                                                        color: Colors.black,
+                                                      )                                                      
+                                                    )
+                                                    :Text(
                                                       "${data['member_point']}",
                                                       style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontWeight: FontWeight.bold,
                                                         fontSize: 50,
                                                         color: Colors.black,
-                                                      ),
+                                                      )                                                      
                                                     ),
                                                   ),
                                                 ),

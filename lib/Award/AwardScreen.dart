@@ -57,7 +57,7 @@ class _AwardScreenState extends State<AwardScreen> {
     if (response.statusCode == 200){
       final Map<String, dynamic> shareLinkdata = convert.jsonDecode(response.body);
       if (shareLinkdata['code'] == "200") {
-        print(shareLinkdata['massage']);
+        print(shareLinkdata);
         setState((){
           shareLink = shareLinkdata['data'];
           setState(() {
@@ -279,11 +279,45 @@ class _AwardScreenState extends State<AwardScreen> {
 
           RaisedButton(
                 onPressed: () async{
-                      int id = shareLink['id'];
-                      String board_phone_1 = data['board_phone_1'];
-                      int total_noti = data['total_noti'];
-                      _getlink(id, total_noti, board_phone_1);
-                  
+                  if (shareLink['date_exp'] == "Yes") {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => errorPopup(
+                        dateexp,
+                        picWanning,
+                        context,
+                      ),
+                    );
+                  } 
+                  else if (shareLink['shere_status'] == "Yes") {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => errorPopup(
+                        sharestatus,
+                        picWanning,
+                        context,
+                      ),
+                    );
+                  }
+                  else if (shareLink['date_exp'] == "Yes" && shareLink['shere_status'] == "Yes") {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => errorPopup(
+                        statusdateexp,
+                        picWanning,
+                        context,
+                      ),
+                    );
+                  }
+                  else {
+                    int id = shareLink['id'];
+                    String board_phone_1 = data['board_phone_1'];
+                    int total_noti = data['total_noti'];
+                    _getlink(id, total_noti, board_phone_1);
+                  }  
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),

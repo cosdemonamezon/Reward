@@ -271,7 +271,7 @@ class _TransferPointsState extends State<TransferPoints>
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent),
+                        color: Color(0xFF01579B)),
                   ),
                 )
               : SingleChildScrollView(
@@ -337,7 +337,7 @@ class _TransferPointsState extends State<TransferPoints>
                                                 MainAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "${data['member_id']} : ${data['member_point']} Point",
+                                                "Point : ${data['member_point']}",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16.0),
@@ -544,7 +544,7 @@ class _TransferPointsState extends State<TransferPoints>
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent),
+                        color: Color(0xFF01579B)),
                   ),
                 )
               : Container(
