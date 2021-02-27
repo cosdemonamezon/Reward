@@ -8,7 +8,6 @@ import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 
-
 class StatusReward extends StatefulWidget {
   StatusReward({Key key}) : super(key: key);
 
@@ -20,15 +19,14 @@ class _StatusRewardState extends State<StatusReward> {
   SharedPreferences prefs;
   bool isLoading = false;
   List<dynamic> data = [];
-  
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _getlogGroupMember();
   }
 
-  _getlogGroupMember() async{
+  _getlogGroupMember() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -36,19 +34,12 @@ class _StatusRewardState extends State<StatusReward> {
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +'api/getlogGroupMember';
-   
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-      })
-    );
-    if (response.statusCode == 200){
+    var url = pathAPI + 'api/getlogGroupMember';
+
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({'member_id': token['member_id']}));
+    if (response.statusCode == 200) {
       final Map<String, dynamic> statusdata = convert.jsonDecode(response.body);
       if (statusdata['code'] == "200") {
         setState(() {
@@ -58,11 +49,11 @@ class _StatusRewardState extends State<StatusReward> {
           });
         });
         print(data);
-      }else {
+      } else {
         setState(() {
           isLoading = false;
         });
-       showDialog(
+        showDialog(
           barrierDismissible: false,
           context: context,
           builder: (context) => dialogHome(
@@ -72,21 +63,18 @@ class _StatusRewardState extends State<StatusReward> {
           ),
         );
       }
-    }
-    else{
-      
+    } else {
       final Map<String, dynamic> coindata = convert.jsonDecode(response.body);
       showDialog(
           barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
-            coindata['massage'],
-            picDenied,
-            context,
-          ));
+                coindata['massage'],
+                picDenied,
+                context,
+              ));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +82,9 @@ class _StatusRewardState extends State<StatusReward> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -105,94 +94,96 @@ class _StatusRewardState extends State<StatusReward> {
         centerTitle: true,
         title: Text("Status Group Reward"),
       ),
-      body: isLoading == true ? 
-      Center(
-        child: CircularProgressIndicator(),
-      )
-      :data.length == 0 ? 
-      Center(
-        child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
-        ),
-      )
-      :Container(
-        child: ListView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-          itemBuilder: (BuildContext context, int index){
-            return Column(
-              children: [
-                Card(
-                  elevation: 8.0,
-                  //color: Colors.grey[800],
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
+      body: isLoading == true
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : data.length == 0
+              ? Center(
+                  child: Text(
+                    "ไม่พบข้อมูล",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF01579B)),
+                  ),
+                )
+              : Container(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
                           children: [
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Container(
-                            //     width: 50.0,
-                            //     height: 50.0,
-                            //     decoration: new BoxDecoration(
-                            //         shape: BoxShape.circle,
-                            //         image: new DecorationImage(
-                            //             fit: BoxFit.cover,
-                            //             image: AssetImage("assets/images/gold.JPG")
-                            //         )
-                            //     )
-                            //   ),
-                            // ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Member ID : ${data[index]['member_id']}',
-                                  style: TextStyle (
-                                      color: Colors.black,
-                                      fontSize: 13.5
-                                  ),
+                            Card(
+                              elevation: 8.0,
+                              //color: Colors.grey[800],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(8.0),
+                                        //   child: Container(
+                                        //     width: 50.0,
+                                        //     height: 50.0,
+                                        //     decoration: new BoxDecoration(
+                                        //         shape: BoxShape.circle,
+                                        //         image: new DecorationImage(
+                                        //             fit: BoxFit.cover,
+                                        //             image: AssetImage("assets/images/gold.JPG")
+                                        //         )
+                                        //     )
+                                        //   ),
+                                        // ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Member ID : ${data[index]['member_id']}',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 13.5),
+                                            ),
+                                            Text(
+                                              'Old Group : ${data[index]['old_group']}',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 13.5),
+                                            ),
+                                            Text(
+                                              'Update By : ${data[index]['updated_by']}',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 13.5),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          '${data[index]['date']}',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 11.5),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                Text('Old Group : ${data[index]['old_group']}',
-                                  style: TextStyle (
-                                      color: Colors.black,
-                                      fontSize: 13.5
-                                  ),
-                                ),
-                                Text('Update By : ${data[index]['updated_by']}',
-                                  style: TextStyle (
-                                      color: Colors.black,
-                                      fontSize: 13.5
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text('${data[index]['date']}',
-                              style: TextStyle (
-                                color: Colors.black,
-                                fontSize: 11.5
                               ),
                             ),
                           ],
-                        ),
-                      ],
-                    ),
-                    
-                  ),
+                        );
+                      },
+                      itemCount: data.length),
                 ),
-              ],
-            );
-          },          
-          itemCount: data.length
-        ),
-      ),
-
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -204,7 +195,8 @@ class _StatusRewardState extends State<StatusReward> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,7 +208,7 @@ class _StatusRewardState extends State<StatusReward> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = true;
                           nbtn2 = false;
@@ -230,7 +222,9 @@ class _StatusRewardState extends State<StatusReward> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -241,7 +235,7 @@ class _StatusRewardState extends State<StatusReward> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = true;
@@ -257,7 +251,9 @@ class _StatusRewardState extends State<StatusReward> {
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -267,11 +263,12 @@ class _StatusRewardState extends State<StatusReward> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               nbtn1 = false;
                               nbtn2 = false;
@@ -289,22 +286,31 @@ class _StatusRewardState extends State<StatusReward> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data2['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data2['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           data2['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: data2['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data2['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data2['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -315,7 +321,7 @@ class _StatusRewardState extends State<StatusReward> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = false;
@@ -331,7 +337,9 @@ class _StatusRewardState extends State<StatusReward> {
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

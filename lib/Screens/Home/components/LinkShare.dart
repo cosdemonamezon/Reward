@@ -66,9 +66,12 @@ class _LinkShareState extends State<LinkShare> {
           barrierDismissible: false,
           context: context,
           builder: (context) => alertConfirmUsername(
-            shareLinkdata['massage'], comfirmUse, picWanning, context,
+            shareLinkdata['massage'],
+            comfirmUse,
+            picWanning,
+            context,
           ),
-        );         
+        );
       }
     } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
@@ -81,7 +84,6 @@ class _LinkShareState extends State<LinkShare> {
           context,
         ),
       );
-      
     }
   }
 
@@ -103,254 +105,293 @@ class _LinkShareState extends State<LinkShare> {
         centerTitle: true,
         title: Text("แชร์ลิ้ง"),
       ),
-      body: shareLink == null ? 
-      Center(
-        child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
-        ),
-      )
-      :Container(
-        width: double.infinity,
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     // image: AssetImage("assets/images/home.jpg", ),
-        //     // fit: BoxFit.fill
-        //   ),
-        // ),
-        child: Column(
-            children: [
-              SizedBox(height: 42.0,),
-              Container(
-                height: 270,
-                width: 270,
-                //color: Colors.blue,
-                child: shareLink['member_qrcode'] != null ?
-                Image.network(shareLink['member_qrcode'], fit: BoxFit.fill,) 
-                :
-                Image.asset('assets/images/qr.png', fit: BoxFit.fill,),  
+      body: shareLink == null
+          ? Center(
+              child: Text(
+                "ไม่พบข้อมูล",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF01579B)),
               ),
-              
-              SizedBox(height: 15.0,),
-
-              RaisedButton(
-                onPressed: () async{
-                  setState(() {
-                    i1 = false;
-                    i2 = true;
-                    i3 = false;
-                    i4 = false;                    
-                  });
-                  launch("https://www.facebook.com/sharer.php?u="+data['member_link_2']);
-                  await FlutterClipboard.copy(data['member_link_2']);
-                  
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: i1 == true ? LinearGradient(
-                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    )
-                    :LinearGradient(
-                      colors: [Color(0xff616161), Color(0xff757575)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/share2.png"),
-                        fit: BoxFit.cover,
-                      )
-                    ),
-                    constraints:
-                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [                        
-                    //     Text(
-                    //       "Share With Local Link",
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 20.0,
-                    //         color: Colors.white),
-                    //     ),
-                    //   ],
-                    // ),
+            )
+          : Container(
+              width: double.infinity,
+              // decoration: BoxDecoration(
+              //   image: DecorationImage(
+              //     // image: AssetImage("assets/images/home.jpg", ),
+              //     // fit: BoxFit.fill
+              //   ),
+              // ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 42.0,
                   ),
-                ),
+                  Container(
+                    height: 270,
+                    width: 270,
+                    //color: Colors.blue,
+                    child: shareLink['member_qrcode'] != null
+                        ? Image.network(
+                            shareLink['member_qrcode'],
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            'assets/images/qr.png',
+                            fit: BoxFit.fill,
+                          ),
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      setState(() {
+                        i1 = false;
+                        i2 = true;
+                        i3 = false;
+                        i4 = false;
+                      });
+                      launch("https://www.facebook.com/sharer.php?u=" +
+                          data['member_link_2']);
+                      await FlutterClipboard.copy(data['member_link_2']);
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: i1 == true
+                              ? LinearGradient(
+                                  colors: [
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                )
+                              : LinearGradient(
+                                  colors: [
+                                    Color(0xff616161),
+                                    Color(0xff757575)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage("assets/images/share2.png"),
+                          fit: BoxFit.cover,
+                        )),
+                        constraints:
+                            BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        // child: Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       "Share With Local Link",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 20.0,
+                        //         color: Colors.white),
+                        //     ),
+                        //   ],
+                        // ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      setState(() {
+                        i1 = false;
+                        i2 = false;
+                        i3 = false;
+                        i4 = true;
+                      });
+                      launch(
+                          "https://social-plugins.line.me/lineit/share?url=" +
+                              data['member_link_4']);
+                      await FlutterClipboard.copy(data['member_link_4']);
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: i4 == true
+                              ? LinearGradient(
+                                  colors: [
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                )
+                              : LinearGradient(
+                                  colors: [
+                                    Color(0xff616161),
+                                    Color(0xff757575)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage("assets/images/share4.png"),
+                          fit: BoxFit.cover,
+                        )),
+                        constraints:
+                            BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        // child: Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       "Share With Line",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 20.0,
+                        //         color: Colors.white),
+                        //     ),
+                        //   ],
+                        // ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      setState(() {
+                        i1 = false;
+                        i2 = false;
+                        i3 = true;
+                        i4 = false;
+                      });
+                      launch("https://www.youtube.com/");
+                      await FlutterClipboard.copy(data['member_link_3']);
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: i3 == true
+                              ? LinearGradient(
+                                  colors: [
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                )
+                              : LinearGradient(
+                                  colors: [
+                                    Color(0xff616161),
+                                    Color(0xff757575)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage("assets/images/share3.png"),
+                          fit: BoxFit.cover,
+                        )),
+                        constraints:
+                            BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        // child: Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       "Share With Youtube",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 20.0,
+                        //         color: Colors.white),
+                        //     ),
+                        //   ],
+                        // ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      setState(() {
+                        i1 = true;
+                        i2 = false;
+                        i3 = false;
+                        i4 = false;
+                      });
+                      //launch("https://www.facebook.com/sharer.php?u="+data['member_link_1']);
+                      await FlutterClipboard.copy(data['member_link_1']);
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: i2 == true
+                              ? LinearGradient(
+                                  colors: [
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                )
+                              : LinearGradient(
+                                  colors: [
+                                    Color(0xff616161),
+                                    Color(0xff757575)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage("assets/images/share1.png"),
+                          fit: BoxFit.cover,
+                        )),
+                        constraints:
+                            BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        // child: Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       "Share With Facebook",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 20.0,
+                        //         color: Colors.white),
+                        //     ),
+                        //   ],
+                        // ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 15.0,),
-
-              RaisedButton(
-                onPressed: () async{
-                  setState(() {
-                    i1 = false;
-                    i2 = false;
-                    i3 = false;
-                    i4 = true;                    
-                  });
-                  launch("https://social-plugins.line.me/lineit/share?url="+data['member_link_4']); 
-                  await FlutterClipboard.copy(data['member_link_4']);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: i4 == true ? LinearGradient(
-                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    )
-                    :LinearGradient(
-                      colors: [Color(0xff616161), Color(0xff757575)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/share4.png"),
-                        fit: BoxFit.cover,
-                      )
-                    ),
-                    constraints:
-                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [                        
-                    //     Text(
-                    //       "Share With Line",
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 20.0,
-                    //         color: Colors.white),
-                    //     ),
-                    //   ],
-                    // ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 15.0,), 
-              RaisedButton(
-                onPressed: () async{
-                  setState(() {
-                    i1 = false;
-                    i2 = false;
-                    i3 = true;
-                    i4 = false;                    
-                  });
-                  launch("https://www.youtube.com/");
-                  await FlutterClipboard.copy(data['member_link_3']);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: i3 == true ? LinearGradient(
-                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    )
-                    :LinearGradient(
-                      colors: [Color(0xff616161), Color(0xff757575)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/share3.png"),
-                        fit: BoxFit.cover,
-                      )
-                    ),
-                    constraints:
-                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [                        
-                    //     Text(
-                    //       "Share With Youtube",
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 20.0,
-                    //         color: Colors.white),
-                    //     ),
-                    //   ],
-                    // ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 15.0,),
-
-              RaisedButton(
-                onPressed: () async{
-                  setState(() {
-                    i1 = true;
-                    i2 = false;
-                    i3 = false;
-                    i4 = false;                    
-                  });
-                  //launch("https://www.facebook.com/sharer.php?u="+data['member_link_1']);
-                  await FlutterClipboard.copy(data['member_link_1']);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: i2 == true ? LinearGradient(
-                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    )
-                    :LinearGradient(
-                      colors: [Color(0xff616161), Color(0xff757575)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/share1.png"),
-                        fit: BoxFit.cover,
-                      )
-                    ),
-                    constraints:
-                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [                        
-                    //     Text(
-                    //       "Share With Facebook",
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 20.0,
-                    //         color: Colors.white),
-                    //     ),
-                    //   ],
-                    // ),
-                  ),
-                ),
-              ),     
-            ],
-        ),
-      ), 
-
+            ),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -515,9 +556,14 @@ class _LinkShareState extends State<LinkShare> {
         ),
       ),
     );
-    
   }
-  alertConfirmUsername(String title, String subtitle, String img, context,){
+
+  alertConfirmUsername(
+    String title,
+    String subtitle,
+    String img,
+    context,
+  ) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Constants.padding),
@@ -527,84 +573,102 @@ class _LinkShareState extends State<LinkShare> {
       child: Stack(
         children: [
           Container(
-              padding: EdgeInsets.only(
-                left: Constants.padding,top: Constants.avatarRadius
-                + Constants.padding, right: Constants.padding,bottom: Constants.padding
-              ),
-              margin: EdgeInsets.only(top: Constants.avatarRadius),
-              decoration: BoxDecoration(
+            padding: EdgeInsets.only(
+                left: Constants.padding,
+                top: Constants.avatarRadius + Constants.padding,
+                right: Constants.padding,
+                bottom: Constants.padding),
+            margin: EdgeInsets.only(top: Constants.avatarRadius),
+            decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(Constants.padding),
                 boxShadow: [
-                  BoxShadow(color: Colors.black,offset: Offset(0,10),
-                  blurRadius: 10
-                ),]
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
-                  SizedBox(height: 20,),
-                  Text(comfirmUse,style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),              
-                  SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          onPressed: (){
-                            Navigator.pushNamed(context, '/profilesetting', arguments: {
-                              'id': data['id'],
-                              'member_name_th': data['member_name_th'],
-                              'member_name_en': data['member_name_en'],
-                              'member_email': data['member_email'],
-                              'member_address': data['member_address'],
-                              'member_activate': data['member_activate'],
-                              'board_phone_1': data['board_phone_1'],
-                              'total_noti': data['total_noti'],
-                            });
-                          },
-                          padding: EdgeInsets.all(12),
-                          color: Color(0xFFD50000),
-                          child: Text('ยืนยันสมาชิก', style: TextStyle(color: Colors.white, fontSize: 16)),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          onPressed: (){
-                          Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-                          },
-                          padding: EdgeInsets.all(12),
-                          color: Color(0xFF01579B),
-                          child: Text('ไปหน้าหลัก', style: TextStyle(color: Colors.white, fontSize: 16)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              left: Constants.padding,
-              right: Constants.padding,
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: Constants.avatarRadius,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                  child: Image.asset(img)
+                  BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0, 10),
+                      blurRadius: 10),
+                ]),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
-              ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  comfirmUse,
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/profilesetting',
+                              arguments: {
+                                'id': data['id'],
+                                'member_name_th': data['member_name_th'],
+                                'member_name_en': data['member_name_en'],
+                                'member_email': data['member_email'],
+                                'member_address': data['member_address'],
+                                'member_activate': data['member_activate'],
+                                'board_phone_1': data['board_phone_1'],
+                                'total_noti': data['total_noti'],
+                              });
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFFD50000),
+                        child: Text('ยืนยันสมาชิก',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(context, '/home',
+                              (Route<dynamic> route) => false);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFF01579B),
+                        child: Text('ไปหน้าหลัก',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
+          ),
+          Positioned(
+            left: Constants.padding,
+            right: Constants.padding,
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: Constants.avatarRadius,
+              child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                  child: Image.asset(img)),
+            ),
+          ),
         ],
       ),
     );
