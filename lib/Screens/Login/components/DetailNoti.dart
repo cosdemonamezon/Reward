@@ -16,11 +16,12 @@ class _DetailNotiState extends State<DetailNoti> {
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context).settings.arguments;
+
     //print(data);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             //Navigator.pushNamedAndRemoveUntil(context, "/noti", (route) => false);
             //Navigator.pop(context);
             //Navigator.of(context).pop();
@@ -48,39 +49,47 @@ class _DetailNotiState extends State<DetailNoti> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   if (data['url'] != null) {
                     launch(data['url']);
                   } else {
                     print("No Url");
-                  }                  
+                  }
                 },
                 child: Container(
                   height: 200,
                   width: double.infinity,
-                  child: data['pic'] != null ? Image.network(data['pic'], fit: BoxFit.fill,)
-                  : Image.network('https://picsum.photos/400/200', fit: BoxFit.fill,),
+                  child: data['pic'] != null
+                      ? Image.network(
+                          data['pic'],
+                          fit: BoxFit.fill,
+                        )
+                      : Image.network(
+                          'https://picsum.photos/400/200',
+                          fit: BoxFit.fill,
+                        ),
                 ),
               ),
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  data['created_at'] != null ? Text(data['created_at'])
-                  :Text("........."),
+                  data['created_at'] != null
+                      ? Text(data['created_at'])
+                      : Text("........."),
                 ],
               ),
               ListTile(
-                title: data['title'] != null ? Text(data['title'])
-                :Text("ไม่มีข้อมูล..."),
-                subtitle: data['description'] != null ? Text(data['description'])
-                :Text("ไม่มีข้อมูล..."),
+                title: data['title'] != null
+                    ? Text(data['title'])
+                    : Text("ไม่มีข้อมูล..."),
+                subtitle: data['description'] != null
+                    ? Text(data['description'])
+                    : Text("ไม่มีข้อมูล..."),
               ),
             ],
           ),
         ),
       ),
-
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -92,7 +101,8 @@ class _DetailNotiState extends State<DetailNoti> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +114,7 @@ class _DetailNotiState extends State<DetailNoti> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = true;
                           nbtn2 = false;
@@ -118,7 +128,9 @@ class _DetailNotiState extends State<DetailNoti> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -129,7 +141,7 @@ class _DetailNotiState extends State<DetailNoti> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = true;
@@ -145,7 +157,9 @@ class _DetailNotiState extends State<DetailNoti> {
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -155,11 +169,12 @@ class _DetailNotiState extends State<DetailNoti> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               nbtn1 = false;
                               nbtn2 = false;
@@ -177,22 +192,31 @@ class _DetailNotiState extends State<DetailNoti> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           data['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -203,7 +227,7 @@ class _DetailNotiState extends State<DetailNoti> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = false;
@@ -219,7 +243,9 @@ class _DetailNotiState extends State<DetailNoti> {
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

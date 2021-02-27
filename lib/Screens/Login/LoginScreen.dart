@@ -8,6 +8,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:get_mac/get_mac.dart';
 import 'package:flutter/services.dart';
+import 'package:device_id/device_id.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -36,11 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
       _platformVersion = platformVersion;
     });
 
+    String deviceid = await DeviceId.getID;
+
     var url = pathAPI + 'api/checkMaxAdressMember';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json'},
         body: convert.jsonEncode({
-          'member_max_adress': _platformVersion
+          'member_max_adress': deviceid
           //'token': token['token']
         }));
     if (response.statusCode == 200) {
@@ -395,9 +398,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
-                            aertLogin, picDenied, context,
+                            aertLogin,
+                            picDenied,
+                            context,
                           ),
-                        ); 
+                        );
                       },
                     ),
                   ),
@@ -416,9 +421,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpofline();}
-                          ),
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Helpofline();
+                          }),
                         );
                       },
                     ),
@@ -442,9 +448,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
-                            aertLogin, picDenied, context,
+                            aertLogin,
+                            picDenied,
+                            context,
                           ),
-                        ); 
+                        );
                       },
                     ),
                   ),
@@ -463,9 +471,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coineofline();}
-                          ),
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Coineofline();
+                          }),
                         );
                       },
                     ),

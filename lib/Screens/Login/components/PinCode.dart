@@ -8,6 +8,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:get_mac/get_mac.dart';
 import 'package:flutter/services.dart';
+import 'package:device_id/device_id.dart';
 
 class PinCode extends StatefulWidget {
   PinCode({Key key}) : super(key: key);
@@ -31,9 +32,10 @@ class _PinCodeState extends State<PinCode> {
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
+    String deviceid = await DeviceId.getID;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _platformVersion = deviceid;
     });
   }
 

@@ -7,6 +7,7 @@ import 'package:Reward/constants.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class NotiScreen extends StatefulWidget {
   NotiScreen({Key key}) : super(key: key);
@@ -23,16 +24,15 @@ class _NotiScreenState extends State<NotiScreen> {
   List<dynamic> notidata = [];
   Map<String, dynamic> readnotidata = {};
   Map<String, dynamic> numberNoti = {};
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getNotiMember();
   }
-  
 
-  _getNotiMember()async{
+  _getNotiMember() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -48,17 +48,10 @@ class _NotiScreenState extends State<NotiScreen> {
       numberNoti = noti['data'];
     });
     var url = pathAPI + 'api/getNotiMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-      })
-    );
-    if (response.statusCode == 200){
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({'member_id': token['member_id']}));
+    if (response.statusCode == 200) {
       //print(response.statusCode);
       final Map<String, dynamic> notinumber = convert.jsonDecode(response.body);
       //print(notinumber);
@@ -69,7 +62,7 @@ class _NotiScreenState extends State<NotiScreen> {
             isLoading = false;
           });
         });
-        
+
         //print(notidata.length);
       } else {
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
@@ -77,24 +70,28 @@ class _NotiScreenState extends State<NotiScreen> {
           barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
-            title, picDenied, context,
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
-    }else{
+    } else {
       final Map<String, dynamic> notinumber = convert.jsonDecode(response.body);
-      
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) => dialogDenied(
-            notinumber['massage'], picDenied, context,
-          ),
-        ); 
+
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => dialogDenied(
+          notinumber['massage'],
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
-  _readNotiMember(var id)async{
+  _readNotiMember(var id) async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -103,19 +100,13 @@ class _NotiScreenState extends State<NotiScreen> {
       isLoading = true;
     });
     var url = pathAPI + 'api/readNotiMember';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id'],
-        'noti_log_id': id
-      })
-    );
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert
+            .jsonEncode({'member_id': token['member_id'], 'noti_log_id': id}));
 
     if (response.statusCode == 200) {
+      _getHomePage();
       final Map<String, dynamic> notiread = convert.jsonDecode(response.body);
       if (notiread['code'] == "200") {
         //print(notiread);
@@ -131,21 +122,60 @@ class _NotiScreenState extends State<NotiScreen> {
           barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
-            title, picDenied, context,
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
     } else {
       final Map<String, dynamic> notinumber = convert.jsonDecode(response.body);
-      
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) => dialogDenied(
-            notinumber['massage'], picDenied, context,
-          ),
-        ); 
+
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => dialogDenied(
+          notinumber['massage'],
+          picDenied,
+          context,
+        ),
+      );
     }
+  }
+
+  _getHomePage() async {
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    bool isTokenExpired = JwtDecoder.isExpired(token['token']);
+
+    try {
+      if (!isTokenExpired) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/loginScreen', (Route<dynamic> route) => false);
+      } else {
+        setState(() {
+          isLoading = true;
+        });
+        var url = pathAPI + 'api/getHome_M';
+        var response = await http.post(url,
+            headers: {
+              'Content-Type': 'application/json',
+              'token': token['token']
+            },
+            body: convert.jsonEncode({'member_id': token['member_id']}));
+        if (response.statusCode == 200) {
+          var notification = convert.jsonDecode(response.body);
+          await prefsNoti.setString('notification', response.body);
+          setState(() {
+            isLoading = true;
+            numberNoti = notification['data'];
+          });
+        } else {
+          return false;
+        }
+      }
+    } catch (e) {}
   }
 
   @override
@@ -154,8 +184,9 @@ class _NotiScreenState extends State<NotiScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -165,102 +196,123 @@ class _NotiScreenState extends State<NotiScreen> {
         centerTitle: true,
         title: Text("Notification Log"),
       ),
-      body: isLoading == true ? 
-      Center(
-        child: CircularProgressIndicator(),
-      )
-      :notidata.length == 0 ?
-      Center(
-        child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
-        ),
-      )
-      :Container(
-        width: double.infinity,
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: notidata.length,
-          itemBuilder: (BuildContext context, int index){
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: GestureDetector(
-                onTap: (){
-                  var url = notidata[index]['url'];
-                  var noti_log_id = notidata[index]['id'];
-                  if (notidata[index]['noti_type']=="News") {
-                    //launch((url));
-                    _readNotiMember(noti_log_id);
-                    Navigator.pushNamed(context, "/notidetail", arguments: {
-                      'member_point': data['member_point'],
-                      'board_phone_1': data['board_phone_1'],
-                      'total_noti': data['total_noti'],
-                      'title': notidata[index]['title'],
-                      'description': notidata[index]['description'],
-                      'pic': notidata[index]['pic'],
-                      'created_at': notidata[index]['created_at'],
-                      'url': notidata[index]['url'],
-                    });
-                  } else if (notidata[index]['noti_type']=="Point") {
-                     _readNotiMember(noti_log_id);
-                      Navigator.pushNamed(context, "/point", arguments: {
-                      'member_point': data['member_point'],
-                      'board_phone_1': data['board_phone_1'],
-                      'total_noti': data['total_noti'],
-                    });
-                  }
-                  else if (notidata[index]['noti_type']=="Reward") {
-                    Navigator.pushNamed(context, "/reward", arguments: {
-                      'member_point': data['member_point'],
-                      'board_phone_1': data['board_phone_1'],
-                      'total_noti': data['total_noti'],
-                    });
-                  }
-                  else {
-                    //print("ไม่มีลิ้ง");
-                   
-                  }
-                  //launch((url));
-                },
-                child: Card(
-                  color: notidata[index]["noti_log_read"] == 0 ? Colors.blue[50]
-                  :Colors.white,
-                  elevation: 8.0,
-                  child: ListTile(
-                    leading: notidata[index]["pic"] == null ? Icon(Icons.notifications_active, size: 40,)
-                    : Container(
-                      width: 70.0,
-                      height: 50.0,
-                      child: Image.network(notidata[index]['pic'], fit: BoxFit.fill,)
-                    ),
-                    title: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: notidata[index]['title'].length >= 30 ?
-                      Text(
-                        "${notidata[index]['title'].substring(0, 30)} ...", style: TextStyle(fontWeight: FontWeight.w400)
-                      )
-                      :Text(
-                        notidata[index]['title'], style: TextStyle(fontWeight: FontWeight.w400)
-                      ),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: notidata[index]['description'].length >= 50 ?
-                      Text(
-                        "${notidata[index]['description'].substring(0, 50)} ...", style: TextStyle(fontWeight: FontWeight.w400)
-                      )
-                      :Text(
-                        notidata[index]['description'], style: TextStyle(fontWeight: FontWeight.w400)
-                      ),
-                    ),
-                    trailing: Icon(Icons.arrow_forward_ios),
+      body: isLoading == true
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : notidata.length == 0
+              ? Center(
+                  child: Text(
+                    "ไม่พบข้อมูล",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF01579B)),
                   ),
-                ),
-              ),
-            );
-          }
-        ),
-      ),
+                )
+              : Container(
+                  width: double.infinity,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: notidata.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              var url = notidata[index]['url'];
+                              var noti_log_id = notidata[index]['id'];
+                              if (notidata[index]['noti_type'] == "News") {
+                                //launch((url));
+                                _readNotiMember(noti_log_id);
+                                Navigator.pushNamed(context, "/notidetail",
+                                    arguments: {
+                                      'member_point': data['member_point'],
+                                      'board_phone_1': data['board_phone_1'],
+                                      'total_noti':
+                                          numberNoti['total_noti'] - 1,
+                                      'title': notidata[index]['title'],
+                                      'description': notidata[index]
+                                          ['description'],
+                                      'pic': notidata[index]['pic'],
+                                      'created_at': notidata[index]
+                                          ['created_at'],
+                                      'url': notidata[index]['url'],
+                                    });
+                              } else if (notidata[index]['noti_type'] ==
+                                  "Point") {
+                                _readNotiMember(noti_log_id);
+                                Navigator.pushNamed(context, "/point",
+                                    arguments: {
+                                      'member_point': data['member_point'],
+                                      'board_phone_1': data['board_phone_1'],
+                                      'total_noti':
+                                          numberNoti['total_noti'] - 1,
+                                    });
+                              } else if (notidata[index]['noti_type'] ==
+                                  "Reward") {
+                                Navigator.pushNamed(context, "/reward",
+                                    arguments: {
+                                      'member_point': data['member_point'],
+                                      'board_phone_1': data['board_phone_1'],
+                                      'total_noti':
+                                          numberNoti['total_noti'] - 1,
+                                    });
+                              } else {
+                                //print("ไม่มีลิ้ง");
 
+                              }
+                              //launch((url));
+                            },
+                            child: Card(
+                              color: notidata[index]["noti_log_read"] == 0
+                                  ? Colors.blue[50]
+                                  : Colors.white,
+                              elevation: 8.0,
+                              child: ListTile(
+                                leading: notidata[index]["pic"] == null
+                                    ? Icon(
+                                        Icons.notifications_active,
+                                        size: 40,
+                                      )
+                                    : Container(
+                                        width: 70.0,
+                                        height: 50.0,
+                                        child: Image.network(
+                                          notidata[index]['pic'],
+                                          fit: BoxFit.fill,
+                                        )),
+                                title: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: notidata[index]['title'].length >= 30
+                                      ? Text(
+                                          "${notidata[index]['title'].substring(0, 30)} ...",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400))
+                                      : Text(notidata[index]['title'],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400)),
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: notidata[index]['description']
+                                              .length >=
+                                          50
+                                      ? Text(
+                                          "${notidata[index]['description'].substring(0, 50)} ...",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400))
+                                      : Text(notidata[index]['description'],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400)),
+                                ),
+                                trailing: Icon(Icons.arrow_forward_ios),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -272,7 +324,8 @@ class _NotiScreenState extends State<NotiScreen> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,7 +337,7 @@ class _NotiScreenState extends State<NotiScreen> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = true;
                           nbtn2 = false;
@@ -298,7 +351,9 @@ class _NotiScreenState extends State<NotiScreen> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -309,7 +364,7 @@ class _NotiScreenState extends State<NotiScreen> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = true;
@@ -325,7 +380,9 @@ class _NotiScreenState extends State<NotiScreen> {
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -335,11 +392,12 @@ class _NotiScreenState extends State<NotiScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               nbtn1 = false;
                               nbtn2 = false;
@@ -357,22 +415,31 @@ class _NotiScreenState extends State<NotiScreen> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: numberNoti['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :numberNoti['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           numberNoti['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: numberNoti['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : numberNoti['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      numberNoti['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -383,7 +450,7 @@ class _NotiScreenState extends State<NotiScreen> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = false;
@@ -391,15 +458,18 @@ class _NotiScreenState extends State<NotiScreen> {
                           nbtn4 = true;
                         });
                         Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coin();}
-                          ),
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Coin();
+                          }),
                         );
                       },
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

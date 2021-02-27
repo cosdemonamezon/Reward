@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               //data = convert.jsonDecode(profileString);
               data = homedata['data'];
-              
+
               nbtn1 = false;
               nbtn2 = false;
               nbtn3 = false;
@@ -209,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     } else if (response.statusCode == 400) {
-      
       final Map<String, dynamic> receivePoint =
           convert.jsonDecode(response.body);
       // String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
@@ -222,10 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
         ),
       );
-    }
-    else
-    {
-      
+    } else {
       final Map<String, dynamic> receivePoint =
           convert.jsonDecode(response.body);
       // String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
@@ -649,9 +645,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             ),
                                                             onPressed: () {
                                                               showDialog(
-                                                                barrierDismissible: false,
-                                                                context: context,
-                                                                builder: (context) => confrim(
+                                                                barrierDismissible:
+                                                                    false,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) =>
+                                                                        confrim(
                                                                   rewardConfirm,
                                                                   picWanning,
                                                                   context,
@@ -783,10 +783,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               'board_phone_1'],
                                                           'total_noti': data[
                                                               'total_noti'],
-                                                          'member_name_en': data['member_name_en'],
-                                                          'member_email': data['member_email'],
-                                                          'member_address': data['member_address'],
-                                                          'member_activate': data['member_activate'],
+                                                          'member_name_en': data[
+                                                              'member_name_en'],
+                                                          'member_email': data[
+                                                              'member_email'],
+                                                          'member_address': data[
+                                                              'member_address'],
+                                                          'member_activate': data[
+                                                              'member_activate'],
                                                         });
                                                   },
                                                 ),
@@ -969,7 +973,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   showDialog(
                                                     barrierDismissible: false,
                                                     context: context,
-                                                    builder: (context) => dialogAlert(
+                                                    builder: (context) =>
+                                                        dialogAlert(
                                                       noService,
                                                       picWanning,
                                                       context,
@@ -1165,87 +1170,102 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-    
   }
-  confrim(String title, String img, context,){
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Constants.padding),
-        ),
-        elevation: 4,
-        backgroundColor: Colors.transparent,
-        child: Stack(
-          children: [
-            Container(
-                padding: EdgeInsets.only(
-                  left: Constants.padding,top: Constants.avatarRadius
-                  + Constants.padding, right: Constants.padding,bottom: Constants.padding
+
+  confrim(
+    String title,
+    String img,
+    context,
+  ) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Constants.padding),
+      ),
+      elevation: 4,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+                left: Constants.padding,
+                top: Constants.avatarRadius + Constants.padding,
+                right: Constants.padding,
+                bottom: Constants.padding),
+            margin: EdgeInsets.only(top: Constants.avatarRadius),
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(Constants.padding),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0, 10),
+                      blurRadius: 10),
+                ]),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
-                margin: EdgeInsets.only(top: Constants.avatarRadius),
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(Constants.padding),
-                  boxShadow: [
-                    BoxShadow(color: Colors.black,offset: Offset(0,10),
-                    blurRadius: 10
-                  ),]
+                SizedBox(
+                  height: 22,
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
-                    SizedBox(height: 22,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            onPressed: (){
-                              Navigator.pop(context);
-                            },
-                            padding: EdgeInsets.all(12),
-                            color: Color(0xFFD50000),
-                            child: Text('ยกเลิก', style: TextStyle(color: Colors.white, fontSize: 20)),
-                          ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            onPressed: (){
-                              _receivePointTurnOver();
-                            },
-                            padding: EdgeInsets.all(12),
-                            color: Color(0xFF01579B),
-                            child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
-                          ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFFD50000),
+                        child: Text('ยกเลิก',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
                         ),
-                      ],
+                        onPressed: () {
+                          _receivePointTurnOver();
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFF01579B),
+                        child: Text('ตกลง',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20)),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Positioned(
-                left: Constants.padding,
-                right: Constants.padding,
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: Constants.avatarRadius,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                    child: Image.asset(img)
-                  ),
-                ),
-              ),
-          ],
-        ),
-      );
-    }
+              ],
+            ),
+          ),
+          Positioned(
+            left: Constants.padding,
+            right: Constants.padding,
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: Constants.avatarRadius,
+              child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                  child: Image.asset(img)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

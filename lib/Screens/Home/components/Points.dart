@@ -21,12 +21,12 @@ class _PointsState extends State<Points> {
   Map<String, dynamic> numberNoti = {};
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _getPointIncome();
   }
 
-  _getPointIncome() async{
+  _getPointIncome() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
@@ -39,39 +39,31 @@ class _PointsState extends State<Points> {
       isLoading = true;
       numberNoti = noti['data'];
     });
-    var url = pathAPI +'api/getPointIncome_M';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-      })
-    );
-    if (response.statusCode == 200){
+    var url = pathAPI + 'api/getPointIncome_M';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({'member_id': token['member_id']}));
+    if (response.statusCode == 200) {
       final Map<String, dynamic> pointdata = convert.jsonDecode(response.body);
-      if(pointdata['code'] == "200"){
+      if (pointdata['code'] == "200") {
         //print(pointdata['massage']);
-        setState((){
-          point = pointdata['data'];   
+        setState(() {
+          point = pointdata['data'];
           setState(() {
             isLoading = false;
           });
         });
-      }
-      else if (pointdata['code'] == "400") {
+      } else if (pointdata['code'] == "400") {
         showDialog(
           barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
-            pointdata['massage'], picDenied, context,
+            pointdata['massage'],
+            picDenied,
+            context,
           ),
-        ); 
-      }
-      else
-      {
+        );
+      } else {
         setState(() {
           isLoading = false;
         });
@@ -80,20 +72,23 @@ class _PointsState extends State<Points> {
           barrierDismissible: false,
           context: context,
           builder: (context) => dialogDenied(
-            title, picDenied, context,
+            title,
+            picDenied,
+            context,
           ),
-        ); 
+        );
       }
-    }
-    else{
+    } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) => dialogDenied(
-          title, picDenied, context,
+          title,
+          picDenied,
+          context,
         ),
-      ); 
+      );
     }
   }
 
@@ -104,8 +99,9 @@ class _PointsState extends State<Points> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -113,10 +109,11 @@ class _PointsState extends State<Points> {
           ),
         ),
         centerTitle: true,
-        title: Text(
-          "Point ${data['member_point']}", 
-          style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
-        ),
+        title: Text("Point ${data['member_point']}",
+            style: TextStyle(
+                color: kTextColor,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold)),
         //toolbarHeight: 120,
         //backgroundColor: Colors.grey,
         // title: Column(
@@ -130,7 +127,7 @@ class _PointsState extends State<Points> {
         //         Padding(
         //           padding: EdgeInsets.symmetric(horizontal: 10),
         //           child: Text(
-        //             "Point ${data['member_point']}", 
+        //             "Point ${data['member_point']}",
         //             style: TextStyle(color: kTextColor, fontSize: 24.0, fontWeight: FontWeight.bold)
         //           ),
         //         ),
@@ -150,112 +147,139 @@ class _PointsState extends State<Points> {
         // ),
       ),
       //SingleChildScrollView
-      body: isLoading == true ? 
-      Center(
-        child: CircularProgressIndicator(),
-      )
-      :point.length == 0 ?
-      Center(
-        child: Text(
-          "ไม่พบข้อมูล", 
-          style: TextStyle(
-            fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)
-          ),
-        ),
-      )
-      :SafeArea(
-        top: true,
-        bottom: true,
-        left: false,
-        right: true,
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: point.length,
-            itemBuilder: (BuildContext context, int index){
-              print(point.length);
-              return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20,),
-                        child: Text(
-                          point[index]['date'],
-                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
-                        ),
-                      ),
-                    ],
+      body: isLoading == true
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : point.length == 0
+              ? Center(
+                  child: Text(
+                    "ไม่พบข้อมูล",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF01579B)),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 22.0),
-                    child: Column(
-                      children: [
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: point[index]['data'].length,
-                          itemBuilder: (BuildContext context, int index1){
-                              // return Text(point[index]['data'][index1]['deposit_point'].toString());
-                            return Card(
-                              child: ListTile(
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      point[index]['data'][index1]['deposit_by'], 
-                                      style: TextStyle(fontSize: 14.0,)
-                                    ),
-                                    SizedBox(height: 7.0,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Point",
-                                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold)
-                                        ),
-                                        SizedBox(width: 5.0,),
-                                        Text(
-                                          point[index]['data'][index1]['deposit_point'].toString(), 
-                                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(width: 5.0,),
-                                        Icon(Icons.star_border_purple500_sharp),
-                                      ],
-                                    ),
-                                  ],
+                )
+              : SafeArea(
+                  top: true,
+                  bottom: true,
+                  left: false,
+                  right: true,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: point.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      print(point.length);
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20,
                                 ),
-                                subtitle: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(point[index]['data'][index1]['date'], style: TextStyle(fontSize: 10.0)),
-                                    SizedBox(width: 5.0,),
-                                    Text(point[index]['data'][index1]['createdTime'], style: TextStyle(fontSize: 10.0)),
-                                  ],
-                                ),
-                                
+                                child: Text(point[index]['date'],
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold)),
                               ),
-                              
-                            );
-                            
-                          }
-                        ),
-                        //SizedBox(height: 10.0,),
-                      ],
-                    ),
-                    
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 22.0),
+                            child: Column(
+                              children: [
+                                ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    physics: const ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: point[index]['data'].length,
+                                    itemBuilder:
+                                        (BuildContext context, int index1) {
+                                      // return Text(point[index]['data'][index1]['deposit_point'].toString());
+                                      return Card(
+                                        child: ListTile(
+                                          title: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  point[index]['data'][index1]
+                                                      ['deposit_by'],
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                  )),
+                                              SizedBox(
+                                                height: 7.0,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text("Point",
+                                                      style: TextStyle(
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(
+                                                    width: 5.0,
+                                                  ),
+                                                  Text(
+                                                    point[index]['data'][index1]
+                                                            ['deposit_point']
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14.0,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5.0,
+                                                  ),
+                                                  Icon(Icons
+                                                      .star_border_purple500_sharp),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          subtitle: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                  point[index]['data'][index1]
+                                                      ['date'],
+                                                  style: TextStyle(
+                                                      fontSize: 10.0)),
+                                              SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text(
+                                                  point[index]['data'][index1]
+                                                      ['createdTime'],
+                                                  style: TextStyle(
+                                                      fontSize: 10.0)),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                //SizedBox(height: 10.0,),
+                              ],
+                            ),
+                          ),
+                          //SizedBox(height: 10.0,),
+                        ],
+                      );
+                    },
+                    // separatorBuilder: (BuildContext context, int index) => Divider(),
+                    // itemCount: point.length
+                    //itemCount: point.length.compareTo(0)
                   ),
-                  //SizedBox(height: 10.0,),
-                ],
-              );
-            },
-            // separatorBuilder: (BuildContext context, int index) => Divider(), 
-            // itemCount: point.length
-            //itemCount: point.length.compareTo(0)
-          ),
-        
-      ),
+                ),
 
       bottomNavigationBar: Container(
         height: 100,
@@ -268,7 +292,8 @@ class _PointsState extends State<Points> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -280,7 +305,7 @@ class _PointsState extends State<Points> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = true;
                           nbtn2 = false;
@@ -294,7 +319,9 @@ class _PointsState extends State<Points> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -305,7 +332,7 @@ class _PointsState extends State<Points> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = true;
@@ -321,7 +348,9 @@ class _PointsState extends State<Points> {
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -331,11 +360,12 @@ class _PointsState extends State<Points> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               nbtn1 = false;
                               nbtn2 = false;
@@ -353,22 +383,31 @@ class _PointsState extends State<Points> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: numberNoti['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :numberNoti['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           numberNoti['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน1",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -379,7 +418,7 @@ class _PointsState extends State<Points> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = false;
@@ -395,7 +434,9 @@ class _PointsState extends State<Points> {
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
