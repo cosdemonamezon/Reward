@@ -11,7 +11,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 //import 'dart:convert' show utf8, base64;
 import 'dart:convert';
 
-
 class AwardScreen extends StatefulWidget {
   AwardScreen({Key key}) : super(key: key);
 
@@ -25,9 +24,8 @@ class _AwardScreenState extends State<AwardScreen> {
   bool isLoading = false;
   Map<String, dynamic> data = {};
   Map<String, dynamic> shareLink = {};
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
-
-  
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -35,37 +33,32 @@ class _AwardScreenState extends State<AwardScreen> {
     super.initState();
     _getShareLinkReward();
   }
-  _getShareLinkReward() async{
+
+  _getShareLinkReward() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-    var url = pathAPI +'api/getShareLinkReward';
+    var url = pathAPI + 'api/getShareLinkReward';
     setState(() {
       isLoading = true;
     });
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-      })
-    );
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({'member_id': token['member_id']}));
 
-    if (response.statusCode == 200){
-      final Map<String, dynamic> shareLinkdata = convert.jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> shareLinkdata =
+          convert.jsonDecode(response.body);
       if (shareLinkdata['code'] == "200") {
         print(shareLinkdata);
-        setState((){
+        setState(() {
           shareLink = shareLinkdata['data'];
           setState(() {
             isLoading = false;
           });
           //print(shareLink);
           //print(shareLink['pic']);
-      });
+        });
       } else {
         setState(() {
           isLoading = false;
@@ -81,7 +74,7 @@ class _AwardScreenState extends State<AwardScreen> {
           ),
         );
       }
-    }else{
+    } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
         barrierDismissible: false,
@@ -95,48 +88,41 @@ class _AwardScreenState extends State<AwardScreen> {
     }
   }
 
-  _shereLinkReward(var shere_reward_id) async{
-    
+  _shereLinkReward(var shere_reward_id) async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-    var url = pathAPI +'api/shereLinkReward';
+    var url = pathAPI + 'api/shereLinkReward';
     // print(shere_reward_id);
     // print(token['token']);
     // print(token['member_id']);
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id'],
-        'shere_reward_id': shere_reward_id
-      })
-    );
-    if (response.statusCode == 200){
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({
+          'member_id': token['member_id'],
+          'shere_reward_id': shere_reward_id
+        }));
+    if (response.statusCode == 200) {
       final Map<String, dynamic> sharedata = convert.jsonDecode(response.body);
       if (sharedata['code'] == "200") {
         //print(sharedata['massage']);
         Alert(
-          context: context,
-          type: AlertType.success,
-          title: sharedata['massage'],         
-          buttons: [
-            DialogButton(
-              child: Text(
-                "ตกลง",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            context: context,
+            type: AlertType.success,
+            title: sharedata['massage'],
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "ตกลง",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
+                },
               ),
-              onPressed: (){
-                Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-              },
-            ),
-          ]
-        ).show();
-      } 
-      else if(sharedata['code'] == "400"){
+            ]).show();
+      } else if (sharedata['code'] == "400") {
         //print(sharedata['massage']);
         showDialog(
           context: context,
@@ -146,8 +132,7 @@ class _AwardScreenState extends State<AwardScreen> {
             context,
           ),
         );
-      }
-      else if(sharedata['code'] == "500"){
+      } else if (sharedata['code'] == "500") {
         //print(sharedata['massage']);
         showDialog(
           context: context,
@@ -157,11 +142,9 @@ class _AwardScreenState extends State<AwardScreen> {
             context,
           ),
         );
-        
-      }
-      else{
+      } else {
         //print(sharedata['massage']);
-         showDialog(
+        showDialog(
           context: context,
           builder: (context) => dialogDenied(
             sharedata['massage'],
@@ -169,9 +152,8 @@ class _AwardScreenState extends State<AwardScreen> {
             context,
           ),
         );
-        
       }
-    }else {
+    } else {
       String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
       showDialog(
         context: context,
@@ -184,23 +166,27 @@ class _AwardScreenState extends State<AwardScreen> {
     }
   }
 
-  _getlink(int id, int total_noti, String board_phone_1) async{
+  _getlink(int id, int total_noti, String board_phone_1) async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-    String encoded = base64Url.encode(utf8.encode( token['member_id'].toString()+"&&"+id.toString()+"&&"+token['token']));
-    String url1 = "https://mzreward.com/share_reward/?"+encoded ;
+    String encoded = base64Url.encode(utf8.encode(
+        token['member_id'].toString() +
+            "&&" +
+            id.toString() +
+            "&&" +
+            token['token']));
+    String url1 = "https://mzreward.com/share_reward/?" + encoded;
 
     // Navigator.pushNamed(context, '/webview', arguments: {
-    //   'id': data['id'],      
+    //   'id': data['id'],
     //   'board_phone_1': board_phone_1,
     //   'total_noti': total_noti,
     //   'url': url1
     // });
 
     launch(url1);
-  } 
-  
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,8 +195,9 @@ class _AwardScreenState extends State<AwardScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -220,170 +207,189 @@ class _AwardScreenState extends State<AwardScreen> {
         centerTitle: true,
         title: Text("แชร์ลิ้ง"),
       ),
-      body: isLoading == true ?
-      Center(
-        child: CircularProgressIndicator(),
-      )
-      :shareLink.length == 0 ?
-      Center(
-        child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
-        ),
-      )
-      :Column(
-        children: [
-          Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 200.0,
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: shareLink['pic'] != null ?
-                        Image.network(shareLink['pic'], fit: BoxFit.fill,)
-                        :Ink.image(image: NetworkImage('https://picsum.photos/400/200'), fit: BoxFit.cover),
-                      ),
-                      Positioned(
-                        top: 10,
-                        left: 15,
-                        child: Icon(Icons.share, size: 40.0, color: Colors.blue,),
-                      ),
-                    ],
+      body: isLoading == true
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : shareLink.length == 0
+              ? Center(
+                  child: Text(
+                    "ไม่พบข้อมูล",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF01579B)),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        shareLink['title'] == null ? "ไม่มีข้อมูล" :shareLink['title'],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                )
+              : Column(
+                  children: [
+                    Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 200.0,
+                            width: double.infinity,
+                            child: Stack(
+                              children: [
+                                Positioned.fill(
+                                  child: shareLink['pic'] != null
+                                      ? Image.network(
+                                          shareLink['pic'],
+                                          fit: BoxFit.fill,
+                                        )
+                                      : Ink.image(
+                                          image: NetworkImage(
+                                              'https://picsum.photos/400/200'),
+                                          fit: BoxFit.cover),
+                                ),
+                                Positioned(
+                                  top: 10,
+                                  left: 15,
+                                  child: Icon(
+                                    Icons.share,
+                                    size: 40.0,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  shareLink['title'] == null
+                                      ? "ไม่มีข้อมูล"
+                                      : shareLink['title'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  shareLink['description'] == null
+                                      ? "ไม่มีข้อมูล"
+                                      : shareLink['description'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 10,),
-                      Text(
-                        shareLink['description'] == null ? "ไม่มีข้อมูล" :shareLink['description'],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20,),
-
-          RaisedButton(
-                onPressed: () async{
-                  if (shareLink['date_exp'] == "Yes") {
-                    showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) => errorPopup(
-                        dateexp,
-                        picWanning,
-                        context,
-                      ),
-                    );
-                  } 
-                  else if (shareLink['shere_status'] == "Yes") {
-                    showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) => errorPopup(
-                        sharestatus,
-                        picWanning,
-                        context,
-                      ),
-                    );
-                  }
-                  else if (shareLink['date_exp'] == "Yes" && shareLink['shere_status'] == "Yes") {
-                    showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) => errorPopup(
-                        statusdateexp,
-                        picWanning,
-                        context,
-                      ),
-                    );
-                  }
-                  else {
-                    int id = shareLink['id'];
-                    String board_phone_1 = data['board_phone_1'];
-                    int total_noti = data['total_noti'];
-                    _getlink(id, total_noti, board_phone_1);
-                  }  
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xff616161), Color(0xff757575)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
                     ),
-                    borderRadius: BorderRadius.circular(10.0)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/share2.png"),
-                        fit: BoxFit.cover,
-                      )
+                    SizedBox(
+                      height: 20,
                     ),
-                    constraints:
-                    BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    
-                  ),
+
+                    RaisedButton(
+                      onPressed: () async {
+                        if (shareLink['date_exp'] == "Yes") {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) => errorPopup(
+                              dateexp,
+                              picWanning,
+                              context,
+                            ),
+                          );
+                        } else if (shareLink['shere_status'] == "Yes") {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) => errorPopup(
+                              sharestatus,
+                              picWanning,
+                              context,
+                            ),
+                          );
+                        } else if (shareLink['date_exp'] == "Yes" &&
+                            shareLink['shere_status'] == "Yes") {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) => errorPopup(
+                              statusdateexp,
+                              picWanning,
+                              context,
+                            ),
+                          );
+                        } else {
+                          int id = shareLink['id'];
+                          String board_phone_1 = data['board_phone_1'];
+                          int total_noti = data['total_noti'];
+                          _getlink(id, total_noti, board_phone_1);
+                        }
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xff616161), Color(0xff757575)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage("assets/images/share2.png"),
+                            fit: BoxFit.cover,
+                          )),
+                          constraints:
+                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
+                          alignment: Alignment.center,
+                        ),
+                      ),
+                    ),
+
+                    // GestureDetector(
+                    //   onTap: (){
+                    //     int id = shareLink['id'];
+                    //     String board_phone_1 = data['board_phone_1'];
+                    //     int total_noti = data['total_noti'];
+                    //     _getlink(id, total_noti, board_phone_1);
+                    //     // setState(() {
+                    //     //   // var id = shareLink['id'];
+                    //     //   // _shereLinkReward(id);
+                    //     // });
+
+                    //   },
+                    //   child: Container(
+                    //     height: 50.0,
+                    //     width: 140.0,
+                    //     decoration: BoxDecoration(
+                    //       gradient: LinearGradient(
+                    //         colors: [
+                    //           Color(0xff374ABE),
+                    //           Color(0xff64B6FF)
+                    //         ],
+                    //         begin: Alignment.topCenter,
+                    //         end: Alignment.bottomCenter,
+                    //       ),
+                    //       borderRadius: BorderRadius.circular(10.0)
+                    //     ),
+                    //     child: Center(
+                    //       child: Text(
+                    //         "facebook",
+                    //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
                 ),
-              ),
-
-
-
-          // GestureDetector(
-          //   onTap: (){
-          //     int id = shareLink['id'];
-          //     String board_phone_1 = data['board_phone_1'];
-          //     int total_noti = data['total_noti'];
-          //     _getlink(id, total_noti, board_phone_1);
-          //     // setState(() {
-          //     //   // var id = shareLink['id'];
-          //     //   // _shereLinkReward(id);
-          //     // });            
-                 
-          //   },
-          //   child: Container(
-          //     height: 50.0,
-          //     width: 140.0,
-          //     decoration: BoxDecoration(
-          //       gradient: LinearGradient(
-          //         colors: [
-          //           Color(0xff374ABE),
-          //           Color(0xff64B6FF)
-          //         ],
-          //         begin: Alignment.topCenter,
-          //         end: Alignment.bottomCenter,
-          //       ),
-          //       borderRadius: BorderRadius.circular(10.0)
-          //     ),
-          //     child: Center(
-          //       child: Text(
-          //         "facebook", 
-          //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-        ],
-      ),
-
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -395,7 +401,8 @@ class _AwardScreenState extends State<AwardScreen> {
           color: kNavigationBarColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -406,7 +413,7 @@ class _AwardScreenState extends State<AwardScreen> {
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -414,7 +421,9 @@ class _AwardScreenState extends State<AwardScreen> {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -424,7 +433,7 @@ class _AwardScreenState extends State<AwardScreen> {
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pushNamed(context, "/help", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -434,7 +443,9 @@ class _AwardScreenState extends State<AwardScreen> {
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -447,7 +458,7 @@ class _AwardScreenState extends State<AwardScreen> {
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -459,22 +470,31 @@ class _AwardScreenState extends State<AwardScreen> {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           data['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -484,7 +504,7 @@ class _AwardScreenState extends State<AwardScreen> {
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pushNamed(context, "/coin", arguments: {
                           'member_point': data['member_point'],
                           'board_phone_1': data['board_phone_1'],
@@ -494,7 +514,9 @@ class _AwardScreenState extends State<AwardScreen> {
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
