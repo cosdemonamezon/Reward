@@ -1,4 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
+
+SharedPreferences prefs;
+_getColor() async{
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    print(token);
+    // return
+}
+
+Future<String> token() async {
+  prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+    return token.color;
+}
+
+// Future<int> token() async {
+//   prefs = await SharedPreferences.getInstance();
+//   var tokenString = prefs.getString('token');
+//   var token = convert.jsonDecode(tokenString);
+//   return 1;
+// }
+
+// Color _getColorByEvent(String event) {
+//   prefs = SharedPreferences.getInstance() as SharedPreferences;
+//   var tokenString = prefs.getString('token');
+//   var token = convert.jsonDecode(tokenString);
+//   return Color(token['color_1']);
+// }
+
+// Color _getColorByEvent(String event) {
+//   if (event == "Approved") return Colors.green;
+//   if (event == "Rejected") return Colors.red;
+//   return Colors.blue;
+// }
+
 
 const kPrimaryColor = Color(0xFF6F35A5);
 const kPrimaryLightColor = Color(0xFFF1E6FF);
@@ -32,21 +71,23 @@ String picWanning = "assets/images/wanning.png";
 String headtitle = "มีข้อผิดพลาดในระบบ";
 String errPhone = "โปรดตรวจสอบหมายเลขโทรศัพท์อีกครั้ง";
 String confrimpoint = "ยืนยันโอน Point";
-String errorProfile = "ไม่สำร็จ เกิดข้อผิดพลาดในระบบ";
+String errorProfile ="ไม่สำร็จ เกิดข้อผิดพลาดในระบบ";
 String checkData = "กรุณาตรวจสอบข้อมูลอีกครั้ง";
 String aertLogin = "กรุณาล็อกอินก่อน";
 String settitle = "ไม่สามารถทำรายการได้";
 String comfirmUse = "โปรดยืนยัน User Name ก่อนทำรายการ";
 String noService = "ยังไม่เปิดให้บริการ";
 String rewardConfirm = "ต้องการรับรางวัลหรือไม่";
-
-class Constants {
+String dateexp = "หมดโปรโมชั่นการแชร์";
+String sharestatus = "คุณได้แชร์ไปแล้ว";
+String statusdateexp = "หมดโปรโมชั่น และ คุณได้แชร์ไปแล้ว";
+class Constants{
   Constants._();
-  static const double padding = 20;
-  static const double avatarRadius = 45;
+  static const double padding =20;
+  static const double avatarRadius =45;
 }
 
-dialog1(String title, context) {
+dialog1 (String title, context)  {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -57,51 +98,38 @@ dialog1(String title, context) {
       children: [
         Container(
           padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                "กลับไปล็อกอินใหม่",
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 22,
-              ),
+              Text(title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              SizedBox(height: 15,),
+              Text("กลับไปล็อกอินใหม่",style: TextStyle(fontSize: 16),textAlign: TextAlign.center,),
+              SizedBox(height: 22,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/loginScreen',
-                        (Route<dynamic> route) => false);
+                  onPressed: (){
+                    Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
                   },
                   padding: EdgeInsets.all(12),
                   color: Colors.lightBlueAccent,
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
+                  child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 18)),
                 ),
               ),
             ],
@@ -114,9 +142,9 @@ dialog1(String title, context) {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset("assets/images/model.jpeg")),
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset("assets/images/model.jpeg")
+            ),
           ),
         ),
       ],
@@ -124,7 +152,7 @@ dialog1(String title, context) {
   );
 }
 
-dialogDenied(String title, String img, context) {
+dialogDenied (String title, String img, context) {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -135,43 +163,36 @@ dialogDenied(String title, String img, context) {
       children: [
         Container(
           padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 22,
-              ),
+              Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+              SizedBox(height: 22,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/loginScreen',
-                        (Route<dynamic> route) => false);
+                  onPressed: (){
+                    Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (Route<dynamic> route) => false);
                   },
                   padding: EdgeInsets.all(12),
                   color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                  child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
               ),
             ],
@@ -184,9 +205,9 @@ dialogDenied(String title, String img, context) {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(img)),
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(img)
+            ),
           ),
         ),
       ],
@@ -194,7 +215,7 @@ dialogDenied(String title, String img, context) {
   );
 }
 
-errordialog(String title, String subtitle, String img, context) {
+errordialog (String title, String subtitle, String img, context)  {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -205,50 +226,38 @@ errordialog(String title, String subtitle, String img, context) {
       children: [
         Container(
           padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 22,
-              ),
+              Text(title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+              SizedBox(height: 15,),
+              Text(subtitle,style: TextStyle(fontSize: 16),textAlign: TextAlign.center,),
+              SizedBox(height: 22,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  onPressed: () {
+                  onPressed: (){
                     Navigator.pop(context);
                   },
                   padding: EdgeInsets.all(12),
                   color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
+                  child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 18)),
                 ),
               ),
             ],
@@ -261,9 +270,9 @@ errordialog(String title, String subtitle, String img, context) {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(img)),
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(img)
+            ),
           ),
         ),
       ],
@@ -271,7 +280,7 @@ errordialog(String title, String subtitle, String img, context) {
   );
 }
 
-successdialog(String title, String img, context) {
+successdialog(String title, String img, context){
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -282,43 +291,36 @@ successdialog(String title, String img, context) {
       children: [
         Container(
           padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 22,
-              ),
+              Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+              SizedBox(height: 22,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (Route<dynamic> route) => false);
+                  onPressed: (){
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
                   },
                   padding: EdgeInsets.all(12),
                   color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                  child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
               ),
             ],
@@ -331,9 +333,9 @@ successdialog(String title, String img, context) {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(img)),
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(img)
+            ),
           ),
         ),
       ],
@@ -341,7 +343,7 @@ successdialog(String title, String img, context) {
   );
 }
 
-dialogHome(String title, String img, context) {
+dialogHome (String title, String img, context) {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -352,43 +354,36 @@ dialogHome(String title, String img, context) {
       children: [
         Container(
           padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 22,
-              ),
+              Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+              SizedBox(height: 22,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (Route<dynamic> route) => false);
+                  onPressed: (){
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
                   },
                   padding: EdgeInsets.all(12),
                   color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                  child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
               ),
             ],
@@ -401,9 +396,9 @@ dialogHome(String title, String img, context) {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(img)),
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(img)
+            ),
           ),
         ),
       ],
@@ -411,11 +406,7 @@ dialogHome(String title, String img, context) {
   );
 }
 
-dialogConfrim(
-  String title,
-  String img,
-  context,
-) {
+dialogConfrim(String title, String img, context,){
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -425,87 +416,79 @@ dialogConfrim(
     child: Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
-          margin: EdgeInsets.only(top: Constants.avatarRadius),
-          decoration: BoxDecoration(
+            padding: EdgeInsets.only(
+              left: Constants.padding,top: Constants.avatarRadius
+              + Constants.padding, right: Constants.padding,bottom: Constants.padding
+            ),
+            margin: EdgeInsets.only(top: Constants.avatarRadius),
+            decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,
               borderRadius: BorderRadius.circular(Constants.padding),
               boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 22,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                BoxShadow(color: Colors.black,offset: Offset(0,10),
+                blurRadius: 10
+              ),]
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+                SizedBox(height: 22,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFFD50000),
+                        child: Text('ยกเลิก', style: TextStyle(color: Colors.white, fontSize: 20)),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      padding: EdgeInsets.all(12),
-                      color: Color(0xFFD50000),
-                      child: Text('ยกเลิก',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: (){
+                         Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFF01579B),
+                        child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/home', (Route<dynamic> route) => false);
-                      },
-                      padding: EdgeInsets.all(12),
-                      color: Color(0xFF01579B),
-                      child: Text('ตกลง',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            left: Constants.padding,
+            right: Constants.padding,
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: Constants.avatarRadius,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                child: Image.asset(img)
               ),
-            ],
+            ),
           ),
-        ),
-        Positioned(
-          left: Constants.padding,
-          right: Constants.padding,
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: Constants.avatarRadius,
-            child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(img)),
-          ),
-        ),
       ],
     ),
   );
 }
 
-errorPopup(String title, String img, context) {
+errorPopup(String title, String img, context){
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -516,42 +499,36 @@ errorPopup(String title, String img, context) {
       children: [
         Container(
           padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 22,
-              ),
+              Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),              
+              SizedBox(height: 22,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  onPressed: () {
+                  onPressed: (){
                     Navigator.pop(context);
                   },
                   padding: EdgeInsets.all(12),
                   color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                  child: Text('ตกลง', style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
               ),
             ],
@@ -564,9 +541,9 @@ errorPopup(String title, String img, context) {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(img)),
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(img)
+            ),
           ),
         ),
       ],
@@ -574,7 +551,7 @@ errorPopup(String title, String img, context) {
   );
 }
 
-dialogAlert(String title, String img, context) {
+dialogAlert (String title,String img, context)  {
   return Dialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
@@ -585,42 +562,36 @@ dialogAlert(String title, String img, context) {
       children: [
         Container(
           padding: EdgeInsets.only(
-              left: Constants.padding,
-              top: Constants.avatarRadius + Constants.padding,
-              right: Constants.padding,
-              bottom: Constants.padding),
+            left: Constants.padding,top: Constants.avatarRadius
+            + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-              ]),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Constants.padding),
+            boxShadow: [
+              BoxShadow(color: Colors.black,offset: Offset(0,10),
+              blurRadius: 10
+            ),]
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 15,
-              ),
+              Text(title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              SizedBox(height: 15,),              
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  onPressed: () {
+                  onPressed: (){
                     Navigator.pop(context);
                   },
                   padding: EdgeInsets.all(12),
                   color: Colors.red,
-                  child: Text('ปิด',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
+                  child: Text('ปิด', style: TextStyle(color: Colors.white, fontSize: 18)),
                 ),
               ),
             ],
@@ -633,12 +604,21 @@ dialogAlert(String title, String img, context) {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(img)),
+              borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(img)
+            ),
           ),
         ),
       ],
     ),
   );
 }
+
+
+
+
+  
+
+
+
+
