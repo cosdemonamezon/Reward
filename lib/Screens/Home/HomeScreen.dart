@@ -132,21 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
               loadSuccess = true;
               isLoading = false;
             });
-            // Flushbar(
-            //   title: '${token['massage']}',
-            //   message: "${token['code']}",
-            //   icon: Icon(
-            //     Icons.info_outline,
-            //     size: 28.0,
-            //     color: Colors.blue[300],
-            //   ),
-            //   duration: Duration(seconds: 3),
-            //   leftBarIndicatorColor: Colors.blue[300],
-            // )..show(context);
-            // Future.delayed(Duration(seconds: 3), () {
-            //   Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-            // });
-            //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
+            
           } else {
             //print(homedata['massage']);
             showDialog(
