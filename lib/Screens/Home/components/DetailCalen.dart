@@ -10,6 +10,7 @@ class DetailCalen extends StatefulWidget {
 
 class _DetailCalenState extends State<DetailCalen> {
   CalendarController _controller;
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
   @override
   void initState() {
@@ -30,8 +31,9 @@ class _DetailCalenState extends State<DetailCalen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -44,16 +46,17 @@ class _DetailCalenState extends State<DetailCalen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             TableCalendar(
               initialCalendarFormat: CalendarFormat.month,
               headerStyle: HeaderStyle(
                 centerHeaderTitle: true,
                 formatButtonVisible: false,
                 formatButtonDecoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadiusDirectional.circular(20.0)
-                ),
+                    color: Colors.orange,
+                    borderRadius: BorderRadiusDirectional.circular(20.0)),
                 formatButtonTextStyle: TextStyle(
                   color: Colors.white,
                 ),
@@ -78,7 +81,6 @@ class _DetailCalenState extends State<DetailCalen> {
                 ),
               ),
               startingDayOfWeek: StartingDayOfWeek.sunday,
-              
               calendarController: _controller,
             ),
           ],

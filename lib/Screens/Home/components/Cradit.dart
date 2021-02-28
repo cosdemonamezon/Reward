@@ -21,6 +21,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
   List<dynamic> cradit = [];
   SharedPreferences prefs;
   String title = "มีข้อผิดพลาดจากระบบ";
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
     _getCashMember_M();
     //tabController = TabController(length: 2, vsync: this);
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -36,24 +38,23 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
     //tabController.dispose();
   }
 
-  _getCashMember_M() async{
+  _getCashMember_M() async {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
+
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI +'api/getCashMember_M';
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type':'application/json',
-        'token': token['token']
-      },
-      body: convert.jsonEncode({
-        'member_id': token['member_id']
-      })
-    );
+    var url = pathAPI + 'api/getCashMember_M';
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json', 'token': token['token']},
+        body: convert.jsonEncode({'member_id': token['member_id']}));
     if (response.statusCode == 200) {
       final Map<String, dynamic> craditdata = convert.jsonDecode(response.body);
       if (craditdata['code'] == "200") {
@@ -69,35 +70,31 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         setState(() {
           isLoading = false;
         });
-          
+
         showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (context) => dialog1(
-            title, context
-            // context: context,
-            // title: 'Logout',
-            // content: 'Are you sure you want to exit!!!',
-            // action1: 'cancel',
-            // action2: 'yes',
-            // div: false,
-            // txtAlign: 2,
-            // radius: 0.0,
-            // boxColor: Colors.green,
-            // btnTxtColor: Colors.white,
-            // txtColor: Colors.white,
-          ),
+          builder: (context) => dialog1(title, context
+              // context: context,
+              // title: 'Logout',
+              // content: 'Are you sure you want to exit!!!',
+              // action1: 'cancel',
+              // action2: 'yes',
+              // div: false,
+              // txtAlign: 2,
+              // radius: 0.0,
+              // boxColor: Colors.green,
+              // btnTxtColor: Colors.white,
+              // txtColor: Colors.white,
+              ),
         );
       }
-      
     } else {
       showDialog(
         barrierDismissible: false,
         context: context,
-        builder: (context) => dialog1(
-          title, context
-        ),
-      ); 
+        builder: (context) => dialog1(title, context),
+      );
     }
   }
 
@@ -107,9 +104,11 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (route) => false);
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -119,10 +118,11 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         //toolbarHeight: 120,
         //backgroundColor: Colors.grey,
         centerTitle: true,
-        title: Text(
-          "ยอดเครดิต ${data['credit']}", 
-          style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
-        ),
+        title: Text("ยอดเครดิต ${data['credit']}",
+            style: TextStyle(
+                color: kTextColor,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold)),
         // title: Column(
         //   children: [
         //     Row(
@@ -135,7 +135,7 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         //         Padding(
         //           padding: EdgeInsets.symmetric(horizontal: 3),
         //           child: Text(
-        //             "ยอดเครดิต ${data['credit']}", 
+        //             "ยอดเครดิต ${data['credit']}",
         //             style: TextStyle(color: kTextColor, fontSize: 16.0, fontWeight: FontWeight.bold)
         //           ),
         //         ),
@@ -165,113 +165,131 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
         //   ],
         // ),
       ),
-      body: isLoading == true ? 
-      Center(
-        child: CircularProgressIndicator(),
-      )
-      :cradit.length == 0 ?
-      Center(
-        child: Text(
-          "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
-        ),
-      )
-      :SafeArea(
-        top: true,
-        bottom: true,
-        left: false,
-        right: true,
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: cradit.length,
-            itemBuilder: (BuildContext context, int index){
-              return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                        child: Text(
-                          cradit[index]['date'],
-                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)
-                        ),
-                      ),
-                    ],
+      body: isLoading == true
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : cradit.length == 0
+              ? Center(
+                  child: Text(
+                    "ไม่พบข้อมูล",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: hexToColor(
+                            "#" + template_kNavigationFooterBarColor)),
                   ),
-                  
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            //padding: EdgeInsets.only(left: 40.0, right: 40.0),
-                            itemCount: cradit[index]['data'].length,
-                            itemBuilder: (BuildContext context, int index1){
-                              return Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0,),
-                                child: Card(
-                                  //color: Colors.grey[800],
-                                  child: ListTile(
-                                  title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "จำนวนเงิน : ${cradit[index]['data'][index1]['amount'].toString()}",
-                                        style: TextStyle (
-                                          color: Colors.black, fontSize: 14.5
+                )
+              : SafeArea(
+                  top: true,
+                  bottom: true,
+                  left: false,
+                  right: true,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: cradit.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 5),
+                                  child: Text(cradit[index]['date'],
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 25.0),
+                              child: Column(
+                                children: [
+                                  ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    physics: const ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    //padding: EdgeInsets.only(left: 40.0, right: 40.0),
+                                    itemCount: cradit[index]['data'].length,
+                                    itemBuilder:
+                                        (BuildContext context, int index1) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 10.0,
                                         ),
-                                      ),
-                                      SizedBox(height: 5.0,),
-                                      Text(
-                                        "ชื่อผู้ทำรายการ : ${cradit[index]['data'][index1]['username']}",
-                                        style: TextStyle (
-                                          color: Colors.black, fontSize: 14.5
+                                        child: Card(
+                                          //color: Colors.grey[800],
+                                          child: ListTile(
+                                            title: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "จำนวนเงิน : ${cradit[index]['data'][index1]['amount'].toString()}",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14.5),
+                                                ),
+                                                SizedBox(
+                                                  height: 5.0,
+                                                ),
+                                                Text(
+                                                  "ชื่อผู้ทำรายการ : ${cradit[index]['data'][index1]['username']}",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14.5),
+                                                ),
+                                                SizedBox(
+                                                  height: 5.0,
+                                                ),
+                                                Text(
+                                                  "ชื่อกระดาน : ${cradit[index]['data'][index1]['board']}",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14.5),
+                                                ),
+                                                SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                              ],
+                                            ),
+                                            subtitle: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  "วันที่ทำรายการ ${cradit[index]['data'][index1]['createdDate']}",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13.5),
+                                                ),
+                                                SizedBox(
+                                                  width: 8,
+                                                ),
+                                                Text(
+                                                  "เวลา ${cradit[index]['data'][index1]['createdTime']}",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12.5),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 5.0,),
-                                      Text(
-                                        "ชื่อกระดาน : ${cradit[index]['data'][index1]['board']}",
-                                        style: TextStyle (
-                                          color: Colors.black, fontSize: 14.5
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                    ],
+                                      );
+                                    },
                                   ),
-                                  subtitle: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "วันที่ทำรายการ ${cradit[index]['data'][index1]['createdDate']}",
-                                            style: TextStyle (
-                                                color: Colors.black, fontSize: 13.5
-                                            ),
-                                          ),
-                                          SizedBox(width: 8,),
-                                          Text(
-                                            "เวลา ${cradit[index]['data'][index1]['createdTime']}",
-                                            style: TextStyle (
-                                                color: Colors.black, fontSize: 12.5
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                ),),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              );
-            }
-          ), 
-      ),
-
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -280,10 +298,11 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:30.0, right: 30.0, top: 15.0, bottom: 10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -291,11 +310,13 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = true;
                           nbtn2 = false;
@@ -309,18 +330,22 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    "ติดต่อเรา", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ติดต่อเรา",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = true;
@@ -336,7 +361,9 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    "ช่วยแนะนำ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "ช่วยแนะนำ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -346,11 +373,14 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                   Stack(
                     children: [
                       CircleAvatar(
-                        foregroundColor: nbtn3 == true ? Colors.red : Colors.white,
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               nbtn1 = false;
                               nbtn2 = false;
@@ -368,33 +398,44 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                       Positioned(
                         right: 5.0,
                         //top: 2.0,
-                        child: data['total_noti'] == null ? SizedBox(height: 2.0,)
-                        :data['total_noti'] == 0 ? SizedBox(height: 2.0,)
-                        :CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10,
-                          child: Text(
-                           data['total_noti'].toString(),
-                            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        child: data['total_noti'] == null
+                            ? SizedBox(
+                                height: 2.0,
+                              )
+                            : data['total_noti'] == 0
+                                ? SizedBox(
+                                    height: 2.0,
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 10,
+                                    child: Text(
+                                      data['total_noti'].toString(),
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                       ),
-                      
                     ],
                   ),
                   Text(
-                    "แจ้งเตือน", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "แจ้งเตือน",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           nbtn1 = false;
                           nbtn2 = false;
@@ -410,7 +451,9 @@ class _CraditState extends State<Cradit> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    "เหรียญ", style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
+                    "เหรียญ",
+                    style: TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

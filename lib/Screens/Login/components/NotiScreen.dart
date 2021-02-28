@@ -24,6 +24,7 @@ class _NotiScreenState extends State<NotiScreen> {
   List<dynamic> notidata = [];
   Map<String, dynamic> readnotidata = {};
   Map<String, dynamic> numberNoti = {};
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
   @override
   void initState() {
@@ -36,6 +37,11 @@ class _NotiScreenState extends State<NotiScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
 
     prefsNoti = await SharedPreferences.getInstance();
     var notiString = prefsNoti.getString('notification');
@@ -183,6 +189,7 @@ class _NotiScreenState extends State<NotiScreen> {
     Map data = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
@@ -207,7 +214,8 @@ class _NotiScreenState extends State<NotiScreen> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF01579B)),
+                        color: hexToColor(
+                            "#" + template_kNavigationFooterBarColor)),
                   ),
                 )
               : Container(
@@ -321,7 +329,7 @@ class _NotiScreenState extends State<NotiScreen> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -333,6 +341,8 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -360,6 +370,8 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -392,6 +404,8 @@ class _NotiScreenState extends State<NotiScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -446,6 +460,8 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

@@ -28,7 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> notidata = [];
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
   //List<dynamic> data = [];
+  var token_home;
 
   _initPrefs() async {
     prefsNoti = await SharedPreferences.getInstance();
@@ -84,6 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
     // var member_id = tokenpre['member_id'];
     // var token = tokenpre['token'];
     //print(token['token']);
@@ -247,6 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         centerTitle: true,
         title: data['username'] == null
             ? Text("กำลังโหลด..")
@@ -311,17 +319,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF01579B)),
+                        color: hexToColor(
+                            "#" + template_kNavigationFooterBarColor)),
                   ),
                 )
               : SmartRefresher(
                   // enablePullDown: false,
                   // enablePullUp: true,
                   header: WaterDropMaterialHeader(
-                      // refreshStyle: RefreshStyle.Follow,
-                      // refreshingText: 'กำลังโหลด.....',
-                      // completeText: 'โหลดข้อมูลสำเร็จ',
-                      ),
+                    color: Colors.white,
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    // refreshStyle: RefreshStyle.Follow,
+                    // refreshingText: 'กำลังโหลด.....',
+                    // completeText: 'โหลดข้อมูลสำเร็จ',
+                  ),
                   footer: CustomFooter(
                     builder: (BuildContext context, LoadStatus mode) {
                       Widget body;
@@ -471,7 +483,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 8.0),
                                                   child: Text(
-                                                    "Cradit ",
+                                                    "Credit ",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -506,7 +518,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       data['count_turn_over_circle'] == null
                                           ? Image.network(
-                                              pathAPI + "images/28/blue/0.png",
+                                              pathAPI +
+                                                  "images/color/28/blue/0.png",
                                               fit: BoxFit.cover,
                                             )
                                           : Image.network(
@@ -549,6 +562,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             .center,
                                                     children: [
                                                       CircleAvatar(
+                                                        backgroundColor:
+                                                            hexToColor("#" +
+                                                                template_kNavigationFooterBarColor),
                                                         backgroundImage:
                                                             AssetImage(
                                                                 pathicon4),
@@ -567,7 +583,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontSize: 25,
-                                                            color: Colors.blue,
+                                                            color: hexToColor("#" +
+                                                                template_kNavigationFooterBarColor),
                                                           ),
                                                         ),
                                                       ),
@@ -638,9 +655,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     FontWeight
                                                                         .bold,
                                                                 fontSize: 25,
-                                                                color: Colors
-                                                                        .lightBlue[
-                                                                    900],
+                                                                color: hexToColor(
+                                                                    "#" +
+                                                                        template_kNavigationFooterBarColor),
                                                               ),
                                                             ),
                                                             onPressed: () {
@@ -704,8 +721,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       FontWeight
                                                                           .bold,
                                                                   fontSize: 22,
-                                                                  color: Colors
-                                                                      .blue,
+                                                                  color: hexToColor(
+                                                                      "#" +
+                                                                          template_kNavigationFooterBarColor),
                                                                 ),
                                                               )
                                                             : Text(
@@ -716,8 +734,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       FontWeight
                                                                           .bold,
                                                                   fontSize: 22,
-                                                                  color: Colors
-                                                                      .blue,
+                                                                  color: hexToColor(
+                                                                      "#" +
+                                                                          template_kNavigationFooterBarColor),
                                                                 ),
                                                               ),
                                                     SizedBox(
@@ -1006,7 +1025,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -1018,6 +1037,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -1047,6 +1068,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -1081,6 +1104,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -1137,6 +1162,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

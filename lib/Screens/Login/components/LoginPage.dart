@@ -364,9 +364,11 @@ class _LoginPageState extends State<LoginPage> {
                           barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
-                            aertLogin, picDenied, context,
+                            aertLogin,
+                            picDenied,
+                            context,
                           ),
-                        ); 
+                        );
                       },
                     ),
                   ),
@@ -385,9 +387,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Helpofline();}
-                          ),
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Helpofline();
+                          }),
                         );
                       },
                     ),
@@ -411,9 +414,11 @@ class _LoginPageState extends State<LoginPage> {
                           barrierDismissible: false,
                           context: context,
                           builder: (context) => dialogAlert(
-                            aertLogin, picDenied, context,
+                            aertLogin,
+                            picDenied,
+                            context,
                           ),
-                        ); 
+                        );
                       },
                     ),
                   ),
@@ -432,9 +437,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                          context, MaterialPageRoute(
-                            builder: (context){return Coineofline();}
-                          ),
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Coineofline();
+                          }),
                         );
                       },
                     ),

@@ -20,6 +20,8 @@ class Profilesettings extends StatefulWidget {
 }
 
 class _ProfilesettingsState extends State<Profilesettings> {
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final GlobalKey<FormBuilderState> _fbKey1 = GlobalKey<FormBuilderState>();
   bool active = false;
@@ -32,6 +34,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
   void initState() {
     super.initState();
     _getActive();
+    _getColor();
   }
 
   _getActive() {
@@ -39,11 +42,29 @@ class _ProfilesettingsState extends State<Profilesettings> {
     //initState();
   }
 
+  _getColor() async {
+    //print(values);
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
+  }
+
   _getComfirmUsername(Map<String, dynamic> values) async {
     //print(values);
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
+
     setState(() {
       isLoading = true;
     });
@@ -223,6 +244,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
@@ -848,7 +870,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -860,6 +882,8 @@ class _ProfilesettingsState extends State<Profilesettings> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -887,6 +911,8 @@ class _ProfilesettingsState extends State<Profilesettings> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -919,6 +945,8 @@ class _ProfilesettingsState extends State<Profilesettings> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -973,6 +1001,8 @@ class _ProfilesettingsState extends State<Profilesettings> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
