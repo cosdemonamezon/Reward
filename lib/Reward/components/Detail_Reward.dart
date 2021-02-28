@@ -347,45 +347,7 @@ class _DetailRewardState extends State<DetailReward> {
                     EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 25),
                 child: Row(
                   children: [
-                    // Expanded(
-                    //   child: SizedBox(
-                    //     height: 50,
-                    //     child: FlatButton(
-                    //       shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(18)),
-                    //       color: Colors.black,
-                    //       onPressed: () {},
-                    //       child: Text(
-                    //         "Buy  Now".toUpperCase(),
-                    //         style: TextStyle(
-                    //           fontSize: 17,
-                    //           fontWeight: FontWeight.bold,
-                    //           color: Colors.white,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Container(
-                    //   height: 50.0,
-                    //   width: 120.0,
-                    //   decoration: BoxDecoration(
-                    //       gradient: LinearGradient(
-                    //         colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                    //         begin: Alignment.topCenter,
-                    //         end: Alignment.bottomCenter,
-                    //       ),
-                    //       borderRadius: BorderRadius.circular(10.0)),
-                    //   child: Center(
-                    //     child: Text(
-                    //       "โอน Point",
-                    //       style: TextStyle(
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 16.0,
-                    //           color: Colors.white),
-                    //     ),
-                    //   ),
-                    // ),
+                    
                     Expanded(
                       child: pointStatus == true
                           ? Container(
