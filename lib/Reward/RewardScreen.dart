@@ -565,7 +565,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 //margin: EdgeInsets.symmetric(horizontal: 40),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xFF01579B),
+                                  color: hexToColor(
+                                      "#" + template_kNavigationFooterBarColor),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -612,7 +613,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 //margin: EdgeInsets.symmetric(horizontal: 40),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xFF01579B),
+                                  color: hexToColor(
+                                      "#" + template_kNavigationFooterBarColor),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -658,7 +660,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 //margin: EdgeInsets.symmetric(horizontal: 40),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xFF01579B),
+                                  color: hexToColor(
+                                      "#" + template_kNavigationFooterBarColor),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -832,8 +835,8 @@ class _RewardScreenState extends State<RewardScreen>
                                                                 "Approved"
                                                             ? Chip(
                                                                 backgroundColor:
-                                                                    Colors
-                                                                        .greenAccent,
+                                                                    hexToColor("#" +
+                                                                        template_kNavigationFooterBarColor),
                                                                 label: Text(
                                                                     transreward[
                                                                             index]
@@ -849,8 +852,8 @@ class _RewardScreenState extends State<RewardScreen>
                                                                     "Reject"
                                                                 ? Chip(
                                                                     backgroundColor:
-                                                                        Colors
-                                                                            .redAccent,
+                                                                        hexToColor("#" +
+                                                                            template_kNavigationFooterBarColor),
                                                                     label: Text(
                                                                         transreward[index]
                                                                             [
@@ -861,8 +864,8 @@ class _RewardScreenState extends State<RewardScreen>
                                                                   )
                                                                 : Chip(
                                                                     backgroundColor:
-                                                                        Colors
-                                                                            .orangeAccent,
+                                                                        hexToColor("#" +
+                                                                            template_kNavigationFooterBarColor),
                                                                     label: Text(
                                                                         transreward[index]
                                                                             [

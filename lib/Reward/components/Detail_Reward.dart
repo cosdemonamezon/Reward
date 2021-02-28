@@ -22,6 +22,24 @@ class _DetailRewardState extends State<DetailReward> {
   //List<dynamic> detailreward = [];
   String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
+  @override
+  void initState() {
+    super.initState();
+    _getColor();
+  }
+
+  _getColor() async {
+    //print(values);
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
+  }
+
   _transferReward(Map<String, dynamic> data) async {
     print(data);
     print(data['member_id']);
@@ -32,11 +50,6 @@ class _DetailRewardState extends State<DetailReward> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-
-    setState(() {
-      template_kNavigationBarColor = token['color']['color_1'];
-      template_kNavigationFooterBarColor = token['color']['color_2'];
-    });
 
     setState(() {
       isLoading = true;
@@ -409,8 +422,10 @@ class _DetailRewardState extends State<DetailReward> {
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Color(0xff374ABE),
-                                      Color(0xff64B6FF)
+                                      hexToColor("#" +
+                                          template_kNavigationFooterBarColor),
+                                      hexToColor(
+                                          "#" + template_kNavigationBarColor)
                                     ],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
@@ -428,8 +443,10 @@ class _DetailRewardState extends State<DetailReward> {
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Color(0xff374ABE),
-                                      Color(0xff64B6FF)
+                                      hexToColor("#" +
+                                          template_kNavigationFooterBarColor),
+                                      hexToColor(
+                                          "#" + template_kNavigationBarColor)
                                     ],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
@@ -443,13 +460,15 @@ class _DetailRewardState extends State<DetailReward> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0xff64B6FF),
+                          color: hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
                         ),
                       ),
                       child: IconButton(
                         icon: Icon(
                           Icons.link,
-                          color: Color(0xff64B6FF),
+                          color: hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
                         ),
                         onPressed: () {
                           var url = data['url'];

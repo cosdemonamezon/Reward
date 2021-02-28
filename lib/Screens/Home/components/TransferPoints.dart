@@ -232,6 +232,7 @@ class _TransferPointsState extends State<TransferPoints>
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         centerTitle: true,
         //toolbarHeight: 150,
         //backgroundColor: Colors.blue,
