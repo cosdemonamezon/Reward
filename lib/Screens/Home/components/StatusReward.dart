@@ -36,15 +36,12 @@ class _StatusRewardState extends State<StatusReward> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
-<<<<<<< HEAD
 
     setState(() {
       template_kNavigationBarColor = token['color']['color_1'];
       template_kNavigationFooterBarColor = token['color']['color_2'];
     });
     //print(token);
-=======
->>>>>>> a319379a69f637a0a51d42e4ddad979b5d4d4adc
     setState(() {
       isLoading = true;
     });
@@ -158,7 +155,6 @@ class _StatusRewardState extends State<StatusReward> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data2 = ModalRoute.of(context).settings.arguments;
-<<<<<<< HEAD
     return Scaffold(
       appBar: AppBar(
         backgroundColor: hexToColor("#" + template_kNavigationBarColor),
@@ -203,102 +199,6 @@ class _StatusRewardState extends State<StatusReward> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
-=======
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
-            onPressed: (){
-              Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-            },
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
-          ),
-          centerTitle: true,
-          title: Text("Status Group Reward"),
-          bottom: TabBar(
-            labelColor: Colors.redAccent,
-            unselectedLabelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10)),
-              color: Colors.white),
-            tabs: [
-              Tab(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text("Group"),
-                ),
-              ),
-              Tab(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text("History"),
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-             isLoading == true ? 
-        Center(
-          child: CircularProgressIndicator(),
-        )
-        :group.length == 0 ? 
-        Center(
-          child: Text(
-            "ไม่พบข้อมูล", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
-          ),
-        )
-        :Container(
-                height: 100,
-                child: Card(                
-                  ///clipBehavior: Clip.antiAlias,
-                  child: Column(                
-                    children: [
-                      ListTile(
-                        title: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Container(
-                                  height: 160,
-                                  width: 160,
-                                  child: group['group_member_pic'] != null ?
-                                  Image.network(group['group_member_pic'], fit: BoxFit.fill, width: 1000)
-                                  :Image.asset("assets/images/nopic.png", fit: BoxFit.fill),
-                                ),
-                              ),
-                              SizedBox(height: 50,),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
-                                child: Row(
-                                  children: [
-                                    Text("ชื่อกลุ่ม:  ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-                                    group['group_member_name'] != null 
-                                    ? Text(
-                                      group['group_member_name'],
-                                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.0)
-                                    )
-                                    :Text(
-                                      "ไม่มีข้อมูล",style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.0)
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
-                                child: Row(
->>>>>>> a319379a69f637a0a51d42e4ddad979b5d4d4adc
                                   children: [
                                     Text(
                                       "ประเภท:  ",
@@ -315,7 +215,6 @@ class _StatusRewardState extends State<StatusReward> {
                                   ],
                                 ),
                               ),
-<<<<<<< HEAD
                             ),
                           ],
                         );
@@ -446,20 +345,6 @@ class _StatusRewardState extends State<StatusReward> {
                                       style: TextStyle(
                                           color: kTextColor,
                                           fontWeight: FontWeight.bold),
-=======
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
-                                child: Row(
-                                  children: [
-                                    Text("ชื่อกระดาน:  ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-                                    group['board_name'] != null 
-                                    ? Text(
-                                      group['board_name'],
-                                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.0)
-                                    )
-                                    :Text(
-                                      "ไม่มีข้อมูล",style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.0)
->>>>>>> a319379a69f637a0a51d42e4ddad979b5d4d4adc
                                     ),
                                   ],
                                 ),
@@ -596,7 +481,6 @@ class _StatusRewardState extends State<StatusReward> {
             itemBuilder: (BuildContext context, int index){
               return Column(               
                 children: [
-<<<<<<< HEAD
                   CircleAvatar(
                     backgroundColor:
                         hexToColor("#" + template_kNavigationFooterBarColor),
@@ -617,71 +501,6 @@ class _StatusRewardState extends State<StatusReward> {
                           'total_noti': data2['total_noti'],
                         });
                       },
-=======
-                  SizedBox(height: 10,),
-                  Card(
-                    elevation: 8.0,
-                    //color: Colors.grey[800],
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              // Padding(
-                              //   padding: const EdgeInsets.all(8.0),
-                              //   child: Container(
-                              //     width: 50.0,
-                              //     height: 50.0,
-                              //     decoration: new BoxDecoration(
-                              //         shape: BoxShape.circle,
-                              //         image: new DecorationImage(
-                              //             fit: BoxFit.cover,
-                              //             image: AssetImage("assets/images/gold.JPG")
-                              //         )
-                              //     )
-                              //   ),
-                              // ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Member ID : ${data[index]['member_id']}',
-                                    style: TextStyle (
-                                        color: Colors.black,
-                                        fontSize: 13.5
-                                    ),
-                                  ),
-                                  Text('Old Group : ${data[index]['old_group']}',
-                                    style: TextStyle (
-                                        color: Colors.black,
-                                        fontSize: 13.5
-                                    ),
-                                  ),
-                                  Text('Update By : ${data[index]['updated_by']}',
-                                    style: TextStyle (
-                                        color: Colors.black,
-                                        fontSize: 13.5
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text('${data[index]['date']}',
-                                style: TextStyle (
-                                  color: Colors.black,
-                                  fontSize: 11.5
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      
->>>>>>> a319379a69f637a0a51d42e4ddad979b5d4d4adc
                     ),
                   ),
                 ],
