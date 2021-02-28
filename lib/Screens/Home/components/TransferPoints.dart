@@ -236,7 +236,7 @@ class _TransferPointsState extends State<TransferPoints>
           //centerTitle: true,
           title: Text("Point"),
           bottom: TabBar(
-            labelColor: Colors.redAccent,
+            labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
@@ -248,13 +248,13 @@ class _TransferPointsState extends State<TransferPoints>
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("โอน Point"),
+                  child: Text("โอน Point", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("ประวัติการโอน"),
+                  child: Text("ประวัติการโอน", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
             ],

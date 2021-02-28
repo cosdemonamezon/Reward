@@ -338,7 +338,7 @@ class _RewardScreenState extends State<RewardScreen>
           centerTitle: true,
           title: Text("รีวอร์ด"),
           bottom: TabBar(
-            labelColor: Colors.redAccent,
+            labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
@@ -350,13 +350,13 @@ class _RewardScreenState extends State<RewardScreen>
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("รายการ"),
+                  child: Text("รายการ", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("ประวัติ"),
+                  child: Text("ประวัติ", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
             ],
@@ -856,7 +856,7 @@ class _RewardScreenState extends State<RewardScreen>
                                                                           'appove_status'],
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              12.0)),
+                                                                              12.0, color: Colors.white)),
                                                                 )
                                                               : transreward[index]
                                                                           [
@@ -872,7 +872,7 @@ class _RewardScreenState extends State<RewardScreen>
                                                                               'appove_status'],
                                                                           style: TextStyle(
                                                                               fontSize:
-                                                                                  12.0)),
+                                                                                  12.0, color: Colors.white)),
                                                                     )
                                                                   : Chip(
                                                                       backgroundColor:
@@ -884,7 +884,7 @@ class _RewardScreenState extends State<RewardScreen>
                                                                               'appove_status'],
                                                                           style: TextStyle(
                                                                               fontSize:
-                                                                                  12.0)),
+                                                                                  12.0, color: Colors.white)),
                                                                     ),
                                                         ],
                                                       ),

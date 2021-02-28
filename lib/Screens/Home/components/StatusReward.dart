@@ -152,7 +152,7 @@ class _StatusRewardState extends State<StatusReward> {
           centerTitle: true,
           title: Text("Status Group Reward"),
           bottom: TabBar(
-            labelColor: Colors.redAccent,
+            labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
@@ -164,13 +164,13 @@ class _StatusRewardState extends State<StatusReward> {
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("Group"),
+                  child: Text("Group", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("History"),
+                  child: Text("History", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
             ],
