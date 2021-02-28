@@ -15,7 +15,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Reward/Reward/RewardScreen.dart';
 import 'package:flutter/services.dart';
-import 'package:Reward/Screens/Home/components/Getreward.dart';
 import 'package:Reward/Screens/Home/components/StatusReward.dart';
 import 'package:Reward/Screens/Home/components/TransferPoints.dart';
 
@@ -107,7 +106,6 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginPage(),
           '/coin': (context) => Coin(),
           '/detailreward': (context) => DetailReward(),
-          '/getreward': (context) => GetReward(),
           '/profilesetting': (context) => Profilesettings(),
           '/status': (context) => StatusReward(),
           '/transfer': (context) => TransferPoints(),

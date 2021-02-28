@@ -592,8 +592,8 @@ class _StatusRewardState extends State<StatusReward> {
                 Column(
                   children: [
                     CircleAvatar(
-                      backgroundColor:
-                          hexToColor("#" + template_kNavigationFooterBarColor),
+                      backgroundColor:nbtn1 == true ?
+                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
                       foregroundColor:
                           nbtn1 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon1),

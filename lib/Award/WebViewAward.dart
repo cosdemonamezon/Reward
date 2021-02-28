@@ -4,6 +4,8 @@ import 'package:Reward/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
+import 'package:Reward/Screens/Login/components/Helpadvice.dart';
+import 'package:Reward/Screens/Login/components/Coin.dart';
 
 class WebViewAward extends StatefulWidget {
   WebViewAward({Key key}) : super(key: key);
@@ -68,12 +70,19 @@ class _WebViewAwardState extends State<WebViewAward> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor:nbtn1 == true ?
+                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
+                        setState(() {
+                          nbtn1 = true;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = false;
+                        });
                         //launch(('tel://${item.mobile_no}'));
                         //launch(('tel://0922568260'));
                         launch(('tel://${data['board_phone_1']}'));
@@ -90,17 +99,26 @@ class _WebViewAwardState extends State<WebViewAward> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor:nbtn2 == true ?
+                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/help", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = true;
+                          nbtn3 = false;
+                          nbtn4 = false;
                         });
+                        //Navigator.pushNamed(context, "/help",);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Helpadvice();
+                          }),
+                        );
                       },
                     ),
                   ),
@@ -117,12 +135,20 @@ class _WebViewAwardState extends State<WebViewAward> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        backgroundColor: hexToColor(
-                            "#" + template_kNavigationFooterBarColor),
+                        backgroundColor: nbtn3 == true ?
+                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                        foregroundColor:
+                            nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
                           onTap: () {
+                            setState(() {
+                              nbtn1 = false;
+                              nbtn2 = false;
+                              nbtn3 = true;
+                              nbtn4 = false;
+                            });
                             Navigator.pushNamed(context, "/noti", arguments: {
                               'member_point': data['member_point'],
                               'board_phone_1': data['board_phone_1'],
@@ -165,17 +191,30 @@ class _WebViewAwardState extends State<WebViewAward> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn4 == true ?
+                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/coin", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
+                        setState(() {
+                          nbtn1 = false;
+                          nbtn2 = false;
+                          nbtn3 = false;
+                          nbtn4 = true;
                         });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return Coin();
+                          }),
+                        );
+                        // Navigator.pushNamed(context, "/coin", arguments: {
+                        //   'member_point': data['member_point'],
+                        //   'board_phone_1': data['board_phone_1'],
+                        //   'total_noti': data['total_noti'],
+                        // });
                       },
                     ),
                   ),

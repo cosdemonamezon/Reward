@@ -320,749 +320,762 @@ class _RewardScreenState extends State<RewardScreen>
   Widget build(BuildContext context) {
     Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
     //print(data);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, "/home", (route) => false);
-          },
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: hexToColor("#" + template_kNavigationBarColor),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/home", (route) => false);
+            },
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+            ),
           ),
-        ),
-        centerTitle: true,
-        title: Text("รีวอร์ด"),
-        bottom: TabBar(
-            controller: tabController,
-            unselectedLabelColor: Colors.white60,
-            labelColor: Colors.white,
-            indicatorWeight: 5.0,
+          centerTitle: true,
+          title: Text("รีวอร์ด"),
+          bottom: TabBar(
+            labelColor: Colors.redAccent,
+            unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                color: Colors.white),
             tabs: [
               Tab(
-                child: Text("รายการ"),
-              ),
-              Tab(
-                child: Text("ประวัติ"),
-              ),
-            ]),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          //Tab ที่หนึ่ง
-          isLoading == true
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : reward.length == 0
-                  ? Center(
-                      child: Text(
-                        "ไม่พบข้อมูล",
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: hexToColor(
-                                "#" + template_kNavigationFooterBarColor)),
-                      ),
-                    )
-                  : Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(255, 95, 27, .3),
-                                      blurRadius: 20,
-                                      offset: Offset(0, 0.1),
-                                    )
-                                  ],
-                                ),
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey[200])),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.0),
-                                        child: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              "assets/images/gold.JPG"),
-                                          radius: 25,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        //child: Text("User Member : User XXXX9528"),
-                                        child: Text(
-                                            "User Member : ${data['username']}"),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            //flex: 2,
-                            child: Container(
-                              height: 10,
-                              child: GridView.count(
-                                crossAxisCount: 2,
-                                scrollDirection: Axis.vertical,
-                                //mainAxisSpacing: 2,
-                                children: List.generate(reward.length, (index) {
-                                  return Container(
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 2.0, horizontal: 4.0),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          // var url = reward[index]['url'];
-                                          // launch((url));
-                                          Navigator.pushNamed(
-                                              context, '/detailreward',
-                                              arguments: {
-                                                'id': reward[index]['id'],
-                                                'title': reward[index]['title'],
-                                                'description': reward[index]
-                                                    ['description'],
-                                                'url': reward[index]['url'],
-                                                'pic': reward[index]['pic'],
-                                                'point': reward[index]['point'],
-                                                'transfer_status': reward[index]
-                                                    ['transfer_status'],
-                                                'group_status': reward[index]
-                                                    ['group_status'],
-                                                'qty_status': reward[index]
-                                                    ['qty_status'],
-                                                'member_id': data['member_id'],
-                                                'member_point':
-                                                    data['member_point'],
-                                              });
-                                        },
-                                        child: Card(
-                                          elevation: 10.0,
-                                          //color: Colors.blue,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              //Image.asset("assets/images/124.JPG"),
-                                              //Ink.image(image: NetworkImage(picUrlimages+reward[index]['pic']), fit: BoxFit.cover),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                height: 100,
-                                                width: double.infinity,
-                                                child: reward[index]['pic'] !=
-                                                        null
-                                                    ? Image.network(
-                                                        reward[index]['pic'],
-                                                        fit: BoxFit.fill,
-                                                      )
-                                                    : Image.network(
-                                                        'https://picsum.photos/400/200',
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                              ),
-                                              //Image.network(picUrlimages+reward[index]['pic'], fit: BoxFit.cover,),
-                                              SizedBox(
-                                                height: 2,
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 6),
-                                                child: Text(
-                                                  reward[index]['description'],
-                                                  style:
-                                                      TextStyle(fontSize: 12.0),
-                                                  textAlign: TextAlign.justify,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    // Chip(
-                                                    //   backgroundColor: Colors.blueAccent,
-                                                    //   elevation: 2.0,
-                                                    //   label: Text("point"),
-                                                    // ),
-                                                    Icon(Icons.star),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 3.0),
-                                                      child: Text(reward[index]
-                                                              ['point']
-                                                          .toString()),
-                                                    ),
-                                                    Text("P"),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-          //tab ที่สอง
-          ListView(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            abtn1 = true;
-                            abtn2 = false;
-                            abtn3 = false;
-                          });
-                          _getApproved();
-                        },
-                        child: abtn1 == true
-                            ? Container(
-                                height: 50.0,
-                                width: 100,
-                                //margin: EdgeInsets.symmetric(horizontal: 40),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: hexToColor(
-                                      "#" + template_kNavigationFooterBarColor),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Approved",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.6,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                height: 50.0,
-                                width: 100,
-                                //margin: EdgeInsets.symmetric(horizontal: 40),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.grey[400],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Approved",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.6,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                              )),
-                    GestureDetector(
-                        onTap: () {
-                          //_getlogTransRewardMember();
-                          setState(() {
-                            abtn1 = false;
-                            abtn2 = true;
-                            abtn3 = false;
-                          });
-                          _getHideForReview();
-                        },
-                        child: abtn2 == true
-                            ? Container(
-                                height: 50.0,
-                                width: 150,
-                                //margin: EdgeInsets.symmetric(horizontal: 40),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: hexToColor(
-                                      "#" + template_kNavigationFooterBarColor),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Hide For Review",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.6,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                height: 50.0,
-                                width: 150,
-                                //margin: EdgeInsets.symmetric(horizontal: 40),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[400],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Hide For Review",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.6,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                              )),
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            abtn1 = false;
-                            abtn2 = false;
-                            abtn3 = true;
-                          });
-                          _getReject();
-                        },
-                        child: abtn3 == true
-                            ? Container(
-                                height: 50.0,
-                                width: 100,
-                                //margin: EdgeInsets.symmetric(horizontal: 40),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: hexToColor(
-                                      "#" + template_kNavigationFooterBarColor),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Reject",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.6,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                height: 50.0,
-                                width: 100,
-                                //margin: EdgeInsets.symmetric(horizontal: 40),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[400],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Reject",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.6,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                              )),
-                  ],
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text("รายการ"),
                 ),
               ),
-              isLoading == true
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : transreward.length == 0
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 150),
-                            child: Text(
-                              "ไม่พบข้อมูล",
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: hexToColor("#" +
-                                      template_kNavigationFooterBarColor)),
-                            ),
-                          ),
-                        )
-                      : ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: transreward.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 5.0),
-                              child: Column(
-                                children: [
-                                  Card(
-                                    child: ListTile(
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Container(
-                                                height: 110,
-                                                width: 80,
-                                                child: transreward[index]
-                                                            ['pic'] !=
-                                                        null
-                                                    ? Image.network(
-                                                        transreward[index]
-                                                            ['pic'],
-                                                        fit: BoxFit.fill,
-                                                      )
-                                                    : Image.network(
-                                                        'https://picsum.photos/400/200',
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                              ),
-                                            ],
+              Tab(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text("ประวัติ"),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          //controller: tabController,
+          children: [
+            //Tab ที่หนึ่ง
+            isLoading == true
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : reward.length == 0
+                    ? Center(
+                        child: Text(
+                          "ไม่พบข้อมูล",
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: hexToColor(
+                                  "#" + template_kNavigationFooterBarColor)),
+                        ),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(255, 95, 27, .3),
+                                        blurRadius: 20,
+                                        offset: Offset(0, 0.1),
+                                      )
+                                    ],
+                                  ),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey[200])),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          child: CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                "assets/images/gold.JPG"),
+                                            radius: 25,
                                           ),
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 5.0,
-                                                    horizontal: 8.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        transreward[index]
-                                                            ['title'],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          //child: Text("User Member : User XXXX9528"),
+                                          child: Text(
+                                              "User Member : ${data['username']}"),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              //flex: 2,
+                              child: Container(
+                                height: 10,
+                                child: GridView.count(
+                                  crossAxisCount: 2,
+                                  scrollDirection: Axis.vertical,
+                                  //mainAxisSpacing: 2,
+                                  children: List.generate(reward.length, (index) {
+                                    return Container(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 2.0, horizontal: 4.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            // var url = reward[index]['url'];
+                                            // launch((url));
+                                            Navigator.pushNamed(
+                                                context, '/detailreward',
+                                                arguments: {
+                                                  'id': reward[index]['id'],
+                                                  'title': reward[index]['title'],
+                                                  'description': reward[index]
+                                                      ['description'],
+                                                  'url': reward[index]['url'],
+                                                  'pic': reward[index]['pic'],
+                                                  'point': reward[index]['point'],
+                                                  'transfer_status': reward[index]
+                                                      ['transfer_status'],
+                                                  'group_status': reward[index]
+                                                      ['group_status'],
+                                                  'qty_status': reward[index]
+                                                      ['qty_status'],
+                                                  'member_id': data['member_id'],
+                                                  'member_point':
+                                                      data['member_point'],
+                                                });
+                                          },
+                                          child: Card(
+                                            elevation: 10.0,
+                                            //color: Colors.blue,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                //Image.asset("assets/images/124.JPG"),
+                                                //Ink.image(image: NetworkImage(picUrlimages+reward[index]['pic']), fit: BoxFit.cover),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                  ),
+                                                  height: 100,
+                                                  width: double.infinity,
+                                                  child: reward[index]['pic'] !=
+                                                          null
+                                                      ? Image.network(
+                                                          reward[index]['pic'],
+                                                          fit: BoxFit.fill,
+                                                        )
+                                                      : Image.network(
+                                                          'https://picsum.photos/400/200',
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                ),
+                                                //Image.network(picUrlimages+reward[index]['pic'], fit: BoxFit.cover,),
+                                                SizedBox(
+                                                  height: 2,
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 6),
+                                                  child: Text(
+                                                    reward[index]['description'],
+                                                    style:
+                                                        TextStyle(fontSize: 12.0),
+                                                    textAlign: TextAlign.justify,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(5.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      // Chip(
+                                                      //   backgroundColor: Colors.blueAccent,
+                                                      //   elevation: 2.0,
+                                                      //   label: Text("point"),
+                                                      // ),
+                                                      Icon(Icons.star),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                                vertical: 3.0),
+                                                        child: Text(reward[index]
+                                                                ['point']
+                                                            .toString()),
+                                                      ),
+                                                      Text("P"),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+            //tab ที่สอง
+            ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              abtn1 = true;
+                              abtn2 = false;
+                              abtn3 = false;
+                            });
+                            _getApproved();
+                          },
+                          child: abtn1 == true
+                              ? Container(
+                                  height: 50.0,
+                                  width: 100,
+                                  //margin: EdgeInsets.symmetric(horizontal: 40),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: hexToColor(
+                                        "#" + template_kNavigationFooterBarColor),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Approved",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.6,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  height: 50.0,
+                                  width: 100,
+                                  //margin: EdgeInsets.symmetric(horizontal: 40),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.grey[400],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Approved",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.6,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                )),
+                      GestureDetector(
+                          onTap: () {
+                            //_getlogTransRewardMember();
+                            setState(() {
+                              abtn1 = false;
+                              abtn2 = true;
+                              abtn3 = false;
+                            });
+                            _getHideForReview();
+                          },
+                          child: abtn2 == true
+                              ? Container(
+                                  height: 50.0,
+                                  width: 150,
+                                  //margin: EdgeInsets.symmetric(horizontal: 40),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: hexToColor(
+                                        "#" + template_kNavigationFooterBarColor),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Hide For Review",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.6,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  height: 50.0,
+                                  width: 150,
+                                  //margin: EdgeInsets.symmetric(horizontal: 40),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey[400],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Hide For Review",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.6,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                )),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              abtn1 = false;
+                              abtn2 = false;
+                              abtn3 = true;
+                            });
+                            _getReject();
+                          },
+                          child: abtn3 == true
+                              ? Container(
+                                  height: 50.0,
+                                  width: 100,
+                                  //margin: EdgeInsets.symmetric(horizontal: 40),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: hexToColor(
+                                        "#" + template_kNavigationFooterBarColor),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Reject",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.6,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  height: 50.0,
+                                  width: 100,
+                                  //margin: EdgeInsets.symmetric(horizontal: 40),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey[400],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Reject",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.6,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                )),
+                    ],
+                  ),
+                ),
+                isLoading == true
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : transreward.length == 0
+                        ? Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 150),
+                              child: Text(
+                                "ไม่พบข้อมูล",
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: hexToColor("#" +
+                                        template_kNavigationFooterBarColor)),
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            physics: const ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: transreward.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 5.0),
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      child: ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  height: 110,
+                                                  width: 80,
+                                                  child: transreward[index]
+                                                              ['pic'] !=
+                                                          null
+                                                      ? Image.network(
+                                                          transreward[index]
+                                                              ['pic'],
+                                                          fit: BoxFit.fill,
+                                                        )
+                                                      : Image.network(
+                                                          'https://picsum.photos/400/200',
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 5.0,
+                                                      horizontal: 8.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                          transreward[index]
+                                                              ['title'],
+                                                          style: TextStyle(
+                                                              fontSize: 12.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(
+                                                        transreward[index][
+                                                                        'description']
+                                                                    .length <=
+                                                                41
+                                                            ? transreward[index]
+                                                                ['description']
+                                                            : transreward[index][
+                                                                    'description']
+                                                                .substring(0, 41),
                                                         style: TextStyle(
                                                             fontSize: 12.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    Text(
-                                                      transreward[index][
-                                                                      'description']
-                                                                  .length <=
-                                                              41
-                                                          ? transreward[index]
-                                                              ['description']
-                                                          : transreward[index][
-                                                                  'description']
-                                                              .substring(0, 41),
-                                                      style: TextStyle(
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      textAlign:
-                                                          TextAlign.justify,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                            "แต้มที่ใช้แลก:   ",
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400)),
-                                                        Text(
-                                                            "${transreward[index]['point'].toString()}  แต้ม",
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text("แลกเมื่อ:   ",
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400)),
-                                                        Text(
-                                                            "${transreward[index]['date_start']}",
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text("สถานะ:   ",
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400)),
-                                                        transreward[index][
-                                                                    'appove_status'] ==
-                                                                "Approved"
-                                                            ? Chip(
-                                                                backgroundColor:
-                                                                    hexToColor("#" +
-                                                                        template_kNavigationFooterBarColor),
-                                                                label: Text(
-                                                                    transreward[
-                                                                            index]
-                                                                        [
-                                                                        'appove_status'],
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            12.0)),
-                                                              )
-                                                            : transreward[index]
-                                                                        [
-                                                                        'appove_status'] ==
-                                                                    "Reject"
-                                                                ? Chip(
-                                                                    backgroundColor:
-                                                                        hexToColor("#" +
-                                                                            template_kNavigationFooterBarColor),
-                                                                    label: Text(
-                                                                        transreward[index]
-                                                                            [
-                                                                            'appove_status'],
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                12.0)),
-                                                                  )
-                                                                : Chip(
-                                                                    backgroundColor:
-                                                                        hexToColor("#" +
-                                                                            template_kNavigationFooterBarColor),
-                                                                    label: Text(
-                                                                        transreward[index]
-                                                                            [
-                                                                            'appove_status'],
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                12.0)),
-                                                                  ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                                FontWeight.bold),
+                                                        textAlign:
+                                                            TextAlign.justify,
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              "แต้มที่ใช้แลก:   ",
+                                                              style: TextStyle(
+                                                                  fontSize: 12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400)),
+                                                          Text(
+                                                              "${transreward[index]['point'].toString()}  แต้ม",
+                                                              style: TextStyle(
+                                                                  fontSize: 12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text("แลกเมื่อ:   ",
+                                                              style: TextStyle(
+                                                                  fontSize: 12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400)),
+                                                          Text(
+                                                              "${transreward[index]['date_start']}",
+                                                              style: TextStyle(
+                                                                  fontSize: 12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text("สถานะ:   ",
+                                                              style: TextStyle(
+                                                                  fontSize: 12.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400)),
+                                                          transreward[index][
+                                                                      'appove_status'] ==
+                                                                  "Approved"
+                                                              ? Chip(
+                                                                  backgroundColor:
+                                                                      hexToColor("#" +
+                                                                          template_kNavigationFooterBarColor),
+                                                                  label: Text(
+                                                                      transreward[
+                                                                              index]
+                                                                          [
+                                                                          'appove_status'],
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12.0)),
+                                                                )
+                                                              : transreward[index]
+                                                                          [
+                                                                          'appove_status'] ==
+                                                                      "Reject"
+                                                                  ? Chip(
+                                                                      backgroundColor:
+                                                                          hexToColor("#" +
+                                                                              template_kNavigationFooterBarColor),
+                                                                      label: Text(
+                                                                          transreward[index]
+                                                                              [
+                                                                              'appove_status'],
+                                                                          style: TextStyle(
+                                                                              fontSize:
+                                                                                  12.0)),
+                                                                    )
+                                                                  : Chip(
+                                                                      backgroundColor:
+                                                                          hexToColor("#" +
+                                                                              template_kNavigationFooterBarColor),
+                                                                      label: Text(
+                                                                          transreward[index]
+                                                                              [
+                                                                              'appove_status'],
+                                                                          style: TextStyle(
+                                                                              fontSize:
+                                                                                  12.0)),
+                                                                    ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                                          // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                                        ],
+                                              ],
+                                            ),
+                                            // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                            // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-            ],
-          ),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        height: 100,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(30.0),
-          //   topRight: Radius.circular(30.0),
-          // ),
-          color: hexToColor("#" + template_kNavigationBarColor),
+                                  ],
+                                ),
+                              );
+                            }),
+              ],
+            ),
+          ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
-                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
-                    backgroundImage: AssetImage(pathicon1),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          nbtn1 = true;
-                          nbtn2 = false;
-                          nbtn3 = false;
-                          nbtn4 = false;
-                        });
-                        //launch(('tel://${item.mobile_no}'));
-                        //launch(('tel://0922568260'));
-                        launch(('tel://${data['board_phone_1']}'));
-                      },
+        bottomNavigationBar: Container(
+          height: 100,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.only(
+            //   topLeft: Radius.circular(30.0),
+            //   topRight: Radius.circular(30.0),
+            // ),
+            color: hexToColor("#" + template_kNavigationBarColor),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:nbtn1 == true ?
+                         Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                      foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
+                      backgroundImage: AssetImage(pathicon1),
+                      radius: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            nbtn1 = true;
+                            nbtn2 = false;
+                            nbtn3 = false;
+                            nbtn4 = false;
+                          });
+                          //launch(('tel://${item.mobile_no}'));
+                          //launch(('tel://0922568260'));
+                          launch(('tel://${data['board_phone_1']}'));
+                        },
+                      ),
                     ),
-                  ),
-                  Text(
-                    "ติดต่อเรา",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
-                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
-                    backgroundImage: AssetImage(pathicon2),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          nbtn1 = false;
-                          nbtn2 = true;
-                          nbtn3 = false;
-                          nbtn4 = false;
-                        });
-                        Navigator.pushNamed(context, "/help", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
-                      },
+                    Text(
+                      "ติดต่อเรา",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Text(
-                    "ช่วยแนะนำ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: hexToColor(
-                            "#" + template_kNavigationFooterBarColor),
-                        foregroundColor:
-                            nbtn3 == true ? Colors.red : Colors.white,
-                        backgroundImage: AssetImage(pathicon3),
-                        radius: 24,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              nbtn1 = false;
-                              nbtn2 = false;
-                              nbtn3 = true;
-                              nbtn4 = false;
-                            });
-                            Navigator.pushNamed(context, "/noti", arguments: {
-                              'member_point': data['member_point'],
-                              'board_phone_1': data['board_phone_1'],
-                              'total_noti': data['total_noti'],
-                            });
-                          },
+                  ],
+                ),
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:
+                          hexToColor("#" + template_kNavigationFooterBarColor),
+                      foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
+                      backgroundImage: AssetImage(pathicon2),
+                      radius: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            nbtn1 = false;
+                            nbtn2 = true;
+                            nbtn3 = false;
+                            nbtn4 = false;
+                          });
+                          Navigator.pushNamed(context, "/help", arguments: {
+                            'member_point': data['member_point'],
+                            'board_phone_1': data['board_phone_1'],
+                            'total_noti': data['total_noti'],
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      "ช่วยแนะนำ",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
+                          foregroundColor:
+                              nbtn3 == true ? Colors.red : Colors.white,
+                          backgroundImage: AssetImage(pathicon3),
+                          radius: 24,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                nbtn1 = false;
+                                nbtn2 = false;
+                                nbtn3 = true;
+                                nbtn4 = false;
+                              });
+                              Navigator.pushNamed(context, "/noti", arguments: {
+                                'member_point': data['member_point'],
+                                'board_phone_1': data['board_phone_1'],
+                                'total_noti': data['total_noti'],
+                              });
+                            },
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        right: 5.0,
-                        //top: 2.0,
-                        child: data['total_noti'] == null
-                            ? SizedBox(
-                                height: 2.0,
-                              )
-                            : data['total_noti'] == 0
-                                ? SizedBox(
-                                    height: 2.0,
-                                  )
-                                : CircleAvatar(
-                                    backgroundColor: Colors.red,
-                                    radius: 10,
-                                    child: Text(
-                                      data['total_noti'].toString(),
-                                      style: TextStyle(
-                                          color: kTextColor,
-                                          fontWeight: FontWeight.bold),
+                        Positioned(
+                          right: 5.0,
+                          //top: 2.0,
+                          child: data['total_noti'] == null
+                              ? SizedBox(
+                                  height: 2.0,
+                                )
+                              : data['total_noti'] == 0
+                                  ? SizedBox(
+                                      height: 2.0,
+                                    )
+                                  : CircleAvatar(
+                                      backgroundColor: Colors.red,
+                                      radius: 10,
+                                      child: Text(
+                                        data['total_noti'].toString(),
+                                        style: TextStyle(
+                                            color: kTextColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "แจ้งเตือน",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
-                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
-                    backgroundImage: AssetImage(pathicon4),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          nbtn1 = false;
-                          nbtn2 = false;
-                          nbtn3 = false;
-                          nbtn4 = true;
-                        });
-                        Navigator.pushNamed(context, "/coin", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
-                      },
+                        ),
+                      ],
                     ),
-                  ),
-                  Text(
-                    "เหรียญ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
+                    Text(
+                      "แจ้งเตือน",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:
+                          hexToColor("#" + template_kNavigationFooterBarColor),
+                      foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
+                      backgroundImage: AssetImage(pathicon4),
+                      radius: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            nbtn1 = false;
+                            nbtn2 = false;
+                            nbtn3 = false;
+                            nbtn4 = true;
+                          });
+                          Navigator.pushNamed(context, "/coin", arguments: {
+                            'member_point': data['member_point'],
+                            'board_phone_1': data['board_phone_1'],
+                            'total_noti': data['total_noti'],
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      "เหรียญ",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

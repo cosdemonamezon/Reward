@@ -341,9 +341,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                               Navigator.pushNamed(
                                                   context, '/webview',
                                                   arguments: {
-                                                    //'id': data['id'],
-                                                    // 'board_phone_1': data['board_phone_1'],
-                                                    // 'total_noti': data['total_noti'],
+                                                    'id': data['id'],
+                                                    'board_phone_1': data['board_phone_1'],
+                                                    'total_noti': data['total_noti'],
                                                     'title': campaign[index]
                                                         ['title'],
                                                     'url': campaign[index]
@@ -396,8 +396,8 @@ class _PromotionScreenState extends State<PromotionScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor:nbtn1 == true ?
+                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,

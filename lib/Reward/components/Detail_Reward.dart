@@ -19,6 +19,7 @@ class _DetailRewardState extends State<DetailReward> {
   String confrim_address_status = 'Yes';
   SharedPreferences prefs;
   bool isLoading = false;
+  bool _isButtonDisabled = false;
   //List<dynamic> detailreward = [];
   String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
@@ -26,6 +27,7 @@ class _DetailRewardState extends State<DetailReward> {
   void initState() {
     super.initState();
     _getColor();
+    //_isButtonDisabled = false;
   }
 
   _getColor() async {
@@ -53,6 +55,7 @@ class _DetailRewardState extends State<DetailReward> {
 
     setState(() {
       isLoading = true;
+      _isButtonDisabled = true;
     });
     var url = pathAPI + 'api/transferReward';
     var response = await http.post(url,
@@ -371,9 +374,19 @@ class _DetailRewardState extends State<DetailReward> {
                     Expanded(
                       child: pointStatus == true
                           ? Container(
-                              child: FlatButton(
-                                onPressed: () {
+                              child: _isButtonDisabled == false ? FlatButton(
+                                onPressed:  (){
                                   _transferReward(data);
+                                },
+                                child: Text(
+                                  "แลกรางวัล",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              )
+                              :FlatButton(
+                                onPressed:  (){
+                                  
                                 },
                                 child: Text(
                                   "แลกรางวัล",
@@ -486,8 +499,8 @@ class _DetailRewardState extends State<DetailReward> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor:nbtn1 == true ?
+                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,

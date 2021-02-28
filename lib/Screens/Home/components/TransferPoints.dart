@@ -190,23 +190,7 @@ class _TransferPointsState extends State<TransferPoints>
             context,
           ),
         );
-        // Alert(
-        //   context: context,
-        //   type: AlertType.error,
-        //   title: point['massage'],
-        //   desc: "โปรดตรวจสอบหมายเลขโทรศัพท์อีกครั้ง",
-        //   buttons: [
-        //     DialogButton(
-        //       child: Text(
-        //         "กรอกเบอร์โทรอีกครั้ง",
-        //         style: TextStyle(color: Colors.white, fontSize: 20),
-        //       ),
-        //       onPressed: (){
-        //         Navigator.pop(context);
-        //       },
-        //     ),
-        //   ]
-        // ).show();
+        
       }
     } else {
       var comfirm = convert.jsonDecode(response.body);
@@ -230,612 +214,625 @@ class _TransferPointsState extends State<TransferPoints>
     Map data = ModalRoute.of(context).settings.arguments;
     if (data['member_activate'] == "No") {}
     //print(data);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
-        centerTitle: true,
-        //toolbarHeight: 150,
-        //backgroundColor: Colors.blue,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, "/home", (route) => false);
-          },
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: hexToColor("#" + template_kNavigationBarColor),
+          centerTitle: true,
+          //toolbarHeight: 150,
+          //backgroundColor: Colors.blue,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/home", (route) => false);
+            },
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+            ),
           ),
-        ),
-        elevation: 18,
-        //centerTitle: true,
-        title: Text("Point"),
-        bottom: TabBar(
-            controller: tabController,
-            unselectedLabelColor: Colors.black,
-            labelColor: Colors.white,
-            indicatorWeight: 5.0,
+          elevation: 18,
+          //centerTitle: true,
+          title: Text("Point"),
+          bottom: TabBar(
+            labelColor: Colors.redAccent,
+            unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                color: Colors.white),
             tabs: [
               Tab(
-                child: Text("โอน Point"),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text("โอน Point"),
+                ),
               ),
               Tab(
-                child: Text("ประวัติการโอน"),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text("ประวัติการโอน"),
+                ),
               ),
-            ]),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          logpoint == null
-              ? Center(
-                  child: Text(
-                    "ไม่พบข้อมูล",
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: hexToColor(
-                            "#" + template_kNavigationFooterBarColor)),
-                  ),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 25),
-                            child: Text(
-                              "จาก : My Account : ${data['username']}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.0),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 25.0, vertical: 5.0),
-                        child: Stack(children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.blue[100],
-                                  blurRadius: 20,
-                                  offset: Offset(0, 10),
-                                )
-                              ],
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(15.0),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                    bottom:
-                                        BorderSide(color: Colors.grey[200])),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Icon(
-                                          Icons.account_circle,
-                                          size: 50,
-                                        ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Point : ${data['member_point']}",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16.0),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ]),
-                      ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      FormBuilder(
-                        key: _fbKey,
-                        initialValue: {
-                          'id': data['id'].toString(),
-                          'phone_des': '',
-                          'point': '',
-                          'note': '',
-                        },
-                        child: Column(
+            ],
+          ),
+        ),
+        body: TabBarView(
+          //controller: tabController,
+          children: [
+            logpoint == null
+                ? Center(
+                    child: Text(
+                      "ไม่พบข้อมูล",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: hexToColor(
+                              "#" + template_kNavigationFooterBarColor)),
+                    ),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 50),
-                              child: FormBuilderTextField(
-                                attribute: 'point',
-                                keyboardType: TextInputType.number,
-                                // inputFormatters: [
-                                //   ThousandsFormatter()
-                                // ],
-                                textAlign: TextAlign.end,
-                                decoration: InputDecoration(
-                                  labelText: 'จำนวน',
-                                  //hintText: 'ใส่ Point ที่ต้องการโอน',
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                  ),
-                                ),
-                                validators: [
-                                  FormBuilderValidators.required(
-                                      errorText: 'กรุณาระบุแต้มที่จะโอน'),
-                                ],
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 25),
+                              child: Text(
+                                "จาก : My Account : ${data['username']}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16.0),
                               ),
-                            ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 50),
-                              child: FormBuilderTextField(
-                                attribute: 'phone_des',
-                                keyboardType: TextInputType.number,
-                                textAlign: TextAlign.end,
-                                decoration: InputDecoration(
-                                  labelText: 'เบอร์โทร',
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                  ),
-                                ),
-                                validators: [
-                                  FormBuilderValidators.required(
-                                      errorText: 'กรุณากรอกเบอร์โทรศัพท์'),
-                                  FormBuilderValidators.maxLength(10,
-                                      errorText:
-                                          "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง")
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 50),
-                              child: FormBuilderTextField(
-                                maxLines: 3,
-                                attribute: 'note',
-                                keyboardType: TextInputType.name,
-                                // inputFormatters: [
-                                //   ThousandsFormatter()
-                                // ],
-                                textAlign: TextAlign.end,
-                                decoration: InputDecoration(
-                                  labelText: 'โน๊ต',
-                                  //hintText: 'ใส่ Point ที่ต้องการโอน',
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFF6200EE)),
-                                  ),
-                                ),
-                                // validators: [
-                                //   FormBuilderValidators.required(errorText: 'กรุณาระบุแต้มที่จะโอน'),
-                                // ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 100.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                        context, "/home", (route) => false);
-                                  },
-                                  child: Container(
-                                    height: 50.0,
-                                    width: 120.0,
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xff515151),
-                                            Color(0xffa3a3a3)
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Center(
-                                      child: Text(
-                                        "ย้อนกลับ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (_fbKey.currentState.saveAndValidate()) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => alertConfrim(
-                                          confrimpoint,
-                                          picWanning,
-                                          context,
-                                        ),
-                                      );
-                                      // if (success == true) {
-                                      //   _transferPoint(_fbKey.currentState.value);
-                                      //   setState((){
-                                      //     isLoading = true;
-                                      //   });
-                                      // } else {
-                                      // }
-                                      // _transferPoint(_fbKey.currentState.value);
-                                      // setState((){
-                                      //   isLoading = true;
-                                      // });
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 50.0,
-                                    width: 120.0,
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xff374ABE),
-                                            Color(0xff64B6FF)
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Center(
-                                      child: Text(
-                                        "โอน Point",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-
-          ///Tab 2
-          logpoint.length == 0
-              ? Center(
-                  child: Text(
-                    "ไม่พบข้อมูล",
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: hexToColor(
-                            "#" + template_kNavigationFooterBarColor)),
-                  ),
-                )
-              : Container(
-                  width: double.infinity,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    itemCount: logpoint.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Card(
-                          elevation: 8.0,
-                          child: ListTile(
-                            title: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("โอน Point",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      Text(
-                                          logpoint[index]['amount'].toString() +
-                                              " Point",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25.0, vertical: 5.0),
+                          child: Stack(children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.blue[100],
+                                    blurRadius: 20,
+                                    offset: Offset(0, 10),
+                                  )
+                                ],
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(15.0),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom:
+                                          BorderSide(color: Colors.grey[200])),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(logpoint[index]['createdTime'],
-                                          style: TextStyle(fontSize: 13)),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Divider(
-                                  height: 2,
-                                  thickness: 3,
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            ),
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "ชื่อบัญชี :",
-                                      ),
-                                      Text(logpoint[index]['username_des'],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("เบอร์โทร :"),
-                                      Text(logpoint[index]['phone_des'],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("โน๊ต : " + logpoint[index]['note']),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                child: Column(
                                   children: [
-                                    Text(logpoint[index]['createdDate']),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Icon(
+                                            Icons.account_circle,
+                                            size: 50,
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Point : ${data['member_point']}",
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16.0),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ]),
                         ),
-                      );
-                    },
-                  ),
-                ),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        height: 100,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(30.0),
-          //   topRight: Radius.circular(30.0),
-          // ),
-          color: hexToColor("#" + template_kNavigationBarColor),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
-                    foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
-                    backgroundImage: AssetImage(pathicon1),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          nbtn1 = true;
-                          nbtn2 = false;
-                          nbtn3 = false;
-                          nbtn4 = false;
-                        });
-                        //launch(('tel://${item.mobile_no}'));
-                        //launch(('tel://0922568260'));
-                        launch(('tel://${numberNoti['board_phone_1']}'));
-                      },
-                    ),
-                  ),
-                  Text(
-                    "ติดต่อเรา",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
-                    foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
-                    backgroundImage: AssetImage(pathicon2),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          nbtn1 = false;
-                          nbtn2 = true;
-                          nbtn3 = false;
-                          nbtn4 = false;
-                        });
-                        Navigator.pushNamed(context, "/help", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
-                      },
-                    ),
-                  ),
-                  Text(
-                    "ช่วยแนะนำ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: hexToColor(
-                            "#" + template_kNavigationFooterBarColor),
-                        foregroundColor:
-                            nbtn3 == true ? Colors.red : Colors.white,
-                        backgroundImage: AssetImage(pathicon3),
-                        radius: 24,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              nbtn1 = false;
-                              nbtn2 = false;
-                              nbtn3 = true;
-                              nbtn4 = false;
-                            });
-                            Navigator.pushNamed(context, "/noti", arguments: {
-                              'member_point': data['member_point'],
-                              'board_phone_1': data['board_phone_1'],
-                              'total_noti': data['total_noti'],
-                            });
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        FormBuilder(
+                          key: _fbKey,
+                          initialValue: {
+                            'id': data['id'].toString(),
+                            'phone_des': '',
+                            'point': '',
+                            'note': '',
                           },
-                        ),
-                      ),
-                      Positioned(
-                        right: 5.0,
-                        //top: 2.0,
-                        child: numberNoti['total_noti'] == null
-                            ? SizedBox(
-                                height: 2.0,
-                              )
-                            : numberNoti['total_noti'] == 0
-                                ? SizedBox(
-                                    height: 2.0,
-                                  )
-                                : CircleAvatar(
-                                    backgroundColor: Colors.red,
-                                    radius: 10,
-                                    child: Text(
-                                      numberNoti['total_noti'].toString(),
-                                      style: TextStyle(
-                                          color: kTextColor,
-                                          fontWeight: FontWeight.bold),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 50),
+                                child: FormBuilderTextField(
+                                  attribute: 'point',
+                                  keyboardType: TextInputType.number,
+                                  // inputFormatters: [
+                                  //   ThousandsFormatter()
+                                  // ],
+                                  textAlign: TextAlign.end,
+                                  decoration: InputDecoration(
+                                    labelText: 'จำนวน',
+                                    //hintText: 'ใส่ Point ที่ต้องการโอน',
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
                                     ),
                                   ),
-                      ),
-                    ],
+                                  validators: [
+                                    FormBuilderValidators.required(
+                                        errorText: 'กรุณาระบุแต้มที่จะโอน'),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 50),
+                                child: FormBuilderTextField(
+                                  attribute: 'phone_des',
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.end,
+                                  decoration: InputDecoration(
+                                    labelText: 'เบอร์โทร',
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                  ),
+                                  validators: [
+                                    FormBuilderValidators.required(
+                                        errorText: 'กรุณากรอกเบอร์โทรศัพท์'),
+                                    FormBuilderValidators.maxLength(10,
+                                        errorText:
+                                            "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง")
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 50),
+                                child: FormBuilderTextField(
+                                  maxLines: 3,
+                                  attribute: 'note',
+                                  keyboardType: TextInputType.name,
+                                  // inputFormatters: [
+                                  //   ThousandsFormatter()
+                                  // ],
+                                  textAlign: TextAlign.end,
+                                  decoration: InputDecoration(
+                                    labelText: 'โน๊ต',
+                                    //hintText: 'ใส่ Point ที่ต้องการโอน',
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF6200EE)),
+                                    ),
+                                  ),
+                                  // validators: [
+                                  //   FormBuilderValidators.required(errorText: 'กรุณาระบุแต้มที่จะโอน'),
+                                  // ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 100.0,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, "/home", (route) => false);
+                                    },
+                                    child: Container(
+                                      height: 50.0,
+                                      width: 120.0,
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xff515151),
+                                              Color(0xffa3a3a3)
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Center(
+                                        child: Text(
+                                          "ย้อนกลับ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (_fbKey.currentState.saveAndValidate()) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => alertConfrim(
+                                            confrimpoint,
+                                            picWanning,
+                                            context,
+                                          ),
+                                        );
+                                        // if (success == true) {
+                                        //   _transferPoint(_fbKey.currentState.value);
+                                        //   setState((){
+                                        //     isLoading = true;
+                                        //   });
+                                        // } else {
+                                        // }
+                                        // _transferPoint(_fbKey.currentState.value);
+                                        // setState((){
+                                        //   isLoading = true;
+                                        // });
+                                      }
+                                    },
+                                    child: Container(
+                                      height: 50.0,
+                                      width: 120.0,
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xff374ABE),
+                                              Color(0xff64B6FF)
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Center(
+                                        child: Text(
+                                          "โอน Point",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    "แจ้งเตือน",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
-                    foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
-                    backgroundImage: AssetImage(pathicon4),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          nbtn1 = false;
-                          nbtn2 = false;
-                          nbtn3 = false;
-                          nbtn4 = true;
-                        });
-                        Navigator.pushNamed(context, "/coin", arguments: {
-                          'member_point': data['member_point'],
-                          'board_phone_1': data['board_phone_1'],
-                          'total_noti': data['total_noti'],
-                        });
+
+            ///Tab 2
+            logpoint.length == 0
+                ? Center(
+                    child: Text(
+                      "ไม่พบข้อมูล",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: hexToColor(
+                              "#" + template_kNavigationFooterBarColor)),
+                    ),
+                  )
+                : Container(
+                    width: double.infinity,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      itemCount: logpoint.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Card(
+                            elevation: 8.0,
+                            child: ListTile(
+                              title: Column(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("โอน Point",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text(
+                                            logpoint[index]['amount'].toString() +
+                                                " Point",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(logpoint[index]['createdTime'],
+                                            style: TextStyle(fontSize: 13)),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Divider(
+                                    height: 2,
+                                    thickness: 3,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              ),
+                              subtitle: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 3),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "ชื่อบัญชี :",
+                                        ),
+                                        Text(logpoint[index]['username_des'],
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 3),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("เบอร์โทร :"),
+                                        Text(logpoint[index]['phone_des'],
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 3),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text("โน๊ต : " + logpoint[index]['note']),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(logpoint[index]['createdDate']),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ),
-                  Text(
-                    "เหรียญ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
+          ],
+        ),
+        bottomNavigationBar: Container(
+          height: 100,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.only(
+            //   topLeft: Radius.circular(30.0),
+            //   topRight: Radius.circular(30.0),
+            // ),
+            color: hexToColor("#" + template_kNavigationBarColor),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:nbtn1 == true ?
+                         Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                      foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
+                      backgroundImage: AssetImage(pathicon1),
+                      radius: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            nbtn1 = true;
+                            nbtn2 = false;
+                            nbtn3 = false;
+                            nbtn4 = false;
+                          });
+                          //launch(('tel://${item.mobile_no}'));
+                          //launch(('tel://0922568260'));
+                          launch(('tel://${numberNoti['board_phone_1']}'));
+                        },
+                      ),
+                    ),
+                    Text(
+                      "ติดต่อเรา",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:
+                          hexToColor("#" + template_kNavigationFooterBarColor),
+                      foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
+                      backgroundImage: AssetImage(pathicon2),
+                      radius: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            nbtn1 = false;
+                            nbtn2 = true;
+                            nbtn3 = false;
+                            nbtn4 = false;
+                          });
+                          Navigator.pushNamed(context, "/help", arguments: {
+                            'member_point': data['member_point'],
+                            'board_phone_1': data['board_phone_1'],
+                            'total_noti': data['total_noti'],
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      "ช่วยแนะนำ",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
+                          foregroundColor:
+                              nbtn3 == true ? Colors.red : Colors.white,
+                          backgroundImage: AssetImage(pathicon3),
+                          radius: 24,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                nbtn1 = false;
+                                nbtn2 = false;
+                                nbtn3 = true;
+                                nbtn4 = false;
+                              });
+                              Navigator.pushNamed(context, "/noti", arguments: {
+                                'member_point': data['member_point'],
+                                'board_phone_1': data['board_phone_1'],
+                                'total_noti': data['total_noti'],
+                              });
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          right: 5.0,
+                          //top: 2.0,
+                          child: numberNoti['total_noti'] == null
+                              ? SizedBox(
+                                  height: 2.0,
+                                )
+                              : numberNoti['total_noti'] == 0
+                                  ? SizedBox(
+                                      height: 2.0,
+                                    )
+                                  : CircleAvatar(
+                                      backgroundColor: Colors.red,
+                                      radius: 10,
+                                      child: Text(
+                                        numberNoti['total_noti'].toString(),
+                                        style: TextStyle(
+                                            color: kTextColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "แจ้งเตือน",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:
+                          hexToColor("#" + template_kNavigationFooterBarColor),
+                      foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
+                      backgroundImage: AssetImage(pathicon4),
+                      radius: 24,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            nbtn1 = false;
+                            nbtn2 = false;
+                            nbtn3 = false;
+                            nbtn4 = true;
+                          });
+                          Navigator.pushNamed(context, "/coin", arguments: {
+                            'member_point': data['member_point'],
+                            'board_phone_1': data['board_phone_1'],
+                            'total_noti': data['total_noti'],
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      "เหรียญ",
+                      style: TextStyle(
+                          color: kTextColor, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
