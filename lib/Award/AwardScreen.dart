@@ -299,105 +299,73 @@ class _AwardScreenState extends State<AwardScreen> {
                     SizedBox(
                       height: 20,
                     ),
-
-                    RaisedButton(
-                      onPressed: () async {
-                        if (shareLink['date_exp'] == "Yes") {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) => errorPopup(
-                              dateexp,
-                              picWanning,
-                              context,
-                            ),
-                          );
-                        } else if (shareLink['shere_status'] == "Yes") {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) => errorPopup(
-                              sharestatus,
-                              picWanning,
-                              context,
-                            ),
-                          );
-                        } else if (shareLink['date_exp'] == "Yes" &&
-                            shareLink['shere_status'] == "Yes") {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) => errorPopup(
-                              statusdateexp,
-                              picWanning,
-                              context,
-                            ),
-                          );
-                        } else {
-                          int id = shareLink['id'];
-                          String board_phone_1 = data['board_phone_1'];
-                          int total_noti = data['total_noti'];
-                          _getlink(id, total_noti, board_phone_1);
-                        }
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff616161), Color(0xff757575)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage("assets/images/share2.png"),
-                            fit: BoxFit.cover,
-                          )),
-                          constraints:
-                              BoxConstraints(maxWidth: 340.0, minHeight: 50.0),
-                          alignment: Alignment.center,
+                    
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Container(
+                        width: double.infinity,
+                        child: FlatButton.icon(
+                          onPressed: () async{
+                            if (shareLink['date_exp'] == "Yes") {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => errorPopup(
+                                  dateexp,
+                                  picWanning,
+                                  context,
+                                ),
+                              );
+                            } else if (shareLink['shere_status'] == "Yes") {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => errorPopup(
+                                  sharestatus,
+                                  picWanning,
+                                  context,
+                                ),
+                              );
+                            } else if (shareLink['date_exp'] == "Yes" &&
+                                shareLink['shere_status'] == "Yes") {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => errorPopup(
+                                  statusdateexp,
+                                  picWanning,
+                                  context,
+                                ),
+                              );
+                            } else {
+                              int id = shareLink['id'];
+                              String board_phone_1 = data['board_phone_1'];
+                              int total_noti = data['total_noti'];
+                              _getlink(id, total_noti, board_phone_1);
+                            }                    
+                          },
+                          label: Text(
+                            "Click Share Facebook",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20),
+                          ),
+                          icon: Icon(Icons.share, color:Colors.white, size: 40,),
                         ),
-                      ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              hexToColor("#" +
+                                template_kNavigationFooterBarColor),
+                              hexToColor("#" +
+                                template_kNavigationBarColor)
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0))),
                     ),
-
-                    // GestureDetector(
-                    //   onTap: (){
-                    //     int id = shareLink['id'];
-                    //     String board_phone_1 = data['board_phone_1'];
-                    //     int total_noti = data['total_noti'];
-                    //     _getlink(id, total_noti, board_phone_1);
-                    //     // setState(() {
-                    //     //   // var id = shareLink['id'];
-                    //     //   // _shereLinkReward(id);
-                    //     // });
-
-                    //   },
-                    //   child: Container(
-                    //     height: 50.0,
-                    //     width: 140.0,
-                    //     decoration: BoxDecoration(
-                    //       gradient: LinearGradient(
-                    //         colors: [
-                    //           Color(0xff374ABE),
-                    //           Color(0xff64B6FF)
-                    //         ],
-                    //         begin: Alignment.topCenter,
-                    //         end: Alignment.bottomCenter,
-                    //       ),
-                    //       borderRadius: BorderRadius.circular(10.0)
-                    //     ),
-                    //     child: Center(
-                    //       child: Text(
-                    //         "facebook",
-                    //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+      
                   ],
                 ),
       bottomNavigationBar: Container(
