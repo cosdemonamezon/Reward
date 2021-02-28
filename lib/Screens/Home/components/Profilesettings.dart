@@ -93,34 +93,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
             context,
           ),
         );
-        // Alert(
-        //   context: context,
-        //   type: AlertType.info,
-        //   title: "ท่านต้องการยืนยันข้อมูลสามาชิก",
-        //   buttons: [
-        //     DialogButton(
-        //       child: Text(
-        //         "ยกเลิก",
-        //         style: TextStyle(color: Colors.white, fontSize: 18),
-        //       ),
-        //       onPressed: () => Navigator.pop(context),
-        //       color: Color.fromRGBO(0, 179, 134, 1.0),
-        //     ),
-        //     DialogButton(
-        //       child: Text(
-        //         "ตกลง",
-        //         style: TextStyle(color: Colors.white, fontSize: 18),
-        //       ),
-        //       onPressed: (){
-        //         Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-        //       },
-        //       gradient: LinearGradient(colors: [
-        //         Color.fromRGBO(116, 116, 191, 1.0),
-        //         Color.fromRGBO(52, 138, 199, 1.0)
-        //       ]),
-        //     ),
-        //   ],
-        // ).show();
+        
       } else {
         showDialog(
           barrierDismissible: false,
@@ -178,21 +151,35 @@ class _ProfilesettingsState extends State<Profilesettings> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> profile = convert.jsonDecode(response.body);
       if (profile['code'] == "200") {
-        Flushbar(
-          title: '${profile['massage']}',
-          //message: "ขอบคุณ",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.green[300],
-          ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.blue[300],
-        )..show(context);
-        Future.delayed(Duration(seconds: 3), () {
-          //Navigator.pop(context);
-          Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-        });
+        Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+        // Flushbar(
+        //   title: '${profile['massage']}',
+        //   //message: "ขอบคุณ",
+        //   icon: Icon(
+        //     Icons.info_outline,
+        //     size: 28.0,
+        //     color: Colors.blue[300],
+        //   ),
+        //   duration: Duration(seconds: 3),
+        //   leftBarIndicatorColor: Colors.blue[300],
+        // ).show(context);
+        // void showTopSnackBar(BuildContext context,) => Flushbar(
+        //   icon: Icon(Icons.info_outline, size: 32, color: Colors.white,),
+        //   shouldIconPulse: false,
+        //   title: profile['massage'],
+        //   duration: Duration(seconds: 3),
+        //   flushbarPosition: FlushbarPosition.TOP,
+        // )..show(context);
+
+
+        //showTopSnackBar(context);
+        // Future.delayed(Duration(seconds: 3), () {
+        //   //Navigator.pop(context);
+        //   Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+        // });
+
+        
+
       } else if (profile['code'] == "400") {
         showDialog(
           barrierDismissible: false,
@@ -238,11 +225,18 @@ class _ProfilesettingsState extends State<Profilesettings> {
     }
   }
 
+  
+
+
+
+  
+
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context).settings.arguments;
     //print(data);
     return Scaffold(
+      backgroundColor: kThemeColor,
       appBar: AppBar(
         backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
@@ -259,49 +253,63 @@ class _ProfilesettingsState extends State<Profilesettings> {
         title: Text("Profile"),
       ),
       body: data.length == 0
-          ? Center(
-              child: Text(
-                "ไม่พบข้อมูล",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.redAccent),
-              ),
-            )
-          : Stack(
-              fit: StackFit.expand,
+        ? Center(
+            child: Text(
+              "ไม่พบข้อมูล",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.redAccent),
+            ),
+          )
+        : Stack(
+          fit: StackFit.expand,
+          children: [                
+            data['member_activate'] == "Yes"
+            ? Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                //Image.asset("assets/images/home.jpg", fit: BoxFit.cover,),
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   height: MediaQuery.of(context).size.height,
-                //   color: Color(0xFFF001117).withOpacity(0.7),
+                // SizedBox(
+                //   height: 10.0,
                 // ),
-                data['member_activate'] == "Yes"
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "ตั้งค่าโปรไฟล์",
+                        style: TextStyle(
+                          color: Colors.white, fontSize: 40.0),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15.0,),                          
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: isLoading == true
+                    ? CircularProgressIndicator(
+                      backgroundColor: Colors.redAccent,
+                      valueColor:
+                      AlwaysStoppedAnimation(Colors.green),
+                      //strokeWidth: 19,
+                    )
+                    :Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                        gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.white, Colors.white, 
+                            //Color.fromRGBO(0, 41, 102, 1),
+                          ]
+                        )
+                      ),
+                      child: Column(
                         children: [
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Profile Setting",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 40.0),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Expanded(
-                              child: Container(
+                          Container(
                             child: SingleChildScrollView(
                               child: Padding(
                                 padding: EdgeInsets.all(20),
@@ -311,557 +319,292 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                       key: _fbKey1,
                                       initialValue: {
                                         'id': data['id'].toString(),
-                                        'member_name_th':
-                                            data['member_name_th'],
-                                        'member_name_en':
-                                            data['member_name_en'],
+                                        'member_name_th': data['member_name_th'],
+                                        'member_name_en': data['member_name_en'],
                                         'member_email': data['member_email'],
                                         'member_address': data['member_address']
                                       },
-                                      child: isLoading == true
-                                          ? CircularProgressIndicator(
-                                              backgroundColor: Colors.redAccent,
-                                              valueColor:
-                                                  AlwaysStoppedAnimation(
-                                                      Colors.green),
-                                              strokeWidth: 19,
-                                            )
-                                          : Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Color.fromRGBO(
-                                                        255, 95, 27, .3),
-                                                    blurRadius: 20,
-                                                    offset: Offset(0, 1),
-                                                  )
-                                                ],
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.all(10.0),                                                          
+                                            child: FormBuilderTextField(
+                                              attribute: 'member_name_th',
+                                              autofocus: false,
+                                              decoration: InputDecoration(
+                                                hintText: "usernameth",
+                                                hintStyle: TextStyle(color: Colors.grey),
+                                                border:
+                                                //InputBorder.none,
+                                                OutlineInputBorder(),
                                               ),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.all(10.0),
-                                                    decoration: BoxDecoration(
-                                                      border: Border(
-                                                        bottom: BorderSide(
-                                                            color: Colors
-                                                                .grey[200]),
-                                                        //top: BorderSide(color: Colors.grey[200]),
-                                                      ),
-                                                    ),
-                                                    child: FormBuilderTextField(
-                                                      attribute:
-                                                          'member_name_th',
-                                                      autofocus: false,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintText: "usernameth",
-                                                        hintStyle: TextStyle(
-                                                            color: Colors.grey),
-                                                        border:
-                                                            InputBorder.none,
-                                                      ),
-                                                      validators: [
-                                                        FormBuilderValidators
-                                                            .required(
-                                                                errorText:
-                                                                    'กรุณากรอก username'),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.all(10.0),
-                                                    decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(
-                                                              color: Colors
-                                                                  .grey[200])),
-                                                    ),
-                                                    child: FormBuilderTextField(
-                                                      attribute:
-                                                          'member_name_en',
-                                                      autofocus: false,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintText: "username",
-                                                        hintStyle: TextStyle(
-                                                            color: Colors.grey),
-                                                        border:
-                                                            InputBorder.none,
-                                                      ),
-                                                      validators: [
-                                                        FormBuilderValidators
-                                                            .required(
-                                                                errorText:
-                                                                    'กรุณากรอก username'),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.all(10.0),
-                                                    decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(
-                                                              color: Colors
-                                                                  .grey[200])),
-                                                    ),
-                                                    child: FormBuilderTextField(
-                                                      attribute: 'member_email',
-                                                      autofocus: false,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintText:
-                                                            "Email address",
-                                                        hintStyle: TextStyle(
-                                                            color: Colors.grey),
-                                                        border:
-                                                            InputBorder.none,
-                                                      ),
-                                                      validators: [
-                                                        FormBuilderValidators
-                                                            .required(
-                                                                errorText:
-                                                                    'กรุณากรอก email address'),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.all(10.0),
-                                                    decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(
-                                                              color: Colors
-                                                                  .grey[200])),
-                                                    ),
-                                                    child: FormBuilderTextField(
-                                                      attribute:
-                                                          'member_address',
-                                                      maxLines: 5,
-                                                      autofocus: false,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintText: "address",
-                                                        hintStyle: TextStyle(
-                                                            color: Colors.grey),
-                                                        border:
-                                                            InputBorder.none,
-                                                      ),
-                                                      validators: [
-                                                        FormBuilderValidators
-                                                            .required(
-                                                                errorText:
-                                                                    'กรุณากรอก ที่อยู่'),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 25.0,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Navigator
-                                                              .pushNamedAndRemoveUntil(
-                                                                  context,
-                                                                  '/home',
-                                                                  (route) =>
-                                                                      false);
-                                                        },
-                                                        child: Container(
-                                                          height: 50.0,
-                                                          width: 100,
-                                                          margin: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      40),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            gradient:
-                                                                LinearGradient(
-                                                              colors: [
-                                                                Color(
-                                                                    0xff515151),
-                                                                Color(
-                                                                    0xffa3a3a3)
-                                                              ],
-                                                              begin: Alignment
-                                                                  .topCenter,
-                                                              end: Alignment
-                                                                  .bottomCenter,
-                                                            ),
-                                                          ),
-                                                          child: Center(
-                                                            child: Text(
-                                                                "ยกเลิก",
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    color: Colors
-                                                                        .white)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          if (_fbKey1
-                                                              .currentState
-                                                              .saveAndValidate()) {
-                                                            _editMember(_fbKey1
-                                                                .currentState
-                                                                .value);
-                                                            // setState((){
-                                                            //   isLoading = true;
-                                                            // });
-                                                          } else {
-                                                            setState(() {
-                                                              //isLoading = true;
-                                                            });
-                                                          }
-                                                          //_editMember();
-                                                        },
-                                                        child: Container(
-                                                          height: 50.0,
-                                                          width: 100,
-                                                          margin: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      40),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            gradient:
-                                                                LinearGradient(
-                                                              colors: [
-                                                                Color(
-                                                                    0xff374ABE),
-                                                                Color(
-                                                                    0xff64B6FF)
-                                                              ],
-                                                              begin: Alignment
-                                                                  .topCenter,
-                                                              end: Alignment
-                                                                  .bottomCenter,
-                                                            ),
-                                                          ),
-                                                          child: Center(
-                                                            child: Text(
-                                                              "บันทึก",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  color: Colors
-                                                                      .white),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 15.0,
-                                                  ),
-                                                ],
+                                              validators: [
+                                                FormBuilderValidators.required(errorText:'กรุณากรอก username'),
+                                              ],
+                                            ),
+                                          ),
+
+                                          Container(
+                                            padding: EdgeInsets.all(10.0),                                                          
+                                            child: FormBuilderTextField(
+                                              attribute: 'member_name_en',
+                                              autofocus: false,
+                                              decoration: InputDecoration(
+                                                hintText: "username",
+                                                hintStyle: TextStyle(color: Colors.grey),
+                                                border: OutlineInputBorder(),                                                                  
+                                              ),
+                                              validators: [
+                                                FormBuilderValidators.required(errorText:'กรุณากรอก username'),
+                                              ],
+                                            ),
+                                          ),
+
+                                          Container(
+                                            padding: EdgeInsets.all(10.0),                                                          
+                                            child: FormBuilderTextField(
+                                              attribute: 'member_email',
+                                              autofocus: false,
+                                              decoration: InputDecoration(
+                                                hintText:"Email address",
+                                                hintStyle: TextStyle(color: Colors.grey),
+                                                border: OutlineInputBorder(),
+                                              ),
+                                              validators: [
+                                                FormBuilderValidators.required(errorText:'กรุณากรอก email address'),
+                                              ],
+                                            ),
+                                          ),
+
+                                          Container(
+                                            padding: EdgeInsets.all(10.0),
+                                            // decoration: BoxDecoration(
+                                            //   border: Border(
+                                            //       bottom: BorderSide(
+                                            //           color: Colors
+                                            //               .grey[200])),
+                                            // ),
+                                            child: FormBuilderTextField(
+                                              attribute: 'member_address',
+                                              maxLines: 5,
+                                              autofocus: false,
+                                              decoration: InputDecoration(
+                                                hintText: "address",
+                                                hintStyle: TextStyle(color: Colors.grey),
+                                                border:OutlineInputBorder(),
+                                              ),
+                                              validators: [
+                                                FormBuilderValidators.required(errorText:'กรุณากรอก ที่อยู่'),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.0,),
+                                          Container(
+                                            width: double.infinity,
+                                            child: FlatButton(
+                                              onPressed: (){
+                                                if (_fbKey1.currentState.saveAndValidate()) {
+                                                  _editMember(_fbKey1.currentState.value);
+                                                  // setState((){
+                                                  //   isLoading = true;
+                                                  // });
+                                                } else {
+                                                  setState(() {
+                                                    //isLoading = true;
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                "บันทึก",
+                                                style: TextStyle(color: Colors.white, fontSize: 20),
                                               ),
                                             ),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xff374ABE),
+                                                  Color(0xff64B6FF)
+                                                ],
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                              ),
+                                              borderRadius: BorderRadius.circular(10.0))
+                                          ),
+
+                                                        
+                                          SizedBox(height: 40.0,),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                          )),
-                        ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 20.0,
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "ยืนยัน สมาชิก",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 40.0),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                    children: [
-                                      FormBuilder(
-                                        key: _fbKey,
-                                        initialValue: {
-                                          'username': '',
-                                          'member_username_game': '',
-                                          'board_shot_name': '',
-                                          'member_address':
-                                              data['member_address']
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Color.fromRGBO(
-                                                    255, 95, 27, .3),
-                                                blurRadius: 20,
-                                                offset: Offset(0, 10),
-                                              )
-                                            ],
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors
-                                                              .grey[200])),
-                                                ),
-                                                child: FormBuilderTextField(
-                                                  attribute: 'username',
-                                                  decoration: InputDecoration(
-                                                    hintText: "Username",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  validators: [
-                                                    FormBuilderValidators.required(
-                                                        errorText:
-                                                            'กรุณากรอก username'),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors
-                                                              .grey[200])),
-                                                ),
-                                                child: FormBuilderTextField(
-                                                  attribute:
-                                                      'member_username_game',
-                                                  decoration: InputDecoration(
-                                                    hintText: "Username Game",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  validators: [
-                                                    FormBuilderValidators.required(
-                                                        errorText:
-                                                            'กรุณากรอก user game'),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors
-                                                              .grey[200])),
-                                                ),
-                                                child: FormBuilderTextField(
-                                                  attribute: 'board_shot_name',
-                                                  decoration: InputDecoration(
-                                                    hintText: "Board",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  validators: [
-                                                    FormBuilderValidators.required(
-                                                        errorText:
-                                                            'กรุณากรอก ตัวย่อกระดาน'),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors
-                                                              .grey[200])),
-                                                ),
-                                                child: FormBuilderTextField(
-                                                  attribute: 'member_address',
-                                                  maxLines: 5,
-                                                  autofocus: false,
-                                                  decoration: InputDecoration(
-                                                    hintText: "ที่อยู่",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    border: InputBorder.none,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 25.0,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator
-                                                          .pushNamedAndRemoveUntil(
-                                                              context,
-                                                              '/home',
-                                                              (route) => false);
-                                                    },
-                                                    child: Container(
-                                                      height: 50.0,
-                                                      width: 100,
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 40),
-                                                      decoration: BoxDecoration(
-                                                        gradient:
-                                                            LinearGradient(
-                                                          colors: [
-                                                            Color(0xff515151),
-                                                            Color(0xffa3a3a3)
-                                                          ],
-                                                          begin: Alignment
-                                                              .topCenter,
-                                                          end: Alignment
-                                                              .bottomCenter,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text("ยกเลิก",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 16.0,
-                                                                color: Colors
-                                                                    .white)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      // //_getActive();
-                                                      // setState(() {
-                                                      //   active = false;
-                                                      // });
-                                                      if (_fbKey.currentState
-                                                          .saveAndValidate()) {
-                                                        _getComfirmUsername(
-                                                            _fbKey.currentState
-                                                                .value);
-                                                        setState(() {
-                                                          isLoading = true;
-                                                        });
-                                                      } else {
-                                                        setState(() {
-                                                          //isLoading = true;
-                                                        });
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      height: 50.0,
-                                                      width: 100,
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 40),
-                                                      decoration: BoxDecoration(
-                                                        gradient:
-                                                            LinearGradient(
-                                                          colors: [
-                                                            Color(0xff374ABE),
-                                                            Color(0xff64B6FF)
-                                                          ],
-                                                          begin: Alignment
-                                                              .topCenter,
-                                                          end: Alignment
-                                                              .bottomCenter,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text("บันทึก",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 16.0,
-                                                                color: Colors
-                                                                    .white)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 15.0,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                                        
                         ],
                       ),
+                    ),
+                  ),
+                )
+              ],
+            )
+            : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 10.0,),
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "ยืนยัน สมาชิก",
+                        style: TextStyle(color: Colors.white, fontSize: 40.0),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10.0,),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Colors.white, Colors.white, 
+                            //Color.fromRGBO(0, 41, 102, 1),
+                        ]
+                      )
+                    ),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            FormBuilder(
+                              key: _fbKey,
+                              initialValue: {
+                                'username': '',
+                                'member_username_game': '',
+                                'board_shot_name': '',
+                                'member_address': data['member_address']
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),                                                          
+                                    child: FormBuilderTextField(
+                                      attribute: 'username',
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText: "Username",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText:'กรุณากรอก username'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),                                                          
+                                    child: FormBuilderTextField(
+                                      attribute: 'member_username_game',
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText: "Username Game",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: OutlineInputBorder(),                                                                  
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText:'กรุณากรอก user game'),
+                                      ],
+                                    ),
+                                  ),
+                                    
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),                                                          
+                                    child: FormBuilderTextField(
+                                      attribute: 'board_shot_name',
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText:"Board",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText:'กรุณากรอก ตัวย่อกระดาน'),
+                                      ],
+                                    ),
+                                  ),
+                                    
+                                  Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: FormBuilderTextField(
+                                      attribute: 'member_address',
+                                      maxLines: 5,
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        hintText: "ที่อยู่",
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        border:OutlineInputBorder(),
+                                      ),
+                                      validators: [
+                                        FormBuilderValidators.required(errorText:'กรุณากรอก ที่อยู่'),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0,),
+                                    
+                                  Container(
+                                    width: double.infinity,
+                                    child: FlatButton(
+                                      onPressed: (){
+                                        if (_fbKey.currentState.saveAndValidate()) {
+                                          _getComfirmUsername(_fbKey.currentState.value);
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            //isLoading = true;
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        "บันทึก",
+                                        style: TextStyle(color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xff374ABE),
+                                          Color(0xff64B6FF)
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10.0))
+                                  ),
+                                  SizedBox(height: 15.0,),
+                                ],
+                              ),
+                            ),          
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
+          ],
+        ),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
