@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 //import 'dart:convert' show utf8, base64;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AwardScreen extends StatefulWidget {
   AwardScreen({Key key}) : super(key: key);
@@ -26,6 +27,7 @@ class _AwardScreenState extends State<AwardScreen> {
   Map<String, dynamic> shareLink = {};
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
   @override
   void initState() {
@@ -38,6 +40,12 @@ class _AwardScreenState extends State<AwardScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
+
     var url = pathAPI + 'api/getShareLinkReward';
     setState(() {
       isLoading = true;
@@ -194,6 +202,7 @@ class _AwardScreenState extends State<AwardScreen> {
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
@@ -218,7 +227,8 @@ class _AwardScreenState extends State<AwardScreen> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF01579B)),
+                        color: hexToColor(
+                            "#" + template_kNavigationFooterBarColor)),
                   ),
                 )
               : Column(
@@ -398,7 +408,7 @@ class _AwardScreenState extends State<AwardScreen> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -410,6 +420,8 @@ class _AwardScreenState extends State<AwardScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
                     child: GestureDetector(
@@ -430,6 +442,8 @@ class _AwardScreenState extends State<AwardScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
                     child: GestureDetector(
@@ -455,6 +469,8 @@ class _AwardScreenState extends State<AwardScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         backgroundImage: AssetImage(pathicon3),
                         radius: 24,
                         child: GestureDetector(
@@ -501,6 +517,8 @@ class _AwardScreenState extends State<AwardScreen> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
                     child: GestureDetector(

@@ -29,6 +29,8 @@ class _RewardScreenState extends State<RewardScreen>
   bool abtn1 = true;
   bool abtn2 = false;
   bool abtn3 = false;
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+
   // String member_id = '';
   // String member_point = '';
   // String confrim_address_status = 'Yes';
@@ -53,6 +55,11 @@ class _RewardScreenState extends State<RewardScreen>
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
 
     setState(() {
       isLoading = true;
@@ -315,6 +322,7 @@ class _RewardScreenState extends State<RewardScreen>
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
@@ -357,7 +365,8 @@ class _RewardScreenState extends State<RewardScreen>
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF01579B)),
+                            color: hexToColor(
+                                "#" + template_kNavigationFooterBarColor)),
                       ),
                     )
                   : Padding(
@@ -556,7 +565,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 //margin: EdgeInsets.symmetric(horizontal: 40),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xFF01579B),
+                                  color: hexToColor(
+                                      "#" + template_kNavigationFooterBarColor),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -603,7 +613,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 //margin: EdgeInsets.symmetric(horizontal: 40),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Color(0xFF01579B),
+                                  color: hexToColor(
+                                      "#" + template_kNavigationFooterBarColor),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -649,7 +660,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 //margin: EdgeInsets.symmetric(horizontal: 40),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xFF01579B),
+                                  color: hexToColor(
+                                      "#" + template_kNavigationFooterBarColor),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -695,7 +707,8 @@ class _RewardScreenState extends State<RewardScreen>
                               style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF01579B)),
+                                  color: hexToColor("#" +
+                                      template_kNavigationFooterBarColor)),
                             ),
                           ),
                         )
@@ -771,7 +784,9 @@ class _RewardScreenState extends State<RewardScreen>
                                                       textAlign:
                                                           TextAlign.justify,
                                                     ),
-                                                    SizedBox(height: 10,),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
                                                     Row(
                                                       children: [
                                                         Text(
@@ -788,13 +803,11 @@ class _RewardScreenState extends State<RewardScreen>
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold)),
-                                                        
                                                       ],
                                                     ),
                                                     Row(
                                                       children: [
-                                                        Text(
-                                                            "แลกเมื่อ:   ",
+                                                        Text("แลกเมื่อ:   ",
                                                             style: TextStyle(
                                                                 fontSize: 12.0,
                                                                 fontWeight:
@@ -807,52 +820,60 @@ class _RewardScreenState extends State<RewardScreen>
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold)),
-                                                        
                                                       ],
                                                     ),
-
                                                     Row(
                                                       children: [
-                                                        Text(
-                                                            "สถานะ:   ",
+                                                        Text("สถานะ:   ",
                                                             style: TextStyle(
                                                                 fontSize: 12.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400)),
-                                                        transreward[index]['appove_status'] ==
-                                                  "Approved"
-                                              ? Chip(
-                                                  backgroundColor:
-                                                      Colors.greenAccent,
-                                                  label: Text(
-                                                      transreward[index]
-                                                          ['appove_status'],
-                                                      style: TextStyle(
-                                                          fontSize: 12.0)),
-                                                )
-                                              : transreward[index]
-                                                          ['appove_status'] ==
-                                                      "Reject"
-                                                  ? Chip(
-                                                      backgroundColor:
-                                                          Colors.redAccent,
-                                                      label: Text(
-                                                          transreward[index]
-                                                              ['appove_status'],
-                                                          style: TextStyle(
-                                                              fontSize: 12.0)),
-                                                    )
-                                                  : Chip(
-                                                      backgroundColor:
-                                                          Colors.orangeAccent,
-                                                      label: Text(
-                                                          transreward[index]
-                                                              ['appove_status'],
-                                                          style: TextStyle(
-                                                              fontSize: 12.0)),
-                                                    ),
-                                                        
+                                                        transreward[index][
+                                                                    'appove_status'] ==
+                                                                "Approved"
+                                                            ? Chip(
+                                                                backgroundColor:
+                                                                    hexToColor("#" +
+                                                                        template_kNavigationFooterBarColor),
+                                                                label: Text(
+                                                                    transreward[
+                                                                            index]
+                                                                        [
+                                                                        'appove_status'],
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12.0)),
+                                                              )
+                                                            : transreward[index]
+                                                                        [
+                                                                        'appove_status'] ==
+                                                                    "Reject"
+                                                                ? Chip(
+                                                                    backgroundColor:
+                                                                        hexToColor("#" +
+                                                                            template_kNavigationFooterBarColor),
+                                                                    label: Text(
+                                                                        transreward[index]
+                                                                            [
+                                                                            'appove_status'],
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                12.0)),
+                                                                  )
+                                                                : Chip(
+                                                                    backgroundColor:
+                                                                        hexToColor("#" +
+                                                                            template_kNavigationFooterBarColor),
+                                                                    label: Text(
+                                                                        transreward[index]
+                                                                            [
+                                                                            'appove_status'],
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                12.0)),
+                                                                  ),
                                                       ],
                                                     ),
                                                   ],
@@ -864,7 +885,6 @@ class _RewardScreenState extends State<RewardScreen>
                                           // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                         ],
                                       ),
-                                      
                                     ),
                                   ),
                                 ],
@@ -883,7 +903,7 @@ class _RewardScreenState extends State<RewardScreen>
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -895,6 +915,8 @@ class _RewardScreenState extends State<RewardScreen>
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -922,6 +944,8 @@ class _RewardScreenState extends State<RewardScreen>
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -954,6 +978,8 @@ class _RewardScreenState extends State<RewardScreen>
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -1008,6 +1034,8 @@ class _RewardScreenState extends State<RewardScreen>
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

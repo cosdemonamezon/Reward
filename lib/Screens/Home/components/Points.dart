@@ -14,6 +14,8 @@ class Points extends StatefulWidget {
 }
 
 class _PointsState extends State<Points> {
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+
   bool isLoading = false;
   List<dynamic> point = [];
   SharedPreferences prefs;
@@ -30,6 +32,11 @@ class _PointsState extends State<Points> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
 
     prefsNoti = await SharedPreferences.getInstance();
     var notiString = prefsNoti.getString('notification');
@@ -98,6 +105,7 @@ class _PointsState extends State<Points> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
@@ -158,7 +166,8 @@ class _PointsState extends State<Points> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF01579B)),
+                        color: hexToColor(
+                            "#" + template_kNavigationFooterBarColor)),
                   ),
                 )
               : SafeArea(
@@ -289,7 +298,7 @@ class _PointsState extends State<Points> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -301,6 +310,8 @@ class _PointsState extends State<Points> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -328,6 +339,8 @@ class _PointsState extends State<Points> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -360,6 +373,8 @@ class _PointsState extends State<Points> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -414,6 +429,8 @@ class _PointsState extends State<Points> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

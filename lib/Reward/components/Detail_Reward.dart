@@ -20,6 +20,25 @@ class _DetailRewardState extends State<DetailReward> {
   SharedPreferences prefs;
   bool isLoading = false;
   //List<dynamic> detailreward = [];
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _getColor();
+  }
+
+  _getColor() async {
+    //print(values);
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
+  }
 
   _transferReward(Map<String, dynamic> data) async {
     print(data);
@@ -31,6 +50,7 @@ class _DetailRewardState extends State<DetailReward> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
     setState(() {
       isLoading = true;
     });
@@ -58,7 +78,6 @@ class _DetailRewardState extends State<DetailReward> {
             context,
           ),
         );
-        
       } else if (detailreward['code'] == "400") {
         showDialog(
           barrierDismissible: false,
@@ -124,14 +143,14 @@ class _DetailRewardState extends State<DetailReward> {
       final Map<String, dynamic> detailreward =
           convert.jsonDecode(response.body);
       showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) => dialogDenied(
-            detailreward['massage'],
-            picDenied,
-            context,
-          ),
-        );
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => dialogDenied(
+          detailreward['massage'],
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
@@ -253,6 +272,7 @@ class _DetailRewardState extends State<DetailReward> {
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         centerTitle: true,
         title: Text("Detail Reward"),
       ),
@@ -364,8 +384,10 @@ class _DetailRewardState extends State<DetailReward> {
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Color(0xff374ABE),
-                                      Color(0xff64B6FF)
+                                      hexToColor("#" +
+                                          template_kNavigationFooterBarColor),
+                                      hexToColor(
+                                          "#" + template_kNavigationBarColor)
                                     ],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
@@ -383,8 +405,10 @@ class _DetailRewardState extends State<DetailReward> {
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Color(0xff374ABE),
-                                      Color(0xff64B6FF)
+                                      hexToColor("#" +
+                                          template_kNavigationFooterBarColor),
+                                      hexToColor(
+                                          "#" + template_kNavigationBarColor)
                                     ],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
@@ -398,13 +422,15 @@ class _DetailRewardState extends State<DetailReward> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(
-                          color: Color(0xff64B6FF),
+                          color: hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
                         ),
                       ),
                       child: IconButton(
                         icon: Icon(
                           Icons.link,
-                          color: Color(0xff64B6FF),
+                          color: hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
                         ),
                         onPressed: () {
                           var url = data['url'];
@@ -448,7 +474,7 @@ class _DetailRewardState extends State<DetailReward> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -460,6 +486,8 @@ class _DetailRewardState extends State<DetailReward> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -487,6 +515,8 @@ class _DetailRewardState extends State<DetailReward> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -519,6 +549,8 @@ class _DetailRewardState extends State<DetailReward> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -573,6 +605,8 @@ class _DetailRewardState extends State<DetailReward> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

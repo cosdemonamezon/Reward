@@ -17,6 +17,8 @@ class TransferPoints extends StatefulWidget {
 
 class _TransferPointsState extends State<TransferPoints>
     with SingleTickerProviderStateMixin {
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   SharedPreferences prefs;
   bool isLoading = false;
@@ -48,6 +50,11 @@ class _TransferPointsState extends State<TransferPoints>
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
 
     prefsNoti = await SharedPreferences.getInstance();
     var notiString = prefsNoti.getString('notification');
@@ -225,6 +232,7 @@ class _TransferPointsState extends State<TransferPoints>
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         centerTitle: true,
         //toolbarHeight: 150,
         //backgroundColor: Colors.blue,
@@ -266,7 +274,8 @@ class _TransferPointsState extends State<TransferPoints>
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF01579B)),
+                        color: hexToColor(
+                            "#" + template_kNavigationFooterBarColor)),
                   ),
                 )
               : SingleChildScrollView(
@@ -539,7 +548,8 @@ class _TransferPointsState extends State<TransferPoints>
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF01579B)),
+                        color: hexToColor(
+                            "#" + template_kNavigationFooterBarColor)),
                   ),
                 )
               : Container(
@@ -666,7 +676,7 @@ class _TransferPointsState extends State<TransferPoints>
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -678,6 +688,8 @@ class _TransferPointsState extends State<TransferPoints>
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -705,6 +717,8 @@ class _TransferPointsState extends State<TransferPoints>
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -737,6 +751,8 @@ class _TransferPointsState extends State<TransferPoints>
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -791,6 +807,8 @@ class _TransferPointsState extends State<TransferPoints>
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

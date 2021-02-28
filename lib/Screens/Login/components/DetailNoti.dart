@@ -13,6 +13,8 @@ class DetailNoti extends StatefulWidget {
 }
 
 class _DetailNotiState extends State<DetailNoti> {
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context).settings.arguments;
@@ -20,6 +22,7 @@ class _DetailNotiState extends State<DetailNoti> {
     //print(data);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
         leading: IconButton(
           onPressed: () {
             //Navigator.pushNamedAndRemoveUntil(context, "/noti", (route) => false);
@@ -98,7 +101,7 @@ class _DetailNotiState extends State<DetailNoti> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: kNavigationBarColor,
+          color: hexToColor("#" + template_kNavigationBarColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -110,6 +113,8 @@ class _DetailNotiState extends State<DetailNoti> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -137,6 +142,8 @@ class _DetailNotiState extends State<DetailNoti> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -169,6 +176,8 @@ class _DetailNotiState extends State<DetailNoti> {
                   Stack(
                     children: [
                       CircleAvatar(
+                        backgroundColor: hexToColor(
+                            "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -223,6 +232,8 @@ class _DetailNotiState extends State<DetailNoti> {
               Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor:
+                        hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,
