@@ -81,6 +81,8 @@ class _ProfilesettingsState extends State<Profilesettings> {
           'member_address': values['member_address'],
         }));
     if (response.statusCode == 200) {
+      //var token = convert.jsonDecode(response.body);
+      await prefs.setString('token', response.body);
       final Map<String, dynamic> comfirm = convert.jsonDecode(response.body);
       if (comfirm['code'] == "200") {
         //print(comfirm['massage']);
@@ -151,30 +153,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
       final Map<String, dynamic> profile = convert.jsonDecode(response.body);
       if (profile['code'] == "200") {
         Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-        // Flushbar(
-        //   title: '${profile['massage']}',
-        //   //message: "ขอบคุณ",
-        //   icon: Icon(
-        //     Icons.info_outline,
-        //     size: 28.0,
-        //     color: Colors.blue[300],
-        //   ),
-        //   duration: Duration(seconds: 3),
-        //   leftBarIndicatorColor: Colors.blue[300],
-        // ).show(context);
-        // void showTopSnackBar(BuildContext context,) => Flushbar(
-        //   icon: Icon(Icons.info_outline, size: 32, color: Colors.white,),
-        //   shouldIconPulse: false,
-        //   title: profile['massage'],
-        //   duration: Duration(seconds: 3),
-        //   flushbarPosition: FlushbarPosition.TOP,
-        // )..show(context);
-
-        //showTopSnackBar(context);
-        // Future.delayed(Duration(seconds: 3), () {
-        //   //Navigator.pop(context);
-        //   Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-        // });
+        
 
       } else if (profile['code'] == "400") {
         showDialog(

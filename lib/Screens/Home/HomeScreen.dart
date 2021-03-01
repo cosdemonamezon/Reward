@@ -139,7 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
               loadSuccess = true;
               isLoading = false;
             });
-            
           } else {
             //print(homedata['massage']);
             showDialog(
@@ -387,7 +386,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         },
                                         child: Container(
                                             padding: EdgeInsets.all(4.4),
-                                            width: 190,
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2 -
+                                                20,
                                             decoration: BoxDecoration(
                                               border: Border(
                                                   bottom: BorderSide(
@@ -449,7 +452,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               });
                                         },
                                         child: Container(
-                                            width: 190,
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2 -
+                                                20,
                                             padding: EdgeInsets.all(4.0),
                                             decoration: BoxDecoration(
                                               border: Border(
@@ -584,46 +591,74 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 5.0),
                                                   child: Center(
-                                                    child: data['member_point'].toString().length == 6 ? Text(
-                                                      NumberFormat("#,###").format(data['member_point']),
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 46,
-                                                        color: Colors.black,
-                                                      )                                                      
-                                                    )
-                                                    : data['member_point'].toString().length == 7 ? Text(
-                                                      NumberFormat("#,###").format(data['member_point']),
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 44,
-                                                        color: Colors.black,
-                                                      )                                                      
-                                                    )
-                                                    : data['member_point'].toString().length == 8 ? Text(
-                                                      NumberFormat("#,###").format(data['member_point']),
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 42,
-                                                        color: Colors.black,
-                                                      )                                                      
-                                                    )
-                                                    : data['member_point'].toString().length == 9 ? Text(
-                                                      NumberFormat("#,###").format(data['member_point']),
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 40,
-                                                        color: Colors.black,
-                                                      )                                                      
-                                                    )
-                                                    :Text(
-                                                      "${data['member_point']}",
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 50,
-                                                        color: Colors.black,
-                                                      )                                                      
-                                                    ),
+                                                    child: data['member_point']
+                                                                .toString()
+                                                                .length ==
+                                                            6
+                                                        ? Text(
+                                                            NumberFormat("#,###")
+                                                                .format(data[
+                                                                    'member_point']),
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 46,
+                                                              color:
+                                                                  Colors.black,
+                                                            ))
+                                                        : data['member_point']
+                                                                    .toString()
+                                                                    .length ==
+                                                                7
+                                                            ? Text(
+                                                                NumberFormat("#,###")
+                                                                    .format(data[
+                                                                        'member_point']),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 44,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ))
+                                                            : data['member_point']
+                                                                        .toString()
+                                                                        .length ==
+                                                                    8
+                                                                ? Text(
+                                                                    NumberFormat("#,###")
+                                                                        .format(data['member_point']),
+                                                                    style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          42,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ))
+                                                                : data['member_point'].toString().length == 9
+                                                                    ? Text(NumberFormat("#,###").format(data['member_point']),
+                                                                        style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontSize:
+                                                                              40,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ))
+                                                                    : Text("${data['member_point']}",
+                                                                        style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontSize:
+                                                                              50,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        )),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -1054,8 +1089,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -1085,8 +1121,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn2 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn2 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -1121,8 +1158,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        backgroundColor: nbtn3 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                        backgroundColor: nbtn3 == true
+                            ? Colors.white54
+                            : hexToColor(
+                                "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -1179,8 +1218,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn4 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn4 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

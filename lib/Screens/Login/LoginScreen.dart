@@ -54,7 +54,43 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         return false;
       }
-    } else {}
+      // else if (mac['code'] == "400") {
+      //   showDialog(
+      //     barrierDismissible: false,
+      //     context: context,
+      //     builder: (context) => errordialog(
+      //       mac['massage'],
+      //       checkData,
+      //       picDenied,
+      //       context,
+      //     ),
+      //   );
+      // }
+      // else {
+      //   showDialog(
+      //     barrierDismissible: false,
+      //     context: context,
+      //     builder: (context) => errordialog(
+      //       mac['massage'],
+      //       checkData,
+      //       picDenied,
+      //       context,
+      //     ),
+      //   );
+      // }
+    } else {
+      final Map<String, dynamic> mac = convert.jsonDecode(response.body);
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => errordialog(
+            mac['massage'],
+            checkData,
+            picDenied,
+            context,
+          ),
+        );
+    }
   }
 
   @override
@@ -252,7 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 35),
+                                    vertical: 10, horizontal: 20),
                                 child: Icon(Icons.people,
                                     size: 35, color: Colors.white),
                               ),
@@ -298,7 +334,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 35),
+                                    vertical: 10, horizontal: 20),
                                 child: Icon(Icons.account_circle,
                                     size: 35, color: Colors.white),
                               ),
@@ -347,7 +383,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 35),
+                                    vertical: 10, horizontal: 20),
                                 child: Icon(Icons.grid_on,
                                     size: 35, color: Colors.white),
                               ),

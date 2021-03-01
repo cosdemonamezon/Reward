@@ -18,7 +18,7 @@ class _HelpoflineState extends State<Helpofline> {
   List<dynamic> help = [];
   Map<String, dynamic> numberNoti = {};
   String checkToken = "";
-  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+  // String template_kNavigationBarColor, template_kNavigationFooterBarColor;
   SharedPreferences prefs;
   @override
   void initState() {
@@ -29,21 +29,21 @@ class _HelpoflineState extends State<Helpofline> {
 
   _getColor() async {
     //print(values);
-    prefs = await SharedPreferences.getInstance();
-    var tokenString = prefs.getString('token');
-    var token = convert.jsonDecode(tokenString);
+    // prefs = await SharedPreferences.getInstance();
+    // var tokenString = prefs.getString('token');
+    // var token = convert.jsonDecode(tokenString);
 
-    setState(() {
-      template_kNavigationBarColor = token['color']['color_1'];
-      template_kNavigationFooterBarColor = token['color']['color_2'];
-    });
+    // setState(() {
+    //   template_kNavigationBarColor = token['color']['color_1'];
+    //   template_kNavigationFooterBarColor = token['color']['color_2'];
+    // });
   }
 
   _getDetailPoint() async {
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI + 'api/getDetailPoint';
+    var url = pathAPI + 'api/getDetailReward';
     var response = await http.get(
       url,
       headers: {
@@ -98,7 +98,7 @@ class _HelpoflineState extends State<Helpofline> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: hexToColor("#" + template_kNavigationBarColor),
+        backgroundColor: kNavigationBarColor,
         leading: IconButton(
           onPressed: () {
             Navigator.push(
@@ -220,7 +220,7 @@ class _HelpoflineState extends State<Helpofline> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: hexToColor("#" + template_kNavigationBarColor),
+          color: kNavigationBarColor,
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -232,8 +232,7 @@ class _HelpoflineState extends State<Helpofline> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor:kNavigationBarColor,
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -267,8 +266,7 @@ class _HelpoflineState extends State<Helpofline> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor:kNavigationBarColor,
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -302,8 +300,7 @@ class _HelpoflineState extends State<Helpofline> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        backgroundColor: hexToColor(
-                            "#" + template_kNavigationFooterBarColor),
+                        backgroundColor:kNavigationBarColor,
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -362,8 +359,7 @@ class _HelpoflineState extends State<Helpofline> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor:kNavigationBarColor,
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

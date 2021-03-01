@@ -28,6 +28,8 @@ class _AwardScreenState extends State<AwardScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+  SharedPreferences prefsNoti;
+  Map<String, dynamic> numberNoti = {};
 
   @override
   void initState() {
@@ -46,10 +48,27 @@ class _AwardScreenState extends State<AwardScreen> {
       template_kNavigationFooterBarColor = token['color']['color_2'];
     });
 
+    prefsNoti = await SharedPreferences.getInstance();
+    var notiString = prefsNoti.getString('notification');
+    var noti = convert.jsonDecode(notiString);
+
     var url = pathAPI + 'api/getShareLinkReward';
     setState(() {
       isLoading = true;
+      numberNoti = noti['data'];
     });
+    if (numberNoti['member_activate'] == "No") {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => alertConfirmUsername(
+          settitle,
+          comfirmUse,
+          picWanning,
+          context,
+        ),
+      );
+    }
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
         body: convert.jsonEncode({'member_id': token['member_id']}));
@@ -538,6 +557,121 @@ class _AwardScreenState extends State<AwardScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+  alertConfirmUsername(
+    String title,
+    String subtitle,
+    String img,
+    context,
+  ) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Constants.padding),
+      ),
+      elevation: 4,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+                left: Constants.padding,
+                top: Constants.avatarRadius + Constants.padding,
+                right: Constants.padding,
+                bottom: Constants.padding),
+            margin: EdgeInsets.only(top: Constants.avatarRadius),
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(Constants.padding),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0, 10),
+                      blurRadius: 10),
+                ]),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  comfirmUse,
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/profilesetting',
+                              arguments: {
+                                'id': data['id'],
+                                'member_name_th': data['member_name_th'],
+                                'member_name_en': data['member_name_en'],
+                                'member_email': data['member_email'],
+                                'member_address': data['member_address'],
+                                'member_activate': data['member_activate'],
+                                'board_phone_1': data['board_phone_1'],
+                                'total_noti': data['total_noti'],
+                              });
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFFD50000),
+                        child: Text('ยืนยันสมาชิก',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(context, '/home',
+                              (Route<dynamic> route) => false);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFF01579B),
+                        child: Text('ไปหน้าหลัก',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            left: Constants.padding,
+            right: Constants.padding,
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: Constants.avatarRadius,
+              child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                  child: Image.asset(img)),
+            ),
+          ),
+        ],
       ),
     );
   }

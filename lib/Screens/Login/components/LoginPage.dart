@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
       if (token['code'] == "200") {
         Flushbar(
           title: '${token['massage']}',
-          message: "${token['code']}",
+          //message: "${token['code']}",
           icon: Icon(
             Icons.info_outline,
             size: 28.0,
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
       } else if (token['code'] == "999") {
         Flushbar(
           title: '${token['massage']}',
-          message: "${token['code']}",
+          //message: "${token['code']}",
           icon: Icon(
             Icons.info_outline,
             size: 28.0,
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
       } else if (token['code'] == "400") {
         Flushbar(
           title: '${token['massage']}',
-          message: "${token['code']}",
+          //message: "${token['code']}",
           icon: Icon(
             Icons.info_outline,
             size: 28.0,

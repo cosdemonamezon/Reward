@@ -19,7 +19,7 @@ class _CoineoflineState extends State<Coineofline> {
   Map<String, dynamic> numberNoti = {};
   String checkToken = "";
   SharedPreferences prefs;
-  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+  // String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
   @override
   void initState() {
@@ -28,19 +28,19 @@ class _CoineoflineState extends State<Coineofline> {
   }
 
   _getDetailReward() async {
-    prefs = await SharedPreferences.getInstance();
-    var tokenString = prefs.getString('token');
-    var token = convert.jsonDecode(tokenString);
+    // prefs = await SharedPreferences.getInstance();
+    // var tokenString = prefs.getString('token');
+    // var token = convert.jsonDecode(tokenString);
 
-    setState(() {
-      template_kNavigationBarColor = token['color']['color_1'];
-      template_kNavigationFooterBarColor = token['color']['color_2'];
-    });
+    // setState(() {
+    //   template_kNavigationBarColor = token['color']['color_1'];
+    //   template_kNavigationFooterBarColor = token['color']['color_2'];
+    // });
 
     setState(() {
       isLoading = true;
     });
-    var url = pathAPI + 'api/getDetailReward';
+    var url = pathAPI + 'api/getDetailPoint';
     var response = await http.get(
       url,
       headers: {
@@ -213,7 +213,7 @@ class _CoineoflineState extends State<Coineofline> {
           //   topLeft: Radius.circular(30.0),
           //   topRight: Radius.circular(30.0),
           // ),
-          color: hexToColor("#" + template_kNavigationBarColor),
+          color: kNavigationBarColor,
         ),
         child: Padding(
           padding: const EdgeInsets.only(
@@ -225,8 +225,7 @@ class _CoineoflineState extends State<Coineofline> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: kNavigationBarColor,
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -262,8 +261,7 @@ class _CoineoflineState extends State<Coineofline> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: kNavigationBarColor,
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -298,8 +296,7 @@ class _CoineoflineState extends State<Coineofline> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        backgroundColor: hexToColor(
-                            "#" + template_kNavigationFooterBarColor),
+                        backgroundColor: kNavigationBarColor,
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -358,8 +355,7 @@ class _CoineoflineState extends State<Coineofline> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: kNavigationBarColor,
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

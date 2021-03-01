@@ -434,16 +434,17 @@ class _RewardScreenState extends State<RewardScreen>
                             Expanded(
                               //flex: 2,
                               child: Container(
-                                height: 10,
+                                height: 30,
                                 child: GridView.count(
                                   crossAxisCount: 2,
                                   scrollDirection: Axis.vertical,
                                   //mainAxisSpacing: 2,
                                   children: List.generate(reward.length, (index) {
                                     return Container(
+                                      height: 100,
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
-                                            vertical: 2.0, horizontal: 4.0),
+                                            vertical: 0, horizontal: 4.0),
                                         child: GestureDetector(
                                           onTap: () {
                                             // var url = reward[index]['url'];
@@ -507,11 +508,13 @@ class _RewardScreenState extends State<RewardScreen>
                                                 Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 6),
-                                                  child: Text(
-                                                    reward[index]['description'],
-                                                    style:
-                                                        TextStyle(fontSize: 12.0),
-                                                    textAlign: TextAlign.justify,
+                                                  child: Center(
+                                                    child: Text(
+                                                      reward[index]['title'],
+                                                      style:
+                                                          TextStyle(fontSize: 14.0),
+                                                      textAlign: TextAlign.justify,
+                                                    ),
                                                   ),
                                                 ),
                                                 Padding(
@@ -519,7 +522,7 @@ class _RewardScreenState extends State<RewardScreen>
                                                       const EdgeInsets.all(5.0),
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.start,
+                                                        MainAxisAlignment.center,
                                                     children: [
                                                       // Chip(
                                                       //   backgroundColor: Colors.blueAccent,
@@ -536,9 +539,11 @@ class _RewardScreenState extends State<RewardScreen>
                                                             .toString()),
                                                       ),
                                                       Text("P"),
+                                                      
                                                     ],
                                                   ),
                                                 ),
+                                                
                                               ],
                                             ),
                                           ),
@@ -573,7 +578,7 @@ class _RewardScreenState extends State<RewardScreen>
                           child: abtn1 == true
                               ? Container(
                                   height: 50.0,
-                                  width: 100,
+                                  width: MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -592,7 +597,7 @@ class _RewardScreenState extends State<RewardScreen>
                                 )
                               : Container(
                                   height: 50.0,
-                                  width: 100,
+                                  width: MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -621,7 +626,7 @@ class _RewardScreenState extends State<RewardScreen>
                           child: abtn2 == true
                               ? Container(
                                   height: 50.0,
-                                  width: 150,
+                                  width: MediaQuery.of(context).size.width * 0.40,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -640,10 +645,10 @@ class _RewardScreenState extends State<RewardScreen>
                                 )
                               : Container(
                                   height: 50.0,
-                                  width: 150,
+                                  width: MediaQuery.of(context).size.width * 0.40,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(5),
                                     color: Colors.grey[400],
                                   ),
                                   child: Center(
@@ -668,10 +673,10 @@ class _RewardScreenState extends State<RewardScreen>
                           child: abtn3 == true
                               ? Container(
                                   height: 50.0,
-                                  width: 100,
+                                  width: MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(5),
                                     color: hexToColor(
                                         "#" + template_kNavigationFooterBarColor),
                                   ),
@@ -687,10 +692,10 @@ class _RewardScreenState extends State<RewardScreen>
                                 )
                               : Container(
                                   height: 50.0,
-                                  width: 100,
+                                  width: MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(5),
                                     color: Colors.grey[400],
                                   ),
                                   child: Center(
