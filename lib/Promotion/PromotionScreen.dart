@@ -293,7 +293,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                           // } else {
                                           // }
                                           var url = campaign[index]['url'];
-                                          print(url);
+                                          //print(url);
                                           launch((url));
                                         },
                                         child: Card(
@@ -323,10 +323,51 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                               Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 8),
-                                                child: Text(
+                                                child: campaign[index]['title'].length <= 40 ? Text(
                                                   campaign[index]['title'],
                                                   style:
-                                                      TextStyle(fontSize: 13.0),
+                                                      TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
+                                                )
+                                                :Text(
+                                                  campaign[index]['title'].substring(0, 40)+"...",
+                                                  style:
+                                                      TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.access_time, size: 24, color: Colors.green,),
+                                                    SizedBox(width: 3,),
+                                                    Text(
+                                                        campaign[index]['date_start'],
+                                                        style: TextStyle(
+                                                          fontSize: 12.0, color: Colors.green,
+                                                          fontWeight: FontWeight.bold
+                                                        ),
+                                                        textAlign: TextAlign.justify,
+                                                    ),
+                                                    SizedBox(width: 3,),
+                                                      Text(
+                                                        "-",style: TextStyle(
+                                                          fontSize: 12.0, color: Colors.green,
+                                                          fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 3,),
+                                                      Text(
+                                                        campaign[index]['date_stop'],
+                                                        style: TextStyle(
+                                                          fontSize: 12.0, color: Colors.green,
+                                                          fontWeight: FontWeight.bold
+                                                        ),
+                                                        textAlign: TextAlign.justify,
+                                                      ),
+                                                  ],
                                                 ),
                                               ),
                                             ],

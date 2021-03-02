@@ -956,16 +956,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     Navigator.pushNamed(
                                                         context, '/reward',
                                                         arguments: {
-                                                          'member_id':
-                                                              data['id'],
-                                                          'username':
-                                                              data['username'],
-                                                          'member_point': data[
-                                                              'member_point'],
-                                                          'board_phone_1': data[
-                                                              'board_phone_1'],
-                                                          'total_noti': data[
-                                                              'total_noti'],
+                                                          'member_id': data['member_id'],
+                                                          'username': data['username'],
+                                                          'member_name_en': data['member_name_en'],
+                                                          'member_name_th': data['member_name_th'],
+                                                          'member_email': data['member_email'],
+                                                          'member_phone': data['member_phone'],
+                                                          'member_point': data['member_point'],
+                                                          'board_phone_1': data['board_phone_1'],
+                                                          'total_noti': data['total_noti'],
                                                         });
                                                   },
                                                 ),

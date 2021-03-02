@@ -530,11 +530,11 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                       FormBuilder(
                                         key: _fbKey,
                                         initialValue: {
-                                          'username': '',
+                                          'username': data['username'],
                                           'member_username_game': '',
                                           'board_shot_name': '',
-                                          'member_address':
-                                              data['member_address']
+                                          'member_address': ''
+                                              
                                         },
                                         child: Column(
                                           children: [

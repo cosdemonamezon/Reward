@@ -17,7 +17,7 @@ import 'package:Reward/Reward/RewardScreen.dart';
 import 'package:flutter/services.dart';
 import 'package:Reward/Screens/Home/components/StatusReward.dart';
 import 'package:Reward/Screens/Home/components/TransferPoints.dart';
-
+import 'package:Reward/Reward/components/Slip_Reward.dart';
 import 'Screens/Login/components/NotiScreen.dart';
 import 'package:Reward/Award/AwardScreen.dart';
 import 'package:Reward/Award/WebViewAward.dart';
@@ -118,6 +118,7 @@ class MyApp extends StatelessWidget {
           '/help': (context) => Helpadvice(),
           '/webview': (context) => WebViewAward(),
           '/authenpincode': (context) => PinAuthen(),
+          '/slip': (context) => SlipReward(),
         });
   }
 }

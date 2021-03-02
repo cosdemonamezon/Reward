@@ -68,28 +68,40 @@ class _AwardScreenState extends State<AwardScreen> {
           context,
         ),
       );
-    }
-    var response = await http.post(url,
+    } else {
+      var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
         body: convert.jsonEncode({'member_id': token['member_id']}));
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> shareLinkdata =
-          convert.jsonDecode(response.body);
-      if (shareLinkdata['code'] == "200") {
-        print(shareLinkdata);
-        setState(() {
-          shareLink = shareLinkdata['data'];
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> shareLinkdata =
+            convert.jsonDecode(response.body);
+        if (shareLinkdata['code'] == "200") {
+          print(shareLinkdata);
+          setState(() {
+            shareLink = shareLinkdata['data'];
+            setState(() {
+              isLoading = false;
+            });
+            //print(shareLink);
+            //print(shareLink['pic']);
+          });
+        } else {
           setState(() {
             isLoading = false;
           });
-          //print(shareLink);
-          //print(shareLink['pic']);
-        });
+          String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => dialogDenied(
+              title,
+              picDenied,
+              context,
+            ),
+          );
+        }
       } else {
-        setState(() {
-          isLoading = false;
-        });
         String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
         showDialog(
           barrierDismissible: false,
@@ -101,18 +113,8 @@ class _AwardScreenState extends State<AwardScreen> {
           ),
         );
       }
-    } else {
-      String title = "ข้อผิดพลาดภายในเซิร์ฟเวอร์";
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) => dialogDenied(
-          title,
-          picDenied,
-          context,
-        ),
-      );
     }
+    
   }
 
   _shereLinkReward(var shere_reward_id) async {
@@ -290,6 +292,7 @@ class _AwardScreenState extends State<AwardScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                
                                 Text(
                                   shareLink['title'] == null
                                       ? "ไม่มีข้อมูล"
@@ -308,6 +311,37 @@ class _AwardScreenState extends State<AwardScreen> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15.0),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "เริ่ม", style: TextStyle(
+                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      SizedBox(width: 5,),
+                                      Text(
+                                        "${shareLink['date_start']}", style: TextStyle(
+                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text(
+                                        "ถึง", style: TextStyle(
+                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text(
+                                        "${shareLink['date_stop']}", style: TextStyle(
+                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

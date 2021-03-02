@@ -30,6 +30,7 @@ class _TransferPointsState extends State<TransferPoints>
   bool success = false;
   SharedPreferences prefsNoti;
   Map<String, dynamic> numberNoti = {};
+  bool _isButtonDisabled = false;
 
   @override
   void initState() {
@@ -78,9 +79,7 @@ class _TransferPointsState extends State<TransferPoints>
     var url = pathAPI + 'api/getlogTransPoint';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode({
-          'member_id': token['member_id'],
-        }));
+        body: convert.jsonEncode({ }));
     if (response.statusCode == 200) {
       final Map<String, dynamic> logpointdata =
           convert.jsonDecode(response.body);
@@ -125,6 +124,7 @@ class _TransferPointsState extends State<TransferPoints>
 
     setState(() {
       isLoading = true;
+      _isButtonDisabled = true;
     });
     var url = pathAPI + 'api/transferPoint';
     var response = await http.post(url,
@@ -482,6 +482,7 @@ class _TransferPointsState extends State<TransferPoints>
                                     onTap: () {
                                       if (_fbKey.currentState.saveAndValidate()) {
                                         showDialog(
+                                          barrierDismissible: false,
                                           context: context,
                                           builder: (context) => alertConfrim(
                                             confrimpoint,
@@ -909,10 +910,14 @@ class _TransferPointsState extends State<TransferPoints>
                             success = true;
                           });
                           if (success == true) {
-                            _transferPoint(_fbKey.currentState.value);
-                            setState(() {
-                              isLoading = true;
-                            });
+                            if (_isButtonDisabled == false) {
+                              _transferPoint(_fbKey.currentState.value);
+                              setState(() {
+                                isLoading = true;
+                              });
+                            } else {
+                            }
+                            
                           } else {}
                           //Navigator.pushNamed(context, '/transfer', (Route<dynamic> route) => false);
                         },

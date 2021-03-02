@@ -335,7 +335,7 @@ class _StatusRewardState extends State<StatusReward> {
                                         child: Row(
                                           children: [
                                             Text(
-                                              "คะแนนจากการแชร์ลิ้ง:  ",
+                                              "คะแนนจากการแชร์:  ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16.0),
@@ -390,7 +390,7 @@ class _StatusRewardState extends State<StatusReward> {
                                         child: Row(
                                           children: [
                                             Text(
-                                              "คะแนนหมุนวงล้อ 7 วัน:  ",
+                                              "คะแนนจากการเล่นต่อเนื่อง:  ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16.0),
@@ -476,6 +476,8 @@ class _StatusRewardState extends State<StatusReward> {
                           ),
                         ),
                       ),
+
+
             isLoading == true
                 ? Center(
                     child: CircularProgressIndicator(),
@@ -509,41 +511,44 @@ class _StatusRewardState extends State<StatusReward> {
                                         children: [
                                           Row(
                                             children: [
-                                              // Padding(
-                                              //   padding: const EdgeInsets.all(8.0),
-                                              //   child: Container(
-                                              //     width: 50.0,
-                                              //     height: 50.0,
-                                              //     decoration: new BoxDecoration(
-                                              //         shape: BoxShape.circle,
-                                              //         image: new DecorationImage(
-                                              //             fit: BoxFit.cover,
-                                              //             image: AssetImage("assets/images/gold.JPG")
-                                              //         )
-                                              //     )
-                                              //   ),
-                                              // ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                  child: data[index]['pic'] !=
+                                                          null
+                                                      ? Image.network(
+                                                          data[index]['pic'],
+                                                          fit: BoxFit.fill,
+                                                        )
+                                                      : Image.network(
+                                                          'https://picsum.photos/400/200',
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                ),
+                                              ),
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
-                                                children: [
+                                                children: [                                                  
                                                   Text(
-                                                    'Member ID : ${data[index]['member_id']}',
+                                                    'ชื่อกลุ่ม : ${data[index]['old_group']}',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 13.5),
+                                                        fontSize: 13.5, fontWeight: FontWeight.bold),
                                                   ),
                                                   Text(
-                                                    'Old Group : ${data[index]['old_group']}',
+                                                    'อัปเดตโดย : ${data[index]['updated_by']}',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 13.5),
+                                                        fontSize: 13.5, fontWeight: FontWeight.bold),
                                                   ),
                                                   Text(
-                                                    'Update By : ${data[index]['updated_by']}',
+                                                    'ประเภท : ${data[index]['group_member_type']}',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 13.5),
+                                                        fontSize: 13.5, fontWeight: FontWeight.bold),
                                                   ),
                                                 ],
                                               ),
@@ -554,7 +559,14 @@ class _StatusRewardState extends State<StatusReward> {
                                                 MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                '${data[index]['date']}',
+                                                '${data[index]['createdDate']}',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 11.5),
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text(
+                                                '${data[index]['createdTime']}',
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 11.5),

@@ -259,6 +259,7 @@ class _NotiScreenState extends State<NotiScreen> {
                                     });
                               } else if (notidata[index]['noti_type'] ==
                                   "Reward") {
+                                    _readNotiMember(noti_log_id);
                                 Navigator.pushNamed(context, "/reward",
                                     arguments: {
                                       'member_point': data['member_point'],
@@ -301,18 +302,30 @@ class _NotiScreenState extends State<NotiScreen> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400)),
                                 ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: notidata[index]['description']
-                                              .length >=
-                                          50
-                                      ? Text(
-                                          "${notidata[index]['description'].substring(0, 50)} ...",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w400))
-                                      : Text(notidata[index]['description'],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w400)),
+                                subtitle: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: notidata[index]['description']
+                                                  .length >=
+                                              50
+                                          ? Text(
+                                              "${notidata[index]['description'].substring(0, 50)} ...",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400))
+                                          : Text(notidata[index]['description'],
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400)),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(notidata[index]['createdDate']),
+                                        SizedBox(width: 10,),
+                                        Text(notidata[index]['createdTime']),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                                 trailing: Icon(Icons.arrow_forward_ios),
                               ),

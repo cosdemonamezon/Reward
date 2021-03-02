@@ -328,7 +328,51 @@ class _DetailRewardState extends State<DetailReward> {
                 ),
               ),
               SizedBox(
-                height: 15.0,
+                height: 10.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Icon(Icons.access_time, size: 24, color: Colors.green,),
+                    SizedBox(width: 5,),
+                    Text(
+                      "${data['date_start']}", style: TextStyle(
+                        fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    SizedBox(width: 5,),
+                    Text("-"),
+                    SizedBox(width: 5,),
+                    Text(
+                      "${data['date_stop']}", style: TextStyle(
+                        fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      "จำนวนคงเหลือ", style: TextStyle(
+                        fontSize: 15.0, color: Colors.red, fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "${data['qty']}", style: TextStyle(
+                        fontSize: 15.0, color: Colors.red, fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Divider(color: Colors.black, height: 36,thickness: 1, ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),

@@ -258,14 +258,7 @@ class _PointsState extends State<Points> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                  point[index]['data'][index1]
-                                                      ['date'],
-                                                  style: TextStyle(
-                                                      fontSize: 10.0)),
-                                              SizedBox(
-                                                width: 5.0,
-                                              ),
+                                             
                                               Text(
                                                   point[index]['data'][index1]
                                                       ['createdTime'],
