@@ -138,7 +138,7 @@ class _HelpoflineState extends State<Helpofline> {
                       child: Card(
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, '/webview',
+                            Navigator.pushNamed(context, '/offlinewebview',
                                 arguments: {
                                   'title': help[index]['title'],
                                   'url': help[index]['url']

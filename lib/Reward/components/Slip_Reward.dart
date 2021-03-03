@@ -50,256 +50,320 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
         title: Text("Detail Approved"),
       ),
       body: SingleChildScrollView(
-        child:
-          Container(
-            height: height,
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "รายละเอียดผู้แจ้งแลกรางวัล",
-                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("ไอดี :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("ชื่อไทย :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("ชื่ออังกฤษ :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("เบอร์โทรศัพท์ :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("E-Mail :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                          ),
-                          SizedBox(height: 10,),
-                          Text("วันที่แจ้งแลกรางวัล :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                        ],
-                      ),
-                      SizedBox(width: 10,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              data['member_id'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              data['member_name_th'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              data['member_name_en'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              data['member_phone'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              data['member_email'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          Text(
-                            data['created_at'],
-                            style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                          ),
-                        ],
-                      ),
-                    ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "รายละเอียดผู้แจ้งแลกรางวัล",
+                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)
                   ),
-                ),
-                Divider(color: Colors.black, thickness: 1, ),
-                Row(
+                ],
+              ),
+              SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "รายละเอียดการอนุมัติ",
-                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("สถานะ :", style: TextStyle(fontWeight:FontWeight.bold,)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            children: [
+                              Text(
+                                "ไอดี :                  ", style: TextStyle(fontWeight:FontWeight.bold,)
+                              ),
+                              Text(
+                                data['member_id'],
+                                style: TextStyle(
+                                  fontSize: 14.0,fontWeight:FontWeight.w400,)
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("ดำเนินการโดย :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("วันที่ดำเนินการ :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                          ),
-                          
-                                                    
-                        ],
-                      ),
-                      SizedBox(width: 30,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: data['appove_status'] == "Approved"? Text(
-                              data['appove_status'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.green)
-                            )
-                            : data['appove_status'] == "Reject"? Text(
-                              data['appove_status'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.red)
-                            )
-                            :Text(
-                              data['appove_status'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.yellow)
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: data['appove_status'] == "Approved" || data['appove_status'] == "Reject"
-                            ?Text(
-                              data['appove_by'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            )
-                            :Text(
-                              "รอดำเนิการ",
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: data['appove_status'] == "Approved" || data['appove_status'] == "Reject"
-                            ?Text(
-                              data['date_appove'],
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            )
-                            :Text(
-                              "รอดำเนิการ",
-                              style: TextStyle(
-                                fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(vertical: 5),
-                          //   child: data['appove_status'] == "Reject"
-                          //   ?Flexible(
-                          //     child: Text(
-                          //       data['reason_cancel'],softWrap: true,
-                          //       style: TextStyle(
-                          //         fontSize: 12.0,fontWeight:FontWeight.w400,)
-                          //     ),
-                          //   )
-                          //   :SizedBox(height: 2,),
-                          // ),
-                          
-                                                   
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                
-                // Row(
-                //   children: [
-                //     data['appove_status'] == "Reject"? Padding(
-                //             padding: const EdgeInsets.symmetric(vertical: 5),
-                //             child: Text("เหตุผล :", style: TextStyle(fontWeight:FontWeight.bold,)),
-                //           )
-                //           :SizedBox(height: 2,),
-                //   ],
-                // ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text(
-                          "รูปภาพ :", style: TextStyle(fontWeight:FontWeight.bold,)
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-                  child: data['reward_slip'] != null
-                  ?FullScreenWidget(
-                    child: Image.network(data['reward_slip'],
-                      fit: BoxFit.cover,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            children: [
+                              Text(
+                                "ชื่อไทย :             ", style: TextStyle(fontWeight:FontWeight.bold,)
+                              ),
+                              Text(
+                                data['member_name_th'],
+                                style: TextStyle(
+                                  fontSize: 14.0,fontWeight:FontWeight.w400,)
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            children: [
+                              Text(
+                                "ชื่ออังกฤษ :        ", style: TextStyle(fontWeight:FontWeight.bold,)
+                              ),
+                              Text(
+                                data['member_name_en'],
+                                style: TextStyle(
+                                  fontSize: 14.0,fontWeight:FontWeight.w400,)
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            children: [
+                              Text(
+                                "เบอร์โทรศัพท์ :  ", style: TextStyle(fontWeight:FontWeight.bold,)
+                              ),
+                              Text(
+                                data['member_phone'],
+                                style: TextStyle(
+                                  fontSize: 14.0,fontWeight:FontWeight.w400,)
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            children: [
+                              Text(
+                                "E-Mail :               ", 
+                                style: TextStyle(fontWeight:FontWeight.bold,)
+                              ),
+                              Text(
+                                data['member_email'],
+                                style: TextStyle(
+                                  fontSize: 14.0,fontWeight:FontWeight.w400,)
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Text(
+                              "วันที่แจ้งแลกรางวัล :  ", 
+                              style: TextStyle(fontWeight:FontWeight.bold,)
+                            ),
+                            Text(
+                              data['created_at'],
+                              style: TextStyle(
+                                fontSize: 14.0,fontWeight:FontWeight.w400,)
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  )
-                  :Image.asset("assets/images/nopic.png"),
+                    SizedBox(width: 5,),
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(vertical: 5),
+                    //       child: Text(
+                    //         data['member_id'],
+                    //         style: TextStyle(
+                    //           fontSize: 14.0,fontWeight:FontWeight.w400,)
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(vertical: 5),
+                    //       child: Text(
+                    //         data['member_name_th'],
+                    //         style: TextStyle(
+                    //           fontSize: 14.0,fontWeight:FontWeight.w400,)
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(vertical: 5),
+                    //       child: Text(
+                    //         data['member_name_en'],
+                    //         style: TextStyle(
+                    //           fontSize: 14.0,fontWeight:FontWeight.w400,)
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(vertical: 5),
+                    //       child: Text(
+                    //         data['member_phone'],
+                    //         style: TextStyle(
+                    //           fontSize: 14.0,fontWeight:FontWeight.w400,)
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(vertical: 5),
+                    //       child: Text(
+                    //         data['member_email'],
+                    //         style: TextStyle(
+                    //           fontSize: 14.0,fontWeight:FontWeight.w400,)
+                    //       ),
+                    //     ),
+                        
+                    //   ],
+                    // ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Divider(color: Colors.black, thickness: 1, ),
+              Row(
+                children: [
+                  Text(
+                    "รายละเอียดการอนุมัติ",
+                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)
+                  ),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text("สถานะ :", style: TextStyle(fontWeight:FontWeight.bold,)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text("ดำเนินการโดย :", style: TextStyle(fontWeight:FontWeight.bold,)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text("วันที่ดำเนินการ :", style: TextStyle(fontWeight:FontWeight.bold,)),
+                        ),                            
+                                                        
+                      ],
+                    ),
+                    SizedBox(width: 30,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: data['appove_status'] == "Approved"? Text(
+                            data['appove_status'],
+                            style: TextStyle(
+                              fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.green)
+                          )
+                          : data['appove_status'] == "Reject"? Text(
+                            data['appove_status'],
+                            style: TextStyle(
+                              fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.red)
+                          )
+                          :Text(
+                            data['appove_status'],
+                            style: TextStyle(
+                              fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.yellow)
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: data['appove_status'] == "Approved" || data['appove_status'] == "Reject"
+                          ?Text(
+                            data['appove_by'],
+                            style: TextStyle(
+                              fontSize: 14.0,fontWeight:FontWeight.w400,)
+                          )
+                          :Text(
+                            "รอดำเนิการ",
+                            style: TextStyle(
+                              fontSize: 14.0,fontWeight:FontWeight.w400,)
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: data['appove_status'] == "Approved" || data['appove_status'] == "Reject"
+                          ?Text(
+                            data['date_appove'],
+                            style: TextStyle(
+                              fontSize: 14.0,fontWeight:FontWeight.w400,)
+                          )
+                          :Text(
+                            "รอดำเนิการ",
+                            style: TextStyle(fontSize: 14.0,fontWeight:FontWeight.w400,)
+                          ),
+                        ),
+                                                       
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+                    
+                    // Row(
+                    //   children: [
+                    //     data['appove_status'] == "Reject"? Padding(
+                    //             padding: const EdgeInsets.symmetric(vertical: 5),
+                    //             child: Text("เหตุผล :", style: TextStyle(fontWeight:FontWeight.bold,)),
+                    //           )
+                    //           :SizedBox(height: 2,),
+                    //   ],
+                    // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Text("เหตุผล", style: TextStyle(fontWeight:FontWeight.bold,)),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: data['appove_status'] == "Reject"
+                ? Text(
+                  data['reason_cancel'],softWrap: true,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 13.0,fontWeight:FontWeight.w400,) 
+                )
+                :SizedBox(height: 2,),
+              ), 
+              
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        "รูปภาพ :", style: TextStyle(fontWeight:FontWeight.bold,)
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                child: data['reward_slip'] != null
+                ?FullScreenWidget(
+                  child: Image.network(data['reward_slip'],
+                    fit: BoxFit.cover,
+                  ),
+                )
+                :SizedBox(height: 10,),
+                //Image.asset("assets/images/nopic.png"),
+              ),
+              SizedBox(height: 10,),
+                    
+            ],
           ),
-        
+        ),
       ),
-
+          
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,

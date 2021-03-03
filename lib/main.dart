@@ -25,6 +25,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'Screens/Login/components/PinCode.dart';
 import 'Screens/Login/components/PinAuthen.dart';
 import 'Screens/Home/components/LinkShare.dart';
+import 'package:Reward/Screens/Login/components/OfflineWebview.dart';
 
 String token;
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -117,6 +118,7 @@ class MyApp extends StatelessWidget {
           '/notidetail': (context) => DetailNoti(),
           '/help': (context) => Helpadvice(),
           '/webview': (context) => WebViewAward(),
+          '/offlinewebview': (context) => OfflineWebview(),
           '/authenpincode': (context) => PinAuthen(),
           '/slip': (context) => SlipReward(),
         });

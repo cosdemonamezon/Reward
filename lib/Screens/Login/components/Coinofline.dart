@@ -128,7 +128,7 @@ class _CoineoflineState extends State<Coineofline> {
                       child: Card(
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, '/webview',
+                            Navigator.pushNamed(context, '/offlinewebview',
                                 arguments: {
                                   'title': coin[index]['title'],
                                   'url': coin[index]['url']
