@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:Reward/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class SlipReward extends StatefulWidget {
   SlipReward({Key key}) : super(key: key);
 
@@ -75,7 +76,7 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text("ชื่อ :", style: TextStyle(fontWeight:FontWeight.bold,)),
+                            child: Text("ไอดี :", style: TextStyle(fontWeight:FontWeight.bold,)),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
@@ -97,7 +98,7 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
                           Text("วันที่แจ้งแลกรางวัล :", style: TextStyle(fontWeight:FontWeight.bold,)),
                         ],
                       ),
-                      SizedBox(width: 25,),
+                      SizedBox(width: 15,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -188,7 +189,7 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
                                                     
                         ],
                       ),
-                      SizedBox(width: 50,),
+                      SizedBox(width: 40,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
