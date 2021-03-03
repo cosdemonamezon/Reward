@@ -613,22 +613,22 @@ class _RewardScreenState extends State<RewardScreen>
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                        "เหลือ",
+                                                        "เหลือ  "+ reward[index]['qty'].toString(),
                                                         style: TextStyle(
                                                           fontSize: 12.0, color: Colors.red,
                                                           fontWeight: FontWeight.bold
                                                         ),
                                                         textAlign: TextAlign.justify,
                                                       ),
-                                                      SizedBox(width: 5,),
-                                                      Text(
-                                                        reward[index]['qty'].toString(),
-                                                        style: TextStyle(
-                                                          fontSize: 12.0, color: Colors.red,
-                                                          fontWeight: FontWeight.bold
-                                                        ),
-                                                        textAlign: TextAlign.justify,
-                                                      ),
+                                                      // SizedBox(width: 5,),
+                                                      // Text(
+                                                      //   reward[index]['qty'].toString(),
+                                                      //   style: TextStyle(
+                                                      //     fontSize: 12.0, color: Colors.red,
+                                                      //     fontWeight: FontWeight.bold
+                                                      //   ),
+                                                      //   textAlign: TextAlign.justify,
+                                                      // ),
                                                       SizedBox(width: 5,),
                                                       Text(
                                                         "สิทธิ์",
@@ -840,13 +840,14 @@ class _RewardScreenState extends State<RewardScreen>
                                   children: [
                                     GestureDetector(
                                       onTap: (){
-                                        if (abtn1 == true) {
+                                        if (abtn1 == true || abtn2 == true || abtn3 == true) {
                                           Navigator.pushNamed(context, '/slip', arguments: {
                                             'date_appove': transreward[index]['date_appove'],
                                             'created_at': transreward[index]['created_at'],
                                             'appove_status': transreward[index]['appove_status'],
                                             'appove_by': transreward[index]['appove_by'],
                                             'reward_slip': transreward[index]['reward_slip'],
+                                            'reason_cancel': transreward[index]['reason_cancel'],
                                             'member_id': data['member_id'],
                                             'member_name_en': data['member_name_en'],
                                             'member_name_th': data['member_name_th'],

@@ -4,7 +4,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:Reward/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:full_screen_image/full_screen_image.dart';
 
 class SlipReward extends StatefulWidget {
   SlipReward({Key key}) : super(key: key);
@@ -98,7 +98,7 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
                           Text("วันที่แจ้งแลกรางวัล :", style: TextStyle(fontWeight:FontWeight.bold,)),
                         ],
                       ),
-                      SizedBox(width: 15,),
+                      SizedBox(width: 10,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -189,35 +189,69 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
                                                     
                         ],
                       ),
-                      SizedBox(width: 40,),
+                      SizedBox(width: 30,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
+                            child: data['appove_status'] == "Approved"? Text(
                               data['appove_status'],
                               style: TextStyle(
                                 fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.green)
+                            )
+                            : data['appove_status'] == "Reject"? Text(
+                              data['appove_status'],
+                              style: TextStyle(
+                                fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.red)
+                            )
+                            :Text(
+                              data['appove_status'],
+                              style: TextStyle(
+                                fontSize: 14.0,fontWeight:FontWeight.bold, color: Colors.yellow)
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
+                            child: data['appove_status'] == "Approved" || data['appove_status'] == "Reject"
+                            ?Text(
                               data['appove_by'],
                               style: TextStyle(
                                 fontSize: 14.0,fontWeight:FontWeight.w400,)
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              data['date_appove'],
+                            )
+                            :Text(
+                              "รอดำเนิการ",
                               style: TextStyle(
                                 fontSize: 14.0,fontWeight:FontWeight.w400,)
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: data['appove_status'] == "Approved" || data['appove_status'] == "Reject"
+                            ?Text(
+                              data['date_appove'],
+                              style: TextStyle(
+                                fontSize: 14.0,fontWeight:FontWeight.w400,)
+                            )
+                            :Text(
+                              "รอดำเนิการ",
+                              style: TextStyle(
+                                fontSize: 14.0,fontWeight:FontWeight.w400,)
+                            ),
+                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.symmetric(vertical: 5),
+                          //   child: data['appove_status'] == "Reject"
+                          //   ?Flexible(
+                          //     child: Text(
+                          //       data['reason_cancel'],softWrap: true,
+                          //       style: TextStyle(
+                          //         fontSize: 12.0,fontWeight:FontWeight.w400,)
+                          //     ),
+                          //   )
+                          //   :SizedBox(height: 2,),
+                          // ),
                           
                                                    
                         ],
@@ -225,6 +259,17 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
                     ],
                   ),
                 ),
+                
+                // Row(
+                //   children: [
+                //     data['appove_status'] == "Reject"? Padding(
+                //             padding: const EdgeInsets.symmetric(vertical: 5),
+                //             child: Text("เหตุผล :", style: TextStyle(fontWeight:FontWeight.bold,)),
+                //           )
+                //           :SizedBox(height: 2,),
+                //   ],
+                // ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
@@ -242,8 +287,10 @@ String template_kNavigationBarColor, template_kNavigationFooterBarColor;
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                   child: data['reward_slip'] != null
-                  ?Image.network(data['reward_slip'],
-                    fit: BoxFit.cover,
+                  ?FullScreenWidget(
+                    child: Image.network(data['reward_slip'],
+                      fit: BoxFit.cover,
+                    ),
                   )
                   :Image.asset("assets/images/nopic.png"),
                 ),
