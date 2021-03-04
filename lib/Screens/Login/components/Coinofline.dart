@@ -104,7 +104,7 @@ class _CoineoflineState extends State<Coineofline> {
           ),
         ),
         centerTitle: true,
-        title: Text("Coin"),
+        title: Text("Point"),
       ),
       body: isLoading == true
           ? Center(

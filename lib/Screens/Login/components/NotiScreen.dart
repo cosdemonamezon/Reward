@@ -24,6 +24,8 @@ class _NotiScreenState extends State<NotiScreen> {
   List<dynamic> notidata = [];
   Map<String, dynamic> readnotidata = {};
   Map<String, dynamic> numberNoti = {};
+  Map<String, dynamic> profiledata = {};
+  String notiPage = "notiPage";
   String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
   @override
@@ -37,8 +39,11 @@ class _NotiScreenState extends State<NotiScreen> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+    var profile = prefs.getString('profile');
+    var tokenprofile = convert.jsonDecode(profile);
 
     setState(() {
+      profiledata = tokenprofile['data'];
       template_kNavigationBarColor = token['color']['color_1'];
       template_kNavigationFooterBarColor = token['color']['color_2'];
     });
@@ -201,7 +206,7 @@ class _NotiScreenState extends State<NotiScreen> {
           ),
         ),
         centerTitle: true,
-        title: Text("Notification Log"),
+        title: Text("แจ้งเตือน"),
       ),
       body: isLoading == true
           ? Center(
@@ -237,35 +242,42 @@ class _NotiScreenState extends State<NotiScreen> {
                                     arguments: {
                                       'member_point': data['member_point'],
                                       'board_phone_1': data['board_phone_1'],
-                                      'total_noti':
-                                          numberNoti['total_noti'] - 1,
+                                      'total_noti': numberNoti['total_noti']-1,
                                       'title': notidata[index]['title'],
-                                      'description': notidata[index]
-                                          ['description'],
+                                      'description': notidata[index]['description'],
                                       'pic': notidata[index]['pic'],
-                                      'created_at': notidata[index]
-                                          ['created_at'],
-                                      'url': notidata[index]['url'],
+                                      'created_at': notidata[index]['created_at'],
+                                      'url': notidata[index]['url'],                                      
                                     });
-                              } else if (notidata[index]['noti_type'] ==
-                                  "Point") {
+                              } else if (notidata[index]['noti_type'] =="Point") {
                                 _readNotiMember(noti_log_id);
                                 Navigator.pushNamed(context, "/point",
                                     arguments: {
                                       'member_point': data['member_point'],
                                       'board_phone_1': data['board_phone_1'],
-                                      'total_noti':
-                                          numberNoti['total_noti'] - 1,
+                                      'total_noti': numberNoti['total_noti']-1,
                                     });
                               } else if (notidata[index]['noti_type'] ==
                                   "Reward") {
                                     _readNotiMember(noti_log_id);
-                                Navigator.pushNamed(context, "/reward",
+                                Navigator.pushNamed(context, "/slip",
                                     arguments: {
+                                      'date_appove': notidata[index]['date_appove'],
+                                      'created_at': notidata[index]['trans_at'],
+                                      'appove_status': notidata[index]['appove_status'],
+                                      'appove_by': notidata[index]['appove_by'],
+                                      'reward_slip': notidata[index]['reward_slip'],
+                                      'reason_cancel': notidata[index]['reason_cancel'],
+                                      'member_id': profiledata['member_id'],
+                                      'username': profiledata['username'],
+                                      'member_name_en': profiledata['member_name_en'],
+                                      'member_name_th': profiledata['member_name_th'],
+                                      'member_email': profiledata['member_email'],
+                                      'member_phone': profiledata['member_phone'],
+                                      'notiPage': notiPage,
                                       'member_point': data['member_point'],
                                       'board_phone_1': data['board_phone_1'],
-                                      'total_noti':
-                                          numberNoti['total_noti'] - 1,
+                                      'total_noti': numberNoti['total_noti']-1,
                                     });
                               } else {
                                 //print("ไม่มีลิ้ง");

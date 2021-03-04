@@ -116,7 +116,7 @@ class _CoinState extends State<Coin> {
           ),
         ),
         centerTitle: true,
-        title: Text("Coin"),
+        title: Text("Point"),
       ),
       body: isLoading == true
           ? Center(

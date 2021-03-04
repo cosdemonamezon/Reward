@@ -4,6 +4,8 @@ import 'package:Reward/Screens/Login/components/Coin.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
 
 class DetailNoti extends StatefulWidget {
   DetailNoti({Key key}) : super(key: key);
@@ -14,6 +16,26 @@ class DetailNoti extends StatefulWidget {
 
 class _DetailNotiState extends State<DetailNoti> {
   String template_kNavigationBarColor, template_kNavigationFooterBarColor;
+  SharedPreferences prefs;
+
+   @override
+  void initState() {
+    super.initState();
+    _getColor();
+    //_isButtonDisabled = false;
+  }
+
+  _getColor() async {
+    //print(values);
+    prefs = await SharedPreferences.getInstance();
+    var tokenString = prefs.getString('token');
+    var token = convert.jsonDecode(tokenString);
+
+    setState(() {
+      template_kNavigationBarColor = token['color']['color_1'];
+      template_kNavigationFooterBarColor = token['color']['color_2'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +82,7 @@ class _DetailNotiState extends State<DetailNoti> {
                   }
                 },
                 child: Container(
-                  height: 200,
+                  height: 250,
                   width: double.infinity,
                   child: data['pic'] != null
                       ? Image.network(

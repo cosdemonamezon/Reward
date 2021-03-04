@@ -123,8 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
           //var notification = convert.jsonDecode(response.body);
           //await prefsNoti.setString('notification', response.body);
           //save to prefs
-          // await prefs.setString('profile', response.body);
-          // var profileString = prefs.getString('profile');
+          await prefs.setString('profile', response.body);
+          //var profileString = prefs.getString('profile');
           if (homedata['code'] == "200") {
             //print(homedata);
             //await prefsNoti.setString('notification', response.body);
@@ -251,6 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if (loadSuccess == true) {
               Navigator.pushNamed(context, '/profilesetting', arguments: {
                 'id': data['id'],
+                'username': data['username'],
                 'member_name_th': data['member_name_th'],
                 'member_name_en': data['member_name_en'],
                 'member_email': data['member_email'],
@@ -275,6 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (loadSuccess == true) {
                   Navigator.pushNamed(context, '/share', arguments: {
                     'id': data['id'],
+                    'username': data['username'],
                     'member_name_th': data['member_name_th'],
                     'member_name_en': data['member_name_en'],
                     'member_email': data['member_email'],
@@ -1175,6 +1177,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                             if (loadSuccess == true) {
                               Navigator.pushNamed(context, "/noti", arguments: {
+                                'member_id': data['member_id'],
+                                'member_name_en': data['member_name_en'],
+                                'member_name_th': data['member_name_th'],
+                                'member_email': data['member_email'],
+                                'member_phone': data['member_phone'],
                                 'member_point': data['member_point'],
                                 'board_phone_1': data['board_phone_1'],
                                 'total_noti': data['total_noti'],

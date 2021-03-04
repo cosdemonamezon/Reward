@@ -685,7 +685,7 @@ class _RewardScreenState extends State<RewardScreen>
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Approved",
+                                      "อนุมัติ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.6,
@@ -703,7 +703,7 @@ class _RewardScreenState extends State<RewardScreen>
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Approved",
+                                      "อนุมัติ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.6,
@@ -733,7 +733,7 @@ class _RewardScreenState extends State<RewardScreen>
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Hide For Review",
+                                      "รอดำเนินการ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.6,
@@ -751,7 +751,7 @@ class _RewardScreenState extends State<RewardScreen>
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Hide For Review",
+                                      "รอดำเนินการ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.6,
@@ -780,7 +780,7 @@ class _RewardScreenState extends State<RewardScreen>
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Reject",
+                                      "ปฏิเสธ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.6,
@@ -798,7 +798,7 @@ class _RewardScreenState extends State<RewardScreen>
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Reject",
+                                      "ปฏิเสธ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.6,
@@ -904,23 +904,7 @@ class _RewardScreenState extends State<RewardScreen>
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold)),
-                                                        Text(
-                                                          transreward[index][
-                                                                          'description']
-                                                                      .length <=
-                                                                  41
-                                                              ? transreward[index]
-                                                                  ['description']
-                                                              : transreward[index][
-                                                                      'description']
-                                                                  .substring(0, 41)+"...",
-                                                          style: TextStyle(
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight.bold),
-                                                          textAlign:
-                                                              TextAlign.justify,
-                                                        ),
+                                                        
                                                         SizedBox(
                                                           height: 10,
                                                         ),
@@ -1025,9 +1009,9 @@ class _RewardScreenState extends State<RewardScreen>
                                                             transreward[index]['reason_cancel'] == null
                                                             ?Text("....")
                                                             :Text(
-                                                               transreward[index]['reason_cancel'].length <= 34
+                                                               transreward[index]['reason_cancel'].length <= 30
                                                                ?transreward[index]['reason_cancel']
-                                                               :transreward[index]['reason_cancel'].substring(0, 34)+"...",
+                                                               :transreward[index]['reason_cancel'].substring(0, 30)+"...",
                                                                 style: TextStyle(
                                                                     fontSize: 12.0,
                                                                     fontWeight:

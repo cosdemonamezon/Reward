@@ -71,7 +71,7 @@ class _AwardScreenState extends State<AwardScreen> {
     } else {
       var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode({'member_id': token['member_id']}));
+        body: convert.jsonEncode({}));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> shareLinkdata =
@@ -94,8 +94,8 @@ class _AwardScreenState extends State<AwardScreen> {
           showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => dialogDenied(
-              title,
+            builder: (context) => dialogHome(
+              shareLinkdata['massage'],
               picDenied,
               context,
             ),
@@ -235,7 +235,7 @@ class _AwardScreenState extends State<AwardScreen> {
           ),
         ),
         centerTitle: true,
-        title: Text("แชร์ลิ้ง"),
+        title: Text("รางวัล"),
       ),
       body: isLoading == true
           ? Center(
@@ -252,175 +252,181 @@ class _AwardScreenState extends State<AwardScreen> {
                             "#" + template_kNavigationFooterBarColor)),
                   ),
                 )
-              : Column(
-                  children: [
-                    Card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 200.0,
-                            width: double.infinity,
-                            child: Stack(
-                              children: [
-                                Positioned.fill(
-                                  child: shareLink['pic'] != null
-                                      ? Image.network(
-                                          shareLink['pic'],
-                                          fit: BoxFit.fill,
-                                        )
-                                      : Ink.image(
-                                          image: NetworkImage(
-                                              'https://picsum.photos/400/200'),
-                                          fit: BoxFit.cover),
-                                ),
-                                Positioned(
-                                  top: 10,
-                                  left: 15,
-                                  child: Icon(
-                                    Icons.share,
-                                    size: 40.0,
-                                    color: Colors.blue,
+              : SingleChildScrollView(
+                child: Column(
+                    children: [
+                      Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 200.0,
+                              width: double.infinity,
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: shareLink['pic'] != null
+                                        ? Image.network(
+                                            shareLink['pic'],
+                                            fit: BoxFit.fill,
+                                          )
+                                        : Ink.image(
+                                            image: NetworkImage(
+                                                'https://picsum.photos/400/200'),
+                                            fit: BoxFit.cover),
                                   ),
-                                ),
-                              ],
+                                  Positioned(
+                                    top: 10,
+                                    left: 15,
+                                    child: Icon(
+                                      Icons.share,
+                                      size: 40.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                
-                                Text(
-                                  shareLink['title'] == null
-                                      ? "ไม่มีข้อมูล"
-                                      : shareLink['title'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15.0),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  shareLink['description'] == null
-                                      ? "ไม่มีข้อมูล"
-                                      : shareLink['description'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15.0),
-                                ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  
+                                  Text(
+                                    shareLink['title'] == null
+                                        ? "ไม่มีข้อมูล"
+                                        : shareLink['title'],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    shareLink['description'] == null
+                                        ? "ไม่มีข้อมูล"
+                                        : shareLink['description'],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
 
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "เริ่ม", style: TextStyle(
-                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "เริ่ม", style: TextStyle(
+                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 5,),
-                                      Text(
-                                        "${shareLink['date_start']}", style: TextStyle(
-                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          "${shareLink['date_start']}", style: TextStyle(
+                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 10,),
-                                      Text(
-                                        "ถึง", style: TextStyle(
-                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                        SizedBox(width: 10,),
+                                        Text(
+                                          "ถึง", style: TextStyle(
+                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 10,),
-                                      Text(
-                                        "${shareLink['date_stop']}", style: TextStyle(
-                                          fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                        SizedBox(width: 10,),
+                                        Text(
+                                          "${shareLink['date_stop']}", style: TextStyle(
+                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Container(
-                        width: double.infinity,
-                        child: FlatButton.icon(
-                          onPressed: () async{
-                            if (shareLink['date_exp'] == "Yes") {
-                              showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) => errorPopup(
-                                  dateexp,
-                                  picWanning,
-                                  context,
-                                ),
-                              );
-                            } else if (shareLink['shere_status'] == "Yes") {
-                              showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) => errorPopup(
-                                  sharestatus,
-                                  picWanning,
-                                  context,
-                                ),
-                              );
-                            } else if (shareLink['date_exp'] == "Yes" &&
-                                shareLink['shere_status'] == "Yes") {
-                              showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) => errorPopup(
-                                  statusdateexp,
-                                  picWanning,
-                                  context,
-                                ),
-                              );
-                            } else {
-                              int id = shareLink['id'];
-                              String board_phone_1 = data['board_phone_1'];
-                              int total_noti = data['total_noti'];
-                              _getlink(id, total_noti, board_phone_1);
-                            }                    
-                          },
-                          label: Text(
-                            "Click Share Facebook",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20),
-                          ),
-                          icon: Icon(Icons.share, color:Colors.white, size: 40,),
+                          ],
                         ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              hexToColor("#" +
-                                template_kNavigationFooterBarColor),
-                              hexToColor("#" +
-                                template_kNavigationBarColor)
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Container(
+                          width: double.infinity,
+                          child: FlatButton.icon(
+                            onPressed: () async{
+                              if (shareLink['date_exp'] == "Yes") {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) => errorPopup(
+                                    dateexp,
+                                    picWanning,
+                                    context,
+                                  ),
+                                );
+                              } else if (shareLink['shere_status'] == "Yes") {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) => errorPopup(
+                                    sharestatus,
+                                    picWanning,
+                                    context,
+                                  ),
+                                );
+                              } else if (shareLink['date_exp'] == "Yes" &&
+                                  shareLink['shere_status'] == "Yes") {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) => errorPopup(
+                                    statusdateexp,
+                                    picWanning,
+                                    context,
+                                  ),
+                                );
+                              } else {
+                                int id = shareLink['id'];
+                                String board_phone_1 = data['board_phone_1'];
+                                int total_noti = data['total_noti'];
+                                _getlink(id, total_noti, board_phone_1);
+                              }                    
+                            },
+                            label: Text(
+                              "Click Share Facebook",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20),
+                            ),
+                            icon: Icon(Icons.share, color:Colors.white, size: 40,),
                           ),
-                          borderRadius: BorderRadius.circular(10.0))),
-                    ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                hexToColor("#" +
+                                  template_kNavigationFooterBarColor),
+                                hexToColor("#" +
+                                  template_kNavigationBarColor)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0))),
+                      ),
+
+                      SizedBox(
+                        height: 30,
+                      ),
       
-                  ],
-                ),
+                    ],
+                  ),
+              ),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,

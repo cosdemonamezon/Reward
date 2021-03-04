@@ -116,7 +116,7 @@ class _HelpadviceState extends State<Helpadvice> {
           ),
         ),
         centerTitle: true,
-        title: Text("Help Advice"),
+        title: Text("แนะนำ"),
       ),
       body: isLoading == true
           ? Center(

@@ -97,6 +97,7 @@ class _LinkShareState extends State<LinkShare> {
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context).settings.arguments;
+    print(data['username']);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: hexToColor("#" + template_kNavigationBarColor),
@@ -111,7 +112,7 @@ class _LinkShareState extends State<LinkShare> {
           ),
         ),
         centerTitle: true,
-        title: Text("แชร์ลิ้ง"),
+        title: Text("ชวนเพื่อน"),
       ),
       body: shareLink == null
           ? Center(
@@ -172,7 +173,7 @@ class _LinkShareState extends State<LinkShare> {
                             await FlutterClipboard.copy(data['member_link_2']);    
                           },
                           child: Text(
-                            "Click Share Facebook",
+                            "แชร์ไปยัง Facebook",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20),
@@ -216,7 +217,7 @@ class _LinkShareState extends State<LinkShare> {
                             await FlutterClipboard.copy(data['member_link_4']);    
                           },
                           child: Text(
-                            "Click Share Line",
+                            "แชร์ไปยัง Line",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20),
@@ -258,7 +259,7 @@ class _LinkShareState extends State<LinkShare> {
                             await FlutterClipboard.copy(data['member_link_3']);    
                           },
                           child: Text(
-                            "Click Share Youtube",
+                            "แชร์ไปยัง Youtube",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20),
@@ -300,7 +301,7 @@ class _LinkShareState extends State<LinkShare> {
                             await FlutterClipboard.copy(data['member_link_1']);    
                           },
                           child: Text(
-                            "Click Share Local Link",
+                            "แชร์ไปยัง Local Link",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20),
@@ -560,6 +561,7 @@ class _LinkShareState extends State<LinkShare> {
                           Navigator.pushNamed(context, '/profilesetting',
                               arguments: {
                                 'id': data['id'],
+                                'username': data['username'],
                                 'member_name_th': data['member_name_th'],
                                 'member_name_en': data['member_name_en'],
                                 'member_email': data['member_email'],

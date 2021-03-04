@@ -27,6 +27,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
   bool active = false;
   SharedPreferences prefs;
   bool isLoading = false;
+  String username = "";
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -47,8 +48,12 @@ class _ProfilesettingsState extends State<Profilesettings> {
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+    var profile = prefs.getString('profile');
+    var tokenprofile = convert.jsonDecode(profile);
+    
 
     setState(() {
+      username = tokenprofile['data']['username'];
       template_kNavigationBarColor = token['color']['color_1'];
       template_kNavigationFooterBarColor = token['color']['color_2'];
     });
@@ -219,7 +224,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
           ),
         ),
         centerTitle: true,
-        title: Text("Profile"),
+        title: Text("โปรไฟล์"),
       ),
       body: data.length == 0
           ? Center(
@@ -530,7 +535,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                                       FormBuilder(
                                         key: _fbKey,
                                         initialValue: {
-                                          'username': data['username'],
+                                          'username': username,
                                           'member_username_game': '',
                                           'board_shot_name': '',
                                           'member_address': ''

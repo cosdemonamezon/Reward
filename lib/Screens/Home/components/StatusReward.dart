@@ -150,7 +150,7 @@ class _StatusRewardState extends State<StatusReward> {
             ),
           ),
           centerTitle: true,
-          title: Text("Status Group Reward"),
+          title: Text("ระดับสมาชิก"),
           bottom: TabBar(
             labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
@@ -164,13 +164,13 @@ class _StatusRewardState extends State<StatusReward> {
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("Group", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text("ข้อมูล", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("History", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text("ประวัติ", style: TextStyle(fontWeight: FontWeight.bold,),),
                 ),
               ),
             ],
@@ -230,7 +230,7 @@ class _StatusRewardState extends State<StatusReward> {
                                         child: Row(
                                           children: [
                                             Text(
-                                              "ชื่อกลุ่ม:  ",
+                                              "ชื่อระดับ:  ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16.0),

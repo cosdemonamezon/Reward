@@ -31,6 +31,7 @@ class _TransferPointsState extends State<TransferPoints>
   SharedPreferences prefsNoti;
   Map<String, dynamic> numberNoti = {};
   bool _isButtonDisabled = false;
+  String limitPoint = "";
 
   @override
   void initState() {
@@ -51,8 +52,11 @@ class _TransferPointsState extends State<TransferPoints>
     prefs = await SharedPreferences.getInstance();
     var tokenString = prefs.getString('token');
     var token = convert.jsonDecode(tokenString);
+    var profile = prefs.getString('profile');
+    var tokenprofile = convert.jsonDecode(profile);
 
     setState(() {
+      limitPoint = tokenprofile['data']['tranfer_point_limit'].toString();
       template_kNavigationBarColor = token['color']['color_1'];
       template_kNavigationFooterBarColor = token['color']['color_2'];
     });
@@ -159,6 +163,9 @@ class _TransferPointsState extends State<TransferPoints>
           ),
         );
       } else if (point['code'] == "500") {
+        setState(() {          
+          _isButtonDisabled = false;
+        });
         showDialog(
           barrierDismissible: false,
           context: context,
@@ -169,6 +176,9 @@ class _TransferPointsState extends State<TransferPoints>
           ),
         );
       } else if (point['code'] == "600") {
+        setState(() {          
+          _isButtonDisabled = false;
+        });
         showDialog(
           barrierDismissible: false,
           context: context,
@@ -234,7 +244,7 @@ class _TransferPointsState extends State<TransferPoints>
           ),
           elevation: 18,
           //centerTitle: true,
-          title: Text("Point"),
+          title: Text("โอน Point"),
           bottom: TabBar(
             labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
@@ -441,8 +451,18 @@ class _TransferPointsState extends State<TransferPoints>
                                   // ],
                                 ),
                               ),
+                              SizedBox(height: 10,),
+                              Center(
+                                child: Text(
+                                  "**จำนวนขั้นต่ำที่โอนได้คือ  "+limitPoint+"  Point**",
+                                  style: TextStyle(
+                                    fontSize: 12.0, fontWeight: FontWeight.bold,
+                                    color: Colors.red
+                                  ),
+                                ),
+                              ),
                               SizedBox(
-                                height: 100.0,
+                                height: 60.0,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1011,6 +1031,7 @@ class _TransferPointsState extends State<TransferPoints>
                           Navigator.pushNamed(context, '/profilesetting',
                               arguments: {
                                 'id': data['id'],
+                                'username': data['username'],
                                 'member_name_th': data['member_name_th'],
                                 'member_name_en': data['member_name_en'],
                                 'member_email': data['member_email'],

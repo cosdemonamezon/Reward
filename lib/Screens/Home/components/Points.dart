@@ -117,7 +117,7 @@ class _PointsState extends State<Points> {
           ),
         ),
         centerTitle: true,
-        title: Text("Point ${data['member_point']}",
+        title: Text("แต้ม ${data['member_point']}",
             style: TextStyle(
                 color: kTextColor,
                 fontSize: 24.0,
