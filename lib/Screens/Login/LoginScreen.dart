@@ -19,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String _platformVersion = 'Unknown';
+  int _currentIndex = 0;
   Future<void> initPlatformState() async {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -248,163 +249,175 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width1 = MediaQuery.of(context).size.width;
+    print(width1);
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            "assets/images/home.jpg",
-            fit: BoxFit.cover,
-          ),
-          SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              margin: EdgeInsets.only(top: height * 0.56, bottom: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: RaisedButton(
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width,
-                              minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                child: Icon(Icons.people,
-                                    size: 35, color: Colors.white),
-                              ),
-                              Text(
-                                "Login With Facebook",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: RaisedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/login");
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff9425b2), Color(0xffb350f1)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width,
-                              minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                child: Icon(Icons.account_circle,
-                                    size: 35, color: Colors.white),
-                              ),
-                              Text(
-                                "Login With Account",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: RaisedButton(
-                      onPressed: () {
-                        launch(pathRegister);
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width,
-                              minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                child: Icon(Icons.grid_on,
-                                    size: 35, color: Colors.white),
-                              ),
-                              Text(
-                                "Register New Account",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+      body: SafeArea(
+        top: false,
+        child: FractionallySizedBox(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.asset(
+                "assets/images/home.jpg",
+                fit: BoxFit.cover,
               ),
-            ),
+              SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: width1 * 0.07),
+                  margin: EdgeInsets.only(top: height * 0.56, bottom: 30,),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () {},
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width,
+                                  minHeight: 50.0),
+                              alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
+                                    child: Icon(Icons.people,
+                                        size: 35, color: Colors.white),
+                                  ),
+                                  Text(
+                                    "Login With Facebook",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/login");
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Color(0xff9425b2), Color(0xffb350f1)],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width,
+                                  minHeight: 50.0),
+                              alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
+                                    child: Icon(Icons.account_circle,
+                                        size: 35, color: Colors.white),
+                                  ),
+                                  Text(
+                                    "Login With Account",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () {
+                            launch(pathRegister);
+                            // Navigator.pushNamed(context, '/offlinewebview',
+                            //     arguments: {
+                            //       'title': pathRegister,
+                            //       'url': pathRegister
+                            //     });
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.all(0.0),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width,
+                                  minHeight: 50.0),
+                              alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
+                                    child: Icon(Icons.grid_on,
+                                        size: 35, color: Colors.white),
+                                  ),
+                                  Text(
+                                    "Register New Account",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       bottomNavigationBar: Container(
         height: 100,
