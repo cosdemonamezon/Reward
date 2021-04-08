@@ -54,6 +54,15 @@ dependencies:
   photo_view: ^0.10.3
   auto_size_text: ^2.1.0
 
+dependency_overrides:
+  date_range_picker:
+    git:
+      url: https://github.com/LempereurBenjamin/date_range_picker
+  country_pickers:
+    git:
+      url: git://github.com/justkawal/country_pickers.git
+      ref: master
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -82,6 +91,7 @@ flutter:
     - assets/images/7.JPG
     - assets/images/8.JPG
     - assets/images/home.jpg
+    - assets/images/home1.jpg
     - assets/images/telephone.png
     - assets/images/info.jpg
     - assets/images/noti.jpg
