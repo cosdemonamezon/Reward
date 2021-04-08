@@ -66,96 +66,114 @@ class _LoginPageState extends State<LoginPage> {
 
       //print(token);
       if (token['code'] == "200") {
-        Flushbar(
-          title: '${token['massage']}',
-          //message: "${token['code']}",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.blue[300],
-          ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.blue[300],
-        )..show(context);
-        Future.delayed(Duration(seconds: 3), () {
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/home', (Route<dynamic> route) => false);
+        setState(() {
+          isLoading = false;
         });
-        //Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
-      } else if (token['code'] == "999") {
-        Flushbar(
-          title: '${token['massage']}',
-          //message: "${token['code']}",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.blue[300],
+        var feedback = convert.jsonDecode(response.body);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(feedback['massage']),
+            action: SnackBarAction(
+              label: feedback['code'],
+              onPressed: () {
+                // Code to execute.
+              },
+            ),
           ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.blue[300],
-        ).show(context);
-        Future.delayed(Duration(seconds: 3), () {
-          Navigator.pushNamed(context, '/pincode', arguments: {
-            'username': username,
-            'password': password,
-            'token': token['data']
-          });
+        );
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/home', (Route<dynamic> route) => false);
+      } else if (token['code'] == "999") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(token['massage']),
+            action: SnackBarAction(
+              label: token['code'],
+              onPressed: () {
+                // Code to execute.
+              },
+            ),
+          ),
+        );
+
+        Navigator.pushNamed(context, '/pincode', arguments: {
+          'username': username,
+          'password': password,
+          'token': token['data']
         });
       } else if (token['code'] == "400") {
-        Flushbar(
-          title: '${token['massage']}',
-          //message: "${token['code']}",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.blue[300],
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(token['massage']),
+            action: SnackBarAction(
+              label: token['code'],
+              onPressed: () {
+                // Code to execute.
+              },
+            ),
           ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.blue[300],
-        )..show(context);
-        Future.delayed(Duration(seconds: 3), () {
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/login', (Route<dynamic> route) => false);
-        });
+        );
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/login', (Route<dynamic> route) => false);
       } else {
         setState(() {
           isLoading = false;
         });
         var feedback = convert.jsonDecode(response.body);
-        Flushbar(
-          title: '${feedback['massage']}',
-          message: 'เกิดข้อผิดพลาดจากระบบ : ${feedback['code']}',
-          backgroundColor: Colors.redAccent,
-          icon: Icon(
-            Icons.error,
-            size: 28.0,
-            color: Colors.white,
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(feedback['massage']),
+            action: SnackBarAction(
+              label: feedback['code'],
+              onPressed: () {
+                // Code to execute.
+              },
+            ),
           ),
-          duration: Duration(seconds: 3),
-          leftBarIndicatorColor: Colors.blue[300],
-        )..show(context);
+        );
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/login', (Route<dynamic> route) => false);
+
+        // Flushbar(
+        //   title: '${feedback['massage']}',
+        //   message: 'เกิดข้อผิดพลาดจากระบบ : ${feedback['code']}',
+        //   backgroundColor: Colors.redAccent,
+        //   icon: Icon(
+        //     Icons.error,
+        //     size: 28.0,
+        //     color: Colors.white,
+        //   ),
+        //   duration: Duration(seconds: 3),
+        //   leftBarIndicatorColor: Colors.blue[300],
+        // )..show(context);
         // Future.delayed(Duration(seconds: 3), () {
         //   Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
         // });
       }
     } else {
-      // setState(() {
-      //   isLoading = false;
-      // });
-      //print(response.body);
+      setState(() {
+        isLoading = false;
+      });
       var feedback = convert.jsonDecode(response.body);
-      Flushbar(
-        title: '${feedback['message']}',
-        message: 'เกิดข้อผิดพลาดจากระบบ : ${feedback['code']}',
-        backgroundColor: Colors.redAccent,
-        icon: Icon(
-          Icons.error,
-          size: 28.0,
-          color: Colors.white,
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(feedback['massage']),
+          action: SnackBarAction(
+            label: feedback['code'],
+            onPressed: () {
+              // Code to execute.
+            },
+          ),
         ),
-        duration: Duration(seconds: 3),
-        leftBarIndicatorColor: Colors.blue[300],
-      )..show(context);
+      );
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/login', (Route<dynamic> route) => false);
     }
   }
 
