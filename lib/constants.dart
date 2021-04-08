@@ -110,8 +110,8 @@ String statusdateexp = "หมดโปรโมชั่น และ คุณ
 
 class Constants {
   Constants._();
-  static const double padding = 20;
-  static const double avatarRadius = 45;
+  static const double padding = 2;
+  static const double avatarRadius = 38;
 }
 
 dialog1(String title, context) {
@@ -158,19 +158,25 @@ dialog1(String title, context) {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 200,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(context, '/loginScreen',
+                          (Route<dynamic> route) => false);
+                    },
+                    padding: EdgeInsets.all(12),
+                    color: Colors.lightBlueAccent,
+                    child: Text('ตกลง',
+                        style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/loginScreen',
-                        (Route<dynamic> route) => false);
-                  },
-                  padding: EdgeInsets.all(12),
-                  color: Colors.lightBlueAccent,
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),
@@ -228,19 +234,25 @@ dialogDenied(String title, String img, context) {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 200,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(context, '/loginScreen',
+                          (Route<dynamic> route) => false);
+                    },
+                    padding: EdgeInsets.all(12),
+                    color: Color(0xFF01579B),
+                    child: Text('ตกลง',
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/loginScreen',
-                        (Route<dynamic> route) => false);
-                  },
-                  padding: EdgeInsets.all(12),
-                  color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),
@@ -306,18 +318,24 @@ errordialog(String title, String subtitle, String img, context) {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 200,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: EdgeInsets.all(12),
+                    color: Color(0xFF01579B),
+                    child: Text('ตกลง',
+                        style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  padding: EdgeInsets.all(12),
-                  color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),
@@ -375,19 +393,25 @@ successdialog(String title, String img, context) {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 200,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home', (Route<dynamic> route) => false);
+                    },
+                    padding: EdgeInsets.all(12),
+                    color: Color(0xFF01579B),
+                    child: Text('ตกลง',
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (Route<dynamic> route) => false);
-                  },
-                  padding: EdgeInsets.all(12),
-                  color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),
@@ -414,7 +438,7 @@ dialogHome(String title, String img, context) {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Constants.padding),
     ),
-    elevation: 20,
+    elevation: 10,
     backgroundColor: Colors.transparent,
     child: Stack(
       children: [
@@ -438,26 +462,32 @@ dialogHome(String title, String img, context) {
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 22,
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 200,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home', (Route<dynamic> route) => false);
+                    },
+                    padding: EdgeInsets.all(12),
+                    color: Color(0xFF01579B),
+                    child: Text('ตกลง',
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (Route<dynamic> route) => false);
-                  },
-                  padding: EdgeInsets.all(12),
-                  color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),
@@ -524,7 +554,7 @@ dialogConfrim(
                     alignment: Alignment.bottomCenter,
                     child: RaisedButton(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -537,18 +567,21 @@ dialogConfrim(
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                    child: Container(
+                      width: 200,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/home', (Route<dynamic> route) => false);
+                        },
+                        padding: EdgeInsets.all(12),
+                        color: Color(0xFF01579B),
+                        child: Text('ตกลง',
+                            style: TextStyle(color: Colors.white, fontSize: 20)),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/home', (Route<dynamic> route) => false);
-                      },
-                      padding: EdgeInsets.all(12),
-                      color: Color(0xFF01579B),
-                      child: Text('ตกลง',
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
                   ),
                 ],
@@ -609,18 +642,24 @@ errorPopup(String title, String img, context) {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 200,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: EdgeInsets.all(12),
+                    color: Color(0xFF01579B),
+                    child: Text('ตกลง',
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  padding: EdgeInsets.all(12),
-                  color: Color(0xFF01579B),
-                  child: Text('ตกลง',
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),
@@ -678,18 +717,24 @@ dialogAlert(String title, String img, context) {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 200,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: EdgeInsets.all(12),
+                    color: Colors.red,
+                    child: Text('ปิด',
+                        style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  padding: EdgeInsets.all(12),
-                  color: Colors.red,
-                  child: Text('ปิด',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),

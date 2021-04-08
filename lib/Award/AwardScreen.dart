@@ -628,8 +628,8 @@ class _AwardScreenState extends State<AwardScreen> {
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black,
-                      offset: Offset(0, 10),
-                      blurRadius: 10),
+                      offset: Offset(1, 1),
+                      blurRadius: 5),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -655,7 +655,7 @@ class _AwardScreenState extends State<AwardScreen> {
                       alignment: Alignment.bottomCenter,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(2),
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, '/profilesetting',
@@ -681,7 +681,7 @@ class _AwardScreenState extends State<AwardScreen> {
                       alignment: Alignment.bottomCenter,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(2),
                         ),
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(context, '/home',

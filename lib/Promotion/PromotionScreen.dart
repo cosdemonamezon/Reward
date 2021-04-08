@@ -181,6 +181,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                   ),
                 )
               : Container(
+                color: Colors.grey[200],
                   width: double.infinity,
                   child: Column(
                     children: [
@@ -227,8 +228,8 @@ class _PromotionScreenState extends State<PromotionScreen> {
                               boxShadow: [
                                 BoxShadow(
                                   color: Color.fromRGBO(255, 95, 27, .3),
-                                  blurRadius: 20,
-                                  offset: Offset(0, 10),
+                                  blurRadius: 2,
+                                  offset: Offset(0, 1),
                                 )
                               ],
                             ),

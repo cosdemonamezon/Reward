@@ -370,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           BoxShadow(
                                             color:
                                                 Color.fromRGBO(255, 95, 27, .3),
-                                            blurRadius: 20,
+                                            blurRadius: 2,
                                             offset: Offset(1, 1),
                                           )
                                         ],
@@ -436,8 +436,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           BoxShadow(
                                             color:
                                                 Color.fromRGBO(255, 95, 27, .3),
-                                            blurRadius: 20,
-                                            offset: Offset(0, 8),
+                                            blurRadius: 2,
+                                            offset: Offset(1, 1),
                                           )
                                         ],
                                       ),
@@ -822,12 +822,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   runSpacing: 4.0,
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.symmetric(
@@ -1298,7 +1298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black,
-                      offset: Offset(0, 10),
+                      offset: Offset(1, 1),
                       blurRadius: 10),
                 ]),
             child: Column(
@@ -1318,7 +1318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       alignment: Alignment.bottomCenter,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(2),
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -1334,7 +1334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       alignment: Alignment.bottomCenter,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(2),
                         ),
                         onPressed: () {
                           _receivePointTurnOver();
@@ -1347,6 +1347,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 22,
                 ),
               ],
             ),

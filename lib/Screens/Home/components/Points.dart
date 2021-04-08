@@ -102,7 +102,7 @@ class _PointsState extends State<Points> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
-
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: hexToColor("#" + template_kNavigationBarColor),
@@ -160,128 +160,136 @@ class _PointsState extends State<Points> {
               child: CircularProgressIndicator(),
             )
           : point.length == 0
-              ? Center(
-                  child: Text(
-                    "ไม่พบข้อมูล",
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: hexToColor(
-                            "#" + template_kNavigationFooterBarColor)),
+              ? Container(
+                height: height,
+                color: Colors.grey[200],
+                child: Center(
+                    child: Text(
+                      "ไม่พบข้อมูล",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: hexToColor(
+                              "#" + template_kNavigationFooterBarColor)),
+                    ),
                   ),
-                )
-              : SafeArea(
-                  top: true,
-                  bottom: true,
-                  left: false,
-                  right: true,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: point.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      print(point.length);
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                ),
-                                child: Text(point[index]['date'],
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 22.0),
-                            child: Column(
+              )
+              : Container(
+                height: height,
+                color: Colors.grey[200],
+                child: SafeArea(
+                    top: true,
+                    bottom: true,
+                    left: false,
+                    right: true,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: point.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        print(point.length);
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    physics: const ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: point[index]['data'].length,
-                                    itemBuilder:
-                                        (BuildContext context, int index1) {
-                                      // return Text(point[index]['data'][index1]['deposit_point'].toString());
-                                      return Card(
-                                        child: ListTile(
-                                          title: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                  point[index]['data'][index1]
-                                                      ['deposit_by'],
-                                                  style: TextStyle(
-                                                    fontSize: 14.0,
-                                                  )),
-                                              SizedBox(
-                                                height: 7.0,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text("Point",
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: Text(point[index]['date'],
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 22.0),
+                              child: Column(
+                                children: [
+                                  ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      physics: const ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: point[index]['data'].length,
+                                      itemBuilder:
+                                          (BuildContext context, int index1) {
+                                        // return Text(point[index]['data'][index1]['deposit_point'].toString());
+                                        return Card(
+                                          child: ListTile(
+                                            title: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    point[index]['data'][index1]
+                                                        ['deposit_by'],
+                                                    style: TextStyle(
+                                                      fontSize: 14.0,
+                                                    )),
+                                                SizedBox(
+                                                  height: 7.0,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text("Point",
+                                                        style: TextStyle(
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight.bold)),
+                                                    SizedBox(
+                                                      width: 5.0,
+                                                    ),
+                                                    Text(
+                                                      point[index]['data'][index1]
+                                                              ['deposit_point']
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontSize: 14.0,
                                                           fontWeight:
-                                                              FontWeight.bold)),
-                                                  SizedBox(
-                                                    width: 5.0,
-                                                  ),
-                                                  Text(
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5.0,
+                                                    ),
+                                                    Icon(Icons
+                                                        .star_border_purple500_sharp),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            subtitle: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                               
+                                                Text(
                                                     point[index]['data'][index1]
-                                                            ['deposit_point']
-                                                        .toString(),
+                                                        ['createdTime'],
                                                     style: TextStyle(
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5.0,
-                                                  ),
-                                                  Icon(Icons
-                                                      .star_border_purple500_sharp),
-                                                ],
-                                              ),
-                                            ],
+                                                        fontSize: 10.0)),
+                                              ],
+                                            ),
                                           ),
-                                          subtitle: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                             
-                                              Text(
-                                                  point[index]['data'][index1]
-                                                      ['createdTime'],
-                                                  style: TextStyle(
-                                                      fontSize: 10.0)),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                //SizedBox(height: 10.0,),
-                              ],
+                                        );
+                                      }),
+                                  //SizedBox(height: 10.0,),
+                                ],
+                              ),
                             ),
-                          ),
-                          //SizedBox(height: 10.0,),
-                        ],
-                      );
-                    },
-                    // separatorBuilder: (BuildContext context, int index) => Divider(),
-                    // itemCount: point.length
-                    //itemCount: point.length.compareTo(0)
+                            //SizedBox(height: 10.0,),
+                          ],
+                        );
+                      },
+                      // separatorBuilder: (BuildContext context, int index) => Divider(),
+                      // itemCount: point.length
+                      //itemCount: point.length.compareTo(0)
+                    ),
                   ),
-                ),
+              ),
 
       bottomNavigationBar: Container(
         height: 100,
