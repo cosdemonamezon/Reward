@@ -1,39 +1,49 @@
-import 'package:Reward/Screens/Home/HomeScreen.dart';
 import 'package:Reward/constants.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:Reward/Screens/Login/components/Coinofline.dart';
-import 'package:Reward/Screens/Login/components/Helpofline.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPagesState createState() => _LoginPagesState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-  bool _autovalidate = false;
-  bool isLoading = false;
-  SharedPreferences prefs;
-  Map<String, dynamic> data = {};
-  String username = '';
-  String password = '';
+class _LoginPagesState extends State<LoginPage> {
+  String template_kNavigationBarColor, template_kNavigationFooterBarColor;
 
-  _initPrefs() async {
-    prefs = await SharedPreferences.getInstance();
-  }
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> _fbKey1 = GlobalKey<FormBuilderState>();
+  bool active = false;
+  SharedPreferences prefs;
+  bool isLoading = false;
+  String username = "";
+  String password = '';
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    _initPrefs();
+  }
+
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'MZReward': 'Register'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   _login(Map<String, dynamic> values) async {
@@ -58,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       var token = convert.jsonDecode(response.body);
       //save to prefs
-      await prefs.setString('token', response.body);
+      // await prefs.setString('token', response.body);
       // var tokenString = prefs.getString('token');
       // var token1 = convert.jsonDecode(tokenString);
       // print(token1);
@@ -179,92 +189,90 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    // Map data = ModalRoute.of(context).settings.arguments;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    //print(data);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      //resizeToAvoidBottomPadding: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            "assets/images/home.jpg",
+      body: Container(
+        height: height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/home2.jpg"),
             fit: BoxFit.cover,
           ),
-          SingleChildScrollView(
-            reverse: true, // this is new
-            physics: BouncingScrollPhysics(),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              margin: EdgeInsets.only(top: height * 0.67, bottom: 30),
-              color: Color(0xff070d3f),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: FormBuilder(
+        ),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                decoration: BoxDecoration(color: Colors.white),
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Login",
+                            style: TextStyle(
+                                color: Color(0xff64B6FF), fontSize: 40.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    FormBuilder(
                       key: _fbKey,
                       initialValue: {
-                        'กรอกชื่อผู้ใช้หรืออีเมล': '',
-                        'กรอกรหัสผ่าน': '',
+                        'username': username,
+                        'member_username_game': '',
+                        'board_shot_name': '',
+                        'member_address': ''
                       },
                       child: Column(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromRGBO(255, 95, 27, .3),
-                                  blurRadius: 20,
-                                  offset: Offset(0, 10),
-                                )
+                            // padding: EdgeInsets.all(10.0),
+                            child: FormBuilderTextField(
+                              attribute: 'username',
+                              autofocus: false,
+                              decoration: InputDecoration(
+                                hintText: "Username",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(),
+                              ),
+                              validators: [
+                                FormBuilderValidators.required(
+                                    errorText: 'กรุณากรอก Username'),
                               ],
                             ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey[200])),
-                                  ),
-                                  child: FormBuilderTextField(
-                                    attribute: 'username',
-                                    decoration: InputDecoration(
-                                      hintText: "ชื่อผู้เข้าใช้",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
-                                    ),
-                                    validators: [
-                                      FormBuilderValidators.required(
-                                          errorText: 'กรุณากรอกชื่อผู้ใช้')
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  // decoration: BoxDecoration(
-                                  //   border: Border(bottom: BorderSide(color: Colors.grey[200])),
-                                  // ),
-                                  child: FormBuilderTextField(
-                                    attribute: 'password',
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      hintText: "รหัสผ่าน",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none,
-                                    ),
-                                    validators: [
-                                      FormBuilderValidators.required(
-                                          errorText: 'กรอกรหัสผ่าน'),
-                                      FormBuilderValidators.minLength(6,
-                                          errorText:
-                                              'รหัสผ่านของคุณต้องมี 6 ตัวอักกษรขึ้นไป'),
-                                    ],
-                                  ),
-                                ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            // padding: EdgeInsets.all(10.0),
+                            child: FormBuilderTextField(
+                              attribute: 'password',
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(),
+                              ),
+                              validators: [
+                                FormBuilderValidators.required(
+                                    errorText: 'กรอกรหัสผ่าน'),
+                                FormBuilderValidators.minLength(6,
+                                    errorText:
+                                        'รหัสผ่านของคุณต้องมี 6 ตัวอักกษรขึ้นไป'),
                               ],
                             ),
                           ),
@@ -291,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                   ),
-                                  borderRadius: BorderRadius.circular(10.0)),
+                                  borderRadius: BorderRadius.circular(4.0)),
                               child: Center(
                                 child: isLoading == true
                                     ? CircularProgressIndicator(
@@ -311,164 +319,47 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             height: 25.0,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Text(
-                                  "ลืมรหัสผ่าน?",
-                                  style: TextStyle(
-                                    color: kTextColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _launchInBrowser("https://mzreward.com/");
+                                  },
+                                  child: Text(
+                                    "ยังมีไม่บัญชี ?",
+                                    style: TextStyle(
+                                      color: Color(0xff64B6FF),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "ย้อนกลับ",
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     Navigator.pop(context);
+                                //   },
+                                //   child: Text(
+                                //     "ลืมรหัสผ่าน",
+                                //     style: TextStyle(
+                                //       color: Color(0xff64B6FF),
+                                //       fontWeight: FontWeight.bold,
+                                //       fontSize: 20,
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.0,
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Padding(
-                      // this is new
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom)),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        height: 100,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(30.0),
-          //   topRight: Radius.circular(30.0),
-          // ),
-          color: kNavigationBarColor,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 30.0, right: 30.0, top: 15.0, bottom: 10.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(pathicon1),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) => dialogAlert(
-                            aertLogin,
-                            picDenied,
-                            context,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Text(
-                    "ติดต่อเรา",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(pathicon2),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return Helpofline();
-                          }),
-                        );
-                      },
-                    ),
-                  ),
-                  Text(
-                    "ช่วยแนะนำ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(pathicon3),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) => dialogAlert(
-                            aertLogin,
-                            picDenied,
-                            context,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Text(
-                    "แจ้งเตือน",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(pathicon4),
-                    radius: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return Coineofline();
-                          }),
-                        );
-                      },
-                    ),
-                  ),
-                  Text(
-                    "เหรียญ",
-                    style: TextStyle(
-                        color: kTextColor, fontWeight: FontWeight.bold),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

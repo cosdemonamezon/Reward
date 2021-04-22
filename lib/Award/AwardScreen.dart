@@ -2,7 +2,6 @@ import 'package:Reward/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -70,8 +69,11 @@ class _AwardScreenState extends State<AwardScreen> {
       );
     } else {
       var response = await http.post(url,
-        headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode({}));
+          headers: {
+            'Content-Type': 'application/json',
+            'token': token['token']
+          },
+          body: convert.jsonEncode({}));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> shareLinkdata =
@@ -114,7 +116,6 @@ class _AwardScreenState extends State<AwardScreen> {
         );
       }
     }
-    
   }
 
   _shereLinkReward(var shere_reward_id) async {
@@ -253,7 +254,7 @@ class _AwardScreenState extends State<AwardScreen> {
                   ),
                 )
               : SingleChildScrollView(
-                child: Column(
+                  child: Column(
                     children: [
                       Card(
                         child: Column(
@@ -293,7 +294,6 @@ class _AwardScreenState extends State<AwardScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  
                                   Text(
                                     shareLink['title'] == null
                                         ? "ไม่มีข้อมูล"
@@ -313,33 +313,47 @@ class _AwardScreenState extends State<AwardScreen> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15.0),
                                   ),
-
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 1, vertical: 10),
                                     child: Row(
                                       children: [
                                         Text(
-                                          "เริ่ม", style: TextStyle(
-                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
-                                          ),
+                                          "เริ่ม",
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        SizedBox(width: 5,),
-                                        Text(
-                                          "${shareLink['date_start']}", style: TextStyle(
-                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
-                                          ),
+                                        SizedBox(
+                                          width: 5,
                                         ),
-                                        SizedBox(width: 10,),
                                         Text(
-                                          "ถึง", style: TextStyle(
-                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
-                                          ),
+                                          "${shareLink['date_start']}",
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
                                         Text(
-                                          "${shareLink['date_stop']}", style: TextStyle(
-                                            fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
-                                          ),
+                                          "ถึง",
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "${shareLink['date_stop']}",
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
@@ -353,80 +367,80 @@ class _AwardScreenState extends State<AwardScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Container(
-                          width: double.infinity,
-                          child: FlatButton.icon(
-                            onPressed: () async{
-                              if (shareLink['date_exp'] == "Yes") {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) => errorPopup(
-                                    dateexp,
-                                    picWanning,
-                                    context,
-                                  ),
-                                );
-                              } else if (shareLink['shere_status'] == "Yes") {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) => errorPopup(
-                                    sharestatus,
-                                    picWanning,
-                                    context,
-                                  ),
-                                );
-                              } else if (shareLink['date_exp'] == "Yes" &&
-                                  shareLink['shere_status'] == "Yes") {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) => errorPopup(
-                                    statusdateexp,
-                                    picWanning,
-                                    context,
-                                  ),
-                                );
-                              } else {
-                                int id = shareLink['id'];
-                                String board_phone_1 = data['board_phone_1'];
-                                int total_noti = data['total_noti'];
-                                _getlink(id, total_noti, board_phone_1);
-                              }                    
-                            },
-                            label: Text(
-                              "Click Share Facebook",
-                              style: TextStyle(
+                            width: double.infinity,
+                            child: FlatButton.icon(
+                              onPressed: () async {
+                                if (shareLink['date_exp'] == "Yes") {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) => errorPopup(
+                                      dateexp,
+                                      picWanning,
+                                      context,
+                                    ),
+                                  );
+                                } else if (shareLink['shere_status'] == "Yes") {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) => errorPopup(
+                                      sharestatus,
+                                      picWanning,
+                                      context,
+                                    ),
+                                  );
+                                } else if (shareLink['date_exp'] == "Yes" &&
+                                    shareLink['shere_status'] == "Yes") {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) => errorPopup(
+                                      statusdateexp,
+                                      picWanning,
+                                      context,
+                                    ),
+                                  );
+                                } else {
+                                  int id = shareLink['id'];
+                                  String board_phone_1 = data['board_phone_1'];
+                                  int total_noti = data['total_noti'];
+                                  _getlink(id, total_noti, board_phone_1);
+                                }
+                              },
+                              label: Text(
+                                "Click Share Facebook",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              icon: Icon(
+                                Icons.share,
                                 color: Colors.white,
-                                fontSize: 20),
+                                size: 40,
+                              ),
                             ),
-                            icon: Icon(Icons.share, color:Colors.white, size: 40,),
-                          ),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                hexToColor("#" +
-                                  template_kNavigationFooterBarColor),
-                                hexToColor("#" +
-                                  template_kNavigationBarColor)
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0))),
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    hexToColor("#" +
+                                        template_kNavigationFooterBarColor),
+                                    hexToColor(
+                                        "#" + template_kNavigationBarColor)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0))),
                       ),
-
                       SizedBox(
                         height: 30,
                       ),
-      
                     ],
                   ),
-              ),
+                ),
       bottomNavigationBar: Container(
         height: 100,
         width: double.infinity,
@@ -447,8 +461,9 @@ class _AwardScreenState extends State<AwardScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -600,6 +615,7 @@ class _AwardScreenState extends State<AwardScreen> {
       ),
     );
   }
+
   alertConfirmUsername(
     String title,
     String subtitle,
@@ -627,9 +643,7 @@ class _AwardScreenState extends State<AwardScreen> {
                 borderRadius: BorderRadius.circular(Constants.padding),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1, 1),
-                      blurRadius: 5),
+                      color: Colors.black, offset: Offset(1, 1), blurRadius: 5),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,

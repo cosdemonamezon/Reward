@@ -44,6 +44,7 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [appAuthRedirectScheme: 'com.rwinfo.Reward']
     }
 
     buildTypes {

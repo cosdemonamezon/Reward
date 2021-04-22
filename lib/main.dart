@@ -36,7 +36,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String tokenString = prefs.getString('token');
-  token = convert.jsonDecode(tokenString);
+  if (tokenString != null) token = convert.jsonDecode(tokenString);
+
   runApp(MyApp());
 
   OneSignal.shared.init("cc3885db-be23-4b3e-ab93-5c49b16e1a82", iOSSettings: {
@@ -101,8 +102,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
           //'/': (context) => LoginScreen(),
-          '/': (context) =>
-              token['token'] != null ? HomeScreen() : LoginScreen(),
+          '/': (context) => LoginScreen(),
           '/loginScreen': (context) => LoginScreen(),
           '/home': (context) => HomeScreen(),
           '/reward': (context) => RewardScreen(),

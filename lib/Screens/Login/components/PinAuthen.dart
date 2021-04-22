@@ -6,9 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:Reward/constants.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:get_mac/get_mac.dart';
 import 'package:flutter/services.dart';
-import 'package:device_id/device_id.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 class PinAuthen extends StatefulWidget {
   PinAuthen({Key key}) : super(key: key);
@@ -21,21 +20,20 @@ class _PinAuthenState extends State<PinAuthen> {
   final focus = FocusNode();
   String _platformVersion = 'Unknown';
   Future<void> initPlatformState() async {
-    String platformVersion;
+    String deviceId;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await GetMac.macAddress;
+      deviceId = await PlatformDeviceId.getDeviceId;
     } on PlatformException {
-      platformVersion = 'Failed to get Device MAC Address.';
+      deviceId = 'Failed to get deviceId.';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
-    String deviceid = await DeviceId.getID;
     setState(() {
-      _platformVersion = deviceid;
+      _platformVersion = deviceId;
     });
   }
 
@@ -148,6 +146,7 @@ class _PinAuthenState extends State<PinAuthen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("ยืนยัน PIN"),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Padding(

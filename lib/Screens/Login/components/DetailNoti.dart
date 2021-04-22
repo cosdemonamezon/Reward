@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +16,7 @@ class _DetailNotiState extends State<DetailNoti> {
   String template_kNavigationBarColor, template_kNavigationFooterBarColor;
   SharedPreferences prefs;
 
-   @override
+  @override
   void initState() {
     super.initState();
     _getColor();

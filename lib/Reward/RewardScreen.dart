@@ -4,9 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class RewardScreen extends StatefulWidget {
   RewardScreen({Key key}) : super(key: key);
@@ -118,8 +115,7 @@ class _RewardScreenState extends State<RewardScreen>
     var url = pathAPI + 'api/getlogTransRewardMember';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode(
-            {'reward_status': btn1}));
+        body: convert.jsonEncode({'reward_status': btn1}));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> transrewarddata =
@@ -170,8 +166,7 @@ class _RewardScreenState extends State<RewardScreen>
     var url = pathAPI + 'api/getlogTransRewardMember';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode(
-            {'reward_status': btn1}));
+        body: convert.jsonEncode({'reward_status': btn1}));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> transrewarddata =
@@ -224,8 +219,7 @@ class _RewardScreenState extends State<RewardScreen>
     var url = pathAPI + 'api/getlogTransRewardMember';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode(
-            {'reward_status': btn3}));
+        body: convert.jsonEncode({'reward_status': btn3}));
     if (response.statusCode == 200) {
       final Map<String, dynamic> transrewarddata =
           convert.jsonDecode(response.body);
@@ -276,8 +270,7 @@ class _RewardScreenState extends State<RewardScreen>
     var url = pathAPI + 'api/getlogTransRewardMember';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode(
-            {'reward_status': btn2}));
+        body: convert.jsonEncode({'reward_status': btn2}));
     if (response.statusCode == 200) {
       final Map<String, dynamic> transrewarddata =
           convert.jsonDecode(response.body);
@@ -341,7 +334,7 @@ class _RewardScreenState extends State<RewardScreen>
           centerTitle: true,
           title: Text("รีวอร์ด"),
           bottom: TabBar(
-            labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
+            labelColor: hexToColor("#" + template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
@@ -353,13 +346,23 @@ class _RewardScreenState extends State<RewardScreen>
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("รายการ", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text(
+                    "รายการ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("ประวัติ", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text(
+                    "ประวัติ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -385,9 +388,9 @@ class _RewardScreenState extends State<RewardScreen>
                         ),
                       )
                     : Container(
-                      height: height,
-                      color: Colors.grey[200],
-                      child: Padding(
+                        height: height,
+                        color: Colors.grey[200],
+                        child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: Column(
                             children: [
@@ -399,7 +402,8 @@ class _RewardScreenState extends State<RewardScreen>
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Color.fromRGBO(255, 95, 27, .3),
+                                          color:
+                                              Color.fromRGBO(255, 95, 27, .3),
                                           blurRadius: 2,
                                           offset: Offset(0, 0.1),
                                         )
@@ -413,7 +417,8 @@ class _RewardScreenState extends State<RewardScreen>
                                                 color: Colors.grey[200])),
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.symmetric(
@@ -429,8 +434,10 @@ class _RewardScreenState extends State<RewardScreen>
                                                 horizontal: 20.0),
                                             //child: Text("User Member : User XXXX9528"),
                                             child: Text(
-                                                "User Member : ${data['username']}",
-                                                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                              "User Member : ${data['username']}",
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ],
@@ -447,7 +454,8 @@ class _RewardScreenState extends State<RewardScreen>
                                     crossAxisCount: 2,
                                     scrollDirection: Axis.vertical,
                                     //mainAxisSpacing: 2,
-                                    children: List.generate(reward.length, (index) {
+                                    children:
+                                        List.generate(reward.length, (index) {
                                       return Container(
                                         height: 150,
                                         child: Padding(
@@ -461,22 +469,29 @@ class _RewardScreenState extends State<RewardScreen>
                                                   context, '/detailreward',
                                                   arguments: {
                                                     'id': reward[index]['id'],
-                                                    'title': reward[index]['title'],
+                                                    'title': reward[index]
+                                                        ['title'],
                                                     'description': reward[index]
                                                         ['description'],
                                                     'url': reward[index]['url'],
                                                     'pic': reward[index]['pic'],
-                                                    'point': reward[index]['point'],
+                                                    'point': reward[index]
+                                                        ['point'],
                                                     'qty': reward[index]['qty'],
-                                                    'date_start': reward[index]['date_start'],
-                                                    'date_stop': reward[index]['date_stop'],
-                                                    'transfer_status': reward[index]
-                                                        ['transfer_status'],
-                                                    'group_status': reward[index]
-                                                        ['group_status'],
+                                                    'date_start': reward[index]
+                                                        ['date_start'],
+                                                    'date_stop': reward[index]
+                                                        ['date_stop'],
+                                                    'transfer_status':
+                                                        reward[index]
+                                                            ['transfer_status'],
+                                                    'group_status':
+                                                        reward[index]
+                                                            ['group_status'],
                                                     'qty_status': reward[index]
                                                         ['qty_status'],
-                                                    'member_id': data['member_id'],
+                                                    'member_id':
+                                                        data['member_id'],
                                                     'member_point':
                                                         data['member_point'],
                                                   });
@@ -497,133 +512,203 @@ class _RewardScreenState extends State<RewardScreen>
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(10),
+                                                          BorderRadius.circular(
+                                                              10),
                                                     ),
                                                     height: 100,
                                                     width: double.infinity,
                                                     child: Stack(
                                                       children: [
                                                         Positioned.fill(
-                                                          child: reward[index]['pic'] !=
-                                                            null
-                                                        ? Image.network(
-                                                            reward[index]['pic'],
-                                                            fit: BoxFit.fill,
-                                                          )
-                                                        : Image.network(
-                                                            'https://picsum.photos/400/200',
-                                                            fit: BoxFit.fill,
-                                                          ),
+                                                          child: reward[index]
+                                                                      ['pic'] !=
+                                                                  null
+                                                              ? Image.network(
+                                                                  reward[index]
+                                                                      ['pic'],
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                )
+                                                              : Image.network(
+                                                                  'https://picsum.photos/400/200',
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
                                                         ),
                                                         Positioned(
                                                           top: 10,
                                                           left: 15,
                                                           child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.symmetric(horizontal: 0),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment.center,
-                                                        children: [
-                                                          // Chip(
-                                                          //   backgroundColor: Colors.blueAccent,
-                                                          //   elevation: 2.0,
-                                                          //   label: Text("point"),
-                                                          // ),
-                                                          Icon(Icons.star, size: 18, color: Colors.red),
-                                                          SizedBox(width: 2,),
-                                                          Padding(
                                                             padding:
-                                                                EdgeInsets.symmetric(
-                                                                    vertical: 3.0),
-                                                            child: Text(reward[index]
-                                                                    ['point']
-                                                                .toString(),
-                                                              style:
-                                                              TextStyle(
-                                                                fontSize: 13.0,
-                                                                color: Colors.red, fontWeight: FontWeight.bold
-                                                              ),
-                                                          textAlign: TextAlign.justify,
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        0),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                // Chip(
+                                                                //   backgroundColor: Colors.blueAccent,
+                                                                //   elevation: 2.0,
+                                                                //   label: Text("point"),
+                                                                // ),
+                                                                Icon(Icons.star,
+                                                                    size: 18,
+                                                                    color: Colors
+                                                                        .red),
+                                                                SizedBox(
+                                                                  width: 2,
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          vertical:
+                                                                              3.0),
+                                                                  child: Text(
+                                                                    reward[index]
+                                                                            [
+                                                                            'point']
+                                                                        .toString(),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            13.0,
+                                                                        color: Colors
+                                                                            .red,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .justify,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                Text(
+                                                                  "P",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          13.0,
+                                                                      color: Colors
+                                                                          .red,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .justify,
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
-                                                          SizedBox(width: 5,),
-                                                          Text("P", style:
-                                                              TextStyle(
-                                                                fontSize: 13.0,
-                                                                color: Colors.red, fontWeight: FontWeight.bold
-                                                              ),
-                                                          textAlign: TextAlign.justify,),
-                                                        
-                                                      ],
-                                                    ),
-                                                  ),
                                                         ),
                                                       ],
                                                     ),
-                                                    
                                                   ),
                                                   //Image.network(picUrlimages+reward[index]['pic'], fit: BoxFit.cover,),
                                                   SizedBox(
                                                     height: 2,
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 5),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 5),
                                                     child: Center(
                                                       child: Text(
                                                         reward[index]['title'],
-                                                        style:
-                                                            TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
-                                                        textAlign: TextAlign.justify,
+                                                        style: TextStyle(
+                                                            fontSize: 13.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                        textAlign:
+                                                            TextAlign.justify,
                                                       ),
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 3),
                                                     child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: [
-                                                        Icon(Icons.access_time, size: 20, color: Colors.green,),
-                                                        SizedBox(width: 3,),
-                                                        Text(
-                                                          reward[index]['date_start'],
-                                                          style: TextStyle(
-                                                            fontSize: 12.0, color: Colors.green,
-                                                            fontWeight: FontWeight.bold
-                                                          ),
-                                                          textAlign: TextAlign.justify,
+                                                        Icon(
+                                                          Icons.access_time,
+                                                          size: 20,
+                                                          color: Colors.green,
                                                         ),
-                                                        SizedBox(width: 3,),
-                                                        Text(
-                                                          "-",style: TextStyle(
-                                                            fontSize: 12.0, color: Colors.green,
-                                                            fontWeight: FontWeight.bold
-                                                          ),
+                                                        SizedBox(
+                                                          width: 3,
                                                         ),
-                                                        SizedBox(width: 3,),
                                                         Text(
-                                                          reward[index]['date_stop'],
+                                                          reward[index]
+                                                              ['date_start'],
                                                           style: TextStyle(
-                                                            fontSize: 12.0, color: Colors.green,
-                                                            fontWeight: FontWeight.bold
-                                                          ),
-                                                          textAlign: TextAlign.justify,
+                                                              fontSize: 12.0,
+                                                              color:
+                                                                  Colors.green,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          textAlign:
+                                                              TextAlign.justify,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          "-",
+                                                          style: TextStyle(
+                                                              fontSize: 12.0,
+                                                              color:
+                                                                  Colors.green,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          reward[index]
+                                                              ['date_stop'],
+                                                          style: TextStyle(
+                                                              fontSize: 12.0,
+                                                              color:
+                                                                  Colors.green,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          textAlign:
+                                                              TextAlign.justify,
                                                         ),
                                                       ],
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 5),
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "เหลือ  "+ reward[index]['qty'].toString(),
+                                                          "เหลือ  " +
+                                                              reward[index]
+                                                                      ['qty']
+                                                                  .toString(),
                                                           style: TextStyle(
-                                                            fontSize: 12.0, color: Colors.red,
-                                                            fontWeight: FontWeight.bold
-                                                          ),
-                                                          textAlign: TextAlign.justify,
+                                                              fontSize: 12.0,
+                                                              color: Colors.red,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          textAlign:
+                                                              TextAlign.justify,
                                                         ),
                                                         // SizedBox(width: 5,),
                                                         // Text(
@@ -634,19 +719,23 @@ class _RewardScreenState extends State<RewardScreen>
                                                         //   ),
                                                         //   textAlign: TextAlign.justify,
                                                         // ),
-                                                        SizedBox(width: 5,),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
                                                         Text(
                                                           "สิทธิ์",
                                                           style: TextStyle(
-                                                            fontSize: 12.0, color: Colors.red,
-                                                            fontWeight: FontWeight.bold
-                                                          ),
-                                                          textAlign: TextAlign.justify,
+                                                              fontSize: 12.0,
+                                                              color: Colors.red,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          textAlign:
+                                                              TextAlign.justify,
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                  
                                                 ],
                                               ),
                                             ),
@@ -660,13 +749,14 @@ class _RewardScreenState extends State<RewardScreen>
                             ],
                           ),
                         ),
-                    ),
+                      ),
 
             //tab ที่สอง
             ListView(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -682,12 +772,13 @@ class _RewardScreenState extends State<RewardScreen>
                           child: abtn1 == true
                               ? Container(
                                   height: 50.0,
-                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: hexToColor(
-                                        "#" + template_kNavigationFooterBarColor),
+                                    color: hexToColor("#" +
+                                        template_kNavigationFooterBarColor),
                                   ),
                                   child: Center(
                                     child: Text(
@@ -701,7 +792,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 )
                               : Container(
                                   height: 50.0,
-                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -730,12 +822,13 @@ class _RewardScreenState extends State<RewardScreen>
                           child: abtn2 == true
                               ? Container(
                                   height: 50.0,
-                                  width: MediaQuery.of(context).size.width * 0.40,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.40,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: hexToColor(
-                                        "#" + template_kNavigationFooterBarColor),
+                                    color: hexToColor("#" +
+                                        template_kNavigationFooterBarColor),
                                   ),
                                   child: Center(
                                     child: Text(
@@ -749,7 +842,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 )
                               : Container(
                                   height: 50.0,
-                                  width: MediaQuery.of(context).size.width * 0.40,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.40,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -777,12 +871,13 @@ class _RewardScreenState extends State<RewardScreen>
                           child: abtn3 == true
                               ? Container(
                                   height: 50.0,
-                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: hexToColor(
-                                        "#" + template_kNavigationFooterBarColor),
+                                    color: hexToColor("#" +
+                                        template_kNavigationFooterBarColor),
                                   ),
                                   child: Center(
                                     child: Text(
@@ -796,7 +891,8 @@ class _RewardScreenState extends State<RewardScreen>
                                 )
                               : Container(
                                   height: 50.0,
-                                  width: MediaQuery.of(context).size.width * 0.25,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
                                   //margin: EdgeInsets.symmetric(horizontal: 40),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -822,7 +918,8 @@ class _RewardScreenState extends State<RewardScreen>
                     : transreward.length == 0
                         ? Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 150),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 150),
                               child: Text(
                                 "ไม่พบข้อมูล",
                                 style: TextStyle(
@@ -834,218 +931,232 @@ class _RewardScreenState extends State<RewardScreen>
                             ),
                           )
                         : Container(
-                          height: height,
-                          color: Colors.grey[100],
-                          child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              physics: const ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: transreward.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 3.0, horizontal: 5.0),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: (){
-                                          if (abtn1 == true || abtn2 == true || abtn3 == true) {
-                                            Navigator.pushNamed(context, '/slip', arguments: {
-                                              'date_appove': transreward[index]['date_appove'],
-                                              'created_at': transreward[index]['created_at'],
-                                              'appove_status': transreward[index]['appove_status'],
-                                              'appove_by': transreward[index]['appove_by'],
-                                              'reward_slip': transreward[index]['reward_slip'],
-                                              'reason_cancel': transreward[index]['reason_cancel'],
-                                              'member_id': data['member_id'],
-                                              'member_name_en': data['member_name_en'],
-                                              'member_name_th': data['member_name_th'],
-                                              'member_email': data['member_email'],
-                                              'member_phone': data['member_phone'],
-                                              'member_point': data['member_point'],
-                                              'board_phone_1': data['board_phone_1'],
-                                              'total_noti': data['total_noti'],
-                                            });
-                                          } else {
-                                          }
-                                        },
-                                        child: Card(
-                                          child: ListTile(
-                                            title: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      height: 110,
-                                                      width: 80,
-                                                      child: transreward[index]
-                                                                  ['pic'] !=
-                                                              null
-                                                          ? Image.network(
-                                                              transreward[index]
-                                                                  ['pic'],
-                                                              fit: BoxFit.fill,
-                                                            )
-                                                          : Image.network(
-                                                              'https://picsum.photos/400/200',
-                                                              fit: BoxFit.fill,
-                                                            ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.symmetric(
-                                                          vertical: 5.0,
-                                                          horizontal: 8.0),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                              transreward[index]
-                                                                  ['title'],
-                                                              style: TextStyle(
-                                                                  fontSize: 12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                  "แต้มที่ใช้แลก:   ",
-                                                                  style: TextStyle(
-                                                                      fontSize: 12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400)),
-                                                              Text(
-                                                                  "${transreward[index]['point'].toString()}  แต้ม",
-                                                                  style: TextStyle(
-                                                                      fontSize: 12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text("แลกเมื่อ:   ",
-                                                                  style: TextStyle(
-                                                                      fontSize: 12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400)),
-                                                              Text(
-                                                                  "${transreward[index]['created_at']}",
-                                                                  style: TextStyle(
-                                                                      fontSize: 12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text("สถานะ:   ",
-                                                                  style: TextStyle(
-                                                                      fontSize: 12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400)),
-                                                              transreward[index][
-                                                                          'appove_status'] ==
-                                                                      "Approved"
-                                                                  ? Chip(
-                                                                      backgroundColor:
-                                                                          hexToColor("#" +
-                                                                              template_kNavigationFooterBarColor),
-                                                                      label: Text(
-                                                                          transreward[
-                                                                                  index]
-                                                                              [
-                                                                              'appove_status'],
-                                                                          style: TextStyle(
-                                                                              fontSize:
-                                                                                  12.0, color: Colors.white)),
-                                                                    )
-                                                                  : transreward[index]
-                                                                              [
-                                                                              'appove_status'] ==
-                                                                          "Reject"
-                                                                      ? Chip(
-                                                                          backgroundColor:
-                                                                              hexToColor("#" +
-                                                                                  template_kNavigationFooterBarColor),
-                                                                          label: Text(
-                                                                              transreward[index]
-                                                                                  [
-                                                                                  'appove_status'],
-                                                                              style: TextStyle(
-                                                                                  fontSize:
-                                                                                      12.0, color: Colors.white)),
-                                                                        )
-                                                                      : Chip(
-                                                                          backgroundColor:
-                                                                              hexToColor("#" +
-                                                                                  template_kNavigationFooterBarColor),
-                                                                          label: Text(
-                                                                              transreward[index]
-                                                                                  [
-                                                                                  'appove_status'],
-                                                                              style: TextStyle(
-                                                                                  fontSize:
-                                                                                      12.0, color: Colors.white)),
-                                                                        ),
-                                                            ],
-                                                          ),
-                                                          abtn3 == true ? 
-                                                            Row(
-                                                            children: [
-                                                              Text("เหตุผล:   ",
-                                                                  style: TextStyle(
-                                                                      fontSize: 12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400)),
-                                                              transreward[index]['reason_cancel'] == null
-                                                              ?Text("....")
-                                                              :Text(
-                                                                 transreward[index]['reason_cancel'].length <= 30
-                                                                 ?transreward[index]['reason_cancel']
-                                                                 :transreward[index]['reason_cancel'].substring(0, 30)+"...",
-                                                                  style: TextStyle(
-                                                                      fontSize: 12.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                            ],
-                                                          )
-                                                          : SizedBox(height: 3,)
-                                                        ],
+                            height: height,
+                            color: Colors.grey[100],
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: transreward.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 3.0, horizontal: 5.0),
+                                    child: Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            if (abtn1 == true ||
+                                                abtn2 == true ||
+                                                abtn3 == true) {
+                                              Navigator.pushNamed(
+                                                  context, '/slip',
+                                                  arguments: {
+                                                    'date_appove':
+                                                        transreward[index]
+                                                            ['date_appove'],
+                                                    'created_at':
+                                                        transreward[index]
+                                                            ['created_at'],
+                                                    'appove_status':
+                                                        transreward[index]
+                                                            ['appove_status'],
+                                                    'appove_by':
+                                                        transreward[index]
+                                                            ['appove_by'],
+                                                    'reward_slip':
+                                                        transreward[index]
+                                                            ['reward_slip'],
+                                                    'reason_cancel':
+                                                        transreward[index]
+                                                            ['reason_cancel'],
+                                                    'member_id':
+                                                        data['member_id'],
+                                                    'member_name_en':
+                                                        data['member_name_en'],
+                                                    'member_name_th':
+                                                        data['member_name_th'],
+                                                    'member_email':
+                                                        data['member_email'],
+                                                    'member_phone':
+                                                        data['member_phone'],
+                                                    'member_point':
+                                                        data['member_point'],
+                                                    'board_phone_1':
+                                                        data['board_phone_1'],
+                                                    'total_noti':
+                                                        data['total_noti'],
+                                                  });
+                                            } else {}
+                                          },
+                                          child: Card(
+                                            child: ListTile(
+                                              title: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      Container(
+                                                        height: 110,
+                                                        width: 80,
+                                                        child: transreward[
+                                                                        index]
+                                                                    ['pic'] !=
+                                                                null
+                                                            ? Image.network(
+                                                                transreward[
+                                                                        index]
+                                                                    ['pic'],
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              )
+                                                            : Image.network(
+                                                                'https://picsum.photos/400/200',
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                                                // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                                              ],
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 5.0,
+                                                                horizontal:
+                                                                    8.0),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                transreward[
+                                                                        index]
+                                                                    ['title'],
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                    "แต้มที่ใช้แลก:   ",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w400)),
+                                                                Text(
+                                                                    "${transreward[index]['point'].toString()}  แต้ม",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
+                                                                        fontWeight:
+                                                                            FontWeight.bold)),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                    "แลกเมื่อ:   ",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w400)),
+                                                                Text(
+                                                                    "${transreward[index]['created_at']}",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
+                                                                        fontWeight:
+                                                                            FontWeight.bold)),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                    "สถานะ:   ",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w400)),
+                                                                transreward[index]
+                                                                            [
+                                                                            'appove_status'] ==
+                                                                        "Approved"
+                                                                    ? Chip(
+                                                                        backgroundColor:
+                                                                            hexToColor("#" +
+                                                                                template_kNavigationFooterBarColor),
+                                                                        label: Text(
+                                                                            transreward[index][
+                                                                                'appove_status'],
+                                                                            style:
+                                                                                TextStyle(fontSize: 12.0, color: Colors.white)),
+                                                                      )
+                                                                    : transreward[index]['appove_status'] ==
+                                                                            "Reject"
+                                                                        ? Chip(
+                                                                            backgroundColor:
+                                                                                hexToColor("#" + template_kNavigationFooterBarColor),
+                                                                            label:
+                                                                                Text(transreward[index]['appove_status'], style: TextStyle(fontSize: 12.0, color: Colors.white)),
+                                                                          )
+                                                                        : Chip(
+                                                                            backgroundColor:
+                                                                                hexToColor("#" + template_kNavigationFooterBarColor),
+                                                                            label:
+                                                                                Text(transreward[index]['appove_status'], style: TextStyle(fontSize: 12.0, color: Colors.white)),
+                                                                          ),
+                                                              ],
+                                                            ),
+                                                            abtn3 == true
+                                                                ? Row(
+                                                                    children: [
+                                                                      Text(
+                                                                          "เหตุผล:   ",
+                                                                          style: TextStyle(
+                                                                              fontSize: 12.0,
+                                                                              fontWeight: FontWeight.w400)),
+                                                                      transreward[index]['reason_cancel'] ==
+                                                                              null
+                                                                          ? Text(
+                                                                              "....")
+                                                                          : Text(
+                                                                              transreward[index]['reason_cancel'].length <= 30 ? transreward[index]['reason_cancel'] : transreward[index]['reason_cancel'].substring(0, 30) + "...",
+                                                                              style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),
+                                                                    ],
+                                                                  )
+                                                                : SizedBox(
+                                                                    height: 3,
+                                                                  )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  // Text("ถอนเงิน", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                                  // Text("500,000 บาท", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
               ],
             ),
           ],
@@ -1070,9 +1181,12 @@ class _RewardScreenState extends State<RewardScreen>
                 Column(
                   children: [
                     CircleAvatar(
-                      backgroundColor:nbtn1 == true ?
-                         Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
-                      foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
+                      backgroundColor: nbtn1 == true
+                          ? Colors.white54
+                          : hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
+                      foregroundColor:
+                          nbtn1 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon1),
                       radius: 24,
                       child: GestureDetector(
@@ -1101,7 +1215,8 @@ class _RewardScreenState extends State<RewardScreen>
                     CircleAvatar(
                       backgroundColor:
                           hexToColor("#" + template_kNavigationFooterBarColor),
-                      foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
+                      foregroundColor:
+                          nbtn2 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon2),
                       radius: 24,
                       child: GestureDetector(
@@ -1191,7 +1306,8 @@ class _RewardScreenState extends State<RewardScreen>
                     CircleAvatar(
                       backgroundColor:
                           hexToColor("#" + template_kNavigationFooterBarColor),
-                      foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
+                      foregroundColor:
+                          nbtn4 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon4),
                       radius: 24,
                       child: GestureDetector(

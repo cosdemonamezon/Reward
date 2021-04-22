@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
 import 'package:Reward/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:full_screen_image/full_screen_image.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
@@ -59,7 +57,6 @@ class _SlipRewardState extends State<SlipReward> {
             } else {
               Navigator.of(context).pop();
             }
-            
           },
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -197,7 +194,6 @@ class _SlipRewardState extends State<SlipReward> {
                     SizedBox(
                       width: 5,
                     ),
-                    
                   ],
                 ),
               ),
@@ -322,12 +318,13 @@ class _SlipRewardState extends State<SlipReward> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: data['appove_status'] == "Reject"
-                ?Text("เหตุผล :",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )
-                )
-                :SizedBox(height: 2,),
+                    ? Text("เหตุผล :",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ))
+                    : SizedBox(
+                        height: 2,
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -339,7 +336,9 @@ class _SlipRewardState extends State<SlipReward> {
                           fontSize: 13.0,
                           fontWeight: FontWeight.w400,
                         ))
-                    : SizedBox(height: 2,),
+                    : SizedBox(
+                        height: 2,
+                      ),
               ),
 
               Padding(
@@ -363,16 +362,16 @@ class _SlipRewardState extends State<SlipReward> {
                   width: 350,
                   child: data['reward_slip'] != null
                       ? PhotoViewGallery.builder(
-                        scrollPhysics: const BouncingScrollPhysics(),
-                        builder: (BuildContext context, int index){
-                          return PhotoViewGalleryPageOptions(
-                            imageProvider: NetworkImage(data['reward_slip']),
-                            initialScale: PhotoViewComputedScale.contained * 0.8,
-                          );
-                        },
-                        itemCount: 1,                        
-                                        
-                      )
+                          scrollPhysics: const BouncingScrollPhysics(),
+                          builder: (BuildContext context, int index) {
+                            return PhotoViewGalleryPageOptions(
+                              imageProvider: NetworkImage(data['reward_slip']),
+                              initialScale:
+                                  PhotoViewComputedScale.contained * 0.8,
+                            );
+                          },
+                          itemCount: 1,
+                        )
                       : SizedBox(
                           height: 10,
                         ),

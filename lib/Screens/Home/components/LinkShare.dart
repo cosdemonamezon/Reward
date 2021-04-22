@@ -6,9 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:Reward/constants.dart';
-import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkShare extends StatefulWidget {
@@ -155,13 +152,12 @@ class _LinkShareState extends State<LinkShare> {
                   SizedBox(
                     height: 15.0,
                   ),
-
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Container(
                         width: double.infinity,
                         child: FlatButton(
-                          onPressed: () async{
+                          onPressed: () async {
                             setState(() {
                               i1 = false;
                               i2 = true;
@@ -170,41 +166,35 @@ class _LinkShareState extends State<LinkShare> {
                             });
                             launch("https://www.facebook.com/sharer.php?u=" +
                                 data['member_link_2']);
-                            await FlutterClipboard.copy(data['member_link_2']);    
+                            await FlutterClipboard.copy(data['member_link_2']);
                           },
                           child: Text(
                             "แชร์ไปยัง Facebook",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          
                           splashColor: Colors.red,
                         ),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              hexToColor("#" +
-                                template_kNavigationFooterBarColor),
-                              hexToColor("#" +
-                                template_kNavigationBarColor)
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0))),
-                    ),
-                  
+                            gradient: LinearGradient(
+                              colors: [
+                                hexToColor(
+                                    "#" + template_kNavigationFooterBarColor),
+                                hexToColor("#" + template_kNavigationBarColor)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0))),
+                  ),
                   SizedBox(
                     height: 15.0,
                   ),
-
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Container(
                         width: double.infinity,
                         child: FlatButton(
-                          onPressed: () async{
+                          onPressed: () async {
                             setState(() {
                               i1 = false;
                               i2 = false;
@@ -214,41 +204,35 @@ class _LinkShareState extends State<LinkShare> {
                             launch(
                                 "https://social-plugins.line.me/lineit/share?url=" +
                                     data['member_link_4']);
-                            await FlutterClipboard.copy(data['member_link_4']);    
+                            await FlutterClipboard.copy(data['member_link_4']);
                           },
                           child: Text(
                             "แชร์ไปยัง Line",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          
                           splashColor: Colors.red,
                         ),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              hexToColor("#" +
-                                template_kNavigationFooterBarColor),
-                              hexToColor("#" +
-                                template_kNavigationBarColor)
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0))),
-                    ),
-
+                            gradient: LinearGradient(
+                              colors: [
+                                hexToColor(
+                                    "#" + template_kNavigationFooterBarColor),
+                                hexToColor("#" + template_kNavigationBarColor)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0))),
+                  ),
                   SizedBox(
                     height: 15.0,
                   ),
-
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Container(
                         width: double.infinity,
                         child: FlatButton(
-                          onPressed: () async{
+                          onPressed: () async {
                             setState(() {
                               i1 = false;
                               i2 = false;
@@ -256,41 +240,35 @@ class _LinkShareState extends State<LinkShare> {
                               i4 = false;
                             });
                             launch("https://www.youtube.com/");
-                            await FlutterClipboard.copy(data['member_link_3']);    
+                            await FlutterClipboard.copy(data['member_link_3']);
                           },
                           child: Text(
                             "แชร์ไปยัง Youtube",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          
                           splashColor: Colors.red,
                         ),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              hexToColor("#" +
-                                template_kNavigationFooterBarColor),
-                              hexToColor("#" +
-                                template_kNavigationBarColor)
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0))),
-                    ),
-
+                            gradient: LinearGradient(
+                              colors: [
+                                hexToColor(
+                                    "#" + template_kNavigationFooterBarColor),
+                                hexToColor("#" + template_kNavigationBarColor)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0))),
+                  ),
                   SizedBox(
                     height: 15.0,
                   ),
-
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Container(
                         width: double.infinity,
                         child: FlatButton(
-                          onPressed: () async{
+                          onPressed: () async {
                             setState(() {
                               i1 = true;
                               i2 = false;
@@ -298,31 +276,26 @@ class _LinkShareState extends State<LinkShare> {
                               i4 = false;
                             });
                             //launch("https://www.facebook.com/sharer.php?u="+data['member_link_1']);
-                            await FlutterClipboard.copy(data['member_link_1']);    
+                            await FlutterClipboard.copy(data['member_link_1']);
                           },
                           child: Text(
                             "แชร์ไปยัง Local Link",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          
                           splashColor: Colors.red,
                         ),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              hexToColor("#" +
-                                template_kNavigationFooterBarColor),
-                              hexToColor("#" +
-                                template_kNavigationBarColor)
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0))),
-                    ),
-
+                            gradient: LinearGradient(
+                              colors: [
+                                hexToColor(
+                                    "#" + template_kNavigationFooterBarColor),
+                                hexToColor("#" + template_kNavigationBarColor)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0))),
+                  ),
                 ],
               ),
             ),
@@ -346,8 +319,9 @@ class _LinkShareState extends State<LinkShare> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -527,9 +501,7 @@ class _LinkShareState extends State<LinkShare> {
                 borderRadius: BorderRadius.circular(Constants.padding),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1, 1),
-                      blurRadius: 5),
+                      color: Colors.black, offset: Offset(1, 1), blurRadius: 5),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,

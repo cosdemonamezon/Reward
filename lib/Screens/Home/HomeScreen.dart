@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:Reward/constants.dart';
-import 'package:flutter_appavailability/flutter_appavailability.dart';
-import 'package:get_it/get_it.dart';
+// import 'package:flutter_appavailability/flutter_appavailability.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pattern_formatter/pattern_formatter.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -258,6 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'member_address': data['member_address'],
                 'member_activate': data['member_activate'],
                 'board_phone_1': data['board_phone_1'],
+                'board_name': data['board_name'],
                 'total_noti': data['total_noti'],
               });
             }
@@ -822,12 +820,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   runSpacing: 4.0,
                                   children: [
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.symmetric(
@@ -923,8 +925,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 radius: 25,
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    AppAvailability.launchApp(
-                                                        "jp.naver.line.android");
+                                                    // AppAvailability.launchApp(
+                                                    //     "jp.naver.line.android");
                                                     //launch(('https://play.google.com/store/apps/details?id=jp.naver.line.android'));
                                                   },
                                                 ),

@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Points extends StatefulWidget {
   Points({Key key}) : super(key: key);
@@ -161,9 +160,9 @@ class _PointsState extends State<Points> {
             )
           : point.length == 0
               ? Container(
-                height: height,
-                color: Colors.grey[200],
-                child: Center(
+                  height: height,
+                  color: Colors.grey[200],
+                  child: Center(
                     child: Text(
                       "ไม่พบข้อมูล",
                       style: TextStyle(
@@ -173,11 +172,11 @@ class _PointsState extends State<Points> {
                               "#" + template_kNavigationFooterBarColor)),
                     ),
                   ),
-              )
+                )
               : Container(
-                height: height,
-                color: Colors.grey[200],
-                child: SafeArea(
+                  height: height,
+                  color: Colors.grey[200],
+                  child: SafeArea(
                     top: true,
                     bottom: true,
                     left: false,
@@ -239,12 +238,14 @@ class _PointsState extends State<Points> {
                                                         style: TextStyle(
                                                             fontSize: 14.0,
                                                             fontWeight:
-                                                                FontWeight.bold)),
+                                                                FontWeight
+                                                                    .bold)),
                                                     SizedBox(
                                                       width: 5.0,
                                                     ),
                                                     Text(
-                                                      point[index]['data'][index1]
+                                                      point[index]['data']
+                                                                  [index1]
                                                               ['deposit_point']
                                                           .toString(),
                                                       style: TextStyle(
@@ -265,7 +266,6 @@ class _PointsState extends State<Points> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
-                                               
                                                 Text(
                                                     point[index]['data'][index1]
                                                         ['createdTime'],
@@ -289,7 +289,7 @@ class _PointsState extends State<Points> {
                       //itemCount: point.length.compareTo(0)
                     ),
                   ),
-              ),
+                ),
 
       bottomNavigationBar: Container(
         height: 100,
@@ -311,8 +311,9 @@ class _PointsState extends State<Points> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,

@@ -4,10 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class PromotionScreen extends StatefulWidget {
@@ -181,7 +177,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                   ),
                 )
               : Container(
-                color: Colors.grey[200],
+                  color: Colors.grey[200],
                   width: double.infinity,
                   child: Column(
                     children: [
@@ -324,50 +320,83 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                               Padding(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 8),
-                                                child: campaign[index]['title'].length <= 40 ? Text(
-                                                  campaign[index]['title'],
-                                                  style:
-                                                      TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
-                                                )
-                                                :Text(
-                                                  campaign[index]['title'].substring(0, 40)+"...",
-                                                  style:
-                                                      TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold),
-                                                ),
+                                                child: campaign[index]['title']
+                                                            .length <=
+                                                        40
+                                                    ? Text(
+                                                        campaign[index]
+                                                            ['title'],
+                                                        style: TextStyle(
+                                                            fontSize: 13.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      )
+                                                    : Text(
+                                                        campaign[index]['title']
+                                                                .substring(
+                                                                    0, 40) +
+                                                            "...",
+                                                        style: TextStyle(
+                                                            fontSize: 13.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
                                               ),
                                               SizedBox(
                                                 height: 5,
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
                                                 child: Row(
                                                   children: [
-                                                    Icon(Icons.access_time, size: 24, color: Colors.green,),
-                                                    SizedBox(width: 3,),
-                                                    Text(
-                                                        campaign[index]['date_start'],
-                                                        style: TextStyle(
-                                                          fontSize: 12.0, color: Colors.green,
-                                                          fontWeight: FontWeight.bold
-                                                        ),
-                                                        textAlign: TextAlign.justify,
+                                                    Icon(
+                                                      Icons.access_time,
+                                                      size: 24,
+                                                      color: Colors.green,
                                                     ),
-                                                    SizedBox(width: 3,),
-                                                      Text(
-                                                        "-",style: TextStyle(
-                                                          fontSize: 12.0, color: Colors.green,
-                                                          fontWeight: FontWeight.bold
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 3,),
-                                                      Text(
-                                                        campaign[index]['date_stop'],
-                                                        style: TextStyle(
-                                                          fontSize: 12.0, color: Colors.green,
-                                                          fontWeight: FontWeight.bold
-                                                        ),
-                                                        textAlign: TextAlign.justify,
-                                                      ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Text(
+                                                      campaign[index]
+                                                          ['date_start'],
+                                                      style: TextStyle(
+                                                          fontSize: 12.0,
+                                                          color: Colors.green,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Text(
+                                                      "-",
+                                                      style: TextStyle(
+                                                          fontSize: 12.0,
+                                                          color: Colors.green,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Text(
+                                                      campaign[index]
+                                                          ['date_stop'],
+                                                      style: TextStyle(
+                                                          fontSize: 12.0,
+                                                          color: Colors.green,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -384,8 +413,10 @@ class _PromotionScreenState extends State<PromotionScreen> {
                                                   context, '/webview',
                                                   arguments: {
                                                     'id': data['id'],
-                                                    'board_phone_1': data['board_phone_1'],
-                                                    'total_noti': data['total_noti'],
+                                                    'board_phone_1':
+                                                        data['board_phone_1'],
+                                                    'total_noti':
+                                                        data['total_noti'],
                                                     'title': campaign[index]
                                                         ['title'],
                                                     'url': campaign[index]
@@ -438,8 +469,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,

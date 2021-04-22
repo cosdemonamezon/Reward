@@ -6,7 +6,6 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:Reward/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class TransferPoints extends StatefulWidget {
   TransferPoints({Key key}) : super(key: key);
@@ -83,7 +82,7 @@ class _TransferPointsState extends State<TransferPoints>
     var url = pathAPI + 'api/getlogTransPoint';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json', 'token': token['token']},
-        body: convert.jsonEncode({ }));
+        body: convert.jsonEncode({}));
     if (response.statusCode == 200) {
       final Map<String, dynamic> logpointdata =
           convert.jsonDecode(response.body);
@@ -163,7 +162,7 @@ class _TransferPointsState extends State<TransferPoints>
           ),
         );
       } else if (point['code'] == "500") {
-        setState(() {          
+        setState(() {
           _isButtonDisabled = false;
         });
         showDialog(
@@ -176,7 +175,7 @@ class _TransferPointsState extends State<TransferPoints>
           ),
         );
       } else if (point['code'] == "600") {
-        setState(() {          
+        setState(() {
           _isButtonDisabled = false;
         });
         showDialog(
@@ -200,7 +199,6 @@ class _TransferPointsState extends State<TransferPoints>
             context,
           ),
         );
-        
       }
     } else {
       var comfirm = convert.jsonDecode(response.body);
@@ -247,7 +245,7 @@ class _TransferPointsState extends State<TransferPoints>
           //centerTitle: true,
           title: Text("โอน Point"),
           bottom: TabBar(
-            labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
+            labelColor: hexToColor("#" + template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
@@ -259,13 +257,23 @@ class _TransferPointsState extends State<TransferPoints>
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("โอน Point", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text(
+                    "โอน Point",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("ประวัติการโอน", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text(
+                    "ประวัติการโอน",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -276,19 +284,19 @@ class _TransferPointsState extends State<TransferPoints>
           children: [
             logpoint == null
                 ? Container(
-                  height: height,
-                  color: Colors.grey[200],
-                  child: Center(
-                    child: Text(
-                      "ไม่พบข้อมูล",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: hexToColor("#" + template_kNavigationFooterBarColor)
+                    height: height,
+                    color: Colors.grey[200],
+                    child: Center(
+                      child: Text(
+                        "ไม่พบข้อมูล",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: hexToColor(
+                                "#" + template_kNavigationFooterBarColor)),
                       ),
                     ),
-                  ),
-                )
+                  )
                 : SingleChildScrollView(
                     child: Container(
                       height: height,
@@ -298,17 +306,20 @@ class _TransferPointsState extends State<TransferPoints>
                           Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 25),
                                 child: Text(
                                   "จาก : My Account : ${data['username']}",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 16.0),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0),
                                 ),
                               ),
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 25.0, vertical: 5.0),
                             child: Stack(children: [
                               Container(
                                 decoration: BoxDecoration(
@@ -326,13 +337,14 @@ class _TransferPointsState extends State<TransferPoints>
                                   padding: EdgeInsets.all(15.0),
                                   decoration: BoxDecoration(
                                     border: Border(
-                                        bottom:
-                                            BorderSide(color: Colors.grey[200])),
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200])),
                                   ),
                                   child: Column(
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.symmetric(
@@ -355,7 +367,8 @@ class _TransferPointsState extends State<TransferPoints>
                                                   Text(
                                                     "Point : ${data['member_point']}",
                                                     style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         fontSize: 16.0),
                                                   ),
                                                 ],
@@ -396,8 +409,8 @@ class _TransferPointsState extends State<TransferPoints>
                                       labelText: 'จำนวน',
                                       //hintText: 'ใส่ Point ที่ต้องการโอน',
                                       enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Color(0xFF6200EE)),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
                                       ),
                                     ),
                                     validators: [
@@ -418,8 +431,8 @@ class _TransferPointsState extends State<TransferPoints>
                                     decoration: InputDecoration(
                                       labelText: 'เบอร์โทร',
                                       enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Color(0xFF6200EE)),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
                                       ),
                                     ),
                                     validators: [
@@ -448,8 +461,8 @@ class _TransferPointsState extends State<TransferPoints>
                                       labelText: 'โน๊ต',
                                       //hintText: 'ใส่ Point ที่ต้องการโอน',
                                       enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Color(0xFF6200EE)),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF6200EE)),
                                       ),
                                     ),
                                     // validators: [
@@ -457,21 +470,26 @@ class _TransferPointsState extends State<TransferPoints>
                                     // ],
                                   ),
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Center(
                                   child: Text(
-                                    "**จำนวนขั้นต่ำที่โอนได้คือ  "+limitPoint+"  Point**",
+                                    "**จำนวนขั้นต่ำที่โอนได้คือ  " +
+                                        limitPoint +
+                                        "  Point**",
                                     style: TextStyle(
-                                      fontSize: 12.0, fontWeight: FontWeight.bold,
-                                      color: Colors.red
-                                    ),
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red),
                                   ),
                                 ),
                                 SizedBox(
                                   height: 60.0,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   //crossAxisAlignment: CrossAxisAlignment.baseline,
                                   children: [
                                     GestureDetector(
@@ -506,7 +524,8 @@ class _TransferPointsState extends State<TransferPoints>
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        if (_fbKey.currentState.saveAndValidate()) {
+                                        if (_fbKey.currentState
+                                            .saveAndValidate()) {
                                           showDialog(
                                             barrierDismissible: false,
                                             context: context,
@@ -567,9 +586,9 @@ class _TransferPointsState extends State<TransferPoints>
             ///Tab 2
             logpoint.length == 0
                 ? Container(
-                  height: height,
-                  color: Colors.grey[200],
-                  child: Center(
+                    height: height,
+                    color: Colors.grey[200],
+                    child: Center(
                       child: Text(
                         "ไม่พบข้อมูล",
                         style: TextStyle(
@@ -579,10 +598,10 @@ class _TransferPointsState extends State<TransferPoints>
                                 "#" + template_kNavigationFooterBarColor)),
                       ),
                     ),
-                )
+                  )
                 : Container(
-                  height: height,
-                  color: Colors.grey[200],
+                    height: height,
+                    color: Colors.grey[200],
                     width: double.infinity,
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -607,7 +626,8 @@ class _TransferPointsState extends State<TransferPoints>
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         Text(
-                                            logpoint[index]['amount'].toString() +
+                                            logpoint[index]['amount']
+                                                    .toString() +
                                                 " Point",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
@@ -618,7 +638,8 @@ class _TransferPointsState extends State<TransferPoints>
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 8),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -676,9 +697,11 @@ class _TransferPointsState extends State<TransferPoints>
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 3),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
-                                        Text("โน๊ต : " + logpoint[index]['note']),
+                                        Text("โน๊ต : " +
+                                            logpoint[index]['note']),
                                       ],
                                     ),
                                   ),
@@ -718,9 +741,12 @@ class _TransferPointsState extends State<TransferPoints>
                 Column(
                   children: [
                     CircleAvatar(
-                      backgroundColor:nbtn1 == true ?
-                         Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
-                      foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
+                      backgroundColor: nbtn1 == true
+                          ? Colors.white54
+                          : hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
+                      foregroundColor:
+                          nbtn1 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon1),
                       radius: 24,
                       child: GestureDetector(
@@ -749,7 +775,8 @@ class _TransferPointsState extends State<TransferPoints>
                     CircleAvatar(
                       backgroundColor:
                           hexToColor("#" + template_kNavigationFooterBarColor),
-                      foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
+                      foregroundColor:
+                          nbtn2 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon2),
                       radius: 24,
                       child: GestureDetector(
@@ -839,7 +866,8 @@ class _TransferPointsState extends State<TransferPoints>
                     CircleAvatar(
                       backgroundColor:
                           hexToColor("#" + template_kNavigationFooterBarColor),
-                      foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
+                      foregroundColor:
+                          nbtn4 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon4),
                       radius: 24,
                       child: GestureDetector(
@@ -899,9 +927,7 @@ class _TransferPointsState extends State<TransferPoints>
                 borderRadius: BorderRadius.circular(Constants.padding),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1, 1),
-                      blurRadius: 1),
+                      color: Colors.black, offset: Offset(1, 1), blurRadius: 1),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -953,9 +979,7 @@ class _TransferPointsState extends State<TransferPoints>
                                 setState(() {
                                   isLoading = true;
                                 });
-                              } else {
-                              }
-                              
+                              } else {}
                             } else {}
                             //Navigator.pushNamed(context, '/transfer', (Route<dynamic> route) => false);
                           },
@@ -1019,9 +1043,7 @@ class _TransferPointsState extends State<TransferPoints>
                 borderRadius: BorderRadius.circular(Constants.padding),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(1, 1),
-                      blurRadius: 5),
+                      color: Colors.black, offset: Offset(1, 1), blurRadius: 5),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,

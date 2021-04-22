@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:Reward/constants.dart';
@@ -334,20 +333,34 @@ class _DetailRewardState extends State<DetailReward> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: [
-                    Icon(Icons.access_time, size: 24, color: Colors.green,),
-                    SizedBox(width: 5,),
-                    Text(
-                      "${data['date_start']}", style: TextStyle(
-                        fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
-                      ),
+                    Icon(
+                      Icons.access_time,
+                      size: 24,
+                      color: Colors.green,
                     ),
-                    SizedBox(width: 5,),
-                    Text("-"),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     Text(
-                      "${data['date_stop']}", style: TextStyle(
-                        fontSize: 15.0, color: Colors.green, fontWeight: FontWeight.bold
-                      ),
+                      "${data['date_start']}",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text("-"),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      "${data['date_stop']}",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -357,22 +370,32 @@ class _DetailRewardState extends State<DetailReward> {
                 child: Row(
                   children: [
                     Text(
-                      "จำนวนคงเหลือ", style: TextStyle(
-                        fontSize: 15.0, color: Colors.red, fontWeight: FontWeight.bold
-                      ),
+                      "จำนวนคงเหลือ",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text(
-                      "${data['qty']}", style: TextStyle(
-                        fontSize: 15.0, color: Colors.red, fontWeight: FontWeight.bold
-                      ),
+                      "${data['qty']}",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(color: Colors.black, height: 36,thickness: 1, ),
+                child: Divider(
+                  color: Colors.black,
+                  height: 36,
+                  thickness: 1,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -414,30 +437,28 @@ class _DetailRewardState extends State<DetailReward> {
                     EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 25),
                 child: Row(
                   children: [
-                    
                     Expanded(
                       child: pointStatus == true
                           ? Container(
-                              child: _isButtonDisabled == false ? FlatButton(
-                                onPressed:  (){
-                                  _transferReward(data);
-                                },
-                                child: Text(
-                                  "แลกรางวัล",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              )
-                              :FlatButton(
-                                onPressed:  (){
-                                  
-                                },
-                                child: Text(
-                                  "แลกรางวัล",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              ),
+                              child: _isButtonDisabled == false
+                                  ? FlatButton(
+                                      onPressed: () {
+                                        _transferReward(data);
+                                      },
+                                      child: Text(
+                                        "แลกรางวัล",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    )
+                                  : FlatButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        "แลกรางวัล",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -543,8 +564,9 @@ class _DetailRewardState extends State<DetailReward> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,

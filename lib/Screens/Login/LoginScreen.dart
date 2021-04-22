@@ -6,9 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:Reward/Screens/Login/components/PinCode.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:get_mac/get_mac.dart';
 import 'package:flutter/services.dart';
-import 'package:device_id/device_id.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -21,30 +20,27 @@ class _LoginScreenState extends State<LoginScreen> {
   String _platformVersion = 'Unknown';
   int _currentIndex = 0;
   Future<void> initPlatformState() async {
-    String platformVersion;
+    String deviceId;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await GetMac.macAddress;
+      deviceId = await PlatformDeviceId.getDeviceId;
     } on PlatformException {
-      platformVersion = 'Failed to get Device MAC Address.';
+      deviceId = 'Failed to get deviceId.';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
-
     setState(() {
-      _platformVersion = platformVersion;
+      _platformVersion = deviceId;
     });
-
-    String deviceid = await DeviceId.getID;
 
     var url = pathAPI + 'api/checkMaxAdressMember';
     var response = await http.post(url,
         headers: {'Content-Type': 'application/json'},
         body: convert.jsonEncode({
-          'member_max_adress': deviceid
+          'member_max_adress': deviceId
           //'token': token['token']
         }));
     if (response.statusCode == 200) {
@@ -82,15 +78,15 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       final Map<String, dynamic> mac = convert.jsonDecode(response.body);
       showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) => errordialog(
-            mac['massage'],
-            checkData,
-            picDenied,
-            context,
-          ),
-        );
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => errordialog(
+          mac['massage'],
+          checkData,
+          picDenied,
+          context,
+        ),
+      );
     }
   }
 
@@ -265,7 +261,10 @@ class _LoginScreenState extends State<LoginScreen> {
               SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: width1 * 0.07),
-                  margin: EdgeInsets.only(top: height * 0.56, bottom: 30,),
+                  margin: EdgeInsets.only(
+                    top: height * 0.56,
+                    bottom: 30,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -280,7 +279,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Ink(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                                  colors: [
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                 ),
@@ -326,7 +328,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Ink(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [Color(0xff9425b2), Color(0xffb350f1)],
+                                  colors: [
+                                    Color(0xff9425b2),
+                                    Color(0xffb350f1)
+                                  ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                 ),
@@ -380,7 +385,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Ink(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                                  colors: [
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                 ),

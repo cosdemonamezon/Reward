@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:Reward/constants.dart';
 import 'package:Reward/Screens/Login/components/Coin.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -242,43 +240,52 @@ class _NotiScreenState extends State<NotiScreen> {
                                     arguments: {
                                       'member_point': data['member_point'],
                                       'board_phone_1': data['board_phone_1'],
-                                      'total_noti': numberNoti['total_noti']-1,
+                                      'total_noti':
+                                          numberNoti['total_noti'] - 1,
                                       'title': notidata[index]['title'],
-                                      'description': notidata[index]['description'],
+                                      'description': notidata[index]
+                                          ['description'],
                                       'pic': notidata[index]['pic'],
-                                      'created_at': notidata[index]['created_at'],
-                                      'url': notidata[index]['url'],                                      
+                                      'created_at': notidata[index]
+                                          ['created_at'],
+                                      'url': notidata[index]['url'],
                                     });
-                              } else if (notidata[index]['noti_type'] =="Point") {
+                              } else if (notidata[index]['noti_type'] ==
+                                  "Point") {
                                 _readNotiMember(noti_log_id);
                                 Navigator.pushNamed(context, "/point",
                                     arguments: {
                                       'member_point': data['member_point'],
                                       'board_phone_1': data['board_phone_1'],
-                                      'total_noti': numberNoti['total_noti']-1,
+                                      'total_noti':
+                                          numberNoti['total_noti'] - 1,
                                     });
                               } else if (notidata[index]['noti_type'] ==
                                   "Reward") {
-                                    _readNotiMember(noti_log_id);
-                                Navigator.pushNamed(context, "/slip",
-                                    arguments: {
-                                      'date_appove': notidata[index]['date_appove'],
-                                      'created_at': notidata[index]['trans_at'],
-                                      'appove_status': notidata[index]['appove_status'],
-                                      'appove_by': notidata[index]['appove_by'],
-                                      'reward_slip': notidata[index]['reward_slip'],
-                                      'reason_cancel': notidata[index]['reason_cancel'],
-                                      'member_id': profiledata['member_id'],
-                                      'username': profiledata['username'],
-                                      'member_name_en': profiledata['member_name_en'],
-                                      'member_name_th': profiledata['member_name_th'],
-                                      'member_email': profiledata['member_email'],
-                                      'member_phone': profiledata['member_phone'],
-                                      'notiPage': notiPage,
-                                      'member_point': data['member_point'],
-                                      'board_phone_1': data['board_phone_1'],
-                                      'total_noti': numberNoti['total_noti']-1,
-                                    });
+                                _readNotiMember(noti_log_id);
+                                Navigator
+                                    .pushNamed(context, "/slip", arguments: {
+                                  'date_appove': notidata[index]['date_appove'],
+                                  'created_at': notidata[index]['trans_at'],
+                                  'appove_status': notidata[index]
+                                      ['appove_status'],
+                                  'appove_by': notidata[index]['appove_by'],
+                                  'reward_slip': notidata[index]['reward_slip'],
+                                  'reason_cancel': notidata[index]
+                                      ['reason_cancel'],
+                                  'member_id': profiledata['member_id'],
+                                  'username': profiledata['username'],
+                                  'member_name_en':
+                                      profiledata['member_name_en'],
+                                  'member_name_th':
+                                      profiledata['member_name_th'],
+                                  'member_email': profiledata['member_email'],
+                                  'member_phone': profiledata['member_phone'],
+                                  'notiPage': notiPage,
+                                  'member_point': data['member_point'],
+                                  'board_phone_1': data['board_phone_1'],
+                                  'total_noti': numberNoti['total_noti'] - 1,
+                                });
                               } else {
                                 //print("ไม่มีลิ้ง");
 
@@ -333,7 +340,9 @@ class _NotiScreenState extends State<NotiScreen> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Text(notidata[index]['createdDate']),
-                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
                                         Text(notidata[index]['createdTime']),
                                       ],
                                     ),
@@ -366,8 +375,9 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -395,8 +405,9 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn2 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn2 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -429,8 +440,10 @@ class _NotiScreenState extends State<NotiScreen> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        backgroundColor: nbtn3 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                        backgroundColor: nbtn3 == true
+                            ? Colors.white54
+                            : hexToColor(
+                                "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -485,8 +498,9 @@ class _NotiScreenState extends State<NotiScreen> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn4 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn4 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

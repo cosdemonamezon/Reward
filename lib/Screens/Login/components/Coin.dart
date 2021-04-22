@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 
 class Coin extends StatefulWidget {
@@ -238,8 +237,9 @@ class _CoinState extends State<Coin> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn1 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn1 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon1),
                     radius: 24,
@@ -267,8 +267,9 @@ class _CoinState extends State<Coin> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor:nbtn2 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn2 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn2 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon2),
                     radius: 24,
@@ -303,8 +304,10 @@ class _CoinState extends State<Coin> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        backgroundColor: nbtn3 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                        backgroundColor: nbtn3 == true
+                            ? Colors.white54
+                            : hexToColor(
+                                "#" + template_kNavigationFooterBarColor),
                         foregroundColor:
                             nbtn3 == true ? Colors.red : Colors.white,
                         backgroundImage: AssetImage(pathicon3),
@@ -359,8 +362,9 @@ class _CoinState extends State<Coin> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor: nbtn4 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                    backgroundColor: nbtn4 == true
+                        ? Colors.white54
+                        : hexToColor("#" + template_kNavigationFooterBarColor),
                     foregroundColor: nbtn4 == true ? Colors.red : Colors.white,
                     backgroundImage: AssetImage(pathicon4),
                     radius: 24,

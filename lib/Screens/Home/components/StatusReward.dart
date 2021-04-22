@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:Reward/constants.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:Reward/Screens/Login/components/Helpadvice.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Reward/Screens/Login/components/Coin.dart';
 
 class StatusReward extends StatefulWidget {
   StatusReward({Key key}) : super(key: key);
@@ -152,7 +149,7 @@ class _StatusRewardState extends State<StatusReward> {
           centerTitle: true,
           title: Text("ระดับสมาชิก"),
           bottom: TabBar(
-            labelColor: hexToColor("#" +template_kNavigationFooterBarColor),
+            labelColor: hexToColor("#" + template_kNavigationFooterBarColor),
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
@@ -164,13 +161,23 @@ class _StatusRewardState extends State<StatusReward> {
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("ข้อมูล", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text(
+                    "ข้อมูล",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               Tab(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("ประวัติ", style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text(
+                    "ประวัติ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -476,8 +483,6 @@ class _StatusRewardState extends State<StatusReward> {
                           ),
                         ),
                       ),
-
-
             isLoading == true
                 ? Center(
                     child: CircularProgressIndicator(),
@@ -512,7 +517,8 @@ class _StatusRewardState extends State<StatusReward> {
                                           Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child: Container(
                                                   width: 50.0,
                                                   height: 50.0,
@@ -531,24 +537,30 @@ class _StatusRewardState extends State<StatusReward> {
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
-                                                children: [                                                  
+                                                children: [
                                                   Text(
                                                     'ชื่อกลุ่ม : ${data[index]['old_group']}',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 13.5, fontWeight: FontWeight.bold),
+                                                        fontSize: 13.5,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   Text(
                                                     'อัปเดตโดย : ${data[index]['updated_by']}',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 13.5, fontWeight: FontWeight.bold),
+                                                        fontSize: 13.5,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   Text(
                                                     'ประเภท : ${data[index]['group_member_type']}',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 13.5, fontWeight: FontWeight.bold),
+                                                        fontSize: 13.5,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                 ],
                                               ),
@@ -564,7 +576,9 @@ class _StatusRewardState extends State<StatusReward> {
                                                     color: Colors.black,
                                                     fontSize: 11.5),
                                               ),
-                                              SizedBox(width: 5,),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
                                               Text(
                                                 '${data[index]['createdTime']}',
                                                 style: TextStyle(
@@ -604,8 +618,10 @@ class _StatusRewardState extends State<StatusReward> {
                 Column(
                   children: [
                     CircleAvatar(
-                      backgroundColor:nbtn1 == true ?
-                       Colors.white54  : hexToColor("#" + template_kNavigationFooterBarColor),
+                      backgroundColor: nbtn1 == true
+                          ? Colors.white54
+                          : hexToColor(
+                              "#" + template_kNavigationFooterBarColor),
                       foregroundColor:
                           nbtn1 == true ? Colors.red : Colors.white,
                       backgroundImage: AssetImage(pathicon1),
