@@ -212,7 +212,8 @@ class _ProfilesettingsState extends State<Profilesettings> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Container(
+        child: data['member_activate'] == "Yes"
+        ?Container(
           alignment: Alignment.bottomCenter,
           child: SingleChildScrollView(
             child: Column(
@@ -237,7 +238,7 @@ class _ProfilesettingsState extends State<Profilesettings> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "ยืนยันสมาชิก",
+                              "ตั้งค่าโปรไฟล์",
                               style: TextStyle(
                                   color: Color(0xff64B6FF), fontSize: 40.0),
                             ),
@@ -384,7 +385,175 @@ class _ProfilesettingsState extends State<Profilesettings> {
               ],
             ),
           ),
+        )
+        //===>
+        :Container(
+          alignment: Alignment.bottomCenter,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.max,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  margin: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      // SizedBox(
+                      //   height: 2.0,
+                      // ),
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "ยืนยัน สมาชิก",
+                              style: TextStyle(
+                                  color: Color(0xff64B6FF), fontSize: 40.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                      FormBuilder(
+                        key: _fbKey,
+                        initialValue: {
+                          'username': username,
+                          'member_username_game': '',
+                          'board_shot_name': '',
+                          'member_address': ''                        
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              child: FormBuilderTextField(
+                                attribute: 'username',
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  hintText: "Username",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey),
+                                  border: OutlineInputBorder(),
+                                ),
+                                validators: [
+                                  FormBuilderValidators.required(errorText:'กรุณากรอก username'),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              child: FormBuilderTextField(
+                                attribute:'member_username_game',
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  hintText: "Username Game",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey),
+                                  border: OutlineInputBorder(),
+                                ),
+                                validators: [
+                                  FormBuilderValidators.required(errorText:'กรุณากรอก user game'),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              child: FormBuilderTextField(
+                                attribute: 'board_shot_name',
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  hintText: "Board",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(),
+                                ),
+                                validators: [
+                                  FormBuilderValidators.required(errorText:'กรุณากรอก ตัวย่อกระดาน'),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              child: FormBuilderTextField(
+                                attribute: 'member_address',
+                                maxLines: 3,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  hintText: "ที่อยู่",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(),
+                                ),
+                                validators: [
+                                  FormBuilderValidators.required(errorText:'กรุณากรอก ที่อยู่'),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Container(
+                              width: double.infinity,
+                              child: FlatButton(
+                                onPressed: () {
+                                  if (_fbKey.currentState.saveAndValidate()) {
+                                  _getComfirmUsername(_fbKey.currentState.value);
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                } else {
+                                    setState(() {
+                                      //isLoading = true;
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  "บันทึก",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20),
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    // hexToColor("#" +template_kNavigationFooterBarColor),
+                                    // hexToColor("#" +template_kNavigationBarColor)
+                                    Color(0xff374ABE),
+                                    Color(0xff64B6FF)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0)
+                              )
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
+        ///====>
       ),
     );
   }
